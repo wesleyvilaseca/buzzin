@@ -16,7 +16,14 @@
                     <li class="{{ @$home ? 'ativo' : '' }}">
                         <a href="{{ route('admin.home') }}">
                             <i class="fas fa-chart-bar"></i>
-                            <span>Home</span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="{{ @$plan ? 'ativo' : '' }}">
+                        <a href="{{ route('admin.plan') }}">
+                            <i class="fa-brands fa-font-awesome"></i>
+                            <span>Planos</span>
                         </a>
                     </li>
 
