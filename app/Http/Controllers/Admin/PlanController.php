@@ -125,7 +125,7 @@ class PlanController extends Controller
 
         if ($plan->details->count() > 0) {
             return Redirect::back()
-                ->with('error', 'Existem detahes vinculados a esse plano, portanto não pode deletar');
+                ->with('error', 'Existem detalhes vinculados a esse plano, portanto não pode deletar');
         }
 
         $result = $plan->delete();
