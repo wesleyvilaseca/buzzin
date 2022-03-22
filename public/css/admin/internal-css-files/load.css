@@ -1,0 +1,47 @@
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba( 255, 255, 255, .8) url(../../global/gif/carregando.gif) 50% 50% no-repeat;
+    background-size: 100px;
+}
+
+.modal:-moz-loading {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba( 255, 255, 255, .8) url(../../global/gif/carregando.gif) 50% 50% no-repeat;
+    background-size: 100px;
+}
+
+body.loading {
+    overflow: hidden;
+}
+
+body.loading .modal {
+    display: block;
+    z-index: 1 !important;
+}
+
+
+/*gif loading request*/
+#formloader {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	max-width: 100%;
+	background: rgba(0,0,0,0.75) url(https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif) no-repeat center center;
+	background-size: 50px 50px;
+	z-index: 10000;
+}
