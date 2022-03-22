@@ -32,12 +32,12 @@
             <i class="fas fa-bars"></i>
         </a>
 
-        @include('admin.layout.partials.topbar')
-        @include('admin.layout.partials.sidemenu')
+        @include('layouts.admin.partials.topbar')
+        @include('layouts.admin.partials.sidemenu')
 
         <main class="page-content">
             <div class="container-fluid">
-                @include('admin.layout.alerts')
+                @include('layouts.admin.alerts')
                 @if (@isset($toptitle))
                     <h5>{{ $toptitle }}</h5>
                 @endif
