@@ -42,14 +42,19 @@ class PlanController extends Controller
         return view('admin.plan.create', $data);
     }
 
-    public function store(StoreUpdatePlan $request)
+    public function search(Request $request)
     {
-        $result = $this->repository->create($request->all());
-        if (!$result)
-            return Redirect::back()->with('warning', 'Erro na operação');
+        $data['title']              = 'Planos';
+        $data['toptitle']           = 'Planos';
+        $data['breadcrumb'][]       = ['route' => route('admin.home'), 'title' => 'Dashboard'];
+        $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Planos', 'active' => true];
+        $data['plan']               = true;
+        $data['plans']              =  $this->repository->search($request->filter);
+        $data['filters']            = $request->except('_token');
 
-        return redirect()->route('admin.plan')->with('success', 'Plano criado com sucesso');
+        return view('admin.plan.index', $data);
     }
+
 
     public function show($id)
     {
@@ -67,5 +72,66 @@ class PlanController extends Controller
         $data['plan']               = true;
 
         return view('admin.plan.show', $data);
+    }
+
+
+    public function edit($id)
+    {
+        $plan = $this->repository->find($id);
+
+        if (!$plan)
+            Redirect::back()->with('warning', 'Operação não autorizada');
+
+        $data['title']              = 'Editar plano ' . $plan->name;
+        $data['toptitle']           = 'Editar plano ' . $plan->name;
+        $data['plano']              = $plan;
+        $data['breadcrumb'][]       = ['route' => route('admin.home'), 'title' => 'Dashboard'];
+        $data['breadcrumb'][]       = ['route' => route('admin.plan'), 'title' => 'Planos'];
+        $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Editar plano ' . $plan->name, 'active' => true];
+        $data['plan']               = true;
+
+        return view('admin.plan.edit', $data);
+    }
+
+    public function store(StoreUpdatePlan $request)
+    {
+        $result = $this->repository->create($request->all());
+        if (!$result)
+            return Redirect::back()->with('warning', 'Erro na operação');
+
+        return Redirect::route('admin.plan')->with('success', 'Plano criado com sucesso');
+    }
+
+    public function update(StoreUpdatePlan $request, $id)
+    {
+        $plan = $this->repository->find($id);
+
+        if (!$plan)
+            Redirect::back()->with('warning', 'Operação não autorizada');
+
+        $result = $plan->update($request->all());
+        if (!$result)
+            Redirect::back()->with('warning', 'Erro na operação');
+
+        return Redirect::route('admin.plan')->with('success', 'Plano editado com sucesso');
+    }
+
+    public function destroy($id)
+    {
+        $plan = $this->repository->find($id);
+
+        if (!$plan)
+            Redirect::back()->with('warning', 'Operação não autorizada');
+
+        if ($plan->details->count() > 0) {
+            return Redirect::back()
+                ->with('error', 'Existem detahes vinculados a esse plano, portanto não pode deletar');
+        }
+
+        $result = $plan->delete();
+        if (!$result)
+            Redirect::back()->with('warning', 'Erro na operação');
+
+        return Redirect::route('admin.plan')->with('success', 'Plano removido com sucesso');
     }
 }
