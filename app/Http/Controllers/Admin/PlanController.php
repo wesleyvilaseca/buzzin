@@ -22,7 +22,7 @@ class PlanController extends Controller
     {
         $data['title']              = 'Planos';
         $data['toptitle']           = 'Planos';
-        $data['breadcrumb'][]       = ['route' => route('admin.home'), 'title' => 'Dashboard'];
+        $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
         $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Planos', 'active' => true];
         $data['plan']               = true;
         $data['plans']              = $this->repository->latest()->paginate();
@@ -34,7 +34,7 @@ class PlanController extends Controller
     {
         $data['title']              = 'Novo plano';
         $data['toptitle']           = 'Novo plano';
-        $data['breadcrumb'][]       = ['route' => route('admin.home'), 'title' => 'Dashboard'];
+        $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
         $data['breadcrumb'][]       = ['route' => route('admin.plan'), 'title' => 'Planos'];
         $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Plano', 'active' => true];
         $data['plan']               = true;
@@ -46,7 +46,7 @@ class PlanController extends Controller
     {
         $data['title']              = 'Planos';
         $data['toptitle']           = 'Planos';
-        $data['breadcrumb'][]       = ['route' => route('admin.home'), 'title' => 'Dashboard'];
+        $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
         $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Planos', 'active' => true];
         $data['plan']               = true;
         $data['plans']              =  $this->repository->search($request->filter);
@@ -66,7 +66,7 @@ class PlanController extends Controller
         $data['title']              = 'Plano ' . $plan->name;
         $data['toptitle']           = 'Plano ' . $plan->name;
         $data['plano']              = $plan;
-        $data['breadcrumb'][]       = ['route' => route('admin.home'), 'title' => 'Dashboard'];
+        $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
         $data['breadcrumb'][]       = ['route' => route('admin.plan'), 'title' => 'Planos'];
         $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Plano ' . $plan->name, 'active' => true];
         $data['plan']               = true;
@@ -85,7 +85,7 @@ class PlanController extends Controller
         $data['title']              = 'Editar plano ' . $plan->name;
         $data['toptitle']           = 'Editar plano ' . $plan->name;
         $data['plano']              = $plan;
-        $data['breadcrumb'][]       = ['route' => route('admin.home'), 'title' => 'Dashboard'];
+        $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
         $data['breadcrumb'][]       = ['route' => route('admin.plan'), 'title' => 'Planos'];
         $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Editar plano ' . $plan->name, 'active' => true];
         $data['plan']               = true;

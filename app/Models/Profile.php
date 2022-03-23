@@ -45,4 +45,13 @@ class Profile extends Model
 
         return $permissions;
     }
+
+    public function search($filter = null)
+    {
+        $results = $this->where('name', 'LIKE', "%{$filter}%")
+                        ->orWhere('description', 'LIKE', "%{$filter}%")
+                        ->paginate();
+
+        return $results;
+    }
 }

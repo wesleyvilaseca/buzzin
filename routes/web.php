@@ -1,12 +1,32 @@
 <?php
 
 use App\Http\Controllers\Admin\ACL\PlanProfileController;
+use App\Http\Controllers\Admin\ACL\ProfileController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DetailPlanController;
-use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\PlanController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/admin-home',                   [HomeController::class, 'index'])->name('admin.home');
+Route::get('/admin-dashboard',                   [DashboardController::class, 'index'])->name('admin.dashboard');
+
+Route::prefix('admin-profiles')->group(function () {
+    /**
+     * routes profiles
+     */
+    Route::get('/',            [ProfileController::class, 'index'])->name('admin.profiles');
+    Route::get('/create',      [ProfileController::class, 'create'])->name('profiles.create');
+    Route::post('/',           [ProfileController::class, 'store'])->name('profiles.store');
+
+    Route::get('/{id}/edit',   [ProfileController::class, 'edit'])->name('profiles.edit');
+    Route::put('/{id}',        [ProfileController::class, 'update'])->name('profiles.update');
+
+    Route::get('/{id}/show',   [ProfileController::class, 'show'])->name('profiles.show');
+    Route::delete('/{id}',     [ProfileController::class, 'destroy'])->name('profiles.destroy');
+
+    Route::any('/search',      [ProfileController::class, 'search'])->name('profiles.search');
+});
+
+
 
 Route::prefix('admin-plan')->group(function () {
     /**
@@ -28,7 +48,7 @@ Route::prefix('admin-plan')->group(function () {
     Route::post('/{id}/profiles',                    [PlanProfileController::class, 'attachProfilesPlan'])->name('plans.profiles.attach');
     Route::any('/{id}/profiles/create',              [PlanProfileController::class, 'profilesAvailable'])->name('plans.profiles.available');
     Route::get('{id}/profiles',                      [PlanProfileController::class, 'profiles'])->name('plans.profiles');
-    Route::get('/{id}/profile',                     [PlanProfileController::class, 'plans'])->name('profiles.plans');
+    Route::get('/{id}/profile',                      [PlanProfileController::class, 'plans'])->name('profiles.plans');
 
     /**
      * Routes Details Plans

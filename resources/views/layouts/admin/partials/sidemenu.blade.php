@@ -13,8 +13,8 @@
                     <li class="header-menu">
                         <span>Navegação</span>
                     </li>
-                    <li class="{{ @$home ? 'ativo' : '' }}">
-                        <a href="{{ route('admin.home') }}">
+                    <li class="{{ @$dashboard ? 'ativo' : '' }}">
+                        <a href="{{ route('admin.dashboard') }}">
                             <i class="fas fa-chart-bar"></i>
                             <span>Dashboard</span>
                         </a>
@@ -24,6 +24,13 @@
                         <a href="{{ route('admin.plan') }}">
                             <i class="fa-brands fa-font-awesome"></i>
                             <span>Planos</span>
+                        </a>
+                    </li>
+
+                    <li class="{{ @$prof ? 'ativo' : '' }}">
+                        <a href="{{ route('admin.profiles') }}">
+                            <i class="fa-solid fa-file-user"></i>
+                            <span>Perfis</span>
                         </a>
                     </li>
 

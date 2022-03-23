@@ -29,7 +29,7 @@ class DetailPlanController extends Controller
 
         $data['title']              = 'Detalhes do plano ' . $plan->name;
         $data['toptitle']           = 'Detalhes do plano ' . $plan->name;
-        $data['breadcrumb'][]       = ['route' => route('admin.home'), 'title' => 'Dashboard'];
+        $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
         $data['breadcrumb'][]       = ['route' => route('admin.plan'), 'title' => 'Planos'];
         $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Detalhes do plano ' . $plan->name, 'active' => true];
         $data['details']            = $plan->details()->paginate();
@@ -47,7 +47,7 @@ class DetailPlanController extends Controller
 
         $data['title']              = 'Novo detalhe do plano ' . $plan->name;
         $data['toptitle']           = 'Novo detalhe do plano ' . $plan->name;
-        $data['breadcrumb'][]       = ['route' => route('admin.home'), 'title' => 'Dashboard'];
+        $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
         $data['breadcrumb'][]       = ['route' => route('admin.plan'), 'title' => 'Planos'];
         $data['breadcrumb'][]       = ['route' => route('details.plan.index', $plan->id), 'title' => 'Detalhes do plano ' . $plan->name];
         $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Novo detalhe do plano ' . $plan->name, 'active' => true];
@@ -67,7 +67,7 @@ class DetailPlanController extends Controller
 
         $data['title']              = 'Editar detalhe plano ' . $detail->name;
         $data['toptitle']           = 'Editar detalhe plano ' . $detail->name;
-        $data['breadcrumb'][]       = ['route' => route('admin.home'), 'title' => 'Dashboard'];
+        $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
         $data['breadcrumb'][]       = ['route' => route('admin.plan'), 'title' => 'Planos'];
         $data['breadcrumb'][]       = ['route' => route('details.plan.index', $plan->id), 'title' => 'Detalhes do plano ' . $plan->name];
         $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Editar detalhe plano ' . $detail->name, 'active' => true];
@@ -117,7 +117,7 @@ class DetailPlanController extends Controller
 
         $data['title']              = 'Detalhe plano ' . $detail->name;
         $data['toptitle']           = 'Detalhe plano ' . $detail->name;
-        $data['breadcrumb'][]       = ['route' => route('admin.home'), 'title' => 'Dashboard'];
+        $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
         $data['breadcrumb'][]       = ['route' => route('admin.plan'), 'title' => 'Planos'];
         $data['breadcrumb'][]       = ['route' => route('details.plan.index', $plan->id), 'title' => 'Detalhes do plano ' . $plan->name];
         $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Detalhe plano ' . $detail->name, 'active' => true];
