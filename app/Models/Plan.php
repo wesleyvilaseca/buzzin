@@ -55,4 +55,9 @@ class Plan extends Model
 
         return $profiles;
     }
+
+    public function getPriceBrAttribute()
+    {
+        return number_format($this->price, 2, ',', '.');
+    }
 }

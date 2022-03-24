@@ -109,6 +109,12 @@ class PlanController extends Controller
         if (!$plan)
             Redirect::back()->with('warning', 'Operação não autorizada');
 
+        if ($plan->name !== $request->name) {
+            $exist = $this->repository->where('name', '=', $request->name)->first();
+            if ($exist)
+                return Redirect::back()->with('warning', 'Já existe um plano com esse nomo');
+        }
+
         $result = $plan->update($request->all());
         if (!$result)
             Redirect::back()->with('warning', 'Erro na operação');
