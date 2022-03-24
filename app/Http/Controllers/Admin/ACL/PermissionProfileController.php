@@ -86,4 +86,24 @@ class PermissionProfileController extends Controller
 
         return Redirect::route('profile.permissions', $profile->id)->with('success', 'Operação efetuada com sucesso');
     }
+
+    public function profiles($permission_id)
+    {
+        $permission = $this->permission->find($permission_id);
+        if (!$permission)
+            return Redirect::back()->with('error', 'Operação não autorizada');
+
+        $data['permission']         = $permission;
+        $data['profiles']           = $permission->profiles()->paginate();
+        $data['title']              = 'Perfis da permissão ' . $permission->name;
+        $data['toptitle']           = 'Perfis da permissão ' . $permission->name;
+        $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
+        $data['breadcrumb'][]       = ['route' => route('admin.permissions'), 'title' => 'Permissões'];
+        $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Perfis da permissão ' . $permission->name, 'active' => true];
+        $data['perm']               = true;
+        $data['permi']              = true;
+
+
+        return view('admin.permissions.profiles', $data);
+    }
 }
