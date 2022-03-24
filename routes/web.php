@@ -11,16 +11,23 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
+/**
+ * register routes
+ */
 Route::get('/register',     [RegisterController::class, 'index'])->name('register');
 Route::post('/register',    [RegisterController::class, 'create'])->name('register.create');
+
+/**
+ * login routes
+ */
 
 Route::get('/login',        [LoginController::class, 'index'])->name('login');
 Route::post('/login',       [LoginController::class, 'auth'])->name('login.auth');
 Route::post('/logout',      [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/admin-dashboard',                   [DashboardController::class, 'index'])->name('admin.dashboard');
-
 Route::middleware(['auth'])->group(function() {
+    Route::get('/admin-dashboard',                   [DashboardController::class, 'index'])->name('admin.dashboard');
+
     Route::prefix('admin-permissions')->group(function () {
         /**
          * permissions
