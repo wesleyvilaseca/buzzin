@@ -29,25 +29,25 @@
 
                     <li class="{{ @$prof ? 'ativo' : '' }}">
                         <a href="{{ route('admin.profiles') }}">
-                            <i class="fa-solid fa-file-user"></i>
+                            <i class="fa-solid fa-id-badge"></i>
                             <span>Perfis</span>
                         </a>
                     </li>
 
-                    <li class="sidebar-dropdown {{ @$relatorio ? 'active_side' : '' }}">
+                    <li class="sidebar-dropdown {{ @$perm ? 'active_side' : '' }}">
                         <a>
-                            <i class="fas fa-chart-line"></i>
-                            <span>Relatório</span>
+                            <i class="fa-solid fa-lock"></i>
+                            <span>Controle de acesso</span>
                         </a>
-                        <div class="sidebar-submenu {{ @$relatorio ? 'd-block' : '' }}">
+                        <div class="sidebar-submenu {{ @$perm ? 'd-block' : '' }}">
                             <ul>
-                                <li class="{{ @$matriculageral ? 'ativo' : '' }}">
-                                    <a href="#">submenu1</a>
+                                <li class="{{ @$permi ? 'ativo' : '' }}">
+                                    <a href="{{ route('admin.permissions') }}">Permissões</a>
                                 </li>
 
-                                <li class="{{ @$relatorioReativados ? 'ativo' : '' }}">
+                                {{-- <li class="{{ @$relatorioReativados ? 'ativo' : '' }}">
                                     <a href="#">submenu2</a>
-                                </li>
+                                </li> --}}
                             </ul>
                         </div>
                     </li>

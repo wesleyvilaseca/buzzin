@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\ACL\PermissionController;
+use App\Http\Controllers\Admin\ACL\PermissionProfileController;
 use App\Http\Controllers\Admin\ACL\PlanProfileController;
 use App\Http\Controllers\Admin\ACL\ProfileController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -8,6 +10,24 @@ use App\Http\Controllers\Admin\PlanController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/admin-dashboard',                   [DashboardController::class, 'index'])->name('admin.dashboard');
+
+Route::prefix('admin-permissions')->group(function () {
+    /**
+     * permissions
+     */
+    Route::get('/',            [PermissionController::class, 'index'])->name('admin.permissions');
+    Route::get('/create',      [PermissionController::class, 'create'])->name('permissions.create');
+    Route::post('/',           [PermissionController::class, 'store'])->name('permissions.store');
+
+    Route::get('/{id}/edit',   [PermissionController::class, 'edit'])->name('permissions.edit');
+    Route::put('/{id}',        [PermissionController::class, 'update'])->name('permissions.update');
+
+    Route::get('/{id}/show',   [PermissionController::class, 'show'])->name('permissions.show');
+    Route::delete('/{id}',     [PermissionController::class, 'destroy'])->name('permissions.destroy');
+
+    Route::any('/search',      [PermissionController::class, 'search'])->name('permissions.search');
+});
+
 
 Route::prefix('admin-profiles')->group(function () {
     /**
@@ -24,8 +44,16 @@ Route::prefix('admin-profiles')->group(function () {
     Route::delete('/{id}',     [ProfileController::class, 'destroy'])->name('profiles.destroy');
 
     Route::any('/search',      [ProfileController::class, 'search'])->name('profiles.search');
-});
 
+    /**
+     * permissions x profile
+     */
+    Route::get('{id}/permission/{idPermission}/detach',         [PermissionProfileController::class, 'detachPermissionProfile'])->name('profiles.permission.detach');
+    Route::post('{id}/permissions',                             [PermissionProfileController::class, 'attachPermissionsProfile'])->name('profiles.permissions.attach');
+    Route::any('{id}/permissions/create',                       [PermissionProfileController::class, 'permissionsAvailable'])->name('profiles.permissions.available');
+    Route::get('{id}/permission',                               [PermissionProfileController::class, 'permissions'])->name('profile.permissions');
+    Route::get('{id}/permissions',                              [PermissionProfileController::class, 'profiles'])->name('permissions.profiles');
+});
 
 
 Route::prefix('admin-plan')->group(function () {
