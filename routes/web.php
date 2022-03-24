@@ -9,7 +9,15 @@ use App\Http\Controllers\Admin\DetailPlanController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Site\HomeController;
 use Illuminate\Support\Facades\Route;
+
+/**
+ * site routes
+ */
+
+Route::get('/',             [HomeController::class, 'index'])->name('inicio');
+
 
 /**
  * register routes
@@ -108,7 +116,3 @@ Route::middleware(['auth'])->group(function() {
     });
     
 });
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
