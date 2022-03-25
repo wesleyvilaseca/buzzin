@@ -22,6 +22,12 @@ class CreateTenantsTable extends Migration
             $table->string('url')->unique();
             $table->string('email')->unique();
             $table->string('logo')->nullable();
+            $table->string('address')->nullable();
+            $table->string('zip_code')->nullable();
+            $table->string('state')->nullable();
+            $table->string('city')->nullable();
+            $table->string('district')->nullable();
+            $table->enum('open', ['Y', 'N'])->default('N');
 
             // Status tenant (se inativar 'N' ele perde o acesso ao sistema)
             $table->enum('active', ['Y', 'N'])->default('Y');
