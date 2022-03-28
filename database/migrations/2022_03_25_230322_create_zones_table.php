@@ -18,6 +18,8 @@ class CreateZonesTable extends Migration
             $table->unsignedBigInteger('tenants_id');
             $table->string('name')->unique();
             $table->polygon('coordinates')->nullable();
+            $table->time('delivery_time_ini', $precision = 0)->nullable();
+            $table->time('delivery_time_end', $precision = 0)->nullable();
             $table->enum('active', ['Y', 'N'])->default('Y');
             $table->timestamps();
 
