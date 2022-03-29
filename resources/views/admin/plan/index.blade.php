@@ -18,7 +18,6 @@
                         <button type="submit" class="btn btn-sm btn-dark">Pesquisar</button>
                     </div>
                 </div>
-
             </form>
         </div>
         <div class="card-body">

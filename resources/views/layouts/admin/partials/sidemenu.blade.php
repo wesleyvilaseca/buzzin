@@ -34,6 +34,13 @@
                         </a>
                     </li>
 
+                    <li class="{{ @$us ? 'ativo' : '' }}">
+                        <a href="{{ route('admin.users') }}">
+                            <i class="fa-solid fa-users"></i>
+                            <span>Usuários</span>
+                        </a>
+                    </li>
+
                     <li class="sidebar-dropdown {{ @$perm ? 'active_side' : '' }}">
                         <a>
                             <i class="fa-solid fa-lock"></i>

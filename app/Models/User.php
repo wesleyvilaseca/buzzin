@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'tenant_id'
     ];
 
     /**
@@ -52,7 +53,7 @@ class User extends Authenticatable
      */
     public function scopeTenantUser(Builder $query)
     {
-        return $query->where('tenants_id', auth()->user()->tenant_id);
+        return $query->where('tenant_id', auth()->user()->tenant_id);
     }
 
     /**
@@ -88,5 +89,14 @@ class User extends Authenticatable
         ->paginate();
 
         return $roles;
+    }
+
+    public function search($filter = null)
+    {
+        $results = $this->where('name', 'LIKE', "%{$filter}%")
+                        ->orWhere('email', 'LIKE', "%{$filter}%")
+                        ->tenantUser()->paginate();
+
+        return $results;
     }
 }
