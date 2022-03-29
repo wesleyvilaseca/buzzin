@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ACL\PermissionProfileController;
 use App\Http\Controllers\Admin\ACL\PlanProfileController;
 use App\Http\Controllers\Admin\ACL\ProfileController;
 use App\Http\Controllers\Admin\ACL\RoleUserController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DetailPlanController;
 use App\Http\Controllers\Admin\PlanController;
@@ -141,5 +142,20 @@ Route::middleware(['auth'])->group(function () {
         Route::any('{id}/roles/create', [RoleUserController::class, 'rolesAvailable'])->name('users.roles.available');
         Route::get('{id}/roles', [RoleUserController::class, 'roles'])->name('users.roles');
         Route::get('{id}/users', [RoleUserController::class, 'users'])->name('roles.users');
+    });
+
+
+    Route::prefix('admin-category')->group(function () {
+        /**
+         * Routes categories
+         */
+        Route::get('/',                  [CategoryController::class, 'index'])->name('admin.categories');
+        Route::get('/create',            [CategoryController::class, 'create'])->name('category.create');
+        Route::post('/',                 [CategoryController::class, 'store'])->name('category.store');
+        Route::put('/{id}',              [CategoryController::class, 'update'])->name('category.update');
+        Route::get('/{id}/edit',         [CategoryController::class, 'edit'])->name('category.edit');
+        Route::any('/search',            [CategoryController::class, 'search'])->name('category.search');
+        Route::get('/{id}',             [CategoryController::class, 'show'])->name('category.show');
+        Route::delete('/{id}',          [CategoryController::class, 'destroy'])->name('category.destroy');
     });
 });

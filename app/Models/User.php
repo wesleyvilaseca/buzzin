@@ -77,25 +77,31 @@ class User extends Authenticatable
      */
     public function rolesAvailable($filter = null)
     {
-        $roles = Role::whereNotIn('roles.id', function($query) {
+        $roles = Role::whereNotIn('roles.id', function ($query) {
             $query->select('role_user.role_id');
             $query->from('role_user');
             $query->whereRaw("role_user.user_id={$this->id}");
         })
-        ->where(function ($queryFilter) use ($filter) {
-            if ($filter)
-                $queryFilter->where('roles.name', 'LIKE', "%{$filter}%");
-        })
-        ->paginate();
+            ->where(function ($queryFilter) use ($filter) {
+                if ($filter)
+                    $queryFilter->where('roles.name', 'LIKE', "%{$filter}%");
+            })
+            ->paginate();
 
         return $roles;
     }
 
     public function search($filter = null)
     {
-        $results = $this->where('name', 'LIKE', "%{$filter}%")
-                        ->orWhere('email', 'LIKE', "%{$filter}%")
-                        ->tenantUser()->paginate();
+        $results = $this->where([
+            ['name', 'LIKE', "%{$filter}%"],
+            ['tenant_id', '=', auth()->user()->tenant_id]
+        ])
+            ->orWhere([
+                ['email', 'LIKE', "%{$filter}%"],
+                ['tenant_id', '=', auth()->user()->tenant_id]
+            ])
+            ->tenantUser()->paginate();
 
         return $results;
     }

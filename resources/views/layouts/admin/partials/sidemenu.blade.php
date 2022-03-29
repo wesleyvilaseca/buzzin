@@ -41,6 +41,13 @@
                         </a>
                     </li>
 
+                    <li class="{{ @$cat ? 'ativo' : '' }}">
+                        <a href="{{ route('admin.categories') }}">
+                            <i class="fa-solid fa-code-branch"></i>
+                            <span>Categorias</span>
+                        </a>
+                    </li>
+
                     <li class="sidebar-dropdown {{ @$perm ? 'active_side' : '' }}">
                         <a>
                             <i class="fa-solid fa-lock"></i>
