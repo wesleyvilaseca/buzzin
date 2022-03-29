@@ -10,13 +10,15 @@ use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Site\HomeController;
+use App\Http\Controllers\Site\SubscriptionsController;
 use Illuminate\Support\Facades\Route;
 
 /**
  * site routes
  */
-
 Route::get('/',             [HomeController::class, 'index'])->name('inicio');
+Route::get('/subscription/{url}', [SubscriptionsController::class, 'plan'])->name('subscription');
+Route::post('/subscription/{url}', [SubscriptionsController::class, 'register'])->name('subscription.register');
 
 
 /**

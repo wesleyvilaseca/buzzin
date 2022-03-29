@@ -15,7 +15,7 @@ class CreateZonesTable extends Migration
     {
         Schema::create('zones', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tenants_id');
+            $table->unsignedBigInteger('tenant_id');
             $table->string('name')->unique();
             $table->polygon('coordinates')->nullable();
             $table->time('delivery_time_ini', $precision = 0)->nullable();
@@ -23,7 +23,7 @@ class CreateZonesTable extends Migration
             $table->enum('active', ['Y', 'N'])->default('Y');
             $table->timestamps();
 
-            $table->foreign('tenants_id')
+            $table->foreign('tenant_id')
                 ->references('id')
                 ->on('tenants');
         });

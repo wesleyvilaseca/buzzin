@@ -16,10 +16,10 @@ class CreateTenantsTable extends Migration
         Schema::create('tenants', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('plan_id');
-            $table->uuid('uuid');
+            $table->uuid('uuid')->nullable();
             $table->string('cnpj')->unique();
             $table->string('name')->unique();
-            $table->string('url')->unique();
+            $table->string('url')->unique()->nullable();
             $table->string('email')->unique();
             $table->string('logo')->nullable();
             $table->string('address')->nullable();
@@ -27,6 +27,7 @@ class CreateTenantsTable extends Migration
             $table->string('state')->nullable();
             $table->string('city')->nullable();
             $table->string('district')->nullable();
+            $table->string('number')->nullable();
             $table->enum('open', ['Y', 'N'])->default('N');
 
             // Status tenant (se inativar 'N' ele perde o acesso ao sistema)

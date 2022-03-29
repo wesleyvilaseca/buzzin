@@ -42,7 +42,7 @@
                                     </p>
                                 @endforeach
                             </div>
-                            <div class="card__footer text-center my-4"><a href="#"
+                            <div class="card__footer text-center my-4"><a href="{{ route('subscription', $plan->url)}}"
                                     class="button button--filled button--primary">Assinar Agora Mesmo<svg
                                         class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">

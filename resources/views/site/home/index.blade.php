@@ -1,8 +1,6 @@
 @extends('layouts.site.site')
 
 @section('content')
-    @include('layouts.site._partials.header')
-
     @include('layouts.site._partials.features-header')
 
     @include('layouts.site._partials.what-is')
