@@ -6,9 +6,11 @@ use App\Http\Controllers\Admin\ACL\PlanProfileController;
 use App\Http\Controllers\Admin\ACL\ProfileController;
 use App\Http\Controllers\Admin\ACL\RoleUserController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CategoryProductController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DetailPlanController;
 use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -157,5 +159,28 @@ Route::middleware(['auth'])->group(function () {
         Route::any('/search',            [CategoryController::class, 'search'])->name('category.search');
         Route::get('/{id}',             [CategoryController::class, 'show'])->name('category.show');
         Route::delete('/{id}',          [CategoryController::class, 'destroy'])->name('category.destroy');
+    });
+
+    Route::prefix('admin-product')->group(function () {
+        /**
+         * Routes products
+         */
+        Route::get('/',                  [ProductController::class, 'index'])->name('admin.products');
+        Route::get('/create',            [ProductController::class, 'create'])->name('product.create');
+        Route::post('/',                 [ProductController::class, 'store'])->name('product.store');
+        Route::put('/{id}',              [ProductController::class, 'update'])->name('product.update');
+        Route::get('/{id}/edit',         [ProductController::class, 'edit'])->name('product.edit');
+        Route::any('/search',            [ProductController::class, 'search'])->name('product.search');
+        Route::get('/{id}',             [ProductController::class, 'show'])->name('product.show');
+        Route::delete('/{id}',          [ProductController::class, 'destroy'])->name('product.destroy');
+
+        /**
+         * Product x Category
+         */
+        Route::get('{id}/category/{idCategory}/detach', [CategoryProductController::class, 'detachCategoryProduct'])->name('products.category.detach');
+        Route::post('{id}/categories', [CategoryProductController::class, 'attachCategoriesProduct'])->name('products.categories.attach');
+        Route::any('{id}/categories/create', [CategoryProductController::class, 'categoriesAvailable'])->name('products.categories.available');
+        Route::get('{id}/categories',  [CategoryProductController::class, 'categories'])->name('product.categories');
+        Route::get('{id}/products',  [CategoryProductController::class, 'products'])->name('categories.products');
     });
 });

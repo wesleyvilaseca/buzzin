@@ -48,6 +48,13 @@
                         </a>
                     </li>
 
+                    <li class="{{ @$prod ? 'ativo' : '' }}">
+                        <a href="{{ route('admin.products') }}">
+                            <i class="fa-solid fa-box"></i>
+                            <span>Produtos</span>
+                        </a>
+                    </li>
+
                     <li class="sidebar-dropdown {{ @$perm ? 'active_side' : '' }}">
                         <a>
                             <i class="fa-solid fa-lock"></i>

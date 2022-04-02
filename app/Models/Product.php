@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
+use App\Tenant\Traits\TenantTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    use TenantTrait;
     use HasFactory;
 
     protected $fillable = ['title', 'flag', 'price', 'description', 'image'];
-
 
     public function categories()
     {
@@ -35,5 +36,20 @@ class Product extends Model
         ->paginate();
 
         return $categories;
+    }
+
+    public function search($filter = null)
+    {
+        $results = $this->where([
+            ['name', 'LIKE', "%{$filter}%"],
+            // ['tenant_id', '=', auth()->user()->tenant_id]
+        ])
+            ->orWhere([
+                ['description', 'LIKE', "%{$filter}%"],
+                // ['tenant_id', '=', auth()->user()->tenant_id]
+            ])
+            ->paginate();
+
+        return $results;
     }
 }
