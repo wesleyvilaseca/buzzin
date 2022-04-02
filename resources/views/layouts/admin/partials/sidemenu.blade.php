@@ -55,6 +55,13 @@
                         </a>
                     </li>
 
+                    <li class="{{ @$tab ? 'ativo' : '' }}">
+                        <a href="{{ route('admin.tables') }}">
+                            <i class="fa-solid fa-spoon"></i>
+                            <span>Mesas</span>
+                        </a>
+                    </li>
+
                     <li class="sidebar-dropdown {{ @$perm ? 'active_side' : '' }}">
                         <a>
                             <i class="fa-solid fa-lock"></i>

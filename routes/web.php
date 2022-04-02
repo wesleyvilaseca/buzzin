@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DetailPlanController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\TableController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -182,5 +183,21 @@ Route::middleware(['auth'])->group(function () {
         Route::any('{id}/categories/create', [CategoryProductController::class, 'categoriesAvailable'])->name('products.categories.available');
         Route::get('{id}/categories',  [CategoryProductController::class, 'categories'])->name('product.categories');
         Route::get('{id}/products',  [CategoryProductController::class, 'products'])->name('categories.products');
+    });
+
+    Route::prefix('admin-table')->group(function () {
+        /**
+         * Routes products
+         */
+        Route::get('/',                  [TableController::class, 'index'])->name('admin.tables');
+        Route::get('/create',            [TableController::class, 'create'])->name('table.create');
+        Route::post('/',                 [TableController::class, 'store'])->name('table.store');
+        Route::put('/{id}',              [TableController::class, 'update'])->name('table.update');
+        Route::get('/{id}/edit',         [TableController::class, 'edit'])->name('table.edit');
+        Route::any('/search',            [TableController::class, 'search'])->name('table.search');
+        Route::get('/{id}',             [TableController::class, 'show'])->name('table.show');
+        Route::delete('/{id}',          [TableController::class, 'destroy'])->name('table.destroy');
+
+        Route::get('tables/qrcode/{identify}', 'TableController@qrcode')->name('table.qrcode');
     });
 });
