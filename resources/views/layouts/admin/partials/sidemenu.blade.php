@@ -20,48 +20,62 @@
                         </a>
                     </li>
 
-                    <li class="{{ @$plan ? 'ativo' : '' }}">
-                        <a href="{{ route('admin.plan') }}">
-                            <i class="fa-brands fa-font-awesome"></i>
-                            <span>Planos</span>
-                        </a>
-                    </li>
+                    @can('plans')
+                        <li class="{{ @$plan ? 'ativo' : '' }}">
+                            <a href="{{ route('admin.plan') }}">
+                                <i class="fa-brands fa-font-awesome"></i>
+                                <span>Planos</span>
+                            </a>
+                        </li>
+                    @endcan
 
-                    <li class="{{ @$prof ? 'ativo' : '' }}">
-                        <a href="{{ route('admin.profiles') }}">
-                            <i class="fa-solid fa-id-badge"></i>
-                            <span>Perfis</span>
-                        </a>
-                    </li>
+                    @can('profiles')
+                        <li class="{{ @$prof ? 'ativo' : '' }}">
+                            <a href="{{ route('admin.profiles') }}">
+                                <i class="fa-solid fa-id-badge"></i>
+                                <span>Perfis</span>
+                            </a>
+                        </li>
+                    @endcan
 
-                    <li class="{{ @$us ? 'ativo' : '' }}">
-                        <a href="{{ route('admin.users') }}">
-                            <i class="fa-solid fa-users"></i>
-                            <span>Usuários</span>
-                        </a>
-                    </li>
+                    @can('users')
+                        <li class="{{ @$us ? 'ativo' : '' }}">
+                            <a href="{{ route('admin.users') }}">
+                                <i class="fa-solid fa-users"></i>
+                                <span>Usuários</span>
+                            </a>
+                        </li>
+                    @endcan
 
-                    <li class="{{ @$cat ? 'ativo' : '' }}">
-                        <a href="{{ route('admin.categories') }}">
-                            <i class="fa-solid fa-code-branch"></i>
-                            <span>Categorias</span>
-                        </a>
-                    </li>
+                    @can('categories')
+                        <li class="{{ @$cat ? 'ativo' : '' }}">
+                            <a href="{{ route('admin.categories') }}">
+                                <i class="fa-solid fa-code-branch"></i>
+                                <span>Categorias</span>
+                            </a>
+                        </li>
+                    @endcan
 
-                    <li class="{{ @$prod ? 'ativo' : '' }}">
-                        <a href="{{ route('admin.products') }}">
-                            <i class="fa-solid fa-box"></i>
-                            <span>Produtos</span>
-                        </a>
-                    </li>
+                    @can('products')
+                        <li class="{{ @$prod ? 'ativo' : '' }}">
+                            <a href="{{ route('admin.products') }}">
+                                <i class="fa-solid fa-box"></i>
+                                <span>Produtos</span>
+                            </a>
+                        </li>
+                    @endcan
 
+                    @can('tables')
                     <li class="{{ @$tab ? 'ativo' : '' }}">
                         <a href="{{ route('admin.tables') }}">
                             <i class="fa-solid fa-spoon"></i>
                             <span>Mesas</span>
                         </a>
                     </li>
+                    @endcan
 
+
+                    @can('acl')
                     <li class="sidebar-dropdown {{ @$perm ? 'active_side' : '' }}">
                         <a>
                             <i class="fa-solid fa-lock"></i>
@@ -79,6 +93,7 @@
                             </ul>
                         </div>
                     </li>
+                    @endcan
             </div>
         </div>
 </nav>

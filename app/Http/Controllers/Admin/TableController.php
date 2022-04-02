@@ -16,7 +16,7 @@ class TableController extends Controller
     {
         $this->repository = $table;
 
-        // $this->middleware(['can:tables']);
+        $this->middleware(['can:tables']);
     }
 
     public function index()

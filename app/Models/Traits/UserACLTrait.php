@@ -12,8 +12,9 @@ trait UserACLTrait
         $permissionsRole = $this->permissionsRole();
 
         $permissions = [];
-        foreach ($permissionsRole as $permission) {
-            if (in_array($permission, $permissionsPlan))
+        foreach ($permissionsPlan as $permission) {
+        // foreach ($permissionsRole as $permission) {
+            // if (in_array($permission, $permissionsPlan))
                 array_push($permissions, $permission);
         }
 

@@ -17,6 +17,8 @@ class ProductController extends Controller
         Product $produtc
     ) {
         $this->repository = $produtc;
+
+        $this->middleware(['can:products']);
     }
 
     public function index()

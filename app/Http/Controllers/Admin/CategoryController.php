@@ -16,6 +16,8 @@ class CategoryController extends Controller
         Category $category
     ) {
         $this->repository = $category;
+
+        $this->middleware(['can:categories']);
     }
 
     public function index()

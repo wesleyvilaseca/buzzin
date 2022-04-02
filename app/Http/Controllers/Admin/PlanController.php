@@ -16,10 +16,14 @@ class PlanController extends Controller
         Plan $plan
     ) {
         $this->repository = $plan;
+
+        $this->middleware(['can:plans']);
     }
 
     public function index()
     {
+        // dd(auth()->user()->isAdmin());
+
         $data['title']              = 'Planos';
         $data['toptitle']           = 'Planos';
         $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];

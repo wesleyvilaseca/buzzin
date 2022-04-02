@@ -1,0 +1,24 @@
+user
+    tenant
+        plan
+            profiles
+                permissões
+
+user: Wesley
+    tenant: Empresa
+        Plano: X
+            Perfil: Financeiro
+                permissão: view_financeiro
+                permissão: detail_fin
+                permissao: add_fin
+            Perfil: Gestor Produtos
+                permissão: view_produtos
+            Perfil: Admin
+                permissao: relatorios
+
+products
+permissao: view_financeiro
+permissao: detail_fin
+permissao: add_fin
+permissao: view_produtos
+permissao: relatorios
