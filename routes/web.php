@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\DetailPlanController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\TableController;
+use App\Http\Controllers\Admin\TenantController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -199,5 +200,19 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/{id}',          [TableController::class, 'destroy'])->name('table.destroy');
 
         Route::get('tables/qrcode/{identify}', 'TableController@qrcode')->name('table.qrcode');
+    });
+
+    Route::prefix('admin-tenants')->group(function () {
+        /**
+         * Routes tenants
+         */
+        Route::get('/',                  [TenantController::class, 'index'])->name('admin.tenants');
+        Route::get('/create',            [TenantController::class, 'create'])->name('tenant.create');
+        Route::post('/',                 [TenantController::class, 'store'])->name('tenant.store');
+        Route::put('/{id}',              [TenantController::class, 'update'])->name('tenant.update');
+        Route::get('/{id}/edit',         [TenantController::class, 'edit'])->name('tenant.edit');
+        Route::any('/search',            [TenantController::class, 'search'])->name('tenant.search');
+        Route::get('/{id}',             [TenantController::class, 'show'])->name('tenant.show');
+        Route::delete('/{id}',          [TenantController::class, 'destroy'])->name('tenant.destroy');
     });
 });

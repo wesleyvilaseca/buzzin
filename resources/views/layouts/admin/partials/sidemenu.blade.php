@@ -74,6 +74,15 @@
                     </li>
                     @endcan
 
+                    @can('tenants')
+                    <li class="{{ @$ten ? 'ativo' : '' }}">
+                        <a href="{{ route('admin.tenants') }}">
+                            <i class="fa-solid fa-building"></i>
+                            <span>empresas</span>
+                        </a>
+                    </li>
+                    @endcan
+
 
                     @can('acl')
                     <li class="sidebar-dropdown {{ @$perm ? 'active_side' : '' }}">

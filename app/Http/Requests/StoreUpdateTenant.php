@@ -26,14 +26,14 @@ class StoreUpdateTenant extends FormRequest
         return [
             'cnpj' => ['required', 'string', 'max:20'],
             'name'  => ['required', 'string', 'max:255'],
-            'tenant_name' => ['required', 'string', 'max:255'],
+            // 'tenant_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
-            'address' => ['required', 'string', 'max:255'],
-            'zip_code' => ['required', 'string', 'max:10'],
-            'state' => ['required', 'string', 'max:10'],
-            'city' => ['required', 'string', 'max:45'],
-            'district' => ['required', 'string', 'max:45'],
-            'password' => ['required', 'string', 'min:8']
+            // 'address' => ['required', 'string', 'max:255'],
+            // 'zip_code' => ['required', 'string', 'max:10'],
+            // 'state' => ['required', 'string', 'max:10'],
+            // 'city' => ['required', 'string', 'max:45'],
+            // 'district' => ['required', 'string', 'max:45'],
+            // 'password' => ['required', 'string', 'min:8']
         ];
     }
 }
