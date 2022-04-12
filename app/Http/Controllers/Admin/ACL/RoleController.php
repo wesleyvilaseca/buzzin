@@ -16,6 +16,7 @@ class RoleController extends Controller
         Role $role
     ) {
         $this->repository = $role;
+        $this->middleware(['can:roles']);
     }
 
     public function index()

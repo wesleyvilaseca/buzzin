@@ -33,10 +33,17 @@ class AuthServiceProvider extends ServiceProvider
         $permissions = Permission::all();
 
         foreach ($permissions as $permission) {
-            Gate::define($permission->name, function (User $user) use ($permission) {
-                return $user->hasPermission($permission->name);
+            Gate::define($permission->description, function (User $user) use ($permission) {
+                return $user->hasPermission($permission->description);
             });
         }
+
+
+        // Permission::all()->map(function ($permission){
+        //     Gate::define($permission->description, function(User $user) use ($permission) {
+        //         return $user->hasPermission($permission->description);
+        //     });
+        // });
 
         Gate::define('owner', function (User $user, $object) {
             return $user->id === $object->user_id;

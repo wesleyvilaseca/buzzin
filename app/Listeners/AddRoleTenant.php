@@ -28,7 +28,6 @@ class AddRoleTenant
     public function handle(TenantCreated $event)
     {
         $user = $event->user();
-        $tenant = $event->tenant();
 
         if(!$role = Role::first()){
             return;

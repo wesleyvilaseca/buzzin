@@ -38,7 +38,7 @@
                         </li>
                     @endcan
 
-                    @can('users')
+                    @can('user')
                         <li class="{{ @$us ? 'ativo' : '' }}">
                             <a href="{{ route('admin.users') }}">
                                 <i class="fa-solid fa-users"></i>

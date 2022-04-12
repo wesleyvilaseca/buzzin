@@ -9,6 +9,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        // dd(auth()->user()->hasPermission('products'));
         $data['title']      = 'dashboard';
         $data['toptitle']   = 'Dashboard';
         $data['dashboard']       = true;

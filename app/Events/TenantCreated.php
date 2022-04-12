@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -30,7 +31,7 @@ class TenantCreated
     /**
      * return user created
      */
-    public function user()
+    public function user() : User
     {
         return $this->user;
     }
@@ -39,7 +40,7 @@ class TenantCreated
      * return tenant
      */
 
-    public function tenant()
+    public function tenant() : Tenant
     {
         return $this->user->tenant;
     }

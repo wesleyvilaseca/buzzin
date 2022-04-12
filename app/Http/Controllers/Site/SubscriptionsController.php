@@ -32,11 +32,10 @@ class SubscriptionsController extends Controller
             return Redirect::back();
 
         $tenant_service = app(TenantService::class);
-        
         $user = $tenant_service->make($plan, $request->all());
 
         event(new TenantCreated($user));
 
-        return redirect()->route('login')->with('success', 'Usuario criado com sucesso');
+        return redirect()->route('login')->with('success', 'Registro efetuado com sucesso');
     }
 }
