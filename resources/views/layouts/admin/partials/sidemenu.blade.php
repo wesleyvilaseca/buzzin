@@ -66,42 +66,42 @@
                     @endcan
 
                     @can('tables')
-                    <li class="{{ @$tab ? 'ativo' : '' }}">
-                        <a href="{{ route('admin.tables') }}">
-                            <i class="fa-solid fa-spoon"></i>
-                            <span>Mesas</span>
-                        </a>
-                    </li>
+                        <li class="{{ @$tab ? 'ativo' : '' }}">
+                            <a href="{{ route('admin.tables') }}">
+                                <i class="fa-solid fa-spoon"></i>
+                                <span>Mesas</span>
+                            </a>
+                        </li>
                     @endcan
 
                     @can('tenants')
-                    <li class="{{ @$ten ? 'ativo' : '' }}">
-                        <a href="{{ route('admin.tenants') }}">
-                            <i class="fa-solid fa-building"></i>
-                            <span>empresas</span>
-                        </a>
-                    </li>
+                        <li class="{{ @$ten ? 'ativo' : '' }}">
+                            <a href="{{ route('admin.tenants') }}">
+                                <i class="fa-solid fa-building"></i>
+                                <span>empresas</span>
+                            </a>
+                        </li>
                     @endcan
 
 
                     @can('acl')
-                    <li class="sidebar-dropdown {{ @$perm ? 'active_side' : '' }}">
-                        <a>
-                            <i class="fa-solid fa-lock"></i>
-                            <span>Controle de acesso</span>
-                        </a>
-                        <div class="sidebar-submenu {{ @$perm ? 'd-block' : '' }}">
-                            <ul>
-                                <li class="{{ @$permi ? 'ativo' : '' }}">
-                                    <a href="{{ route('admin.permissions') }}">Permissões</a>
-                                </li>
+                        <li class="sidebar-dropdown {{ @$perm ? 'active_side' : '' }}">
+                            <a>
+                                <i class="fa-solid fa-lock"></i>
+                                <span>Controle de acesso</span>
+                            </a>
+                            <div class="sidebar-submenu {{ @$perm ? 'd-block' : '' }}">
+                                <ul>
+                                    <li class="{{ @$permi ? 'ativo' : '' }}">
+                                        <a href="{{ route('admin.permissions') }}">Permissões</a>
+                                    </li>
 
-                                {{-- <li class="{{ @$relatorioReativados ? 'ativo' : '' }}">
-                                    <a href="#">submenu2</a>
-                                </li> --}}
-                            </ul>
-                        </div>
-                    </li>
+                                    <li class="{{ @$rol ? 'ativo' : '' }}">
+                                        <a href="{{ route('admin.roles') }}">Cargos</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
                     @endcan
             </div>
         </div>

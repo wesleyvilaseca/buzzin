@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Admin\ACL\PermissionController;
 use App\Http\Controllers\Admin\ACL\PermissionProfileController;
+use App\Http\Controllers\Admin\ACL\PermissionRoleController;
 use App\Http\Controllers\Admin\ACL\PlanProfileController;
 use App\Http\Controllers\Admin\ACL\ProfileController;
+use App\Http\Controllers\Admin\ACL\RoleController;
 use App\Http\Controllers\Admin\ACL\RoleUserController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CategoryProductController;
@@ -60,6 +62,32 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/{id}',     [PermissionController::class, 'destroy'])->name('permissions.destroy');
 
         Route::any('/search',      [PermissionController::class, 'search'])->name('permissions.search');
+    });
+
+    Route::prefix('admin-roles')->group(function () {
+        /**
+         * routes roles
+         */
+        Route::get('/',            [RoleController::class, 'index'])->name('admin.roles');
+        Route::get('/create',      [RoleController::class, 'create'])->name('role.create');
+        Route::post('/',           [RoleController::class, 'store'])->name('role.store');
+
+        Route::get('/{id}/edit',   [RoleController::class, 'edit'])->name('role.edit');
+        Route::put('/{id}',        [RoleController::class, 'update'])->name('role.update');
+
+        Route::get('/{id}/show',   [RoleController::class, 'show'])->name('role.show');
+        Route::delete('/{id}',     [RoleController::class, 'destroy'])->name('role.destroy');
+
+        Route::any('/search',      [RoleController::class, 'search'])->name('role.search');
+
+        /**
+         * Permission x Role
+         */
+        Route::get('{id}/permission/{idPermission}/detach', [PermissionRoleController::class, 'detachPermissionRole'])->name('roles.permission.detach');
+        Route::post('{id}/permissions',                     [PermissionRoleController::class, 'attachPermissionsRole'])->name('roles.permissions.attach');
+        Route::any('{id}/permissions/create',               [PermissionRoleController::class, 'permissionsAvailable'])->name('roles.permissions.available');
+        Route::get('{id}/permissions',                      [PermissionRoleController::class, 'permissions'])->name('roles.permissions');
+        Route::get('permissions/{id}/role',                 [PermissionRoleController::class, 'roles'])->name('permissions.roles');
     });
 
 

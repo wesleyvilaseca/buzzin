@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Events\TenantCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateTenant;
 use App\Models\Plan;
@@ -32,7 +33,9 @@ class SubscriptionsController extends Controller
 
         $tenant_service = app(TenantService::class);
         
-        $tenant_service->make($plan, $request->all());
+        $user = $tenant_service->make($plan, $request->all());
+
+        event(new TenantCreated($user));
 
         return redirect()->route('login')->with('success', 'Usuario criado com sucesso');
     }
