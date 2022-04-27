@@ -7,10 +7,24 @@ use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
+use App\Repositories\Contracts\TenantRepositoryInterface;
+
 
 class TenantService
 {
     private $plan, $data = [];
+    private $repository;
+
+    public function __construct(
+        TenantRepositoryInterface $repository
+    ) {
+        $this->repository = $repository;
+    }
+
+    public function getAllTenants()
+    {
+        return $this->repository->getAllTenants();
+    }
 
     public function make(Plan $plan, array $data)
     {
