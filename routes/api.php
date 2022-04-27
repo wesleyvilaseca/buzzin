@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/tenants', [TenantController::class, 'index']);
+Route::get('/tenants/{uuid}', [TenantController::class, 'show']);
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();

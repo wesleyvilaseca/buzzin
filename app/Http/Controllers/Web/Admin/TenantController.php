@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 
+use function Psy\debug;
+
 class TenantController extends Controller
 {
     private $repository;
@@ -108,8 +110,8 @@ class TenantController extends Controller
         if ($exist)
             return Redirect::back()->with('warning', 'Já existe uma empresa com esse nome');
 
-        if ($request->hasFile('image') && $request->image->isValid())
-            $data['logo'] = $request->image->store("public/tenants/{$tenant->uuid}/logo");
+        if ($request->hasFile('logo') && $request->logo->isValid())
+            $data['logo'] = $request->logo->store("public/tenants/{$tenant->uuid}/logo");
 
         $this->repository->create($data);
 
@@ -122,23 +124,49 @@ class TenantController extends Controller
         if (!$tenant)
             return Redirect::back()->with('error', 'Operação não autorizada');
 
+        $except[] = '_token';
+        $except[] = '_method';
+
         if ($tenant->name !== $request->name) {
             $exist = $this->repository->where('name', '=', $request->name)->first();
             if ($exist)
                 return Redirect::back()->with('warning', 'Já existe uma empresa com esse nome');
+        }else {
+            $except[] = 'name';
         }
 
-        $data = $request->all();
-        $tenant = auth()->user()->tenant;
-
-        if ($request->hasFile('image') && $request->image->isValid()) {
-            if (Storage::exists($tenant->image))
-                Storage::delete($tenant->image);
-
-            $data['logo'] = $request->image->store("public/tenants/{$tenant->uuid}/logo");
+        if ($tenant->email !== $request->email) {
+            $exist = $this->repository->where('email', '=', $request->email)->first();
+            if ($exist)
+                return Redirect::back()->with('warning', 'Já existe uma empresa com essas credenciais');
+        }else {
+            $except[] = 'email';
         }
 
-        $tenant->update($data);
+
+        if ($tenant->cnpj !== $request->cnpj) {
+            $exist = $this->repository->where('cnpj', '=', $request->cnpj)->first();
+            if ($exist)
+                return Redirect::back()->with('warning', 'Já existe uma empresa com essas credenciais');
+        } else {
+            $except[] = 'cnpj';
+        }
+
+        $request->except('_token');
+        $data = $request->except($except);
+
+        if ($request->hasFile('logo') && $request->logo->isValid()) {
+            if (Storage::exists($tenant->logo))
+                Storage::delete($tenant->logo);
+
+            $data['logo'] = $request->logo->store("public/tenants/{$tenant->uuid}/logo");
+        }
+
+        Tenant::where([
+            'id' => $tenant->id,
+        ])->update($data);
+
+        // $tenant->update($data);
         return Redirect::route('admin.tenants')->with('success', 'Empresa editado com sucesso');
     }
 

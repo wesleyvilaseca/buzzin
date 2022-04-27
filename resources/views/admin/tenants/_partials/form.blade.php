@@ -14,7 +14,7 @@
 </div>
 <div class="form-group mt-2">
     <label>* CNPJ:</label>
-    <input type="number" name="cnpj" class="form-control form-control-sm" placeholder="CNPJ:"
+    <input type="text" name="cnpj" class="form-control form-control-sm" placeholder="CNPJ:"
         value="{{ $tenant->cnpj ?? old('cnpj') }}">
 </div>
 <div class="form-group mt-2">
