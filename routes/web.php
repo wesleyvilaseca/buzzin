@@ -1,25 +1,25 @@
 <?php
 
-use App\Http\Controllers\Admin\ACL\PermissionController;
-use App\Http\Controllers\Admin\ACL\PermissionProfileController;
-use App\Http\Controllers\Admin\ACL\PermissionRoleController;
-use App\Http\Controllers\Admin\ACL\PlanProfileController;
-use App\Http\Controllers\Admin\ACL\ProfileController;
-use App\Http\Controllers\Admin\ACL\RoleController;
-use App\Http\Controllers\Admin\ACL\RoleUserController;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\CategoryProductController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\DetailPlanController;
-use App\Http\Controllers\Admin\PlanController;
-use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\TableController;
-use App\Http\Controllers\Admin\TenantController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Site\HomeController;
-use App\Http\Controllers\Site\SubscriptionsController;
+use App\Http\Controllers\Web\Admin\ACL\PermissionController;
+use App\Http\Controllers\Web\Admin\ACL\PermissionProfileController;
+use App\Http\Controllers\Web\Admin\ACL\PermissionRoleController;
+use App\Http\Controllers\Web\Admin\ACL\PlanProfileController;
+use App\Http\Controllers\Web\Admin\ACL\ProfileController;
+use App\Http\Controllers\Web\Admin\ACL\RoleController;
+use App\Http\Controllers\Web\Admin\ACL\RoleUserController;
+use App\Http\Controllers\Web\Admin\CategoryController;
+use App\Http\Controllers\Web\Admin\CategoryProductController;
+use App\Http\Controllers\Web\Admin\DashboardController;
+use App\Http\Controllers\Web\Admin\DetailPlanController;
+use App\Http\Controllers\Web\Admin\PlanController;
+use App\Http\Controllers\Web\Admin\ProductController;
+use App\Http\Controllers\Web\Admin\TableController;
+use App\Http\Controllers\Web\Admin\TenantController;
+use App\Http\Controllers\Web\Admin\UserController;
+use App\Http\Controllers\Web\Auth\LoginController;
+use App\Http\Controllers\Web\Auth\RegisterController;
+use App\Http\Controllers\Web\Site\HomeController;
+use App\Http\Controllers\Web\Site\SubscriptionsController;
 use Illuminate\Support\Facades\Route;
 
 /**

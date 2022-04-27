@@ -22,3 +22,11 @@ permissao: detail_fin
 permissao: add_fin
 permissao: view_produtos
 permissao: relatorios
+
+#api
+routes/api
+controllers
+    form request
+    resources
+    service layer
+    

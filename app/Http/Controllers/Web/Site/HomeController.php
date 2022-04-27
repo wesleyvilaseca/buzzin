@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Site;
+namespace App\Http\Controllers\Web\Site;
 
 use App\Http\Controllers\Controller;
 use App\Models\Plan;

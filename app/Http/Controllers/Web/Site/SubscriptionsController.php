@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Site;
+namespace App\Http\Controllers\Web\Site;
 
 use App\Events\TenantCreated;
 use App\Http\Controllers\Controller;
@@ -8,6 +8,8 @@ use App\Http\Requests\StoreUpdateTenant;
 use App\Models\Plan;
 use App\Services\TenantService;
 use Illuminate\Support\Facades\Redirect;
+
+use function Psy\debug;
 
 class SubscriptionsController extends Controller
 {
