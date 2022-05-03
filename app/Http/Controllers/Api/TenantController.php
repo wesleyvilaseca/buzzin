@@ -16,14 +16,17 @@ class TenantController extends Controller
         $this->tenantService = $tenantService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return TenantResource::collection($this->tenantService->getAllTenants());
+        $per_page = $request->get('per_page', 15);
+        return TenantResource::collection($this->tenantService->getAllTenants($per_page));
     }
 
     public function show($uuid)
     {
         $tenant = $this->tenantService->getTenantByUuid($uuid);
+        if(!$tenant) return response()->json(['message' => 'not found'], 404);
+
         return new TenantResource($tenant);
     }
 }
