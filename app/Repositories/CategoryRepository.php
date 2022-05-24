@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Repositories;
+
 use App\Models\Category;
 
 use App\Repositories\Contracts\CategoryRepositoryInterface;
@@ -8,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class CategoryRepository implements CategoryRepositoryInterface
 {
-    
+
     protected $table;
 
     public function __construct()
@@ -19,10 +20,10 @@ class CategoryRepository implements CategoryRepositoryInterface
     public function categories(string $uuid)
     {
         return DB::table($this->table)
-        ->join('tenants', 'tenants.id', '=', 'categories.tenant_id')
-        ->where('tenants.uuid', $uuid)
-        ->select('categories.*')
-        ->paginate();
+            ->join('tenants', 'tenants.id', '=', 'categories.tenant_id')
+            ->where('tenants.uuid', $uuid)
+            ->select('categories.*')
+            ->paginate();
     }
 
     public function categoriesByTenantId(string $id)
@@ -30,9 +31,17 @@ class CategoryRepository implements CategoryRepositoryInterface
         return DB::table($this->table)->where('tenant_id', $id)->paginate();
     }
 
-    public function getCategory()
+    public function getCategoryByUuid(string $uuid)
     {
+        return DB::table($this->table)
+            ->where('uuid', $uuid)
+            ->first();
+    }
 
-    
+    public function getCategoryByUrl(string $url)
+    {
+        return DB::table($this->table)
+            ->where('url', $url)
+            ->first();
     }
 }
