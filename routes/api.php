@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\AuthClientController;
+use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\TablesController;
@@ -7,16 +9,20 @@ use App\Http\Controllers\Api\TenantController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+Route::post('/auth/register', [RegisterController::class, 'store']);
+Route::post('/auth/token', [AuthClientController::class, 'auth']);
+
+Route::group([
+    'middleware' => ['auth:sanctum']
+], function () {
+    Route::get('/auth/me', [AuthClientController::class, 'me']);
+    Route::post('/auth/logout', [AuthClientController::class, 'logout']);
+
+    Route::post('/auth/v1/orders/{identifyOrder}/evaluations', 'Api\EvaluationApiController@store');
+
+    Route::get('/auth/v1/my-orders', 'Api\OrderApiController@myOrders');
+    Route::post('/auth/v1/orders', 'Api\OrderApiController@store');
+});
 
 Route::group([
     'prefix' => 'v1',
