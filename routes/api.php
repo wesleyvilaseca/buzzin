@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\AuthClientController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\TablesController;
 use App\Http\Controllers\Api\TenantController;
@@ -20,8 +21,8 @@ Route::group([
 
     Route::post('/auth/v1/orders/{identifyOrder}/evaluations', 'Api\EvaluationApiController@store');
 
-    Route::get('/auth/v1/my-orders', 'Api\OrderApiController@myOrders');
-    Route::post('/auth/v1/orders', 'Api\OrderApiController@store');
+    Route::get('/auth/v1/my-orders', [OrderController::class, 'myOrders']);
+    Route::post('/auth/v1/orders', [OrderController::class, 'store']);
 });
 
 Route::group([
@@ -39,6 +40,9 @@ Route::group([
 
     Route::get('/products/{identify}', [ProductController::class, 'show']);
     Route::get('/products', [ProductController::class, 'productsByTenant']);
+
+    Route::post('/orders', [OrderController::class, 'store']);
+    Route::get('/orders/{identify}', [OrderController::class, 'show']);
 });
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
