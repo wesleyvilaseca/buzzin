@@ -1,7 +1,7 @@
 #!/bin/bash
 cp .env.example .env
 sed -i 's/DB_HOST=127.0.0.1/DB_HOST=127.0.0.1/g' .env
-sed -i 's/DB_DATABASE=laravel/DB_DATABASE=codevilafood/g' .env
+sed -i 's/DB_DATABASE=laravel/DB_DATABASE=codevilafood_test/g' .env
 sed -i 's/DB_USERNAME=root/DB_USERNAME=wesley/g' .env
 sed -i 's/DB_PASSWORD=/DB_PASSWORD=root/g' .env
 composer install
