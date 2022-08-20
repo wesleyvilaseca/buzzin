@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['check.selected.plan']);
+    }
+    
     public function index()
     {
         $data['title'] = 'Register';
@@ -40,7 +45,7 @@ class RegisterController extends Controller
             'password'  => Hash::make($request->password),
         ]);
 
-        if(!$result){
+        if (!$result) {
             return redirect()->back()->with('error', 'Erro na operação');
         }
 
