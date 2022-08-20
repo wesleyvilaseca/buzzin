@@ -11,6 +11,7 @@ use App\Http\Controllers\Web\Admin\CategoryController;
 use App\Http\Controllers\Web\Admin\CategoryProductController;
 use App\Http\Controllers\Web\Admin\DashboardController;
 use App\Http\Controllers\Web\Admin\DetailPlanController;
+use App\Http\Controllers\Web\Admin\OrderController;
 use App\Http\Controllers\Web\Admin\PlanController;
 use App\Http\Controllers\Web\Admin\ProductController;
 use App\Http\Controllers\Web\Admin\TableController;
@@ -46,6 +47,9 @@ Route::post('/logout',      [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin-dashboard',                   [DashboardController::class, 'index'])->name('admin.dashboard');
+
+    // Orders
+    Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
 
     Route::prefix('admin-permissions')->group(function () {
         /**
@@ -227,7 +231,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{id}',             [TableController::class, 'show'])->name('table.show');
         Route::delete('/{id}',          [TableController::class, 'destroy'])->name('table.destroy');
 
-        Route::get('tables/qrcode/{identify}', 'TableController@qrcode')->name('table.qrcode');
+        Route::get('tables/qrcode/{identify}', [TableController::class, 'qrcode'])->name('table.qrcode');
     });
 
     Route::prefix('admin-tenants')->group(function () {

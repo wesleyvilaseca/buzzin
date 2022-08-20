@@ -8,6 +8,8 @@ use App\Models\Table;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
+use function Psy\debug;
+
 class TableController extends Controller
 {
     private $repository;
@@ -130,17 +132,18 @@ class TableController extends Controller
         return redirect()->route('admin.tables');
     }
 
-    // public function qrcode($identify)
-    // {
-    //     if (!$table = $this->repository->where('identify', $identify)->first()) {
-    //         return redirect()->back();
-    //     }
+    public function qrcode($identify)
+    {
+        if (!$table = $this->repository->where('identify', $identify)->first()) {
+            return redirect()->back();
+        }
 
-    //     $tenant = auth()->user()->tenant;
+        $tenant = auth()->user()->tenant;
+        $uri = env('APP_URL') . "/{$tenant->uuid}/{$table->uuid}";
 
-    //     $uri = env('URI_CLIENT') . "/{$tenant->uuid}/{$table->uuid}";
+        $data['tenant'] = $tenant;
+        $data['uri'] = $uri;
 
-    //     return view('admin.pages.tables.qrcode', compact('uri'));
-    // }
-
+        return view('admin.tables.qrcode', $data);
+    }
 }

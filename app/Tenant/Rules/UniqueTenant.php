@@ -34,9 +34,9 @@ class UniqueTenant implements Rule
         $tenantId = app(ManagerTenant::class)->getTenantIdentify();
 
         $register = DB::table($this->table)
-                            ->where($attribute, $value)
-                            ->where('tenant_id', $tenantId)
-                            ->first();
+            ->where($attribute, $value)
+            ->where('tenant_id', $tenantId)
+            ->first();
 
         if ($register && $register->{$this->collumn} == $this->value)
             return true;

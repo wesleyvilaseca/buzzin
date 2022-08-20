@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Tenant\Rules\UniqueTenant;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreUpdateTable extends FormRequest
@@ -31,7 +32,7 @@ class StoreUpdateTable extends FormRequest
                 'min:3',
                 'max:255',
                 //"unique:tables,identify,{$id},id"
-                // new UniqueTenant('tables', $id),
+                new UniqueTenant('tables', $id),
             ],
             'description' => ['required', 'min:3', 'max:1000'],
         ];

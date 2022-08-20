@@ -32,7 +32,7 @@ class StoreUpdateProduct extends FormRequest
                 'min:3',
                 'max:255',
                 //"unique:products,title,{$id},id"
-                // new UniqueTenant('products', $id),
+                new UniqueTenant('products', $id),
             ],
             'description' => ['required', 'min:3', 'max:500'],
             'image' => ['required', /*'image'*/],

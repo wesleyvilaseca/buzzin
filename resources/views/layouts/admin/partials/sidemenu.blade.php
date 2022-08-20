@@ -74,6 +74,15 @@
                         </li>
                     @endcan
 
+                    @can('pedidos')
+                        <li class="{{ @$order_m ? 'ativo' : '' }}">
+                            <a href="{{ route('orders.index') }}">
+                                <i class="fa-solid fa-spoon"></i>
+                                <span>Pedidos</span>
+                            </a>
+                        </li>
+                    @endcan
+
                     @can('tenants')
                         <li class="{{ @$ten ? 'ativo' : '' }}">
                             <a href="{{ route('admin.tenants') }}">
