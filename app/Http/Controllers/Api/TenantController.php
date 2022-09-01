@@ -22,10 +22,18 @@ class TenantController extends Controller
         return TenantResource::collection($this->tenantService->getAllTenants($per_page));
     }
 
+    public function showByFlag($flag)
+    {
+        $tenant = $this->tenantService->getTenantByFlag($flag);
+        if (!$tenant) return response()->json(['message' => 'not found'], 404);
+
+        return new TenantResource($tenant);
+    }
+
     public function show($uuid)
     {
         $tenant = $this->tenantService->getTenantByUuid($uuid);
-        if(!$tenant) return response()->json(['message' => 'not found'], 404);
+        if (!$tenant) return response()->json(['message' => 'not found'], 404);
 
         return new TenantResource($tenant);
     }

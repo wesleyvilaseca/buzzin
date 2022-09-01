@@ -61,7 +61,6 @@ class CategoryController extends Controller
     public function show($id)
     {
         $category = $this->repository->find($id);
-        // dd(!$category ? true : false);
         if (!$category)
             return Redirect::route('admin.categories')->with('warning', 'Operação não autorizada');
 
@@ -115,19 +114,11 @@ class CategoryController extends Controller
 
     public function update(StoreUpdateCategory $request, $id)
     {
+
         $category = $this->repository->find($id);
 
         if (!$category)
             return Redirect::back()->with('warning', 'Operação não autorizada');
-
-        if ($category->name !== $request->name) {
-            $exist = $this->repository->where([
-                'name' => $request->name
-            ])->first();
-
-            if ($exist)
-                return Redirect::back()->with('warning', 'Já existe uma categoria com esse nome');
-        }
 
         $result = $category->update($request->all());
         if (!$result)

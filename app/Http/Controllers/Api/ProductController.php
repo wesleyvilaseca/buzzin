@@ -23,7 +23,6 @@ class ProductController extends Controller
             $request->uuid,
             $request->get('categories', [])
         );
-
         return ProductResource::collection($products);
     }
 

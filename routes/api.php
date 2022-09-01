@@ -32,6 +32,7 @@ Route::group([
 ], function () {
     Route::get('/tenants', [TenantController::class, 'index']);
     Route::get('/tenants/{uuid}', [TenantController::class, 'show']);
+    Route::get('/tenants-by-flag/{flag}', [TenantController::class, 'showByFlag']);
 
     Route::get('/categories', [CategoryController::class, 'categories']);
     Route::get('/categories/{identify}',   [CategoryController::class, 'show']);

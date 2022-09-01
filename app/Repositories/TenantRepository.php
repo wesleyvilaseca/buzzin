@@ -23,4 +23,9 @@ class TenantRepository implements TenantRepositoryInterface
     {
         return $this->entity->where('uuid', $uuid)->first();
     }
+
+    public function getTenantByFlag(string $flag)
+    {
+        return $this->entity->where('url', $flag)->first();
+    }
 }

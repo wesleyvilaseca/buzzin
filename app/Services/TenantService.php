@@ -31,6 +31,11 @@ class TenantService
         return $this->repository->getTenantByUuid($uuid);
     }
 
+    public function getTenantByFlag(string $flag)
+    {
+        return $this->repository->getTenantByFlag($flag);
+    }
+
     public function make(Plan $plan, array $data)
     {
         $this->plan = $plan;
