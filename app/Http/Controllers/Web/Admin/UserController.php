@@ -11,21 +11,39 @@ use Illuminate\Support\Facades\Redirect;
 class UserController extends Controller
 {
     protected $repository;
+    protected $superAdmin;
+    private $user;
+
 
     public function __construct(ModelsUser $user)
     {
         $this->repository = $user;
 
         $this->middleware(['can:user']);
+
+        $this->middleware(function ($request, $next) {
+            $this->superAdmin = Auth()->user()->isAdmin();
+
+            if ($request->id) {
+                $this->user = $this->superAdmin ? $this->repository->find($request->id) : $this->repository->tenantUser()->find($request->id);
+                if (!$this->user) {
+                    return Redirect::back()->with('error', 'Operação não autorizada');
+                }
+            }
+            return $next($request);
+        });
     }
 
     public function index()
     {
+        $users = $this->superAdmin ? $this->repository->latest()->paginate() : $this->repository->latest()->tenantUser()->paginate();
+
         $data['title']              = 'Usuários';
         $data['toptitle']           = 'Usuários';
         $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
         $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Usuários', 'active' => true];
-        $data['users']            = $this->repository->latest()->tenantUser()->paginate();
+        $data['users']            = $users;
+        $data['superAdmin']       = $this->superAdmin;
         $data['us']               = true;
 
         return view('admin.user.index', $data);
@@ -33,12 +51,14 @@ class UserController extends Controller
 
     public function search(Request $request)
     {
+        $users = $this->superAdmin ? $this->repository->searchAll($request->filter) : $this->repository->search($request->filter);
         $data['title']              = 'Usuários';
         $data['toptitle']           = 'Usuários';
         $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
         $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Usuários', 'active' => true];
-        $data['users']              =  $this->repository->search($request->filter);
-        $data['filters']              = $request->except('_token');
+        $data['users']              = $users;
+        $data['filters']            = $request->except('_token');
+        $data['superAdmin']       = $this->superAdmin;
         $data['us']               = true;
 
         return view('admin.user.index', $data);
@@ -57,32 +77,24 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $user = $this->repository->tenantUser()->find($id);
-        if (!$user)
-            return Redirect::back()->with('error', 'Operação não autorizada');
-
-        $data['title']              = 'Editar usuário ' . $user->name;
-        $data['toptitle']           = 'Editar usuário ' . $user->name;
+        $data['title']              = 'Editar usuário ' . $this->user->name;
+        $data['toptitle']           = 'Editar usuário ' . $this->user->name;
         $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
-        $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Editar usuário ' . $user->name, 'active' => true];
+        $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Editar usuário ' . $this->user->name, 'active' => true];
         $data['us']               = true;
-        $data['user']             = $user;
+        $data['user']             = $this->user;
 
         return view('admin.user.edit', $data);
     }
 
     public function show($id)
     {
-        $user = $this->repository->tenantUser()->find($id);
-        if (!$user)
-            return Redirect::back()->with('error', 'Operação não autorizada');
-
-        $data['title']              = 'Usuário ' . $user->name;
-        $data['toptitle']           = 'Usuário ' . $user->name;
+        $data['title']              = 'Usuário ' . $this->user->name;
+        $data['toptitle']           = 'Usuário ' . $this->user->name;
         $data['breadcrumb'][]       = ['route' => route('admin.users'), 'title' => 'Dashboard'];
-        $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Usuário ' . $user->name, 'active' => true];
+        $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Usuário ' . $this->user->name, 'active' => true];
         $data['us']               = true;
-        $data['user']             = $user;
+        $data['user']             = $this->user;
 
         return view('admin.user.show', $data);
     }
@@ -94,8 +106,12 @@ class UserController extends Controller
             return Redirect::back()->with('warning', 'Já existe um usuário com as credênciais informadas');
 
         $data = $request->all();
-        $data['tenant_id'] = auth()->user()->tenant_id;
+         /**
+         * logic for a superadmin can create for any tenant
+         */
+        $data['tenant_id'] = $this->superAdmin && @$request->tenant_id ? $request->tenant_id : auth()->user()->tenant_id;
         $data['password'] = bcrypt($data['password']); // encrypt password
+
 
         $result = $this->repository->create($data);
         if (!$result)
@@ -106,11 +122,7 @@ class UserController extends Controller
 
     public function update(StoreUpdateUser $request, $id)
     {
-        $user = $this->repository->tenantUser()->find($id);
-        if (!$user)
-            return Redirect::back()->with('error', 'Operação não autorizada');
-
-        if ($request->email !== $user->email) {
+        if ($request->email !== $this->user->email) {
             $exist = $this->repository->where('email', $request->email)->first();
             if ($exist)
                 return Redirect::back()->with('warning', 'Já existe um usuário com essas credênciais');
@@ -121,18 +133,15 @@ class UserController extends Controller
         if ($request->password)
             $data['password'] = bcrypt($request->password);
 
-        $user->update($data);
+        $this->user->update($data);
+
 
         return Redirect::route('admin.users')->with('success', 'Usuário editado com sucesso');
     }
 
     public function destroy($id)
     {
-        $user = $this->repository->tenantUser()->find($id);
-        if (!$user)
-            return Redirect::back()->with('error', 'Operação não autorizada');
-
-        $user->delete();
+        $this->user->delete();
 
         return Redirect::route('admin.users')->with('success', 'Usuário removido com sucesso');
     }

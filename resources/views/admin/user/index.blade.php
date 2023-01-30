@@ -25,6 +25,9 @@
                 <thead>
                     <tr>
                         <th>Nome</th>
+                        @if ($superAdmin)
+                            <th>Empresa</th>
+                        @endif
                         <th>E-mail</th>
                         <th width="270">Ações</th>
                     </tr>
@@ -33,6 +36,9 @@
                     @forelse ($users as $user)
                         <tr>
                             <td>{{ $user->name }}</td>
+                            @if ($superAdmin)
+                                <td>{{ $user->tenant->name }}</td>
+                            @endif
                             <td>{{ $user->email }}</td>
                             <td style="width=10px;">
                                 <a href="{{ route('user.edit', $user->id) }}" class="btn btn-sm btn-info">
@@ -41,8 +47,7 @@
                                 <a href="{{ route('user.show', $user->id) }}" class="btn btn-sm btn-warning">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
-                                <a href="{{ route('users.roles', $user->id) }}" class="btn btn-sm btn-info"
-                                    title="Cargos">
+                                <a href="{{ route('users.roles', $user->id) }}" class="btn btn-sm btn-info" title="Cargos">
                                     <i class="fas fa-address-card"></i>
                                 </a>
                             </td>

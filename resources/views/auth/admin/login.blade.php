@@ -33,6 +33,15 @@
                                 <label for="password" class="col-md-4 col-form-label text-md-right">Senha</label>
                                 <input type="password" class="form-control form-control-sm" name="password" required>
                             </div>
+
+                            <div class="form-group mt-2">
+                                <select class="form-select form-control-sm" name="tipo_login" required>
+                                    <option selected disabled>Selecione uma opção</option>
+                                    <option value="1">Sou lojista</option>
+                                    <option value="2">Sou cliente</option>
+                                </select>
+                            </div>
+
                             <div align="right">
                                 <button type="submit" id="sendlogin" class="btn btn-primary btn-sm mt-2">login</button>
                             </div>
@@ -61,27 +70,33 @@
         text-align: left;
         background-color: #f5f8fa;
     }
+
     .navbar-laravel {
         box-shadow: 0 2px 4px rgba(0, 0, 0, .04);
     }
+
     .navbar-brand,
     .nav-link,
     .my-form,
     .login-form {
         font-family: Raleway, sans-serif;
     }
+
     .my-form {
         padding-top: 1.5rem;
         padding-bottom: 1.5rem;
     }
+
     .my-form .row {
         margin-left: 0;
         margin-right: 0;
     }
+
     .login-form {
         padding-top: 1.5rem;
         padding-bottom: 1.5rem;
     }
+
     .login-form .row {
         margin-left: 0;
         margin-right: 0;
@@ -89,4 +104,3 @@
 </style>
 
 </html>
-

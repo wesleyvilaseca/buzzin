@@ -107,4 +107,16 @@ class User extends Authenticatable
 
         return $results;
     }
+
+    public function searchAll($filter = null)
+    {
+        $results = $this->where([
+            ['name', 'LIKE', "%{$filter}%"],
+        ])
+            ->orWhere([
+                ['email', 'LIKE', "%{$filter}%"],
+            ])
+            ->paginate();
+        return $results;
+    }
 }

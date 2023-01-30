@@ -8,12 +8,15 @@ use App\Http\Controllers\Web\Admin\ACL\ProfileController;
 use App\Http\Controllers\Web\Admin\ACL\RoleController;
 use App\Http\Controllers\Web\Admin\ACL\RoleUserController;
 use App\Http\Controllers\Web\Admin\CategoryController;
+use App\Http\Controllers\Web\Admin\CategoryMarketsController;
 use App\Http\Controllers\Web\Admin\CategoryProductController;
+use App\Http\Controllers\Web\Admin\CategoryProductMarketController;
 use App\Http\Controllers\Web\Admin\DashboardController;
 use App\Http\Controllers\Web\Admin\DetailPlanController;
 use App\Http\Controllers\Web\Admin\OrderController;
 use App\Http\Controllers\Web\Admin\PlanController;
 use App\Http\Controllers\Web\Admin\ProductController;
+use App\Http\Controllers\Web\Admin\ProductMarketsController;
 use App\Http\Controllers\Web\Admin\TableController;
 use App\Http\Controllers\Web\Admin\TenantController;
 use App\Http\Controllers\Web\Admin\UserController;
@@ -246,5 +249,43 @@ Route::middleware(['auth'])->group(function () {
         Route::any('/search',            [TenantController::class, 'search'])->name('tenant.search');
         Route::get('/{id}',             [TenantController::class, 'show'])->name('tenant.show');
         Route::delete('/{id}',          [TenantController::class, 'destroy'])->name('tenant.destroy');
+    });
+
+    Route::prefix('admin-category-markets')->group(function () {
+        /**
+         * Routes categories
+         */
+        Route::get('/',                 [CategoryMarketsController::class, 'index'])->name('admin.categories.market');
+        Route::get('/create',           [CategoryMarketsController::class, 'create'])->name('market.category.create');
+        Route::post('/',                [CategoryMarketsController::class, 'store'])->name('market.category.store');
+        Route::put('/{id}',             [CategoryMarketsController::class, 'update'])->name('market.category.update');
+        Route::get('/{id}/edit',        [CategoryMarketsController::class, 'edit'])->name('market.category.edit');
+        Route::any('/search',           [CategoryMarketsController::class, 'search'])->name('market.category.search');
+        Route::get('/{id}',             [CategoryMarketsController::class, 'show'])->name('market.category.show');
+        Route::delete('/{id}',          [CategoryMarketsController::class, 'destroy'])->name('market.category.destroy');
+    });
+
+
+    Route::prefix('admin-product-markets')->group(function () {
+        /**
+         * Routes products markets
+         */
+        Route::get('/',                 [ProductMarketsController::class, 'index'])->name('admin.products.market');
+        Route::get('/create',           [ProductMarketsController::class, 'create'])->name('market.product.create');
+        Route::post('/',                [ProductMarketsController::class, 'store'])->name('market.product.store');
+        Route::put('/{id}',             [ProductMarketsController::class, 'update'])->name('market.product.update');
+        Route::get('/{id}/edit',        [ProductMarketsController::class, 'edit'])->name('market.product.edit');
+        Route::any('/search',           [ProductMarketsController::class, 'search'])->name('market.product.search');
+        Route::get('/{id}',             [ProductMarketsController::class, 'show'])->name('market.product.show');
+        Route::delete('/{id}',          [ProductMarketsController::class, 'destroy'])->name('market.product.destroy');
+
+        /**
+         * Product x Category
+         */
+        Route::get('{id}/category/{idCategory}/detach', [CategoryProductMarketController::class, 'detachCategoryProduct'])->name('market.products.category.detach');
+        Route::any('{id}/categories/create', [CategoryProductMarketController::class, 'categoriesAvailable'])->name('market.products.categories.available');
+        Route::post('{id}/categories', [CategoryProductMarketController::class, 'attachCategoriesProduct'])->name('market.products.categories.attach');
+        Route::get('{id}/categories',  [CategoryProductMarketController::class, 'categories'])->name('market.product.categories');
+        Route::get('{id}/products',  [CategoryProductMarketController::class, 'products'])->name('market.categories.products');
     });
 });

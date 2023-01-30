@@ -112,6 +112,25 @@
                             </div>
                         </li>
                     @endcan
+
+                    @can('categoryMarkets')
+                        <li class="{{ @$marketCateg ? 'ativo' : '' }}">
+                            <a href="{{ route('admin.categories.market') }}">
+                                <i class="fa-solid fa-building"></i>
+                                <span>Categorias Supermercados</span>
+                            </a>
+                        </li>
+                    @endcan
+
+                    @can('productsMarkets')
+                        <li class="{{ @$marketProd ? 'ativo' : '' }}">
+                            <a href="{{ route('admin.products.market') }}">
+                                <i class="fa-solid fa-building"></i>
+                                <span>Produtos Supermercados</span>
+                            </a>
+                        </li>
+                    @endcan
+
             </div>
         </div>
 </nav>

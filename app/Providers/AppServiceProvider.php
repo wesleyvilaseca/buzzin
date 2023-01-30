@@ -14,6 +14,7 @@ use App\Observers\PlanObserver;
 use App\Observers\ProductObserver;
 use App\Observers\TableObserver;
 use App\Observers\TenantObserver;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -36,6 +37,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Paginator::useBootstrap();
         Plan::observe(PlanObserver::class);
         Tenant::observe(TenantObserver::class);
         Category::observe(CategoryObserver::class);

@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateTenant;
 use App\Models\Plan;
 use App\Models\Tenant;
+use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 
@@ -16,6 +19,7 @@ class TenantController extends Controller
 {
     private $repository;
     private $plans;
+    private $superAdmin;
 
     public function __construct(
         Tenant $produtc,
@@ -25,6 +29,11 @@ class TenantController extends Controller
         $this->plans = $plans;
 
         $this->middleware(['can:tenants']);
+
+        $this->middleware(function ($request, $next) {
+            $this->superAdmin = Auth()->user()->isAdmin();
+            return $next($request);
+        });
     }
 
     public function index()
@@ -172,15 +181,29 @@ class TenantController extends Controller
 
     public function destroy($id)
     {
-        $tenant = $this->repository->find($id);
-        if (!$tenant)
-            return Redirect::back()->with('error', 'Operação não autorizada');
+        if (!$this->superAdmin) return Redirect::back()->with('error', 'Operação não autorizada');
 
-        if (Storage::exists($tenant->image))
-            Storage::delete($tenant->image);
+        $tenant = $this->repository->find($id);
+
+        if (!$tenant) return Redirect::back()->with('error', 'Operação não autorizada');
+
+            DB::beginTransaction();
+            try {
+
+                if (Storage::exists($tenant->image)) Storage::delete($tenant->image);
+    
+                $tenant_user = User::where('tenant_id', $tenant->id)->get();
+                if ($tenant_user)  User::where('tenant_id', $tenant->id)->delete();
+    
+                $this->repository->where('id', $tenant->id)->delete();
+                DB::commit();
+                return Redirect::route('admin.tenants')->with('success', 'Empresa apagada com sucesso');
+            } catch (ModelNotFoundException $exception) {
+                DB::rollback();
+                return Redirect::route('admin.tenants')->with('error', 'Houve um erro ao apagar a empresa');
+            }
 
         $tenant->delete();
-
         return Redirect::route('admin.tenants')->with('success', 'Empresa removido com sucesso');
     }
 }

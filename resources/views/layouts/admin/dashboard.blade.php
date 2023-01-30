@@ -34,8 +34,16 @@
             <i class="fas fa-bars"></i>
         </a>
 
+
+        @if (Request::session()->get('tipo_login')[0] == 1)
+            @include('layouts.admin.partials.sidemenu')
+        @endif
+
+        @if (Request::session()->get('tipo_login')[0] == 2)
+            @include('layouts.admin.partials.sidemenu_client')
+        @endif
+
         @include('layouts.admin.partials.topbar')
-        @include('layouts.admin.partials.sidemenu')
 
         <main class="page-content">
             <div class="container-fluid">

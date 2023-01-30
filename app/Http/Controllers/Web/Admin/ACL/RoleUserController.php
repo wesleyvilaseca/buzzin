@@ -12,88 +12,83 @@ class RoleUserController extends Controller
 {
     protected $user;
     protected $role;
+    protected $superAdmin;
+    protected $userRepository;
 
-    public function __construct(ModelsUser $user, Role $role)
+    public function __construct(ModelsUser $userRepository, Role $role)
     {
-        $this->user = $user;
+        $this->userRepository = $userRepository;
         $this->role = $role;
+
+        $this->middleware(function ($request, $next) {
+            $this->superAdmin = Auth()->user()->isAdmin();
+
+            if ($request->id) {
+                $this->user = $this->superAdmin ? $this->userRepository->find($request->id) : $this->userRepository->tenantUser()->find($request->id);
+                if (!$this->user) {
+                    return Redirect::back()->with('error', 'Operação não autorizada');
+                }
+            }
+            return $next($request);
+        });
     }
 
-    public function roles($user_id)
+    public function roles()
     {
-        $user = $this->user->tenantUser()->find($user_id);
-        if (!$user)
-            return Redirect::back()->with('error', 'Operação não autorizada');
-
-        $data['title']              = 'Permissões do usuário ' . $user->name;
-        $data['toptitle']           = 'Permissões do usuário ' . $user->name;
+        $data['title']              = 'Permissões do usuário ' . $this->user->name;
+        $data['toptitle']           = 'Permissões do usuário ' . $this->user->name;
         $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
-        $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Permissões do usuário ' . $user->name, 'active' => true];
+        $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Permissões do usuário ' . $this->user->name, 'active' => true];
         $data['us'] = true;
-        $data['user'] = $user;
-        $data['roles'] = $user->roles()->paginate();
+        $data['user'] = $this->user;
+        $data['roles'] = $this->user->roles()->paginate();
 
         return view('admin.user_roles.index', $data);
     }
 
-    public function rolesAvailable(Request $request, $user_id)
+    public function rolesAvailable(Request $request)
     {
-        $user = $this->user->tenantUser()->find($user_id);
-        if (!$user)
-            return Redirect::back()->with('error', 'Operação não autorizada');
-
-        $data['title']              = 'Editar permissões do usuário ' . $user->name;
-        $data['toptitle']           = 'Editar permissões do usuário ' . $user->name;
+        $data['title']              = 'Editar permissões do usuário ' . $this->user->name;
+        $data['toptitle']           = 'Editar permissões do usuário ' . $this->user->name;
         $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
-        $data['breadcrumb'][]       = ['route' => route('users.roles', $user->id), 'title' => 'Permissões do usuário ' . $user->name];
-        $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Editar permissões do usuário ' . $user->name, 'active' => true];
-        $data['user'] = $user;
+        $data['breadcrumb'][]       = ['route' => route('users.roles', $this->user->id), 'title' => 'Permissões do usuário ' . $this->user->name];
+        $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Editar permissões do usuário ' . $this->user->name, 'active' => true];
+        $data['user'] = $this->user;
         $data['filters'] = $request->except('_token');
-        $data['roles'] = $user->rolesAvailable($request->filter);
+        $data['roles'] = $this->user->rolesAvailable($request->filter);
 
         return view('admin.user_roles.avaliable', $data);
     }
 
 
-    public function users($idRole)
+    public function users(Request $request)
     {
-        if (!$role = $this->role->find($idRole)) {
-            return redirect()->back();
-        }
-
+        if (!$role = $this->role->find($request->idRole)) return redirect()->back();
         $users = $role->users()->paginate();
-
         return view('admin.pages.roles.users.users', compact('role', 'users'));
     }
 
-    public function attachRolesUser(Request $request, $idUser)
+    public function attachRolesUser(Request $request)
     {
-        if (!$user = $this->user->find($idUser)) {
-            return redirect()->back();
-        }
-
         if (!$request->roles || count($request->roles) == 0) {
             return redirect()
                 ->back()
                 ->with('info', 'Precisa escolher pelo menos uma permissão');
         }
 
-        $user->roles()->attach($request->roles);
+        $this->user->roles()->attach($request->roles);
 
-        return redirect()->route('users.roles', $user->id);
+        return redirect()->route('users.roles', $this->user->id);
     }
 
-    public function detachRoleUser($idUser, $idRole)
+    public function detachRoleUser(Request $request)
     {
-        $user = $this->user->find($idUser);
-        $role = $this->role->find($idRole);
+        $role = $this->role->find($request->idRole);
 
-        if (!$user || !$role) {
-            return redirect()->back();
-        }
+        if (!$role) return redirect()->back();
 
-        $user->roles()->detach($role);
+        $this->user->roles()->detach($role);
 
-        return redirect()->route('users.roles', $user->id);
+        return redirect()->route('users.roles', $this->user->id);
     }
 }
