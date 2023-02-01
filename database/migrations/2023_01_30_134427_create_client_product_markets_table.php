@@ -18,6 +18,7 @@ class CreateClientProductMarketsTable extends Migration
             $table->unsignedBigInteger('client_id');
             $table->unsignedBigInteger('product_market_id');
             $table->double('quantity', 10, 2);
+            $table->timestamps();
         });
     }
 

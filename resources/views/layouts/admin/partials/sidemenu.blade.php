@@ -2,7 +2,7 @@
     <div class="sidebar-content">
         <div class="sidebar-brand">
             <img src="" alt="">
-            <a href="#">CodeVilaFood</a>
+            <a href="#">CodeVila - Finanças</a>
             <div id="close-sidebar">
                 <i class="fas fa-times"></i>
             </div>
@@ -47,7 +47,25 @@
                         </li>
                     @endcan
 
-                    @can('categories')
+                    @can('categoryMarkets')
+                        <li class="{{ @$marketCateg ? 'ativo' : '' }}">
+                            <a href="{{ route('admin.categories.market') }}">
+                                <i class="fa-solid fa-code-branch"></i>
+                                <span>Categorias Supermercados</span>
+                            </a>
+                        </li>
+                    @endcan
+
+                    @can('productsMarkets')
+                        <li class="{{ @$marketProd ? 'ativo' : '' }}">
+                            <a href="{{ route('admin.products.market') }}">
+                                <i class="fa-solid fa-box"></i>
+                                <span>Produtos Supermercados</span>
+                            </a>
+                        </li>
+                    @endcan
+
+                    {{-- @can('categories')
                         <li class="{{ @$cat ? 'ativo' : '' }}">
                             <a href="{{ route('admin.categories') }}">
                                 <i class="fa-solid fa-code-branch"></i>
@@ -90,7 +108,7 @@
                                 <span>empresas</span>
                             </a>
                         </li>
-                    @endcan
+                    @endcan --}}
 
 
                     @can('acl')
@@ -112,25 +130,6 @@
                             </div>
                         </li>
                     @endcan
-
-                    @can('categoryMarkets')
-                        <li class="{{ @$marketCateg ? 'ativo' : '' }}">
-                            <a href="{{ route('admin.categories.market') }}">
-                                <i class="fa-solid fa-building"></i>
-                                <span>Categorias Supermercados</span>
-                            </a>
-                        </li>
-                    @endcan
-
-                    @can('productsMarkets')
-                        <li class="{{ @$marketProd ? 'ativo' : '' }}">
-                            <a href="{{ route('admin.products.market') }}">
-                                <i class="fa-solid fa-building"></i>
-                                <span>Produtos Supermercados</span>
-                            </a>
-                        </li>
-                    @endcan
-
             </div>
         </div>
 </nav>

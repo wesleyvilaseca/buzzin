@@ -16,7 +16,8 @@ class CreateClientProductStockOutsTable extends Migration {
             $table->unsignedBigInteger('client_id');
             $table->unsignedBigInteger('product_market_id');
             $table->double('quantity', 10, 2);
-            $table->unsignedBigInteger('weight_class_id');
+            $table->text('anotation')->nullable();
+            $table->timestamps();
 
             $table->foreign('product_market_id')
                 ->references('id')

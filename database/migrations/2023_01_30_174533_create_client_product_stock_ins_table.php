@@ -18,7 +18,9 @@ class CreateClientProductStockInsTable extends Migration {
             $table->string('nota', 100)->nullable();
             $table->double('price', 10, 2);
             $table->double('quantity', 10, 2);
+            $table->text('anotation')->nullable();
             $table->unsignedBigInteger('weight_class_id')->nullable();
+            $table->timestamps();
 
             $table->foreign('product_market_id')
                 ->references('id')
