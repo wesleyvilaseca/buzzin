@@ -47,25 +47,7 @@
                         </li>
                     @endcan
 
-                    @can('categoryMarkets')
-                        <li class="{{ @$marketCateg ? 'ativo' : '' }}">
-                            <a href="{{ route('admin.categories.market') }}">
-                                <i class="fa-solid fa-code-branch"></i>
-                                <span>Categorias Supermercados</span>
-                            </a>
-                        </li>
-                    @endcan
-
-                    @can('productsMarkets')
-                        <li class="{{ @$marketProd ? 'ativo' : '' }}">
-                            <a href="{{ route('admin.products.market') }}">
-                                <i class="fa-solid fa-box"></i>
-                                <span>Produtos Supermercados</span>
-                            </a>
-                        </li>
-                    @endcan
-
-                    {{-- @can('categories')
+                    @can('categories')
                         <li class="{{ @$cat ? 'ativo' : '' }}">
                             <a href="{{ route('admin.categories') }}">
                                 <i class="fa-solid fa-code-branch"></i>
@@ -108,7 +90,7 @@
                                 <span>empresas</span>
                             </a>
                         </li>
-                    @endcan --}}
+                    @endcan
 
 
                     @can('acl')

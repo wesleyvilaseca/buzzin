@@ -34,14 +34,6 @@
                                 <input type="password" class="form-control form-control-sm" name="password" required>
                             </div>
 
-                            <div class="form-group mt-2">
-                                <select class="form-select form-control-sm" name="tipo_login" required>
-                                    <option selected disabled>Selecione uma opção</option>
-                                    <option value="1">Sou lojista</option>
-                                    <option value="2">Sou cliente</option>
-                                </select>
-                            </div>
-
                             <div align="right">
                                 <button type="submit" id="sendlogin" class="btn btn-primary btn-sm mt-2">login</button>
                             </div>
