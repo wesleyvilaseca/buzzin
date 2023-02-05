@@ -35,6 +35,24 @@
                                 placeholder="Nome:" value="{{ @$zone->name ?? old('name') }}" required minlength="5">
                         </div>
 
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mt-2">
+                                    <label>Informe a latitude do ponto central:</label>
+                                    <input type="text" name="lat" id="lat" class="form-control form-control-sm"
+                                        placeholder="-1.12345" value="" required />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group mt-2">
+                                    <label>Informe a longitude do ponto central:</label>
+                                    <input type="text" name="lng" id="lng" class="form-control form-control-sm"
+                                        placeholder="3.45654" value="" required />
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="top-section mt-2">
                             Tempo estimado para entrega
                         </div>
@@ -124,6 +142,8 @@
 
 @section('js')
     <script>
+        var lat = -1.39874;
+        var lng = -48.43870;
         const is_edit = "{{ $is_edit }}";
         var edit_coordinate = '{{ @$zone->coordinates }}';
         var map;
@@ -131,11 +151,36 @@
         var selectedShape;
         var shapeExists = false;
 
+        document.getElementById('lat').addEventListener('change', function() {
+            lat = this.value;
+            if (document.getElementById('lng').value) {
+                lng = document.getElementById('lng').value;
+            }
+
+            map.setCenter({
+                lat: parseFloat(lat),
+                lng: parseFloat(lng)
+            });
+        });
+
+        document.getElementById('lng').addEventListener('change', function() {
+            if (document.getElementById('lat').value) {
+                lat = document.getElementById('lat').value;
+            }
+            
+            lng = this.value;
+
+            map.setCenter({
+                lat: parseFloat(lat),
+                lng: parseFloat(lng)
+            });
+        });
+
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
                 center: {
-                    lat: -1.39874,
-                    lng: -48.43870
+                    lat: lat,
+                    lng: lng
                 },
                 zoom: 15
             });
