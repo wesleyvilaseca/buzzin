@@ -24,9 +24,7 @@ class StoreUpdateZones extends FormRequest {
         $id = $this->segment(3);
 
         return [
-            'name'  => [
-                'required', 'string', 'max:255', "unique:zones,name,{$this->id}",
-            ],
+            'name'  => ['required', 'string', 'max:255', "unique:zones,name,{$this->id}"],
             'coordinates' => ['required'],
             'delivery_time_ini' => ['required', 'numeric'],
             'delivery_time_end' => ['required', 'numeric'],

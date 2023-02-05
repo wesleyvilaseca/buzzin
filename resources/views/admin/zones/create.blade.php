@@ -32,7 +32,7 @@
                         <div class="form-group mt-2">
                             <label>Nome da zona de entrega:</label>
                             <input type="text" name="name" id="name" class="form-control form-control-sm"
-                                placeholder="Nome:" value="{{ $zone->name ?? old('name') }}" required minlength="5">
+                                placeholder="Nome:" value="{{ @$zone->name ?? old('name') }}" required minlength="5">
                         </div>
 
                         <div class="top-section mt-2">
@@ -45,7 +45,7 @@
                                     <label>Tempo inicial:</label>
                                     <input type="number" name="delivery_time_ini" id="delivery_time_ini"
                                         class="form-control form-control-sm" placeholder="40"
-                                        value="{{ $zone->delivery_time_ini ?? old('delivery_time_ini') }}" required />
+                                        value="{{ @$zone->delivery_time_ini ?? old('delivery_time_ini') }}" required />
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -53,7 +53,7 @@
                                     <label>Tempo final:</label>
                                     <input type="number" name="delivery_time_end" id="delivery_time_end"
                                         class="form-control form-control-sm" placeholder="60"
-                                        value="{{ $zone->delivery_time_end ?? old('delivery_time_end') }}" required />
+                                        value="{{ @$zone->delivery_time_end ?? old('delivery_time_end') }}" required />
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -62,10 +62,10 @@
                                     <select class="form-select form-select-sm" name="time_type" id="time_type"
                                         aria-label="Default select example">
                                         <option selected disabled>Selecione uma opção</option>
-                                        <option {{ $zone->time_type == 1 ? 'selected' : '' }} value="1">Minutos
+                                        <option {{ @$zone->time_type == 1 ? 'selected' : '' }} value="1">Minutos
                                         </option>
-                                        <option {{ $zone->time_type == 2 ? 'selected' : '' }} value="2">Horas</option>
-                                        <option {{ $zone->time_type == 3 ? 'selected' : '' }} value="3">Dias</option>
+                                        <option {{ @$zone->time_type == 2 ? 'selected' : '' }} value="2">Horas</option>
+                                        <option {{ @$zone->time_type == 3 ? 'selected' : '' }} value="3">Dias</option>
                                     </select>
                                 </div>
                             </div>
@@ -75,7 +75,7 @@
                             <label>Valor da entrega: <small class="text-danger">'caso seja grátis, deixe o campo vazio'
                                 </small></label>
                             <input type="text" name="price" id="price" class="form-control form-control-sm"
-                                onkeyup="Helper.prototype.formatCurrency(this)" value="{{ $zone->price ?? old('price') }}"
+                                onkeyup="Helper.prototype.formatCurrency(this)" value="{{ @$zone->price ?? old('price') }}"
                                 required />
                         </div>
 
@@ -86,15 +86,15 @@
                                     informado abaixo' </small></label>
                             <input type="text" name="free_when" id="free_when" class="form-control form-control-sm"
                                 onkeyup="Helper.prototype.formatCurrency(this)"
-                                value="{{ $zone->free_when ?? old('free_when') }}" required />
+                                value="{{ @$zone->free_when ?? old('free_when') }}" required />
                         </div>
 
                         <div class="form-group mt-2">
                             <label>Status</label>
                             <select class="form-select form-select-sm" name="active" id="active"
                                 aria-label="Default select example">
-                                <option {{ $zone->active == 1 ? 'selected' : '' }} value="1">Ativo</option>
-                                <option {{ $zone->active == 0 ? 'selected' : '' }} value="0">Inativo</option>
+                                <option {{ @$zone->active == 1 ? 'selected' : '' }} value="1">Ativo</option>
+                                <option {{ @$zone->active == 0 ? 'selected' : '' }} value="0">Inativo</option>
                             </select>
                         </div>
                     </div>
@@ -124,13 +124,12 @@
 
 @section('js')
     <script>
-        const is_edit = "{{ @$is_edit && $is_edit == true ? 1 : 0 }}";
-        const edit_coordinate = '{{ @$zone->coordinates }}';
+        const is_edit = "{{ $is_edit }}";
+        var edit_coordinate = '{{ @$zone->coordinates }}';
         var map;
         var drawingManager;
         var selectedShape;
         var shapeExists = false;
-
 
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
@@ -160,16 +159,14 @@
                 if (event.type === 'polygon') {
                     var newShape = event.overlay;
                     newShape.type = event.type;
+
+                    disabledDrawing()
+
                     google.maps.event.addListener(newShape, 'click', function() {
                         setSelection(newShape);
                     });
                     setSelection(newShape);
                     shapeExists = true;
-                    drawingManager.setOptions({
-                        drawingControlOptions: {
-                            drawingModes: []
-                        }
-                    });
                 }
             });
 
@@ -179,7 +176,16 @@
             document.getElementById('delete-button').addEventListener('click', deleteSelectedShape);
             document.getElementById('save-button').addEventListener('click', saveShape);
 
-            if (is_edit) {
+            if (is_edit == 'S') {
+                const polygonCoords = [
+                    @foreach ($zone->coordinates[0] as $coords)
+                        {
+                            lat: {{ $coords->getLat() }},
+                            lng: {{ $coords->getLng() }}
+                        },
+                    @endforeach
+                ];
+                edit_coordinate = polygonCoords;
                 shapeExists = true;
                 setShapeFromDb();
             }
@@ -187,8 +193,9 @@
         }
 
         function setShapeFromDb() {
+            disabledDrawing()
             var polygon = new google.maps.Polygon({
-                paths: JSON.parse(edit_coordinate.replace(/&quot;/g, '"')),
+                paths: edit_coordinate,
                 strokeColor: '#FF0000',
                 strokeOpacity: 0.8,
                 strokeWeight: 2,
@@ -197,6 +204,8 @@
             });
 
             polygon.setMap(map);
+
+            setSelection(polygon);
 
             // Adicionando o listener de eventos "dragend" ao shape
             google.maps.event.addListener(polygon, 'dragend', function() {
@@ -208,12 +217,16 @@
                 setSelection(this);
             });
 
+        }
+
+        function disabledDrawing() {
             //desabilita a possibilidade de desenhar um poligono
             drawingManager.setOptions({
                 drawingControlOptions: {
                     drawingModes: []
                 }
             });
+            drawingManager.setDrawingMode(null)
         }
 
         function setSelection(shape) {
@@ -276,9 +289,8 @@
 
             // Envie os dados para o back-end via AJAX
             $.ajax({
-                type: is_edit ? 'PUT' : 'POST',
-                url: is_edit ? "{{ route('zone.geolocation.update', [$zone->id]) }}" :
-                    "{{ route('zone.geolocation.store') }}",
+                type: "{{ $method }}",
+                url: "{{ $routeAction }}",
                 data: data,
                 success: function(data) {
                     console.log('Shape saved successfully');
