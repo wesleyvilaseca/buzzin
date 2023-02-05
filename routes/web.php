@@ -20,6 +20,7 @@ use App\Http\Controllers\Web\Admin\ProductMarketsController;
 use App\Http\Controllers\Web\Admin\TableController;
 use App\Http\Controllers\Web\Admin\TenantController;
 use App\Http\Controllers\Web\Admin\UserController;
+use App\Http\Controllers\Web\Admin\ZonesGeolocationController;
 use App\Http\Controllers\Web\Auth\LoginController;
 use App\Http\Controllers\Web\Auth\RegisterController;
 use App\Http\Controllers\Web\Site\HomeController;
@@ -123,6 +124,37 @@ Route::middleware(['auth'])->group(function () {
         Route::get('{id}/permission',                               [PermissionProfileController::class, 'permissions'])->name('profile.permissions');
         Route::get('{id}/permissions',                              [PermissionProfileController::class, 'profiles'])->name('permissions.profiles');
     });
+
+
+    Route::prefix('admin-zones')->group(function () {
+        /**
+         * routes zones
+         */
+        Route::get('/',            [ZonesGeolocationController::class, 'index'])->name('admin.zones.geolocation');
+        Route::get('/create', [ZonesGeolocationController::class, 'create'])->name('zone.geolocation.create');
+        Route::post('/create', [ZonesGeolocationController::class, 'store'])->name('zone.geolocation.store');
+        Route::get('/{id}/edit',   [ZonesGeolocationController::class, 'edit'])->name('zone.geolocation.edit');
+        Route::put('/{id}/edit',   [ZonesGeolocationController::class, 'update'])->name('zone.geolocation.update');
+        // Route::get('/create',      [ProfileController::class, 'create'])->name('profiles.create');
+        // Route::post('/',           [ProfileController::class, 'store'])->name('profiles.store');
+
+        // Route::put('/{id}',        [ProfileController::class, 'update'])->name('profiles.update');
+
+        // Route::get('/{id}/show',   [ProfileController::class, 'show'])->name('profiles.show');
+        // Route::delete('/{id}',     [ProfileController::class, 'destroy'])->name('profiles.destroy');
+
+        // Route::any('/search',      [ProfileController::class, 'search'])->name('profiles.search');
+
+        /**
+         * permissions x profile
+         */
+        Route::get('{id}/permission/{idPermission}/detach',         [PermissionProfileController::class, 'detachPermissionProfile'])->name('profiles.permission.detach');
+        Route::post('{id}/permissions',                             [PermissionProfileController::class, 'attachPermissionsProfile'])->name('profiles.permissions.attach');
+        Route::any('{id}/permissions/create',                       [PermissionProfileController::class, 'permissionsAvailable'])->name('profiles.permissions.available');
+        Route::get('{id}/permission',                               [PermissionProfileController::class, 'permissions'])->name('profile.permissions');
+        Route::get('{id}/permissions',                              [PermissionProfileController::class, 'profiles'])->name('permissions.profiles');
+    });
+
 
 
     Route::prefix('admin-plan')->group(function () {

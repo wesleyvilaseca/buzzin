@@ -92,6 +92,25 @@
                         </li>
                     @endcan
 
+                    @can('zones')
+                    <li class="sidebar-dropdown {{ @$_zone ? 'active_side' : '' }}">
+                        <a>
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span>Zonas de entrega</span>
+                        </a>
+                        <div class="sidebar-submenu {{ @$_zone ? 'd-block' : '' }}">
+                            <ul>
+                                <li class="{{ @$geo ? 'ativo' : '' }}">
+                                    <a href="{{ route('admin.zones.geolocation') }}">Por geolocalização</a>
+                                </li>
+
+                                <li class="{{ @$cep ? 'ativo' : '' }}">
+                                    <a href="#">Por CEP</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                @endcan
 
                     @can('acl')
                         <li class="sidebar-dropdown {{ @$perm ? 'active_side' : '' }}">
@@ -112,6 +131,8 @@
                             </div>
                         </li>
                     @endcan
+                </ul>
             </div>
         </div>
+    </div>
 </nav>

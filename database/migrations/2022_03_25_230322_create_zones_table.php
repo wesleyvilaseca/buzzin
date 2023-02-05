@@ -14,13 +14,18 @@ class CreateZonesTable extends Migration
     public function up()
     {
         Schema::create('zones', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('tenant_id');
-            $table->string('name')->unique();
-            $table->polygon('coordinates')->nullable();
-            $table->time('delivery_time_ini', $precision = 0)->nullable();
-            $table->time('delivery_time_end', $precision = 0)->nullable();
-            $table->enum('active', ['Y', 'N'])->default('Y');
+            $table->string('name');
+            $table->json('coordinates')->nullable();
+            $table->string('delivery_time_ini')->nullable();
+            $table->string('delivery_time_end')->nullable();
+            $table->integer('time_type')->default(1);
+            $table->integer('active')->default(1);
+            $table->integer('type')->default(1);
+            $table->integer('free')->nullable();
+            $table->double('free_when')->nullable();
+            $table->double('price')->nullable();
             $table->timestamps();
 
             $table->foreign('tenant_id')
