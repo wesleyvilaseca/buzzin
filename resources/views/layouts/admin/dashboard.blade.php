@@ -31,9 +31,11 @@
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
-        <link rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+
+    <script src="{{ mix('js/app.js') }}" defer></script>
 
     <title>{{ @$title ? $title : 'CodeVilaFood' }}</title>
 
@@ -41,47 +43,49 @@
 </head>
 
 <body>
-    <div id="formloader"></div>
-    <div id="side-menu" class="page-wrapper chiller-theme toggled">
-        <a id="show-sidebar" class="btn btn-sm btn-dark" style="cursor:pointer;">
-            <i class="fas fa-bars"></i>
-        </a>
+    <div id="app">
+        <div id="formloader"></div>
+        <div id="side-menu" class="page-wrapper chiller-theme toggled">
+            <a id="show-sidebar" class="btn btn-sm btn-dark" style="cursor:pointer;">
+                <i class="fas fa-bars"></i>
+            </a>
 
-        @include('layouts.admin.partials.sidemenu')
+            @include('layouts.admin.partials.sidemenu')
 
-        @include('layouts.admin.partials.topbar')
+            @include('layouts.admin.partials.topbar')
 
-        <main class="page-content">
-            <div class="container-fluid">
-                @include('layouts.admin.alerts')
-                @if (@isset($toptitle))
-                    <h5>{{ $toptitle }}</h5>
-                @endif
-                @if (@isset($breadcrumb))
-                    <div id="breadcrumb" class="mt-2">
-                        <ol class="breadcrumb">
-                            @foreach ($breadcrumb as $bread)
-                                @if (@$bread['active'])
-                                    <li class="breadcrumb-item active">
-                                        {{ $bread['title'] }}
-                                    </li>
-                                @else
-                                    <li class="breadcrumb-item">
-                                        <a href="{{ $bread['route'] }}">{{ $bread['title'] }}</a>
-                                    </li>
-                                @endif
-                            @endforeach
-                        </ol>
-                    </div>
-                @endif
+            <main class="page-content">
+                <div class="container-fluid">
+                    @include('layouts.admin.alerts')
+                    @if (@isset($toptitle))
+                        <h5>{{ $toptitle }}</h5>
+                    @endif
+                    @if (@isset($breadcrumb))
+                        <div id="breadcrumb" class="mt-2">
+                            <ol class="breadcrumb">
+                                @foreach ($breadcrumb as $bread)
+                                    @if (@$bread['active'])
+                                        <li class="breadcrumb-item active">
+                                            {{ $bread['title'] }}
+                                        </li>
+                                    @else
+                                        <li class="breadcrumb-item">
+                                            <a href="{{ $bread['route'] }}">{{ $bread['title'] }}</a>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ol>
+                        </div>
+                    @endif
 
-                <hr>
+                    <hr>
 
-                @yield('content')
+                    @yield('content')
 
-            </div>
-        </main>
-        <div class="modal"></div>
+                </div>
+            </main>
+            <div class="modal"></div>
+        </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
@@ -115,7 +119,6 @@
 
     @yield('js')
     @yield('components-js')
-
 </body>
 
 </html>

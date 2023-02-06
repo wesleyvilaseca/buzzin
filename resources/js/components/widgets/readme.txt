@@ -1,0 +1,1 @@
+# aqui fica os components maiores como tabelas, modais, navbar e essas coisas

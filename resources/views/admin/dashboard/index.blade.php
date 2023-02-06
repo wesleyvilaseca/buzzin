@@ -1,6 +1,7 @@
 @extends('layouts.admin.dashboard')
 
 @section('content')
+    <zone-create-view></zone-create-view>
     <div class="row">
         <div class="col-md-6 col-xl-4">
             <div class="card mb-3 card-content bg-info">
