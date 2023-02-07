@@ -25,6 +25,7 @@ class ZonesGeolocationController extends Controller {
         $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
         $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Zonas de entrega por geolocalização', 'active' => true];
         $data['_zone']               = true;
+        $data['geo'] = true;
         $data['zones'] = $this->repository->latest()->paginate();
 
         return view('admin.zones.index', $data);
