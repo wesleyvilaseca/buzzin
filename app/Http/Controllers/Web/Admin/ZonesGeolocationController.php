@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateZones;
 use App\Models\Zone;
 use Grimzy\LaravelMysqlSpatial\Types\LineString;
-use Grimzy\LaravelMysqlSpatial\Types\MultiPolygon;
 use Grimzy\LaravelMysqlSpatial\Types\Point;
 use Grimzy\LaravelMysqlSpatial\Types\Polygon;
 use Illuminate\Http\Request;
@@ -39,6 +38,7 @@ class ZonesGeolocationController extends Controller {
         $data['breadcrumb'][]       = ['route' => route('admin.zones.geolocation'), 'title' => 'Zonas de entrega por geolocalização', 'active' => true];
         $data['breadcrumb'][]       = ['route' => '#', 'title' => $title, 'active' => true];
         $data['_zone']               = true;
+        $data['geo'] = true;
         $data['is_edit'] = 'N';
         $data['method'] = 'POST';
         $data['routeAction'] = route('zone.geolocation.store');
@@ -54,16 +54,24 @@ class ZonesGeolocationController extends Controller {
             return redirect()->back()->with('error', 'Operação não autorizada');
         }
 
+        $zone->data = json_decode($zone->data);
+
         $title = 'Editar zona ' . $zone->name;
         $data['title']              = $title;
         $data['toptitle']           = $title;
         $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
-        $data['breadcrumb'][]       = ['route' => route('admin.zones.geolocation'), 'title' => 'Zonas de entrega por geolocalização', 'active' => true];
+        $data['breadcrumb'][]       = ['route' => route('admin.zones.geolocation'), 'title' => 'Zonas de entrega por geolocalização'];
         $data['breadcrumb'][]       = ['route' => '#', 'title' => $title, 'active' => true];
         $data['zone'] = $zone;
-        $data['_zone']               = true;
+        $data['_zone'] = true;
+        $data['geo'] = true;
         $data['is_edit'] = 'S';
         $data['method'] = 'PUT';
+
+        $polygonCoords = [];
+        foreach ($zone->coordinates[0] as $coords) {
+            $polygonCoords[] = (object)   ['lat' => $coords->getLat(), 'lng' => $coords->getLng()];
+        }
         $data['routeAction'] = route('zone.geolocation.update', [$zone->id]);
 
         return view('admin.zones.create', $data);
@@ -77,6 +85,11 @@ class ZonesGeolocationController extends Controller {
     }
 
     public function store(StoreUpdateZones $request) {
+
+        if($request->delivery_time_end <= $request->delivery_time_ini){
+            return response()->json(['error' => true, 'message' => 'O tempo de entra final não pode ser menor que o tempo inicial'], 400);
+        }
+
         $coordinates = $this->makePolygon(json_decode($request->input('coordinates')));
 
         $zone = new Zone();
@@ -84,6 +97,7 @@ class ZonesGeolocationController extends Controller {
         $zone->price = @tofloat($request->price);
         $zone->free_when = @tofloat($request->free_when);
         $zone->coordinates = $coordinates;
+        $zone->data = json_encode((object) ['lat' => $request->point[0], 'lng' => $request->point[1], 'zoom' => $request->zoom]);
         $zone->delivery_time_ini = $request->delivery_time_ini;
         $zone->delivery_time_end = $request->delivery_time_end;
         $zone->active = $request->active;
@@ -100,7 +114,7 @@ class ZonesGeolocationController extends Controller {
     }
 
     public function update(StoreUpdateZones $request, $id) {
-        $zone = $this->repository->find($id);        
+        $zone = $this->repository->find($id);
         if (!$zone) {
             return response()->json(['message' => 'Operação não autorizada'], 400);
         }
@@ -109,10 +123,11 @@ class ZonesGeolocationController extends Controller {
         $request->merge([
             'price' => tofloat($request->price),
             'free_when' => tofloat($request->free_when),
-            'coordinates' => $coordinates
+            'coordinates' => $coordinates,
+            'data' => json_encode((object) ['lat' => $request->point[0], 'lng' => $request->point[1], 'zoom' => $request->zoom])
         ]);
 
-        $res = $this->repository->where('id', $zone->id)->update($request->except(['_token']));
+        $res = $this->repository->where('id', $zone->id)->update($request->except(['_token', 'point', 'zoom']));
         if (!$res) {
             return response()->json(['message' => 'error durante o processo', 'error' => true], 400);
         }
@@ -137,8 +152,7 @@ class ZonesGeolocationController extends Controller {
         return $coordinates;
     }
 
-    public function checkCoordinate(Request $request)
-    {
+    public function checkCoordinate(Request $request) {
         $coordinate = new Point($request->input('latitude'), $request->input('longitude'));
         $shape = $this->repository->whereRaw("ST_Within(POINT(?,?), coordinates)", [$coordinate->getLng(), $coordinate->getLat()])->first();
         if ($shape) {

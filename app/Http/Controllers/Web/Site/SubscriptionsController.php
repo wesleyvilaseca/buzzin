@@ -9,8 +9,6 @@ use App\Models\Plan;
 use App\Services\TenantService;
 use Illuminate\Support\Facades\Redirect;
 
-use function Psy\debug;
-
 class SubscriptionsController extends Controller
 {
     public function plan($url)

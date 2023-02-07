@@ -175,7 +175,6 @@ class TenantController extends Controller
             'id' => $tenant->id,
         ])->update($data);
 
-        // $tenant->update($data);
         return Redirect::route('admin.tenants')->with('success', 'Empresa editado com sucesso');
     }
 

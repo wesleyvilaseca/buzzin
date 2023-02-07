@@ -1,8 +1,8 @@
 <nav id="sidebar" class="sidebar-wrapper">
     <div class="sidebar-content">
-        <div class="sidebar-brand">
+        <div class="sidebar-brand text-center">
             <img src="" alt="">
-            <a href="#">CodeVila - Finanças</a>
+            <a href="#">Buzz - Delivery</a>
             <div id="close-sidebar">
                 <i class="fas fa-times"></i>
             </div>
@@ -68,7 +68,7 @@
                     @can('tables')
                         <li class="{{ @$tab ? 'ativo' : '' }}">
                             <a href="{{ route('admin.tables') }}">
-                                <i class="fa-solid fa-spoon"></i>
+                                <i class="fa-solid fa-check"></i>
                                 <span>Mesas</span>
                             </a>
                         </li>
@@ -77,7 +77,7 @@
                     @can('pedidos')
                         <li class="{{ @$order_m ? 'ativo' : '' }}">
                             <a href="{{ route('orders.index') }}">
-                                <i class="fa-solid fa-spoon"></i>
+                                <i class="fa-solid fa-cart-shopping"></i>
                                 <span>Pedidos</span>
                             </a>
                         </li>
@@ -87,30 +87,31 @@
                         <li class="{{ @$ten ? 'ativo' : '' }}">
                             <a href="{{ route('admin.tenants') }}">
                                 <i class="fa-solid fa-building"></i>
-                                <span>empresas</span>
+                                <span>Empresas</span>
                             </a>
                         </li>
                     @endcan
 
                     @can('zones')
-                    <li class="sidebar-dropdown {{ @$_zone ? 'active_side' : '' }}">
-                        <a>
-                            <i class="fa-solid fa-location-dot"></i>
-                            <span>Zonas de entrega</span>
-                        </a>
-                        <div class="sidebar-submenu {{ @$_zone ? 'd-block' : '' }}">
-                            <ul>
-                                <li class="{{ @$geo ? 'ativo' : '' }}">
-                                    <a href="{{ route('admin.zones.geolocation') }}">Por geolocalização</a>
-                                </li>
-
-                                <li class="{{ @$cep ? 'ativo' : '' }}">
-                                    <a href="#">Por CEP</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                @endcan
+                        <li class="sidebar-dropdown {{ @$_zone ? 'active_side' : '' }}">
+                            <a>
+                                <i class="fa-solid fa-location-dot"></i>
+                                <span>Zonas de entrega</span>
+                            </a>
+                            <div class="sidebar-submenu {{ @$_zone ? 'd-block' : '' }}">
+                                <ul>
+                                    @can('geolocationZones')
+                                        <li class="{{ @$geo ? 'ativo' : '' }}">
+                                            <a href="{{ route('admin.zones.geolocation') }}">Por geolocalização</a>
+                                        </li>
+                                    @endcan
+                                    <li class="{{ @$cep ? 'ativo' : '' }}">
+                                        <a href="#">Por CEP</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    @endcan
 
                     @can('acl')
                         <li class="sidebar-dropdown {{ @$perm ? 'active_side' : '' }}">

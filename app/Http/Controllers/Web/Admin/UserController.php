@@ -75,7 +75,7 @@ class UserController extends Controller
         return view('admin.user.create', $data);
     }
 
-    public function edit($id)
+    public function edit()
     {
         $data['title']              = 'Editar usuário ' . $this->user->name;
         $data['toptitle']           = 'Editar usuário ' . $this->user->name;

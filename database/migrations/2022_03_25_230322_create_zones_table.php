@@ -17,7 +17,7 @@ class CreateZonesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('tenant_id');
             $table->string('name');
-            $table->point('location')->nullable();
+            $table->json('data')->nullable();
             $table->polygon('coordinates')->nullable();
             $table->string('delivery_time_ini')->nullable();
             $table->string('delivery_time_end')->nullable();

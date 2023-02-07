@@ -13,7 +13,7 @@ class Zone extends Model {
     use TenantTrait;
     use SpatialTrait;
 
-    protected $fillable = ['name', 'coordinates', 'delivery_time_ini', 'delivery_time_end', 'active', 'type', 'free', 'free_when', 'time_type'];
+    protected $fillable = ['name', 'coordinates', 'data', 'delivery_time_ini', 'delivery_time_end', 'active', 'type', 'free', 'free_when', 'time_type'];
 
     protected $spatialFields = [
         'coordinates'

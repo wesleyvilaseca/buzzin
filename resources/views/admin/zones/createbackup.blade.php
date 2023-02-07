@@ -35,6 +35,24 @@
                                 placeholder="Nome:" value="{{ @$zone->name ?? old('name') }}" required minlength="5">
                         </div>
 
+                        {{-- <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mt-2">
+                                    <label>Informe a latitude do ponto central:</label>
+                                    <input type="text" name="lat" id="lat" class="form-control form-control-sm"
+                                        placeholder="-1.12345" value="{{ @$zone->data->lat ?? old('lat') }} " required />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group mt-2">
+                                    <label>Informe a longitude do ponto central:</label>
+                                    <input type="text" name="lng" id="lng" class="form-control form-control-sm"
+                                        placeholder="3.45654" value="{{ @$zone->data->lng ?? old('lng') }} " required />
+                                </div>
+                            </div>
+                        </div> --}}
+
                         <div class="top-section mt-2">
                             Tempo estimado para entrega
                         </div>
@@ -45,7 +63,7 @@
                                     <label>Tempo inicial:</label>
                                     <input type="number" name="delivery_time_ini" id="delivery_time_ini"
                                         class="form-control form-control-sm" placeholder="40"
-                                        value="{{ @$zone->delivery_time_ini ?? old('delivery_time_ini') }}" minlength="0" required />
+                                        value="{{ @$zone->delivery_time_ini ?? old('delivery_time_ini') }}" required />
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -53,7 +71,7 @@
                                     <label>Tempo final:</label>
                                     <input type="number" name="delivery_time_end" id="delivery_time_end"
                                         class="form-control form-control-sm" placeholder="60"
-                                        value="{{ @$zone->delivery_time_end ?? old('delivery_time_end') }}" minlength="0" required />
+                                        value="{{ @$zone->delivery_time_end ?? old('delivery_time_end') }}" required />
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -72,17 +90,18 @@
                         </div>
 
                         <div class="form-group mt-2">
-                            <label>Valor da entrega: <span class="badge rounded-pill bg-info text-dark"
-                                    onclick="return alert('caso seja grátis, deixe o campo vazio')">Grátis?</span></label>
+                            <label>Valor da entrega: <small class="text-danger">'caso seja grátis, deixe o campo vazio'
+                                </small></label>
                             <input type="text" name="price" id="price" class="form-control form-control-sm"
                                 onkeyup="Helper.prototype.formatCurrency(this)" value="{{ @$zone->price ?? old('price') }}"
                                 required />
                         </div>
 
                         <div class="form-group mt-2">
-                            <label>Grátis a partir de: <span class="badge rounded-pill bg-info text-dark"
-                                onclick="return alert('caso a entrega não seja grátis, ela passa a ser se o pedido atingir o valor informado abaixo')">?</span>
-                                <small class="text-danger">  </small></label>
+                            <label>Grátis a partir de:
+                                <small class="text-danger"> 'caso a entrega não seja grátis, ela passa a ser se o pedido
+                                    atingir o valor
+                                    informado abaixo' </small></label>
                             <input type="text" name="free_when" id="free_when" class="form-control form-control-sm"
                                 onkeyup="Helper.prototype.formatCurrency(this)"
                                 value="{{ @$zone->free_when ?? old('free_when') }}" required />
@@ -123,12 +142,11 @@
 
 @section('js')
     <script>
-        const default_lat = "{{ @$zone?->data?->lat ? $zone->data->lat : -1.39874 }}";
-        const default_lng = "{{ @$zone?->data?->lng ? $zone->data->lng : -48.4387 }}";
-        const zoom = "{{ @$zone?->data?->zoom ? $zone->data->zoom : 15 }}";
+        const default_lat = -1.39874;
+        const default_lng = -48.43870;
 
-        var lat = parseFloat(default_lat);
-        var lng = parseFloat(default_lng);
+        var lat = default_lat;
+        var lng = default_lng;
 
         const is_edit = "{{ $is_edit }}";
         var edit_coordinate = '{{ @$zone->coordinates }}';
@@ -137,30 +155,30 @@
         var selectedShape;
         var shapeExists = false;
 
-        // document.getElementById('lat').addEventListener('change', function() {
-        //     lat = this.value;
-        //     if (document.getElementById('lng').value) {
-        //         lng = document.getElementById('lng').value;
-        //     }
+        document.getElementById('lat').addEventListener('change', function() {
+            lat = this.value;
+            if (document.getElementById('lng').value) {
+                lng = document.getElementById('lng').value;
+            }
 
-        //     map.setCenter({
-        //         lat: parseFloat(lat),
-        //         lng: parseFloat(lng)
-        //     });
-        // });
+            map.setCenter({
+                lat: parseFloat(lat),
+                lng: parseFloat(lng)
+            });
+        });
 
-        // document.getElementById('lng').addEventListener('change', function() {
-        //     if (document.getElementById('lat').value) {
-        //         lat = document.getElementById('lat').value;
-        //     }
+        document.getElementById('lng').addEventListener('change', function() {
+            if (document.getElementById('lat').value) {
+                lat = document.getElementById('lat').value;
+            }
 
-        //     lng = this.value;
+            lng = this.value;
 
-        //     map.setCenter({
-        //         lat: parseFloat(lat),
-        //         lng: parseFloat(lng)
-        //     });
-        // });
+            map.setCenter({
+                lat: parseFloat(lat),
+                lng: parseFloat(lng)
+            });
+        });
 
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
@@ -168,7 +186,7 @@
                     lat: lat,
                     lng: lng
                 },
-                zoom: parseInt(zoom)
+                zoom: 15
             });
 
             drawingManager = new google.maps.drawing.DrawingManager({
@@ -300,10 +318,11 @@
                 });
             }
 
-            //pega o ponto central do shape
+            //paga o ponto central do shape
+
             var bounds = new google.maps.LatLngBounds();
-            for (var i = 0; i < selectedShape.getPath().getLength(); i++) {
-                bounds.extend(selectedShape.getPath().getAt(i));
+            for (var i = 0; i < shape.getPath().getLength(); i++) {
+                bounds.extend(shape.getPath().getAt(i));
             }
             const center = bounds.getCenter();
 
@@ -319,7 +338,7 @@
                 free: $("#price").val() ? 1 : 0,
                 free_when: $("#free_when").val(),
                 price: $("#price").val(),
-                point: [center.lat(), center.lng()],
+                point: center,
                 zoom: map.getZoom()
             }
 
