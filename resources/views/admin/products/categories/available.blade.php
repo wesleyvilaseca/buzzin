@@ -8,8 +8,7 @@
 
     <div class="card">
         <div class="card-header">
-            <form action="{{ route('products.categories.available', $product->id) }}" method="POST"
-                class="form form-inline">
+            <form action="{{ route('products.categories.available', $product->id) }}" method="POST" class="form form-inline">
                 @csrf
                 <div class="row">
                     <div class="col-md-6">
@@ -23,15 +22,15 @@
             </form>
         </div>
         <div class="card-body">
-            <table class="table table-condensed">
-                <thead>
-                    <tr>
-                        <th width="50px">#</th>
-                        <th>Nome</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <form action="{{ route('products.categories.attach', $product->id) }}" method="POST">
+            <form action="{{ route('products.categories.attach', $product->id) }}" method="POST">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th width="50px">#</th>
+                            <th>Nome</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         @if (!$categories->isEmpty())
                             @csrf
                             <tr>
@@ -53,9 +52,9 @@
                                 </td>
                             </tr>
                         @endforeach
-                    </form>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </form>
         </div>
         <div class="card-footer">
             @if (isset($filters))

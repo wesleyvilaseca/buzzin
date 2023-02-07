@@ -45,7 +45,8 @@
                                     <label>Tempo inicial:</label>
                                     <input type="number" name="delivery_time_ini" id="delivery_time_ini"
                                         class="form-control form-control-sm" placeholder="40"
-                                        value="{{ @$zone->delivery_time_ini ?? old('delivery_time_ini') }}" minlength="0" required />
+                                        value="{{ @$zone->delivery_time_ini ?? old('delivery_time_ini') }}" minlength="0"
+                                        required />
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -53,7 +54,8 @@
                                     <label>Tempo final:</label>
                                     <input type="number" name="delivery_time_end" id="delivery_time_end"
                                         class="form-control form-control-sm" placeholder="60"
-                                        value="{{ @$zone->delivery_time_end ?? old('delivery_time_end') }}" minlength="0" required />
+                                        value="{{ @$zone->delivery_time_end ?? old('delivery_time_end') }}" minlength="0"
+                                        required />
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -81,8 +83,8 @@
 
                         <div class="form-group mt-2">
                             <label>Grátis a partir de: <span class="badge rounded-pill bg-info text-dark"
-                                onclick="return alert('caso a entrega não seja grátis, ela passa a ser se o pedido atingir o valor informado abaixo')">?</span>
-                                <small class="text-danger">  </small></label>
+                                    onclick="return alert('caso a entrega não seja grátis, ela passa a ser se o pedido atingir o valor informado abaixo')">?</span>
+                                <small class="text-danger"> </small></label>
                             <input type="text" name="free_when" id="free_when" class="form-control form-control-sm"
                                 onkeyup="Helper.prototype.formatCurrency(this)"
                                 value="{{ @$zone->free_when ?? old('free_when') }}" required />
@@ -209,12 +211,14 @@
 
             if (is_edit == 'S') {
                 const polygonCoords = [
-                    @foreach ($zone->coordinates[0] as $coords)
-                        {
-                            lat: {{ $coords->getLat() }},
-                            lng: {{ $coords->getLng() }}
-                        },
-                    @endforeach
+                    @if (@isset($zone))
+                        @foreach ($zone->coordinates[0] as $coords)
+                            {
+                                lat: {{ $coords->getLat() }},
+                                lng: {{ $coords->getLng() }}
+                            },
+                        @endforeach
+                    @endif
                 ];
                 edit_coordinate = polygonCoords;
                 shapeExists = true;
