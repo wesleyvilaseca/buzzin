@@ -78,7 +78,9 @@
                         </div>
                     @endif
 
-                    <hr>
+                    @if (@isset($toptitle) || @isset($breadcrumb))
+                        <hr>
+                    @endif
 
                     @yield('content')
 

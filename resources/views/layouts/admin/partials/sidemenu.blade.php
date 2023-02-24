@@ -2,7 +2,7 @@
     <div class="sidebar-content">
         <div class="sidebar-brand text-center">
             <img src="" alt="">
-            <a href="#">Buzz - Delivery</a>
+            <a href="#">BuzzIn!</a>
             <div id="close-sidebar">
                 <i class="fas fa-times"></i>
             </div>
@@ -65,14 +65,14 @@
                         </li>
                     @endcan
 
-                    @can('tables')
+                    {{-- @can('tables')
                         <li class="{{ @$tab ? 'ativo' : '' }}">
                             <a href="{{ route('admin.tables') }}">
                                 <i class="fa-solid fa-check"></i>
                                 <span>Mesas</span>
                             </a>
                         </li>
-                    @endcan
+                    @endcan --}}
 
                     @can('pedidos')
                         <li class="{{ @$order_m ? 'ativo' : '' }}">
@@ -88,6 +88,24 @@
                             <a href="{{ route('admin.tenants') }}">
                                 <i class="fa-solid fa-building"></i>
                                 <span>Empresas</span>
+                            </a>
+                        </li>
+                    @endcan
+
+                    @can('site')
+                        <li class="{{ @$_site ? 'ativo' : '' }}">
+                            <a href="{{ route('admin.site') }}">
+                                <i class="fa-solid fa-store"></i>
+                                <span>Meu Site</span>
+                            </a>
+                        </li>
+                    @endcan
+
+                    @can('admsites')
+                        <li class="{{ @$_sites ? 'ativo' : '' }}">
+                            <a href="#">
+                                <i class="fa-solid fa-building"></i>
+                                <span>Sites</span>
                             </a>
                         </li>
                     @endcan

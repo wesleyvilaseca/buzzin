@@ -1,0 +1,22 @@
+<template>
+    <DefaultLayout>
+        <template v-slot:content>
+            home client vue
+        </template>
+    </DefaultLayout>
+</template>
+
+<script>
+import DefaultLayout from '../../layouts/client_site/DefaultLayout.vue';
+
+export default {
+    props: [],
+    components: {
+        DefaultLayout
+    },
+    data: () => ({}),
+    computed: {},
+    mounted() { },
+    methods: {}
+}
+</script>

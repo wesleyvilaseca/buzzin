@@ -22,6 +22,9 @@ class CreateProductsTable extends Migration
             $table->string('image');
             $table->double('price', 10, 2);
             $table->text('description');
+            $table->double('quantity', 10, 2);
+            $table->integer('stock_controll')->default(0)->comment("0 disableb | 1 - enabled");
+            $table->integer('status')->default(0)->comment("0 disableb | 1 - enabled");
             $table->timestamps();
 
             $table->foreign('tenant_id')

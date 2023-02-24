@@ -17,12 +17,14 @@ use App\Http\Controllers\Web\Admin\OrderController;
 use App\Http\Controllers\Web\Admin\PlanController;
 use App\Http\Controllers\Web\Admin\ProductController;
 use App\Http\Controllers\Web\Admin\ProductMarketsController;
+use App\Http\Controllers\Web\Admin\SiteController;
 use App\Http\Controllers\Web\Admin\TableController;
 use App\Http\Controllers\Web\Admin\TenantController;
 use App\Http\Controllers\Web\Admin\UserController;
 use App\Http\Controllers\Web\Admin\ZonesGeolocationController;
 use App\Http\Controllers\Web\Auth\LoginController;
 use App\Http\Controllers\Web\Auth\RegisterController;
+use App\Http\Controllers\Web\ClientSite\HomeController as ClientSiteHomeController;
 use App\Http\Controllers\Web\Site\HomeController;
 use App\Http\Controllers\Web\Site\SubscriptionsController;
 use Illuminate\Support\Facades\Route;
@@ -30,7 +32,16 @@ use Illuminate\Support\Facades\Route;
 /**
  * site routes
  */
-Route::get('/',             [HomeController::class, 'index'])->name('inicio');
+
+$domain = request()->getHttpHost();
+$appDomain = str_replace(['http://', 'https://'], "", env('APP_URL'));
+
+if ($domain === $appDomain) {
+    Route::get('/',             [HomeController::class, 'index'])->name('inicio');
+} else {
+    Route::any('/',         [ClientSiteHomeController::class, 'index']);
+}
+
 Route::get('/subscription/{url}', [SubscriptionsController::class, 'plan'])->name('subscription');
 Route::post('/subscription/{url}', [SubscriptionsController::class, 'register'])->name('subscription.register');
 
@@ -319,5 +330,10 @@ Route::middleware(['auth'])->group(function () {
         Route::post('{id}/categories', [CategoryProductMarketController::class, 'attachCategoriesProduct'])->name('market.products.categories.attach');
         Route::get('{id}/categories',  [CategoryProductMarketController::class, 'categories'])->name('market.product.categories');
         Route::get('{id}/products',  [CategoryProductMarketController::class, 'products'])->name('market.categories.products');
+    });
+
+    Route::prefix('admin-site')->group(function () {
+        Route::get('/',                 [SiteController::class, 'index'])->name('admin.site');
+        Route::post('/',                 [SiteController::class, 'enable'])->name('admin.site.enable');
     });
 });
