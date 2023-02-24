@@ -12,8 +12,6 @@
             <form action="{{ route('category.update', $category->id) }}" class="form" method="POST">
                 @csrf
                 @method('PUT')
-
-
                 @include('admin.categories._partials.form', ['category' => $category])
             </form>
         </div>

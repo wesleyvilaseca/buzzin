@@ -10,7 +10,7 @@ body {
 .landing-header {
   display: grid;
   justify-items: center;
-  background: #b63132;
+  /* background: #b63132; */
   padding-bottom: 30px;
   text-align: center;
 }
@@ -127,7 +127,7 @@ body {
 }
 
 .card {
-  border: 1px solid rgb(182, 49, 50);
+  /* border: 1px solid rgb(182, 49, 50); */
 }
 
 .disabled.card {
@@ -136,8 +136,8 @@ body {
 
 .card-footer-custom {
   padding: .75rem 1.25rem;
-  background-color: #b63132;
-  border-top: 1px solid rgb(182, 49, 50);
+  /* background-color: #b63132;
+  border-top: 1px solid rgb(182, 49, 50); */
   text-align: center;
 }
 
@@ -482,7 +482,7 @@ body {
   display: table;
   padding: 10px 20px;
   border-radius: 4rem;
-  color: #b63132;
+  /* color: #b63132; */
   margin: 0 auto;
 }
 
