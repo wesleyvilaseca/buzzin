@@ -8,7 +8,8 @@ import money from 'v-money3'
 import { Bootstrap5Pagination } from 'laravel-vue-pagination';
 import Select2 from 'vue3-select2-component';
 
-import homeClientView from './views/client_site/home/home.view.vue';
+import homeSiteTenantView from './views/tenant_site/home/home.view.vue';
+import maintenceSiteTenantView from './views/tenant_site/maintence/maintence.view.vue';
 import Preloader from './components/common/PreloaderComponent.vue';
 
 
@@ -25,7 +26,8 @@ app.component('Preloader', Preloader);
 /**
  * view components
  */
-app.component('home-client-view', homeClientView);
+app.component('home-client-view', homeSiteTenantView);
+app.component('maintence-sitetenant-view', maintenceSiteTenantView);
 
 app.use(store);
 app.use(VueTheMask);

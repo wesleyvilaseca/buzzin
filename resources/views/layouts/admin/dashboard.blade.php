@@ -57,9 +57,11 @@
             <main class="page-content">
                 <div class="container-fluid">
                     @include('layouts.admin.alerts')
+
                     @if (@isset($toptitle))
                         <h5>{{ $toptitle }}</h5>
                     @endif
+
                     @if (@isset($breadcrumb))
                         <div id="breadcrumb" class="mt-2">
                             <ol class="breadcrumb">

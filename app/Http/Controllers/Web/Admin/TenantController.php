@@ -9,9 +9,11 @@ use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 use function Psy\debug;
 
@@ -140,7 +142,7 @@ class TenantController extends Controller
             $exist = $this->repository->where('name', '=', $request->name)->first();
             if ($exist)
                 return Redirect::back()->with('warning', 'Já existe uma empresa com esse nome');
-        }else {
+        } else {
             $except[] = 'name';
         }
 
@@ -148,7 +150,7 @@ class TenantController extends Controller
             $exist = $this->repository->where('email', '=', $request->email)->first();
             if ($exist)
                 return Redirect::back()->with('warning', 'Já existe uma empresa com essas credenciais');
-        }else {
+        } else {
             $except[] = 'email';
         }
 
@@ -186,23 +188,63 @@ class TenantController extends Controller
 
         if (!$tenant) return Redirect::back()->with('error', 'Operação não autorizada');
 
-            DB::beginTransaction();
-            try {
+        DB::beginTransaction();
+        try {
 
-                if (Storage::exists($tenant->image)) Storage::delete($tenant->image);
-    
-                $tenant_user = User::where('tenant_id', $tenant->id)->get();
-                if ($tenant_user)  User::where('tenant_id', $tenant->id)->delete();
-    
-                $this->repository->where('id', $tenant->id)->delete();
-                DB::commit();
-                return Redirect::route('admin.tenants')->with('success', 'Empresa apagada com sucesso');
-            } catch (ModelNotFoundException $exception) {
-                DB::rollback();
-                return Redirect::route('admin.tenants')->with('error', 'Houve um erro ao apagar a empresa');
-            }
+            if (Storage::exists($tenant->image)) Storage::delete($tenant->image);
+
+            $tenant_user = User::where('tenant_id', $tenant->id)->get();
+            if ($tenant_user)  User::where('tenant_id', $tenant->id)->delete();
+
+            $this->repository->where('id', $tenant->id)->delete();
+            DB::commit();
+            return Redirect::route('admin.tenants')->with('success', 'Empresa apagada com sucesso');
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return Redirect::route('admin.tenants')->with('error', 'Houve um erro ao apagar a empresa');
+        }
 
         $tenant->delete();
         return Redirect::route('admin.tenants')->with('success', 'Empresa removido com sucesso');
+    }
+
+    public function orderWhenClosed(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'order_when_closed'      => ['required', 'integer'],
+        ]);
+
+        if ($validate->fails()) {
+            return Redirect::back()->with('error', $validate->errors());
+        }
+
+        $res = $this->repository
+            ->where('id', Auth::user()->tenant_id)
+            ->update(['order_when_closed' => $request->order_when_closed]);
+        if (!$res) {
+            return Redirect::back()->with('warning', 'Erro na operação');
+        }
+
+        return Redirect::back()->with('success', 'Operação realizada com sucesso');
+    }
+
+    public function open(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'open'      => ['required'],
+        ]);
+
+        if ($validate->fails()) {
+            return Redirect::back()->with('error', $validate->errors());
+        }
+
+        $res = $this->repository
+            ->where('id', Auth::user()->tenant_id)
+            ->update(['open' => $request->open]);
+        if (!$res) {
+            return Redirect::back()->with('warning', 'Erro na operação');
+        }
+
+        return Redirect::back()->with('success', 'Operação realizada com sucesso');
     }
 }

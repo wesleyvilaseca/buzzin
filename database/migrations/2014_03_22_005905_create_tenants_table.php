@@ -29,7 +29,7 @@ class CreateTenantsTable extends Migration
             $table->string('district')->nullable();
             $table->string('number')->nullable();
             $table->enum('open', ['Y', 'N'])->default('N');
-
+            $table->integer('order_when_closed')->default(0);
             // Status tenant (se inativar 'N' ele perde o acesso ao sistema)
             $table->enum('active', ['Y', 'N'])->default('Y');
 

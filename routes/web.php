@@ -11,9 +11,12 @@ use App\Http\Controllers\Web\Admin\CategoryController;
 use App\Http\Controllers\Web\Admin\CategoryMarketsController;
 use App\Http\Controllers\Web\Admin\CategoryProductController;
 use App\Http\Controllers\Web\Admin\CategoryProductMarketController;
+use App\Http\Controllers\Web\Admin\ConfigurationController;
 use App\Http\Controllers\Web\Admin\DashboardController;
 use App\Http\Controllers\Web\Admin\DetailPlanController;
+use App\Http\Controllers\Web\Admin\OperationController;
 use App\Http\Controllers\Web\Admin\OrderController;
+use App\Http\Controllers\Web\Admin\PaymentsController;
 use App\Http\Controllers\Web\Admin\PlanController;
 use App\Http\Controllers\Web\Admin\ProductController;
 use App\Http\Controllers\Web\Admin\ProductMarketsController;
@@ -39,7 +42,11 @@ $appDomain = str_replace(['http://', 'https://'], "", env('APP_URL'));
 if ($domain === $appDomain) {
     Route::get('/',             [HomeController::class, 'index'])->name('inicio');
 } else {
-    Route::any('/',         [ClientSiteHomeController::class, 'index']);
+    Route::middleware(['check.site.client'])->group(function () {
+        Route::any('/',         [ClientSiteHomeController::class, 'index']);
+    });
+
+    Route::any('/site-em-manutencao',         [ClientSiteHomeController::class, 'inMaintence'])->name('tenant.maintence');
 }
 
 Route::get('/subscription/{url}', [SubscriptionsController::class, 'plan'])->name('subscription');
@@ -58,9 +65,9 @@ Route::post('/register',    [RegisterController::class, 'create'])->name('regist
 
 Route::get('/login',        [LoginController::class, 'index'])->name('login');
 Route::post('/login',       [LoginController::class, 'auth'])->name('login.auth');
-Route::post('/logout',      [LoginController::class, 'logout'])->name('logout');
+Route::get('/logout',      [LoginController::class, 'logout'])->name('logout');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'check.status.store'])->group(function () {
     Route::get('/admin-dashboard',                   [DashboardController::class, 'index'])->name('admin.dashboard');
 
     // Orders
@@ -292,6 +299,10 @@ Route::middleware(['auth'])->group(function () {
         Route::any('/search',            [TenantController::class, 'search'])->name('tenant.search');
         Route::get('/{id}',             [TenantController::class, 'show'])->name('tenant.show');
         Route::delete('/{id}',          [TenantController::class, 'destroy'])->name('tenant.destroy');
+        
+        Route::post('/order-when-closed',   [TenantController::class, 'orderWhenClosed'])->name('tenant.order_when_closed');
+        Route::post('/open-place',          [TenantController::class, 'open'])->name('tenant.open');
+
     });
 
     Route::prefix('admin-category-markets')->group(function () {
@@ -335,5 +346,25 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('admin-site')->group(function () {
         Route::get('/',                 [SiteController::class, 'index'])->name('admin.site');
         Route::post('/',                 [SiteController::class, 'enable'])->name('admin.site.enable');
+    });
+
+    Route::prefix('admin-payment')->group(function () {
+        Route::get('/',                 [PaymentsController::class, 'index'])->name('admin.payments');
+        Route::post('/active',          [PaymentsController::class, 'active'])->name('payment.active');
+        Route::put('/disable/{id}',     [PaymentsController::class, 'disable'])->name('payment.disable');
+        Route::put('/enable/{id}',      [PaymentsController::class, 'enable'])->name('payment.enable');
+    });
+
+    Route::prefix('admin-operation')->group(function () {
+        Route::get('/',                 [OperationController::class, 'index'])->name('admin.operations');
+        Route::post('/active',          [OperationController::class, 'active'])->name('operation.active');
+        Route::put('/disable/{id}',     [OperationController::class, 'disable'])->name('operation.disable');
+        Route::put('/enable/{id}',      [OperationController::class, 'enable'])->name('operation.enable');
+        Route::get('/{id}/detail',      [OperationController::class, 'detailOperation'])->name('operation.detail');
+        Route::put('/{id}/detail',      [OperationController::class, 'detailUpdate'])->name('operation.update');
+    });
+
+    Route::prefix('admin-configuration')->group(function () {
+        Route::get('/',                 [ConfigurationController::class, 'index'])->name('admin.configuration');
     });
 });

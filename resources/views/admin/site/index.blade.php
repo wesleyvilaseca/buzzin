@@ -18,6 +18,11 @@
     @endif
 
     @if (@isset($site) && ($site->status == 1 || $site->status == 2))
+        <div class="text-center">
+            <a href="http://{{ $linkWebSite }}" target="_blank" class="btn btn-sm btn-info text-white"><i
+                    class="fa-solid fa-eye"></i>
+                WebSite</a>
+        </div>
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"

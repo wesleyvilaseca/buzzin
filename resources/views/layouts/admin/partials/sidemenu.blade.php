@@ -92,6 +92,25 @@
                         </li>
                     @endcan
 
+
+                    {{-- @can('tenant_payment')
+                        <li class="{{ @$_payment ? 'ativo' : '' }}">
+                            <a href="{{ route('admin.payments') }}">
+                                <i class="fa-solid fa-money-bill"></i>
+                                <span>Formas de pagamento</span>
+                            </a>
+                        </li>
+                    @endcan --}}
+
+                    @can('configuracoes')
+                        <li class="{{ @$_configuration ? 'ativo' : '' }}">
+                            <a href="{{ route('admin.configuration') }}">
+                                <i class="fa-solid fa-money-bill"></i>
+                                <span>Configurações da loja</span>
+                            </a>
+                        </li>
+                    @endcan
+
                     @can('site')
                         <li class="{{ @$_site ? 'ativo' : '' }}">
                             <a href="{{ route('admin.site') }}">
@@ -153,5 +172,22 @@
                 </ul>
             </div>
         </div>
+    </div>
+    <div class="sidebar-footer">
+        {{-- <a href="#">
+            <i class="fa fa-bell"></i>
+            <span class="badge badge-pill badge-warning notification">3</span>
+        </a>
+        <a href="#">
+            <i class="fa fa-envelope"></i>
+            <span class="badge badge-pill badge-success notification">7</span>
+        </a>
+        <a href="#">
+            <i class="fa fa-cog"></i>
+            <span class="badge-sonar"></span>
+        </a> --}}
+        <a href="{{ route('logout') }}">
+            <i class="fa fa-power-off"></i>
+        </a>
     </div>
 </nav>

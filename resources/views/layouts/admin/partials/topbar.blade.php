@@ -3,19 +3,20 @@
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-2">
             <li class="nav-item">
                 <a class="nav-link"><i class="fas fa-user-circle me-2"></i>
-                    @if (Request::session()->get('tipo_login') == 1)
-                        {{ Auth::user()->name }}
-                    @endif
-
-                    @if (Request::session()->get('tipo_login') == 2)
-                        {{ Auth::guard('client')->user()->name }}
-                    @endif
+                    {{ Auth::user()->name }}
                 </a>
             </li>
         </ul>
-        <form action="{{ route('logout') }}" method="POST">
+        <form action="{{ route('tenant.open') }}" method="POST" class="form form-inline">
             @csrf
-            <button class="btn btn-sm btn-outline-success" type="submit"> Sair </button>
+            <div class="container mb-2">
+                <input type="hidden" name="open" value="{{ Request::session()->get('open') == 'N' ? 'Y' : 'N' }}">
+                <div class="form-group mt-2" align="center">
+                    <button type="submit"
+                        class="btn btn-sm btn-{{ Request::session()->get('open') == 'N' ? 'success' : 'warning' }}">{{ Request::session()->get('open') == 'N' ? 'Abrir' : 'Fechar' }}
+                        estabelecimento</button>
+                </div>
+            </div>
         </form>
     </div>
 </nav>

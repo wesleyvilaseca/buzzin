@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import DefaultLayout from '../../layouts/client_site/DefaultLayout.vue';
+import DefaultLayout from '../../layouts/tenant_site/DefaultLayout.vue';
 
 export default {
     props: [],

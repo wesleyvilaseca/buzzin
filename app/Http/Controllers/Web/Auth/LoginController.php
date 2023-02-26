@@ -7,15 +7,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Cookie;
 
-class LoginController extends Controller {
+class LoginController extends Controller
+{
     //
-    public function index() {
+    public function index()
+    {
         $data['title'] = 'Login';
         return view('auth.admin.login', $data);
     }
 
-    public function auth(Request $request) {
+    public function auth(Request $request)
+    {
         $validate = Validator::make($request->all(), [
             'email'         => ['required'],
             'password'      => ['required'],
@@ -29,11 +33,14 @@ class LoginController extends Controller {
             return Redirect::back()->with('error', 'User not found');
         };
 
+        Cookie::queue('admlogin', 'S', 3800);
         return Redirect::route('admin.dashboard');
     }
 
-    public function logout() {
+    public function logout()
+    {
         Auth::logout();
+        Cookie::queue(Cookie::forget('admlogin'));
         return Redirect::route('login');
     }
 }
