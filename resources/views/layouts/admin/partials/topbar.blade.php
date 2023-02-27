@@ -13,8 +13,13 @@
                 <input type="hidden" name="open" value="{{ Request::session()->get('open') == 'N' ? 'Y' : 'N' }}">
                 <div class="form-group mt-2" align="center">
                     <button type="submit"
-                        class="btn btn-sm btn-{{ Request::session()->get('open') == 'N' ? 'success' : 'warning' }}">{{ Request::session()->get('open') == 'N' ? 'Abrir' : 'Fechar' }}
-                        estabelecimento</button>
+                        class="btn btn-sm btn-{{ Request::session()->get('open') == 'N' ? 'success' : 'danger' }}">
+                        @if (Request::session()->get('open') == 'N')
+                        <i class="fa-sharp fa-solid fa-door-open"></i> Abrir
+                        @else
+                            <i class="fa-sharp fa-solid fa-door-closed"></i> Fechar
+                        @endif
+                    </button>
                 </div>
             </div>
         </form>

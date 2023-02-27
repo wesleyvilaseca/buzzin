@@ -25,12 +25,12 @@ jQuery(function ($) {
 });
 
 
-let w = window.innerWidth;
-if (w <= 660) {
-    $(".page-wrapper").removeClass("toggled");
-} else {
-    $(".page-wrapper").addClass("toggled");
-}
+// let w = window.innerWidth;
+// if (w <= 660) {
+//     $(".page-wrapper").removeClass("toggled");
+// } else {
+//     $(".page-wrapper").addClass("toggled");
+// }
 
 window.addEventListener("resize", () => {
     let w = window.innerWidth;

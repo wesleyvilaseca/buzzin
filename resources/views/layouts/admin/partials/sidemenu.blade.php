@@ -105,7 +105,7 @@
                     @can('configuracoes')
                         <li class="{{ @$_configuration ? 'ativo' : '' }}">
                             <a href="{{ route('admin.configuration') }}">
-                                <i class="fa-solid fa-money-bill"></i>
+                                <i class="fa-solid fa-gear"></i>
                                 <span>Configurações da loja</span>
                             </a>
                         </li>

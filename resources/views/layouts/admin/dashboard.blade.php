@@ -91,6 +91,15 @@
             <div class="modal"></div>
         </div>
     </div>
+    <script>
+        let w = window.innerWidth;
+        if (w <= 660) {
+            $(".page-wrapper").removeClass("toggled");
+        } else {
+            $(".page-wrapper").addClass("toggled");
+        }
+    </script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>

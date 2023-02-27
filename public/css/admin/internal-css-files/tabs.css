@@ -7,9 +7,9 @@
     font-weight: bold !important;
 }
 
-.nav-item a {
+/* .nav-item a {
     color: #a5a5a5 !important;
-}
+} */
 
 .custom-file-input~.custom-file-label::after {
     content: attr(data-label);

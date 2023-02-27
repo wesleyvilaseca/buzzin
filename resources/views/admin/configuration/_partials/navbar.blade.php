@@ -1,9 +1,9 @@
-<nav class="navbar nav-config navbar-expand-lg navbar-light mb-3" style="background-color: #e3f2fd;">
+<nav class="navbar nav-config navbar-expand-lg bg-dark mb-3">
     <div class="container-fluid">
         {{-- <a class="navbar-brand" href="#">Navbar</a> --}}
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        <button class="navbar-toggler shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+            <i class="fas fa-bars" style="color:#fff; font-size:15px; border:none;"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -11,19 +11,36 @@
                     <li class="nav-item">
                         <a class="nav-link  {{ @$_payment ? 'activated' : '' }}" aria-current="page"
                             href="{{ route('admin.payments') }}">
+                            <i class="fa-solid fa-credit-card"></i>
                             Formas de pagamento
                         </a>
                     </li>
                 @endcan
 
+                <li class="nav-item">
+                    <a class="nav-link  {{ @$_delivery ? 'activated' : '' }}" aria-current="page" style="a:hover: #fff"
+                        href="#">
+                        <i class="fa-solid fa-truck"></i>
+                        Formas de entregas
+                    </a>
+                </li>
+
                 @can('tenant_operation')
                     <li class="nav-item">
-                        <a class="nav-link  {{ @$_operation ? 'activated' : '' }}" aria-current="page"
+                        <a class="nav-link  {{ @$_operation ? 'activated' : '' }}" aria-current="page" style="a:hover: #fff"
                             href="{{ route('admin.operations') }}">
-                            Funcionamento
+                            <i class="fa-solid fa-clock"></i> Funcionamento
                         </a>
                     </li>
                 @endcan
+
+                <li class="nav-item">
+                    <a class="nav-link  {{ @$_delivery ? 'activated' : '' }}" aria-current="page" style="a:hover: #fff"
+                        href="#">
+                        <i class="fa-solid fa-user"></i>
+                        Minha conta
+                    </a>
+                </li>
                 {{-- <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">

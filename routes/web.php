@@ -45,7 +45,6 @@ if ($domain === $appDomain) {
     Route::middleware(['check.site.client'])->group(function () {
         Route::any('/',         [ClientSiteHomeController::class, 'index']);
     });
-
     Route::any('/site-em-manutencao',         [ClientSiteHomeController::class, 'inMaintence'])->name('tenant.maintence');
 }
 
@@ -63,8 +62,8 @@ Route::post('/register',    [RegisterController::class, 'create'])->name('regist
  * login routes
  */
 
-Route::get('/login',        [LoginController::class, 'index'])->name('login');
-Route::post('/login',       [LoginController::class, 'auth'])->name('login.auth');
+Route::get('/login',       [LoginController::class, 'index'])->name('login');
+Route::post('/login',      [LoginController::class, 'auth'])->name('login.auth');
 Route::get('/logout',      [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'check.status.store'])->group(function () {
