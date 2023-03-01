@@ -22,6 +22,7 @@ use App\Http\Controllers\Web\Admin\ProductController;
 use App\Http\Controllers\Web\Admin\ProductMarketsController;
 use App\Http\Controllers\Web\Admin\SiteController;
 use App\Http\Controllers\Web\Admin\TableController;
+use App\Http\Controllers\Web\Admin\TenantAccountController;
 use App\Http\Controllers\Web\Admin\TenantController;
 use App\Http\Controllers\Web\Admin\TenantShippingController;
 use App\Http\Controllers\Web\Admin\UserController;
@@ -367,6 +368,10 @@ Route::middleware(['auth', 'check.status.store'])->group(function () {
         Route::put('/enable/{id}',      [OperationController::class, 'enable'])->name('operation.enable');
         Route::get('/{id}/detail',      [OperationController::class, 'detailOperation'])->name('operation.detail');
         Route::put('/{id}/detail',      [OperationController::class, 'detailUpdate'])->name('operation.update');
+    });
+
+    Route::prefix('admin-myaccount')->group(function () {
+        Route::get('/',                 [TenantAccountController::class, 'index'])->name('admin.myaccount');
     });
 
     Route::prefix('admin-configuration')->group(function () {

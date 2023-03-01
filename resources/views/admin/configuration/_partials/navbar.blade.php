@@ -35,13 +35,15 @@
                     </li>
                 @endcan
 
-                <li class="nav-item">
-                    <a class="nav-link  {{ @$_myaccout ? 'activated' : '' }}" aria-current="page" style="a:hover: #fff"
-                        href="#">
-                        <i class="fa-solid fa-user"></i>
-                        Minha conta
-                    </a>
-                </li>
+                @can('tenant_account')
+                    <li class="nav-item">
+                        <a class="nav-link  {{ @$_myaccount ? 'activated' : '' }}" aria-current="page" style="a:hover: #fff"
+                            href="{{ route('admin.myaccount') }}">
+                            <i class="fa-solid fa-user"></i>
+                            Minha conta
+                        </a>
+                    </li>
+                @endcan
                 {{-- <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
