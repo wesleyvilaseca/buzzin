@@ -40,18 +40,17 @@ use Illuminate\Support\Facades\Route;
 $domain = request()->getHttpHost();
 $appDomain = str_replace(['http://', 'https://'], "", env('APP_URL'));
 
-if ($domain === $appDomain) {
-    Route::get('/',             [HomeController::class, 'index'])->name('inicio');
-} else {
+if ($domain !== $appDomain) {
     Route::middleware(['check.site.client'])->group(function () {
         Route::any('/',         [ClientSiteHomeController::class, 'index']);
     });
     Route::any('/site-em-manutencao',         [ClientSiteHomeController::class, 'inMaintence'])->name('tenant.maintence');
+    return;
 }
 
+Route::get('/',             [HomeController::class, 'index'])->name('inicio');
 Route::get('/subscription/{url}', [SubscriptionsController::class, 'plan'])->name('subscription');
 Route::post('/subscription/{url}', [SubscriptionsController::class, 'register'])->name('subscription.register');
-
 
 /**
  * register routes
@@ -299,10 +298,9 @@ Route::middleware(['auth', 'check.status.store'])->group(function () {
         Route::any('/search',            [TenantController::class, 'search'])->name('tenant.search');
         Route::get('/{id}',             [TenantController::class, 'show'])->name('tenant.show');
         Route::delete('/{id}',          [TenantController::class, 'destroy'])->name('tenant.destroy');
-        
+
         Route::post('/order-when-closed',   [TenantController::class, 'orderWhenClosed'])->name('tenant.order_when_closed');
         Route::post('/open-place',          [TenantController::class, 'open'])->name('tenant.open');
-
     });
 
     Route::prefix('admin-category-markets')->group(function () {
