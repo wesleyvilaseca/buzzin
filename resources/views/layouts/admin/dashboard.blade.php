@@ -39,7 +39,15 @@
 
     <title>{{ @$title ? $title : 'CodeVilaFood' }}</title>
 
+    @php
+        
+    @endphp
+
     @yield('scripts-header')
+
+    <script>
+        let w = window.innerWidth;
+    </script>
 </head>
 
 <body>
@@ -92,13 +100,13 @@
         </div>
     </div>
     <script>
-        let w = window.innerWidth;
         if (w <= 660) {
             $(".page-wrapper").removeClass("toggled");
         } else {
             $(".page-wrapper").addClass("toggled");
         }
     </script>
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
