@@ -4,11 +4,13 @@ namespace App\Tenant\Rules;
 
 use App\Tenant\ManagerTenant;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class UniqueTenant implements Rule
 {
     protected $table, $value, $collumn;
+    protected $method;
 
     /**
      * Create a new rule instance.
@@ -20,6 +22,7 @@ class UniqueTenant implements Rule
         $this->table = $table;
         $this->value = $value;
         $this->collumn = $collumn;
+        $this->method = request()->method();
     }
 
     /**
@@ -38,8 +41,9 @@ class UniqueTenant implements Rule
             ->where('tenant_id', $tenantId)
             ->first();
 
-        if ($register && $register->{$this->collumn} == $this->value)
+        if ($register && $register->{$this->collumn} == $this->value || $this->method == 'PUT') {
             return true;
+        }
 
         return is_null($register);
     }

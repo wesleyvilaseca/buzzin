@@ -11,7 +11,7 @@ class Product extends Model
     use TenantTrait;
     use HasFactory;
 
-    protected $fillable = ['title', 'flag', 'price', 'description', 'image'];
+    protected $fillable = ['title', 'flag', 'price', 'stock_controll', 'quantity', 'status', 'description', 'image'];
 
     public function categories()
     {
