@@ -16,13 +16,14 @@ use App\Http\Controllers\Web\Admin\DashboardController;
 use App\Http\Controllers\Web\Admin\DetailPlanController;
 use App\Http\Controllers\Web\Admin\OperationController;
 use App\Http\Controllers\Web\Admin\OrderController;
-use App\Http\Controllers\Web\Admin\PaymentsController;
+use App\Http\Controllers\Web\Admin\TenantPaymentsController;
 use App\Http\Controllers\Web\Admin\PlanController;
 use App\Http\Controllers\Web\Admin\ProductController;
 use App\Http\Controllers\Web\Admin\ProductMarketsController;
 use App\Http\Controllers\Web\Admin\SiteController;
 use App\Http\Controllers\Web\Admin\TableController;
 use App\Http\Controllers\Web\Admin\TenantController;
+use App\Http\Controllers\Web\Admin\TenantShippingController;
 use App\Http\Controllers\Web\Admin\UserController;
 use App\Http\Controllers\Web\Admin\ZonesGeolocationController;
 use App\Http\Controllers\Web\Auth\LoginController;
@@ -348,10 +349,17 @@ Route::middleware(['auth', 'check.status.store'])->group(function () {
     });
 
     Route::prefix('admin-payment')->group(function () {
-        Route::get('/',                 [PaymentsController::class, 'index'])->name('admin.payments');
-        Route::post('/active',          [PaymentsController::class, 'active'])->name('payment.active');
-        Route::put('/disable/{id}',     [PaymentsController::class, 'disable'])->name('payment.disable');
-        Route::put('/enable/{id}',      [PaymentsController::class, 'enable'])->name('payment.enable');
+        Route::get('/',                 [TenantPaymentsController::class, 'index'])->name('admin.payments');
+        Route::post('/active',          [TenantPaymentsController::class, 'active'])->name('payment.active');
+        Route::put('/disable/{id}',     [TenantPaymentsController::class, 'disable'])->name('payment.disable');
+        Route::put('/enable/{id}',      [TenantPaymentsController::class, 'enable'])->name('payment.enable');
+    });
+
+    Route::prefix('admin-shipping')->group(function () {
+        Route::get('/',                 [TenantShippingController::class, 'index'])->name('admin.shippings');
+        Route::post('/active',          [TenantShippingController::class, 'active'])->name('shipping.active');
+        Route::put('/disable/{id}',     [TenantShippingController::class, 'disable'])->name('shipping.disable');
+        Route::put('/enable/{id}',      [TenantShippingController::class, 'enable'])->name('shipping.enable');
     });
 
     Route::prefix('admin-operation')->group(function () {

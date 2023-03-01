@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
-class PaymentsController extends Controller
+class TenantPaymentsController extends Controller
 {
     private $tenantPayment;
     private $payment;

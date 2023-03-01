@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Payments extends Migration
+class CreateShippingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class Payments extends Migration
      */
     public function up()
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('shippings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('description')->nullable();
             $table->string('detail')->nullable();
             $table->json('data')->nullable();
             $table->string('integration')->nullable();
-            $table->integer('ismoney')->nullable();
             $table->integer('status')->default(0)->comment("0 - disableb | 1 - enabled");
             $table->timestamps();
         });
@@ -32,6 +31,6 @@ class Payments extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('shippings');
     }
 }

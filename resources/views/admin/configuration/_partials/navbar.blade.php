@@ -1,8 +1,9 @@
 <nav class="navbar nav-config navbar-expand-lg bg-dark mb-3">
     <div class="container-fluid">
         {{-- <a class="navbar-brand" href="#">Navbar</a> --}}
-        <button class="navbar-toggler shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler shadow-none" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
             <i class="fas fa-bars" style="color:#fff; font-size:15px; border:none;"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -19,9 +20,9 @@
 
                 <li class="nav-item">
                     <a class="nav-link  {{ @$_delivery ? 'activated' : '' }}" aria-current="page" style="a:hover: #fff"
-                        href="#">
+                        href="{{ route('admin.shippings') }}">
                         <i class="fa-solid fa-truck"></i>
-                        Formas de entregas
+                        Formas de entrega
                     </a>
                 </li>
 
@@ -35,7 +36,7 @@
                 @endcan
 
                 <li class="nav-item">
-                    <a class="nav-link  {{ @$_delivery ? 'activated' : '' }}" aria-current="page" style="a:hover: #fff"
+                    <a class="nav-link  {{ @$_myaccout ? 'activated' : '' }}" aria-current="page" style="a:hover: #fff"
                         href="#">
                         <i class="fa-solid fa-user"></i>
                         Minha conta
