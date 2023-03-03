@@ -38,12 +38,12 @@
                             </td>
                             <td>{{ $product->title }}</td>
                             <td style="width=10px;">
-                                <a href="{{ route('product.categories', $product->id) }}" class="btn btn-sm btn-warning"
+                                <a href="{{ route('product.categories', $product->id) }}" class="btn btn-sm btn-warning me-1"
                                     title="Categorias"><i class="fas fa-layer-group"></i></a>
-                                <a href="{{ route('product.edit', $product->id) }}" class="btn btn-sm btn-info">
+                                <a href="{{ route('product.edit', $product->id) }}" class="btn btn-sm btn-info me-1">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
-                                <a href="{{ route('product.show', $product->id) }}" class="btn btn-sm btn-warning">
+                                <a href="{{ route('product.show', $product->id) }}" class="btn btn-sm btn-warning me-1">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
                             </td>

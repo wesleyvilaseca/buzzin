@@ -29,6 +29,7 @@ class CategoryProductController extends Controller
         $data['title']              = 'Categorias produto ' . $product->title;
         $data['toptitle']           = 'Categorias produto ' . $product->title;
         $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
+        $data['breadcrumb'][]       = ['route' => route('admin.products'), 'title' => 'Produtos'];
         $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Categorias vinculadas produto ' . $product->title, 'active' => true];
         $data['prod']               = true;
         $data['categories']         = $product->categories()->paginate();
@@ -46,6 +47,7 @@ class CategoryProductController extends Controller
         $data['title']              = 'Categorias produto ' . $product->title;
         $data['toptitle']           = 'Categorias produto ' . $product->title;
         $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
+        $data['breadcrumb'][]       = ['route' => route('admin.products'), 'title' => 'Produtos'];
         $data['breadcrumb'][]       = ['route' => route('product.categories', $product->id) , 'title' => 'Categorias vinculadas produto ' . $product->title];
         $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Categorias produto ' . $product->title, 'active' => true];
         $data['filters'] = $request->except('_token');

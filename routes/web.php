@@ -372,9 +372,12 @@ Route::middleware(['auth', 'check.status.store'])->group(function () {
 
     Route::prefix('admin-myaccount')->group(function () {
         Route::get('/',                 [TenantAccountController::class, 'index'])->name('admin.myaccount');
+        Route::put('/update-password',  [TenantAccountController::class, 'updatePassword'])->name('update.passwordaccount');
+        Route::put('/update-data',      [TenantAccountController::class, 'updateData'])->name('update.dataaccount');
     });
 
     Route::prefix('admin-configuration')->group(function () {
         Route::get('/',                 [ConfigurationController::class, 'index'])->name('admin.configuration');
     });
+    
 });

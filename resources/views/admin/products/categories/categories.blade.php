@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="mb-2" align="right">
-        <a href="{{ route('products.categories.available', $product->id) }}" class="btn btn-sm btn-primary">
+        <a href="{{ route('products.categories.available', $product->id) }}" class="btn btn-sm btn-primary me-1">
             ADD NOVA CATEGORIA
         </a>
         <a href="{{ route('admin.products') }}" class="btn btn-sm btn-dark">

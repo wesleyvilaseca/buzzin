@@ -15,8 +15,6 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-use function Psy\debug;
-
 class TenantController extends Controller
 {
     private $repository;
@@ -167,8 +165,9 @@ class TenantController extends Controller
         $data = $request->except($except);
 
         if ($request->hasFile('logo') && $request->logo->isValid()) {
-            if (Storage::exists($tenant->logo))
+            if (Storage::exists($tenant->logo)) {
                 Storage::delete($tenant->logo);
+            }
 
             $data['logo'] = $request->logo->store("public/tenants/{$tenant->uuid}/logo");
         }

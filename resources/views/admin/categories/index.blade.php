@@ -35,10 +35,10 @@
                             <td>{{ $category->name }}</td>
                             <td>{{ $category->description }}</td>
                             <td style="width=10px;">
-                                <a href="{{ route('category.edit', $category->id) }}" class="btn btn-sm btn-info">
+                                <a href="{{ route('category.edit', $category->id) }}" class="btn btn-sm btn-info me-1">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
-                                <a href="{{ route('category.show', $category->id) }}" class="btn btn-sm btn-warning">
+                                <a href="{{ route('category.show', $category->id) }}" class="btn btn-sm btn-warning me-1">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
                             </td>

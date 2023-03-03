@@ -8,8 +8,6 @@ use App\Models\Table;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
-use function Psy\debug;
-
 class TableController extends Controller
 {
     private $repository;
