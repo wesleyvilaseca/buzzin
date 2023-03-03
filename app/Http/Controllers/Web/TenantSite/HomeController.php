@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Web\ClientSite;
+namespace App\Http\Controllers\Web\TenantSite;
 
 use App\Http\Controllers\Controller;
 use App\Models\Plan;
@@ -11,25 +11,25 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    private $tenantRepository;
     private $tenant;
 
     public function __construct(Tenant $tenantRepository)
     {
-        $subdomain = explode(".", request()->getHttpHost())[0];
-        $this->tenantRepository = $tenantRepository;
-        $this->tenant = $this->tenantRepository = Tenant::where('url', $subdomain)->first();
+        $this->middleware(function ($request, $next) {
+            $this->tenant = session()->get('tenant');
+            return $next($request);
+        });
     }
 
     public function index()
     {
         $data['title']      = 'Home - ' . $this->tenant->url;
-        return view('client_site.home.index', $data);
+        return view('tenant_site.home.index', $data);
     }
 
     public function inMaintence()
     {
         $data['title']      = 'Em Manutenção - ' . $this->tenant->url;
-        return view('client_site.maintence.index', $data);
+        return view('tenant_site.maintence.index', $data);
     }
 }

@@ -7,7 +7,7 @@
     <input type="text" name="name" class="form-control form-control-sm" placeholder="Nome:"
         value="{{ $category->name ?? old('name') }}" required>
 </div>
-<div class="row">
+{{-- <div class="row">
     <div class="form-group mt-2">
         <label class="mb-2">Icone: <span id="selected_icon"></span>
         </label>
@@ -19,8 +19,6 @@
             <input type="text" name="icon" id="icon" class="form-control" aria-label="Small"
                 aria-describedby="inputGroup-sizing-sm" value="{{ $category->icon ?? old('icon') }}" readonly>
         </div>
-
-        <!-- Modal -->
         <div class="modal fade" id="modalIcons" tabindex="-1" aria-labelledby="modalIconsLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -37,8 +35,6 @@
                                         <i class="{{ $key }}" style="font-size: 17px"></i>
                                     </div>
                                 </div>
-                                {{-- <option value="{{ $key }}" {{ @$category->icon == $key ? 'selected' : '' }}>
-                                {{ $icon }}</option> --}}
                             @endforeach
                         </div>
                     </div>
@@ -49,6 +45,11 @@
             </div>
         </div>
     </div>
+</div> --}}
+
+<div class="form-group mt-2">
+    <label>* Imagem:</label>
+    <input type="file" name="image" class="form-control form-control-sm" {{ @$category ? '' : 'required' }}>
 </div>
 
 <div class="form-group mt-2">

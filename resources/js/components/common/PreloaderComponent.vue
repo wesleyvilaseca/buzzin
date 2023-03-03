@@ -8,11 +8,11 @@
 <script>
 import { mapState } from "vuex";
 export default {
-    // computed: {
-    //     ...mapState({
-    //         preloader: (state) => state.preloader,
-    //         textPreloader: (state) => state.textPreloader,
-    //     }),
-    // },
+    computed: {
+        ...mapState({
+            preloader: (state) => state.preloader.preloader,
+            textPreloader: (state) => state.textPreloader.preloader,
+        }),
+    },
 };
 </script>

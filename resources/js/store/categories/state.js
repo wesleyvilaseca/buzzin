@@ -1,5 +1,5 @@
 const state = {
-    products: {
+    categories: {
         data: []
     }
 }

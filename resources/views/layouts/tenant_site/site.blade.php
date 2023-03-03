@@ -11,9 +11,10 @@
     <link rel="icon" href="{{ asset('images/favicon.ico') }}">
     <link href="{{ asset('css/site.css') }}" rel="stylesheet">
 
-    <link href="{{ asset('css/site_client/auth.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/site_client/reset.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/site_client/vuefood.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/tenant_client/auth.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/tenant_client/reset.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/tenant_client/vuefood.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css'>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"

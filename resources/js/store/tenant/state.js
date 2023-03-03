@@ -1,7 +1,5 @@
 const state = {
-    products: {
-        data: []
-    }
+    company: ""
 }
 
 export default state;

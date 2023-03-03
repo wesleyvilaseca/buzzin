@@ -19,6 +19,7 @@ class CreateCategoriesTable extends Migration
             $table->uuid('uuid');
             $table->string('name');
             $table->string('icon')->nullable();
+            $table->string('imagem')->nullable();
             $table->string('url');
             $table->text('description');
             $table->timestamps();

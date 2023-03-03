@@ -9,9 +9,16 @@
 
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('category.update', $category->id) }}" class="form" method="POST">
+            <form action="{{ route('category.update', $category->id) }}" class="form" method="POST"
+                enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
+
+                <div class="text-center">
+                    <img src="{{ @$category->image ? Storage::url("{$category->image}") : asset('images/no-image.png') }}"
+                        alt="{{ $category->name }}" style="max-width: 90px;" />
+                </div>
+
                 @include('admin.categories._partials.form', ['category' => $category])
             </form>
         </div>

@@ -4,7 +4,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-vuefood">
             <div class="container">
                 <a href="#" class="navbar-brand">
-                    <img src="../../../../assets/imgs/logo-vuefood.png" alt="VueFood" class="logo" />
+                    <img :src="company.logo" alt="VueFood" class="logo" />
                 </a>
                 <div>
                     <ul class="navbar-nav ml-auto">
@@ -15,7 +15,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="#" class="nav-link text-success mt-2 ms-5">
+                            <a href="#" class="nav-link mt-2 ms-5" style="color:#4060ff">
                                 Login
                             </a>
                         </li>
@@ -29,13 +29,25 @@
 
   
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
+
 export default {
-    computed: {},
+    computed: {
+        ...mapState({
+            company: (state) => state.tenant.company,
+        }),
+    },
     methods: {
+        ...mapActions([
+            "getTenant",
+        ]),
+
         exit() {
             console.log('sair');
         },
+    },
+    mounted() {
+        this.getTenant();
     },
 };
 </script>

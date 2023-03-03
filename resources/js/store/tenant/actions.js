@@ -1,12 +1,12 @@
 import axios from "axios";
 
 const actions = {
-    getProducts({ commit }, params) {
+    getTenant({ commit }, params) {
         commit('SET_PRELOADER', true);
         commit('SET_TEXT_PRELOADER', 'Carregando os produtos...');
-        return axios.get('/app/products', { params })
+        return axios.get('/app/tenant', { params })
             .then(res => { 
-                commit('SET_PRODUCTS_COMPANY', res.data)
+                commit('SET_COMPANY', res.data.data)
              })
             .finally(() => commit('SET_PRELOADER', false));
     },

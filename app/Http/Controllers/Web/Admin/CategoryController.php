@@ -7,6 +7,7 @@ use App\Http\Requests\StoreUpdateCategory;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -101,28 +102,49 @@ class CategoryController extends Controller
             'name' => $request->name
         ])->first();
 
-        if ($exist)
+        if ($exist) {
             return Redirect::back()->with('warning', 'Já existe uma categoria com esse nome');
+        }
+
+        $data = $request->all();
+
+        $tenant = auth()->user()->tenant;
+        if ($request->hasFile('image') && $request->image->isValid()) {
+            $data['image'] = $request->image->store("public/tenants/{$tenant->uuid}/category");
+        }
 
         $result = $this->repository->create($request->all());
 
-        if (!$result)
+        if (!$result) {
             return Redirect::back()->with('warning', 'Erro na operação');
+        }
 
         return Redirect::route('admin.categories')->with('success', 'Categoria criado com sucesso');
     }
 
     public function update(StoreUpdateCategory $request, $id)
     {
-
         $category = $this->repository->find($id);
 
-        if (!$category)
+        if (!$category) {
             return Redirect::back()->with('warning', 'Operação não autorizada');
+        }
 
-        $result = $category->update($request->all());
-        if (!$result)
+        $data = $request->all();
+
+        $tenant = auth()->user()->tenant;
+        if ($request->hasFile('image') && $request->image->isValid()) {
+            if (Storage::exists($category->image)) {
+                Storage::delete($category->image);
+            }
+
+            $data['image'] = $request->image->store("public/tenants/{$tenant->uuid}/category");
+        }
+
+        $result = $category->update($data);
+        if (!$result) {
             return Redirect::back()->with('warning', 'Erro na operação');
+        }
 
         return Redirect::route('admin.categories')->with('success', 'Categoria editado com sucesso');
     }

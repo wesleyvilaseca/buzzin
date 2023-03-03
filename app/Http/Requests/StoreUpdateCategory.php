@@ -35,7 +35,8 @@ class StoreUpdateCategory extends FormRequest
                 "unique:categories,name,{$this->id}"
             ],
             'description' => ['required', 'min:3', 'max:10000'],
-            'icon' => ['max:50']
+            'icon' => ['max:50'],
+            'image' => ['required', 'file', 'max:2000', 'mimes:jpeg,jpg,png'],
         ];
     }
 }

@@ -29,9 +29,12 @@ use App\Http\Controllers\Web\Admin\UserController;
 use App\Http\Controllers\Web\Admin\ZonesGeolocationController;
 use App\Http\Controllers\Web\Auth\LoginController;
 use App\Http\Controllers\Web\Auth\RegisterController;
-use App\Http\Controllers\Web\ClientSite\HomeController as ClientSiteHomeController;
+use App\Http\Controllers\Web\TenantSite\HomeController as ClientSiteHomeController;
 use App\Http\Controllers\Web\Site\HomeController;
 use App\Http\Controllers\Web\Site\SubscriptionsController;
+use App\Http\Controllers\Web\TenantSite\CategoryController as TenantSiteCategoryController;
+use App\Http\Controllers\Web\TenantSite\ProductController as TenantSiteProductController;
+use App\Http\Controllers\Web\TenantSite\TenantController as TenantSiteTenantController;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -44,6 +47,11 @@ $appDomain = str_replace(['http://', 'https://'], "", env('APP_URL'));
 if ($domain !== $appDomain) {
     Route::middleware(['check.site.client'])->group(function () {
         Route::any('/',         [ClientSiteHomeController::class, 'index']);
+        Route::prefix('app')->group(function () {
+            Route::get('/tenant',           [TenantSiteTenantController::class, 'getTenant']);
+            Route::get('/category',         [TenantSiteCategoryController::class, 'categories']);
+            Route::get('/products',         [TenantSiteProductController::class, 'productsByTenant']);
+        });
     });
     Route::any('/site-em-manutencao',         [ClientSiteHomeController::class, 'inMaintence'])->name('tenant.maintence');
     return;
