@@ -15,7 +15,7 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item nav-cart">
                             <a href="#" class="nav-link" style="color: #fff">
-                                <i class="fa-solid fa-cart-shopping"></i> 0
+                                <i class="fa-solid fa-cart-shopping"></i> {{ productsCart.length }}
                             </a>
                         </li>
 
@@ -40,12 +40,13 @@ export default {
     computed: {
         ...mapState({
             company: (state) => state.tenant.company,
+            productsCart: (state) => state.cart.products.data,
             preloader: (state) => state.preloader.preloader
         }),
     },
     methods: {
         ...mapActions([
-            "getTenant",
+            "getTenant"
         ]),
 
         exit() {

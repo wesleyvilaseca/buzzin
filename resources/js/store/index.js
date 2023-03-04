@@ -4,6 +4,7 @@ import products from "./products";
 import categories from "./categories";
 import preloader from "./preloader";
 import paginate from "./paginate";
+import cart from './cart'
 
 export default createStore({
     modules: {
@@ -11,6 +12,7 @@ export default createStore({
         products,
         categories,
         preloader,
-        paginate
+        paginate,
+        cart
     }
 })

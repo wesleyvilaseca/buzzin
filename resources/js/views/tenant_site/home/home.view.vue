@@ -61,6 +61,7 @@
 <script>
 import DefaultLayout from '../../layouts/tenant_site/DefaultLayout.vue';
 import { mapActions, mapState, mapMutations, mapGetters } from "vuex";
+import { toast } from 'vue3-toastify';
 
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
@@ -102,16 +103,36 @@ export default {
             preloader: (state) => state.preloader.preloader,
             loadmore: (state) => state.preloader.loadmore,
             paginate: (state) => state.paginate.meta,
+            cart: (state) => state.cart.products,
+            company: (state) => state.tenant.company,
         }),
     },
     methods: {
         ...mapActions([
             "getProducts",
-            "getCategories"
+            "getCategories",
+            "setItemInCart",
+            "incrementToCart",
+            "getCart"
         ]),
 
         addProductCart(item) {
-            console.log(item);
+            if (this.checkIfIsInCart(item.identify)) {
+                return this.incrementToCart({ uuid: this.company.uuid, product: item })
+                    .then(() => {
+                        toast.success("Produto adicionado ao carrinho", { autoClose: 2000 });
+                    })
+            }
+            return this.setItemInCart({ product: item, uuid: this.company.uuid })
+                .then(() => {
+                    toast.success("Produto adicionado ao carrinho", { autoClose: 2000 });
+                });
+        },
+
+        checkIfIsInCart(identify) {
+            return this.cart.data.some((item) => {
+                return item.identify == identify;
+            });
         },
 
         filterByCategory(category) {
@@ -131,6 +152,7 @@ export default {
         },
 
         loaMoreProduts() {
+            console.log(this.company)
             this.btnLoad(true);
             var params = { page: this.paginate.next_page }
             if (this.filters.category) {
@@ -153,13 +175,17 @@ export default {
                 this.textButton = 'Carregar mais produtos'
             }
         }
-
     },
     mounted() {
         this.getProducts({ page: "" });
-        this.getCategories()
+        this.getCategories();
+    },
+    created() {
     },
     watch: {
+        company() {
+            this.getCart(this.company.uuid);
+        }
     },
 }
 </script>
