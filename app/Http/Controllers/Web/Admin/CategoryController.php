@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Web\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateCategory;
 use App\Models\Category;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 
@@ -98,28 +100,39 @@ class CategoryController extends Controller
 
     public function store(StoreUpdateCategory $request)
     {
-        $exist = $this->repository->where([
-            'name' => $request->name
-        ])->first();
+        DB::beginTransaction();
+        try {
+            $exist = $this->repository->where([
+                'name' => $request->name
+            ])->first();
 
-        if ($exist) {
-            return Redirect::back()->with('warning', 'Já existe uma categoria com esse nome');
-        }
+            if ($exist) {
+                return Redirect::back()->with('warning', 'Já existe uma categoria com esse nome');
+            }
 
-        $data = $request->all();
+            if (!$request->hasFile('image')) {
+                return Redirect::back()->with('warning', 'Selecione uma imagem para a categoria');
+            }
 
-        $tenant = auth()->user()->tenant;
-        if ($request->hasFile('image') && $request->image->isValid()) {
-            $data['image'] = $request->image->store("public/tenants/{$tenant->uuid}/category");
-        }
+            $data = $request->all();
 
-        $result = $this->repository->create($request->all());
+            $tenant = auth()->user()->tenant;
+            if ($request->hasFile('image') && $request->image->isValid()) {
+                $image = $request->image->store("public/tenants/{$tenant->uuid}/category");
+                $data['image'] = $image;
+            }
 
-        if (!$result) {
+            $result = $this->repository->create($data);
+
+            if (!$result) {
+                return Redirect::back()->with('warning', 'Erro na operação');
+            }
+            DB::commit();
+            return Redirect::route('admin.categories')->with('success', 'Categoria criado com sucesso');
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
             return Redirect::back()->with('warning', 'Erro na operação');
         }
-
-        return Redirect::route('admin.categories')->with('success', 'Categoria criado com sucesso');
     }
 
     public function update(StoreUpdateCategory $request, $id)
@@ -130,8 +143,11 @@ class CategoryController extends Controller
             return Redirect::back()->with('warning', 'Operação não autorizada');
         }
 
-        $data = $request->all();
+        if (!$category->image && !$request->hasFile('image')) {
+            return Redirect::back()->with('warning', 'Selecione uma imagem para a categoria');
+        }
 
+        $data = $request->all();
         $tenant = auth()->user()->tenant;
         if ($request->hasFile('image') && $request->image->isValid()) {
             if (Storage::exists($category->image)) {
@@ -155,6 +171,10 @@ class CategoryController extends Controller
 
         if (!$category)
             return Redirect::back()->with('warning', 'Operação não autorizada');
+
+        if (Storage::exists($category->image)) {
+            Storage::delete($category->image);
+        }
 
         $result = $category->delete();
         if (!$result)

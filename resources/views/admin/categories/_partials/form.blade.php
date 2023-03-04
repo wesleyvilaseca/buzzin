@@ -5,7 +5,7 @@
 <div class="form-group mt-2">
     <label>Nome:</label>
     <input type="text" name="name" class="form-control form-control-sm" placeholder="Nome:"
-        value="{{ $category->name ?? old('name') }}" required>
+        value="{{ @$category->name ?? old('name') }}" required>
 </div>
 {{-- <div class="row">
     <div class="form-group mt-2">
@@ -49,12 +49,12 @@
 
 <div class="form-group mt-2">
     <label>* Imagem:</label>
-    <input type="file" name="image" class="form-control form-control-sm" {{ @$category ? '' : 'required' }}>
+    <input type="file" name="image" class="form-control form-control-sm" {{ @$category->image ? '' : 'required' }}/>
 </div>
 
 <div class="form-group mt-2">
     <label>Descrição:</label>
-    <textarea name="description" ols="30" rows="5" class="form-control form-control-sm">{{ $category->description ?? old('description') }}</textarea>
+    <textarea name="description" ols="30" rows="5" class="form-control form-control-sm">{{ @$category->description ?? old('description') }}</textarea>
 </div>
 <div class="form-group mt-2 text-center">
     <button type="submit" class="btn btn-sm btn-success">Enviar</button>

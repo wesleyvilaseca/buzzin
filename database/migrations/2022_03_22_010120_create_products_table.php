@@ -19,7 +19,7 @@ class CreateProductsTable extends Migration
             $table->uuid('uuid');
             $table->string('title');
             $table->string('flag');
-            $table->string('image');
+            $table->text('image');
             $table->double('price', 10, 2);
             $table->text('description');
             $table->double('quantity', 10, 2)->default(0);

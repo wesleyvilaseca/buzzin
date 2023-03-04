@@ -4,7 +4,12 @@
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-vuefood">
             <div class="container">
                 <a href="#" class="navbar-brand">
-                    <img :src="company.logo" alt="VueFood" class="logo" />
+                    <span v-if="preloader" class="text-center">
+                        <img src="../../../../assets/imgs/preloader.gif" alt="Carregando..." style="max-width: 35px;" />
+                    </span>
+                    <span v-else>
+                        <img :src="company.logo" alt="VueFood" class="logo" />
+                    </span>
                 </a>
                 <div>
                     <ul class="navbar-nav ml-auto">
@@ -35,6 +40,7 @@ export default {
     computed: {
         ...mapState({
             company: (state) => state.tenant.company,
+            preloader: (state) => state.preloader.preloader
         }),
     },
     methods: {

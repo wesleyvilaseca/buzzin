@@ -36,7 +36,7 @@ class StoreUpdateCategory extends FormRequest
             ],
             'description' => ['required', 'min:3', 'max:10000'],
             'icon' => ['max:50'],
-            'image' => ['required', 'file', 'max:2000', 'mimes:jpeg,jpg,png'],
+            'image' => ['file', 'max:2000', 'mimes:jpeg,jpg,png'],
         ];
     }
 }

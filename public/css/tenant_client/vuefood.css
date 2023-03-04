@@ -94,18 +94,23 @@ body {
 }
 
 .preloader {
-  position: absolute;
-  background: #000;
+  position: fixed;
+  background: #fff;
   opacity: .8;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   z-index: 999999999999;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow-y: hidden !important;
+  overflow-x: hidden !important;
 }
 
 .preloader img {
-  width: 100px;
-  margin-top: 10%;
+  width: 80px;
+  /* margin-top: 10%; */
 }
 
 .bg-vuefood {
@@ -319,16 +324,19 @@ body {
   transition: box-shadow .5s ease, background .7s ease, opacity .5s ease;
 }
 
-.list-categories a:hover, .active-category {
+.list-categories a:hover,
+.active-category {
   background: #fbd560 !important;
 }
 
-.list-categories a:hover .icon, .active-category {
+.list-categories a:hover .icon,
+.active-category {
   background: #fff;
   color: #000 !important;
 }
 
-.list-categories a:hover i, .active-category {
+.list-categories a:hover i,
+.active-category {
   /* transform: scale(1.2); */
   font-size: 2rem !important;
 }
@@ -348,7 +356,7 @@ body {
   margin-right: 20px;
   background: #ffe57f;
 } */
-.list-categories .icon{
+.list-categories .icon {
   text-align: center;
   font-size: 1.5rem;
   width: 3rem;
@@ -365,7 +373,7 @@ body {
   border-radius: 50%;
 }
 
-.list-categories .icon i{
+.list-categories .icon i {
   transition: font-size .5s ease;
 }
 

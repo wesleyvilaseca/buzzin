@@ -10,8 +10,6 @@ import Select2 from 'vue3-select2-component';
 
 import homeSiteTenantView from './views/tenant_site/home/home.view.vue';
 import maintenceSiteTenantView from './views/tenant_site/maintence/maintence.view.vue';
-import Preloader from './components/common/PreloaderComponent.vue';
-
 
 var app = createApp();
 
@@ -20,8 +18,6 @@ var app = createApp();
  */
 app.component('Select2', Select2)
 app.component('Pagination', Bootstrap5Pagination);
-app.component('Preloader', Preloader);
-
 
 /**
  * view components

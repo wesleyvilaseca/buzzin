@@ -2,7 +2,7 @@
     <DefaultLayout>
         <template v-slot:content>
             <div>
-                <div class="container">
+                <!-- <div class="container">
                     <div class="row">
                         <div class="list-categories">
                             <a href="#" @click.prevent="filterByCategory(category)"
@@ -15,7 +15,25 @@
                             </a>
                         </div>
                     </div>
+                </div> -->
+
+                <div class="container">
+                    <Carousel :settings="settings" :breakpoints="breakpoints">
+                        <Slide v-for="(category, index) in categories.data" :key="index" class="list-categories">
+                            <a class="carousel__item list-categories__item" href="#" @click.prevent="filterByCategory(category)">
+                                <div class="icon">
+                                    <img class="card-img-top" :src="category.image" :alt="category.name" />
+                                </div>
+                                <span> {{ category.name }}</span>
+                            </a>
+                        </Slide>
+
+                        <template #addons>
+                            <Navigation />
+                        </template>
+                    </Carousel>
                 </div>
+
                 <!-- Cards Produtos -->
                 <div class="container">
                     <div class="row my-4">
@@ -56,12 +74,34 @@
 import DefaultLayout from '../../layouts/tenant_site/DefaultLayout.vue';
 import { mapActions, mapState, mapMutations, mapGetters } from "vuex";
 
+import 'vue3-carousel/dist/carousel.css';
+import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
+
 export default {
     props: [],
     components: {
-        DefaultLayout
+        DefaultLayout,
+        Carousel,
+        Slide,
+        Pagination,
+        Navigation,
     },
-    data: () => ({}),
+    data: () => ({
+        settings: {
+            itemsToShow: 1,
+            snapAlign: 'center',
+        },
+        breakpoints: {
+            700: {
+                itemsToShow: 3.5,
+                snapAlign: 'center',
+            },
+            1024: {
+                itemsToShow: 7,
+                snapAlign: 'start',
+            },
+        },
+    }),
     computed: {
         ...mapState({
             products: (state) => state.products.products,

@@ -1,7 +1,7 @@
 <template>
     <div class="preloader" v-if="preloader">
         <img src="../../assets/imgs/preloader.gif" alt="Carregando..." />
-        <p>{{ textPreloader }}</p>
+        <p class="fw-bold">{{ textPreloader }}</p>
     </div>
 </template>
   
@@ -11,7 +11,7 @@ export default {
     computed: {
         ...mapState({
             preloader: (state) => state.preloader.preloader,
-            textPreloader: (state) => state.textPreloader.preloader,
+            textPreloader: (state) => state.preloader.textPreloader
         }),
     },
 };

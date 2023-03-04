@@ -11,7 +11,7 @@ const actions = {
             .then(res => {
                 commit('SET_CATEGORIES_COMPANY', res.data)
             })
-            .finally(() => commit('SET_PRELOADER', false)); I
+            .finally(() => commit('SET_PRELOADER', false));
     },
 
 }
