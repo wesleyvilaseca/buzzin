@@ -20094,6 +20094,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   },
   data: function data() {
     return {
+      filters: {
+        category: ""
+      },
       settings: {
         itemsToShow: 1,
         snapAlign: 'center'
@@ -20119,9 +20122,24 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     }
   })),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)(["getProducts", "getCategories"])), {}, {
-    addProductCart: function addProductCart(item) {},
-    filterByCategory: function filterByCategory(category) {},
-    categoryInFilter: function categoryInFilter(category) {}
+    addProductCart: function addProductCart(item) {
+      console.log(item);
+    },
+    filterByCategory: function filterByCategory(category) {
+      if (category.id === this.filters.category) {
+        this.filters.category = "";
+      } else {
+        this.filters.category = category.id;
+      }
+      var params = {};
+      if (this.filters.category) {
+        params.categories = [this.filters.category];
+      }
+      this.getProducts(params);
+    },
+    categoryInFilter: function categoryInFilter(category) {
+      return category.id == this.filters.category ? "active-category" : "";
+    }
   }),
   mounted: function mounted() {
     this.getProducts();
@@ -20362,7 +20380,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_DefaultLayout = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("DefaultLayout");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_DefaultLayout, null, {
     content: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"container\">\n                    <div class=\"row\">\n                        <div class=\"list-categories\">\n                            <a href=\"#\" @click.prevent=\"filterByCategory(category)\"\n                                v-for=\"(category, index) in categories.data\" :key=\"index\"\n                                :class=\"['list-categories__item', categoryInFilter(category)]\">\n                                <div class=\"icon\">\n                                    <img class=\"card-img-top\" :src=\"category.image\" :alt=\"category.name\" />\n                                </div>\n                                <span> {{ category.name }}</span>\n                            </a>\n                        </div>\n                    </div>\n                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Carousel, {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Carousel, {
         settings: _ctx.settings,
         breakpoints: _ctx.breakpoints
       }, {
@@ -20377,7 +20395,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }, {
               "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                 return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-                  "class": "carousel__item list-categories__item",
+                  "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["carousel__item list-categories__item", ['list-categories__item', $options.categoryInFilter(category)]]),
                   href: "#",
                   onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
                     return $options.filterByCategory(category);
@@ -20386,7 +20404,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   "class": "card-img-top",
                   src: category.image,
                   alt: category.name
-                }, null, 8 /* PROPS */, _hoisted_4)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_2)];
+                }, null, 8 /* PROPS */, _hoisted_4)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_2)];
               }),
               _: 2 /* DYNAMIC */
             }, 1024 /* DYNAMIC_SLOTS */);
@@ -20411,8 +20429,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             return $options.addProductCart(product);
           }, ["prevent"])
         }, _hoisted_18, 8 /* PROPS */, _hoisted_16)])]);
-      }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" /.row ")])];
+      }), 128 /* KEYED_FRAGMENT */))])])];
     }),
+
     _: 1 /* STABLE */
   });
 }
