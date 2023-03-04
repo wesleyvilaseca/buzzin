@@ -7,6 +7,22 @@ body {
   width: 100%;
 }
 
+.load_more_btn {
+  background: #4040ff !important;
+  color: #fff !important;
+  border-radius: 25px !important;
+}
+
+
+.load_more_btn:hover {
+  background: #4060ff !important;
+}
+
+.load_more_btn:focus {
+  box-shadow: none !important;
+  outline: 0px !important;
+}
+
 .landing-header {
   display: grid;
   justify-items: center;
@@ -297,20 +313,19 @@ body {
 /* categories List */
 
 .list-categories {
-  display: flex;
+  display: flex !important;
   flex-direction: row;
   flex-wrap: wrap;
-  max-width: calc(100% + 50px);
-  width: 100%;
-  padding: 30px 15px 15px;
+  max-width: calc(100% + 10px);
+  /* padding: 30px 15px 15px; */
+  padding-top: 30px;
   overflow: auto;
   color: #000;
 }
 
 .list-categories a {
-  width: 90px;
+  max-width: 150px;
   height: 150px;
-  padding: 20px 10px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -323,6 +338,20 @@ body {
   color: #000;
   transition: box-shadow .5s ease, background .7s ease, opacity .5s ease;
 }
+
+@media screen and (max-width: 760px) {
+
+  .list-categories {
+    padding-top: 50px;
+  }
+
+  .list-categories a {
+    height: 50px;
+    margin-right: 10px !important;
+    margin-left: 10px !important;
+  }
+}
+
 
 .list-categories a:hover,
 .active-category {
@@ -371,6 +400,8 @@ body {
 
 .list-categories .icon img {
   border-radius: 50%;
+  max-height: 100%;
+  object-fit: cover;
 }
 
 .list-categories .icon i {

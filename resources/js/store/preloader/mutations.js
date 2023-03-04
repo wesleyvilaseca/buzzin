@@ -6,6 +6,10 @@ export const mutations = {
 
     SET_TEXT_PRELOADER(state, text) {
         state.textPreloader = text
+    },
+
+    SET_LOADMORE(state, status) {
+        state.loadmore = status;
     }
 }
 

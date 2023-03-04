@@ -1,6 +1,7 @@
 export const state = {
     preloader: false,
-    textPreloader: 'Carregando...'
+    textPreloader: 'Carregando...',
+    loadmore: true,
 }
 
 export default state;

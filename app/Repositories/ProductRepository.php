@@ -29,7 +29,7 @@ class ProductRepository implements ProductRepositoryInterface
                     $query->whereIn('categories.uuid', $categories);
             })
             ->select('products.*')
-            ->get();
+            ->paginate(8);
     }
 
     public function getProductByUuid(string $uuid)

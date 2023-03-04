@@ -24,7 +24,7 @@
             <div class="container">
                 <div class="row my-4">
                     <div v-if="products.data.length === 0">Nenhum produto</div>
-                    <div class="col-lg-3 col-md-6 mb-4" v-for="(product, index) in products.data" :key="index">
+                    <div class="col-lg-3 col-md-6 col-sm-12 mb-4" v-for="(product, index) in products.data" :key="index">
                         <div :class="['card--flat', 'h-100']">
                             <a href="#">
                                 <div class="card-image">
@@ -48,6 +48,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="text-center d-grid gap-2 d-md-block" v-if="loadmore">
+                    <button type="button" class="btn load_more_btn" @click.prevent="loaMoreProduts()" v-html="textButton"
+                        :disabled="btnDisabled">
+                    </button>
+                </div>
             </div>
         </template>
     </DefaultLayout>
@@ -70,11 +75,13 @@ export default {
         Navigation,
     },
     data: () => ({
+        btnDisabled: false,
+        textButton: 'Carregar mais produtos',
         filters: {
             category: ""
         },
         settings: {
-            itemsToShow: 1,
+            itemsToShow: 2,
             snapAlign: 'center',
         },
         breakpoints: {
@@ -92,6 +99,9 @@ export default {
         ...mapState({
             products: (state) => state.products.products,
             categories: (state) => state.categories.categories,
+            preloader: (state) => state.preloader.preloader,
+            loadmore: (state) => state.preloader.loadmore,
+            paginate: (state) => state.paginate.meta,
         }),
     },
     methods: {
@@ -111,7 +121,8 @@ export default {
                 this.filters.category = category.id;
             }
 
-            var params = {};
+            var params = { page: "" };
+
             if (this.filters.category) {
                 params.categories = [this.filters.category];
             }
@@ -119,13 +130,36 @@ export default {
             this.getProducts(params);
         },
 
+        loaMoreProduts() {
+            this.btnLoad(true);
+            var params = { page: this.paginate.next_page }
+            if (this.filters.category) {
+                params.categories = [this.filters.category];
+            }
+            this.getProducts(params)
+                .finally(() => this.btnLoad(false))
+        },
+
         categoryInFilter(category) {
             return category.id == this.filters.category ? "active-category" : "";
+        },
+
+        btnLoad(showLoadign) {
+            if (showLoadign) {
+                this.btnDisabled = true;
+                this.textButton = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+            } else {
+                this.btnDisabled = false;
+                this.textButton = 'Carregar mais produtos'
+            }
         }
+
     },
     mounted() {
-        this.getProducts();
+        this.getProducts({ page: "" });
         this.getCategories()
+    },
+    watch: {
     },
 }
 </script>
