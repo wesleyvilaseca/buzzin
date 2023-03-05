@@ -49,14 +49,26 @@
                     </div>
                 </div>
                 <div class="text-center d-grid gap-2 d-md-block" v-if="loadmore">
-                    <button type="button" class="btn load_more_btn" @click.prevent="loaMoreProduts()" v-html="textButton"
-                        :disabled="btnDisabled">
+                    <button :style="btnStyles" type="button" class="btn load_more_btn" @click.prevent="loaMoreProduts()"
+                        v-html="textButton" :disabled="btnDisabled">
                     </button>
                 </div>
             </div>
         </template>
     </DefaultLayout>
 </template>
+
+<style scoped>
+.load_more_btn {
+    background: #4040ff !important;
+    color: #fff !important;
+    border-radius: 25px !important;
+}
+
+.load_more_btn:hover {
+    background: #4060ff !important;
+}
+</style>
 
 <script>
 import DefaultLayout from '../../layouts/tenant_site/DefaultLayout.vue';
@@ -106,6 +118,13 @@ export default {
             cart: (state) => state.cart.products,
             company: (state) => state.tenant.company,
         }),
+
+        btnStyles() {
+            return {
+                // "background": '#000 !important',
+                // "border-radius": "15px!important"
+            }
+        }
     },
     methods: {
         ...mapActions([

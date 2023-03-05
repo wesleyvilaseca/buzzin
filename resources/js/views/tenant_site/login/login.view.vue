@@ -19,7 +19,7 @@
                                     <i class="fas fa-envelope"></i>
                                 </span>
                                 <input type="email" v-model="formData.email" name="email" class="form-control input_user"
-                                    value="" placeholder="E-mail" />
+                                    placeholder="E-mail" />
                             </div>
 
                             <div class="text-danger" v-if="errors.password != ''">
@@ -30,7 +30,7 @@
                                     <i class="fas fa-key"></i>
                                 </span>
                                 <input type="password" name="password" v-model="formData.password"
-                                    class="form-control input_pass" value="" placeholder="Senha" />
+                                    class="form-control input_pass" placeholder="Senha" />
                             </div>
                             <div class="d-flex justify-content-center mt-3 login_container">
                                 <button type="button" name="button" class="btn login_btn" @click.prevent="auth()">
