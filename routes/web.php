@@ -34,7 +34,9 @@ use App\Http\Controllers\Web\Site\HomeController;
 use App\Http\Controllers\Web\Site\SubscriptionsController;
 use App\Http\Controllers\Web\TenantSite\CartController;
 use App\Http\Controllers\Web\TenantSite\CategoryController as TenantSiteCategoryController;
+use App\Http\Controllers\Web\TenantSite\LoginController as TenantSiteLoginController;
 use App\Http\Controllers\Web\TenantSite\ProductController as TenantSiteProductController;
+use App\Http\Controllers\Web\TenantSite\RegisterController as TenantSiteRegisterController;
 use App\Http\Controllers\Web\TenantSite\TenantController as TenantSiteTenantController;
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +52,8 @@ if ($domain !== $appDomain) {
         Route::any('/',         [ClientSiteHomeController::class, 'index']);
         Route::prefix('app')->group(function () {
             Route::get('/cart',         [CartController::class, 'index'])->name('cart');
+            Route::get('/login',         [TenantSiteLoginController::class, 'index'])->name('app.login');
+            Route::get('/register',      [TenantSiteRegisterController::class, 'index'])->name('app.register');
 
             Route::get('/tenant',           [TenantSiteTenantController::class, 'getTenant']);
             Route::get('/category',         [TenantSiteCategoryController::class, 'categories']);

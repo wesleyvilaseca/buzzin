@@ -20,7 +20,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="#" class="nav-link mt-2 ms-5" style="color:#4060ff">
+                            <a href="/app/login" class="nav-link mt-2 ms-5" style="color:#4060ff">
                                 Login
                             </a>
                         </li>
@@ -46,7 +46,8 @@ export default {
     },
     methods: {
         ...mapActions([
-            "getTenant"
+            "getTenant",
+            "getCart"
         ]),
 
         exit() {
@@ -55,6 +56,11 @@ export default {
     },
     mounted() {
         this.getTenant();
+    },
+    watch: {
+        company() {
+            this.getCart(this.company.uuid);
+        }
     },
 };
 </script>

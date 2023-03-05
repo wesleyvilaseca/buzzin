@@ -112,8 +112,7 @@ export default {
             "getProducts",
             "getCategories",
             "setItemInCart",
-            "incrementToCart",
-            "getCart"
+            "incrementToCart"
         ]),
 
         addProductCart(item) {
@@ -180,11 +179,6 @@ export default {
         this.getCategories();
     },
     created() {
-    },
-    watch: {
-        company() {
-            this.getCart(this.company.uuid);
-        }
-    },
+    }
 }
 </script>

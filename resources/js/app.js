@@ -16,6 +16,9 @@ import 'vue3-toastify/dist/index.css';
 
 import homeSiteTenantView from './views/tenant_site/home/home.view.vue';
 import cartSiteTenantView from './views/tenant_site/cart/cart.view.vue';
+import loginSiteTenantView from './views/tenant_site/login/login.view.vue';
+import registerSiteTenantView from './views/tenant_site/register/register.view.vue';
+
 import maintenceSiteTenantView from './views/tenant_site/maintence/maintence.view.vue';
 
 var app = createApp();
@@ -31,6 +34,8 @@ app.component('Pagination', Bootstrap5Pagination);
  */
 app.component('home-client-view', homeSiteTenantView);
 app.component('cart-tenant-view', cartSiteTenantView);
+app.component('login-tenant-view', loginSiteTenantView);
+app.component('register-tenant-view', registerSiteTenantView);
 app.component('maintence-sitetenant-view', maintenceSiteTenantView);
 
 const vfm = createVfm()

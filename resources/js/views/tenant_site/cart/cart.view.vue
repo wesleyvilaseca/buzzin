@@ -91,7 +91,6 @@ export default {
     mounted() { },
     methods: {
         ...mapActions([
-            "getCart",
             "incrementToCart",
             "decrementToCart",
             "removeFromCart"
@@ -114,11 +113,6 @@ export default {
 
         load() {
         },
-    },
-    watch: {
-        company() {
-            this.getCart(this.company.uuid);
-        }
-    },
+    }
 }
 </script>
