@@ -25,7 +25,7 @@
         </div>
         <a href="" class="cart-finalizar" @click.prevent="openModalCheckout()">Finalizar</a>
 
-        <ModalComponent v-show="isModalVisible" title="Pedigo" @close="closeModal">
+        <ModalComponent v-show="isModalVisible" title="Pedido" @close="closeModal">
             <template v-slot:content>
 
                 <div name="checkout-order" :heigth="350">

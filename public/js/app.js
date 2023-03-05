@@ -20932,7 +20932,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.openModalCheckout();
     }, ["prevent"]))
   }, "Finalizar"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ModalComponent, {
-    title: "Pedigo",
+    title: "Pedido",
     onClose: $options.closeModal
   }, {
     content: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
