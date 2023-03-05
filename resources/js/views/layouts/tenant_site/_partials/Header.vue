@@ -14,7 +14,7 @@
                 <div>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item nav-cart">
-                            <a href="#" class="nav-link" style="color: #fff">
+                            <a href="/app/cart" class="nav-link" style="color: #fff">
                                 <i class="fa-solid fa-cart-shopping"></i> {{ productsCart.length }}
                             </a>
                         </li>

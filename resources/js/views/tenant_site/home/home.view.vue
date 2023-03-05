@@ -152,7 +152,6 @@ export default {
         },
 
         loaMoreProduts() {
-            console.log(this.company)
             this.btnLoad(true);
             var params = { page: this.paginate.next_page }
             if (this.filters.category) {

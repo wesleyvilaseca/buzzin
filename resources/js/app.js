@@ -7,10 +7,15 @@ import VueTheMask from 'vue-the-mask';
 import money from 'v-money3'
 import { Bootstrap5Pagination } from 'laravel-vue-pagination';
 import Select2 from 'vue3-select2-component';
+
+import { createVfm } from 'vue-final-modal'
+import 'vue-final-modal/style.css'
+
 import Vue3Toasity from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 
 import homeSiteTenantView from './views/tenant_site/home/home.view.vue';
+import cartSiteTenantView from './views/tenant_site/cart/cart.view.vue';
 import maintenceSiteTenantView from './views/tenant_site/maintence/maintence.view.vue';
 
 var app = createApp();
@@ -25,8 +30,11 @@ app.component('Pagination', Bootstrap5Pagination);
  * view components
  */
 app.component('home-client-view', homeSiteTenantView);
+app.component('cart-tenant-view', cartSiteTenantView);
 app.component('maintence-sitetenant-view', maintenceSiteTenantView);
 
+const vfm = createVfm()
+app.use(vfm);
 app.use(Vue3Toasity, { autoClose: 3000 });
 app.use(store);
 app.use(VueTheMask);

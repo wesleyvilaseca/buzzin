@@ -477,7 +477,7 @@ body {
 
 .shopping-cart .card-body {
   /* border-radius: 1rem; */
-  margin-top: -15px;
+  /* margin-top: -15px; */
   background: #fff;
   z-index: 10;
 }

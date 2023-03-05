@@ -32,6 +32,7 @@ use App\Http\Controllers\Web\Auth\RegisterController;
 use App\Http\Controllers\Web\TenantSite\HomeController as ClientSiteHomeController;
 use App\Http\Controllers\Web\Site\HomeController;
 use App\Http\Controllers\Web\Site\SubscriptionsController;
+use App\Http\Controllers\Web\TenantSite\CartController;
 use App\Http\Controllers\Web\TenantSite\CategoryController as TenantSiteCategoryController;
 use App\Http\Controllers\Web\TenantSite\ProductController as TenantSiteProductController;
 use App\Http\Controllers\Web\TenantSite\TenantController as TenantSiteTenantController;
@@ -48,6 +49,8 @@ if ($domain !== $appDomain) {
     Route::middleware(['check.site.client'])->group(function () {
         Route::any('/',         [ClientSiteHomeController::class, 'index']);
         Route::prefix('app')->group(function () {
+            Route::get('/cart',         [CartController::class, 'index'])->name('cart');
+
             Route::get('/tenant',           [TenantSiteTenantController::class, 'getTenant']);
             Route::get('/category',         [TenantSiteCategoryController::class, 'categories']);
             Route::get('/products',         [TenantSiteProductController::class, 'productsByTenant']);

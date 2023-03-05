@@ -12,10 +12,15 @@ const mutations = {
         localStorage.setItem(company_uuid, JSON.stringify(state.products.data));
     },
 
-    REMOVE_PROD_CART(state, product) {
+    REMOVE_PROD_CART(state, params) {
+        const company_uuid = params.uuid;
+        const item = params.product;
+
         state.products.data = state.products.data.filter((productCart, index) => {
-            return productCart.identify !== product.identify;
+            return productCart.identify !== item.identify;
         });
+
+        localStorage.setItem(company_uuid, JSON.stringify(state.products.data));
     },
 
     INCREMENT_QTY_PROD_CART(state, params) {
@@ -56,6 +61,14 @@ const mutations = {
 
     SET_CART(state, params) {
         state.products.data = params
+    },
+
+    TOTAL_CART(state) {
+        let total = 0;
+        state.products?.data?.map((itemCart, index) => {
+            total += itemCart.qty * itemCart.item.price;
+        });
+        state.total = total;
     }
 
 };
