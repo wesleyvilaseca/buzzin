@@ -30,22 +30,16 @@ const actions = {
     },
 
     shippingValue({ commit }, cep) {
-        // const googleKey = 'AIzaSyDsoCVJSwyz4lKG4E5A-_X4tZzxKxdDDOY';
-        // const apiURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${cep}&key=${googleKey}`;
+        axios.get('/app/delivery-price/' + cep)
+            .then((res) => {
+                console.log(res)
+            })
 
         return {
             price: 10,
             shipping: false,
             free: false
         };
-
-        return axios.get(apiURL)
-            .then((res) => {
-                console.log(res)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
     }
 }
 

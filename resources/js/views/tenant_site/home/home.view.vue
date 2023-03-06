@@ -107,6 +107,7 @@ export default {
                 snapAlign: 'start',
             },
         },
+        style: {}
     }),
     computed: {
         ...mapState({
@@ -117,13 +118,14 @@ export default {
             paginate: (state) => state.paginate.meta,
             cart: (state) => state.cart.products,
             company: (state) => state.tenant.company,
+            layout: (state) => state.layout.layout
         }),
-
         btnStyles() {
-            return {
-                // "background": '#000 !important',
-                // "border-radius": "15px!important"
-            }
+            return this.style;
+            // return {
+            //     "background": `${this.layout.color} !important`,
+            //     "border-radius": "15px!important"
+            // }
         }
     },
     methods: {
@@ -133,6 +135,12 @@ export default {
             "setItemInCart",
             "incrementToCart"
         ]),
+
+        loadStyle() {
+            if (this.layout.color) {
+                this.style.background = `${this.layout.color} !important`;
+            }
+        },
 
         addProductCart(item) {
             if (this.checkIfIsInCart(item.identify)) {
@@ -198,6 +206,11 @@ export default {
         this.getCategories();
     },
     created() {
-    }
+    },
+    watch: {
+        layout() {
+            // this.loadStyle();
+        }
+    },
 }
 </script>

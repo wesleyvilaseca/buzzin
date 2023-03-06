@@ -5,6 +5,7 @@ import categories from "./categories";
 import preloader from "./preloader";
 import paginate from "./paginate";
 import cart from './cart';
+import layout from './layout';
 import auth from './auth';
 
 export default createStore({
@@ -15,6 +16,7 @@ export default createStore({
         preloader,
         paginate,
         cart,
+        layout,
         auth
     }
 })

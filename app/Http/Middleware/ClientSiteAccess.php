@@ -31,6 +31,8 @@ class ClientSiteAccess
             return Redirect::to($appdomain);
         }
 
+        $tenantExist->site = $tenantExist->site;
+
         session()->put('tenant', $tenantExist);
 
         $site = $tenantExist->site()->first();

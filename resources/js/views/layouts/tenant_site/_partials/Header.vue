@@ -19,8 +19,14 @@
                             </a>
                         </li>
 
+
                         <li class="nav-item">
-                            <a href="/app/login" class="nav-link mt-2 ms-5" style="color:#4060ff">
+                            <a href="#" class="nav-link mt-2 ms-5" style="color:#4060ff" v-if="me.name">Olá {{ me.name }}
+                                <span @click.prevent="exit()" class="text-danger ms-2">
+                                    <i class="fa-solid fa-right-from-bracket"></i>
+                                </span>
+                            </a>
+                            <a href="/app/login" class="nav-link mt-2 ms-5" style="color:#4060ff" v-else>
                                 Login
                             </a>
                         </li>
@@ -41,13 +47,16 @@ export default {
         ...mapState({
             company: (state) => state.tenant.company,
             productsCart: (state) => state.cart.products.data,
-            preloader: (state) => state.preloader.preloader
+            preloader: (state) => state.preloader.preloader,
+            me: (state) => state.auth.me
         }),
     },
     methods: {
         ...mapActions([
             "getTenant",
-            "getCart"
+            "getCart",
+            "getLayout",
+            "getMe"
         ]),
 
         exit() {
@@ -56,6 +65,8 @@ export default {
     },
     mounted() {
         this.getTenant();
+        this.getLayout();
+        this.getMe()
     },
     watch: {
         company() {

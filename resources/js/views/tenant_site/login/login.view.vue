@@ -82,8 +82,9 @@
 </style>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 import DefaultLayout from '../../layouts/tenant_site/DefaultLayout.vue';
+import { toast } from 'vue3-toastify';
 
 export default {
     props: [],
@@ -101,11 +102,48 @@ export default {
             password: "",
         },
     }),
-    computed: {},
+    computed: {
+        ...mapState({
+            company: (state) => state.tenant.company,
+        }),
+        deviceName() {
+            return (
+                navigator.appCodeName +
+                navigator.appName +
+                navigator.platform +
+                this.formData.email
+            );
+        },
+    },
     mounted() { },
     methods: {
         ...mapActions(["login"]),
-        auth() { },
+        auth() {
+            this.reset();
+            this.loading = true;
+            const params = {
+                device_name: this.deviceName,
+                ...this.formData,
+            };
+            this.login(params)
+                .then((res) => {
+                    toast.success("Login realizado com sucesso", { autoClose: 3000 });
+                    window.location.href = `http://${this.company.subdomain}`;
+                })
+                .catch((error) => {
+                    const errorResponse = error.response;
+                    if (errorResponse.status === 422 || errorResponse.status === 404) {
+                        this.errors = Object.assign(this.errors, errorResponse.data.errors);
+                        toast.error("Dados inválidos, verifique novamente", { autoClose: 4000 });
+                        return;
+                    }
+                    toast.error("Falha na operação", { autoClose: 3000 });
+                    setTimeout(() => this.reset(), 4000);
+                })
+                .finally(() => {
+                    this.loading = false;
+                });
+        },
         reset() {
             this.errors = { email: "", password: "" };
         },

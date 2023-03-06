@@ -8,7 +8,7 @@
                 No momento não estamos entregando para sua região
             </div>
         </div>
-        
+
         <div class="d-flex justify-content-between">
             <div class="cep">
                 <div class="form-group">
@@ -33,48 +33,19 @@
                         <p>Gerando o pedido... (aguarde!)</p>
                     </div>
                     <div class="px-md-5 my-4" v-else>
-                        <div class="col-12" v-if="me.name !== ''">
-                            <p><strong>Total de produtos: </strong>{{ products.length }}</p>
-                            <p><strong>Preço total: </strong> R$ {{ total }}</p>
-
-                            <div class="form-group">
-                                <textarea class="form-control my-4" name="comment" id="" cols="30" rows="3"
-                                    placeholder="Comentario (opicional)" v-model="comment"></textarea>
-                            </div>
-
-                            <div class="text-center my-4">
-                                <button class="btn btn-sm btn-info" @click.prevent="createOrder()">
-                                    Fazer pedido
-                                </button>
-                            </div>
-                        </div>
-
-                        <div v-else class="row">
+                        <div class="col-12" v-if="me.name == ''">
                             <div class="">
                                 <div class="alert alert-warning">
                                     Para finalizar o pedido você precisa estar logado
                                 </div>
                                 <p><strong>Total de produtos: </strong>{{ products.length }}</p>
                                 <p><strong>Preço total: </strong> R$ {{ total }}</p>
-
-                                <!-- <div class="form-group">
-                                    <textarea class="form-control my-4" name="comment" id="" cols="30" rows="3"
-                                        placeholder="Comentario (opicional)" v-model="comment"></textarea>
-                                </div> -->
-                                <!-- <div class="text-center my-4">
-                                    <button class="btn btn-sm btn-info" @click.prevent="createOrder()">
-                                        Fazer pedido de forma anônima
-                                    </button>
-                                </div> -->
                                 <div class="text-center d-grid gap-2 d-md-block">
                                     <a href="/app/login" type="button" class="btn load_more_btn" style="width: 200px;">
                                         Login
                                     </a>
                                 </div>
                             </div>
-                            <!-- <div class="col-6">
-                                <a href="/app/login" class="btn btn-default btn-full">Fazer login</a>
-                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -138,6 +109,10 @@ export default {
             //     });
         },
         openModalCheckout() {
+            if (this.me.name !== '') {
+                return window.location.href = `http://${this.company.subdomain}/app/checkout`;
+            }
+
             this.isModalVisible = true;
         },
         closeModal() {
@@ -147,7 +122,8 @@ export default {
     watch: {
         cartCep() {
             if (this.cartCep.length === 9) {
-                this.shippingValue(this.cartCep)
+
+                this.shippingValue(this.cartCep.replace("-", ""))
                     .then((res) => {
                         if (res.shipping) {
                             this.shippingPrice = res.price;

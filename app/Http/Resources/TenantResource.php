@@ -21,6 +21,8 @@ class TenantResource extends JsonResource
             'uuid' => $this->uuid,
             'flag' => $this->url,
             'contact' => $this->email,
+            'domain' => @$this->site[0]?->domain,
+            'subdomain' => @$this->site[0]?->subdomain,
             'logo' => $this->logo ? url("storage/" . str_replace("public/", "", $this->logo)) : null,
             'date_created' => Carbon::parse($this->created_at)->format('d/m/Y')
         ];

@@ -100,7 +100,8 @@
 
 <script>
 import DefaultLayout from '../../layouts/tenant_site/DefaultLayout.vue';
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
+import { toast } from 'vue3-toastify';
 
 export default {
     props: [],
@@ -120,7 +121,11 @@ export default {
             password: "",
         },
     }),
-    computed: {},
+    computed: {
+        ...mapState({
+            company: (state) => state.tenant.company,
+        }),
+    },
     mounted() { },
     methods: {
         ...mapActions(["register"]),
@@ -129,21 +134,25 @@ export default {
             this.loading = true;
             this.register(this.formData)
                 .then((res) => {
-                    this.$vToastify.error("Cadastro realizado com sucesso", "Success");
-                    this.$router.push({ name: "login" });
-                    console.log(res);
+                    toast.success("Cadastro realizado com sucesso", { autoClose: 3000 });
+                    window.location.href = `http://${this.company.subdomain}/app/login`;
                 })
                 .catch((error) => {
                     const errorResponse = error.response;
                     if (errorResponse.status === 422) {
                         this.errors = Object.assign(this.errors, errorResponse.data.errors);
-                        this.$vToastify.error(
+                        toast.error(
                             "Dados inválidos, verifique novamente",
-                            "Erro"
+                            { autoClose: 5000 }
                         );
                         return;
                     }
-                    this.$vToastify.error("Falha na operação", "Erro");
+
+                    toast.error(
+                        "Falha na operação",
+                        { autoClose: 5000 }
+                    );
+
                     setTimeout(() => this.reset(), 4000);
                 })
                 .finally(() => {
