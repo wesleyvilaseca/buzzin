@@ -31,4 +31,8 @@ class Tenant extends Model
     {
         return $this->hasMany(Site::class, 'tenant_id', 'id');
     }
+
+    public function tenantShipping() {
+        return $this->hasMany(TenantShipping::class, 'tenant_id', 'id');
+    }
 }

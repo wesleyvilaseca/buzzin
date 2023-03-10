@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import DefaultLayout from '../../layouts/tenant_site/DefaultLayout.vue';
 
 export default {
@@ -20,7 +21,13 @@ export default {
     },
     data: () => ({}),
     computed: {},
-    mounted() { },
-    methods: {}
+    created() {
+        this.setMaintenceState(true);
+    },
+    methods: {
+        ...mapActions([
+            "setMaintenceState"
+        ]),
+    }
 }
 </script>

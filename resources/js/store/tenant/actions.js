@@ -8,7 +8,9 @@ const actions = {
             .then(res => { 
                 commit('SET_COMPANY', res.data.data)
              })
-            .finally(() => commit('SET_PRELOADER', false));
+            .finally(() => {
+                commit('SET_PRELOADER', false)
+            });
     },
 }
 

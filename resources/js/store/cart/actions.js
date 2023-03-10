@@ -29,17 +29,11 @@ const actions = {
         commit('TOTAL_CART')
     },
 
-    shippingValue({ commit }, cep) {
-        axios.get('/app/delivery-price/' + cep)
+    shippingValue({ commit }, params) {
+        return axios.post('/app/delivery-price', params)
             .then((res) => {
-                console.log(res)
+               return res;
             })
-
-        return {
-            price: 10,
-            shipping: false,
-            free: false
-        };
     }
 }
 

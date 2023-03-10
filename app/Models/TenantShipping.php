@@ -12,4 +12,9 @@ class TenantShipping extends Model
     use TenantTrait;
 
     protected $fillable = ['shipping_id', 'data', 'status'];
+
+    public function shipping()
+    {
+        return $this->hasMany(Shipping::class, 'shipping_id', 'id');
+    }
 }

@@ -62,7 +62,7 @@ if ($domain !== $appDomain) {
             Route::post('/register',     [TenantSiteRegisterController::class, 'store'])->name('app.register.store');
 
             Route::get('/tenant',           [TenantSiteTenantController::class, 'getTenant']);
-            Route::get('/delivery-price/{cep}',   [TenantSiteTenantController::class, 'getDeliveryPrice']);
+            Route::post('/delivery-price',   [TenantSiteTenantController::class, 'getDeliveryPrice']);
 
             Route::get('/category',         [TenantSiteCategoryController::class, 'categories']);
             Route::get('/products',         [TenantSiteProductController::class, 'productsByTenant']);

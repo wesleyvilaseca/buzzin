@@ -6,6 +6,7 @@ import preloader from "./preloader";
 import paginate from "./paginate";
 import cart from './cart';
 import layout from './layout';
+import maintence from './maintence';
 import auth from './auth';
 
 export default createStore({
@@ -17,6 +18,7 @@ export default createStore({
         paginate,
         cart,
         layout,
+        maintence,
         auth
     }
 })

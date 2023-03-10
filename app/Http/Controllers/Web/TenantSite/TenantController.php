@@ -7,19 +7,19 @@ use App\Http\Resources\CategoryResource;
 use App\Http\Resources\TenantResource;
 use App\Models\Plan;
 use App\Services\CategoryService;
-use GuzzleHttp\Client;
+use App\Services\TenantService;
 use Illuminate\Http\Request;
 
 class TenantController extends Controller
 {
     private $categoryService;
     private $tenant;
-    private $client;
+    private $tenantService;
 
-    public function __construct(CategoryService $tenant)
+    public function __construct(CategoryService $tenant, TenantService $tenantService)
     {
         $this->categoryService = $tenant;
-        $this->client = new Client();
+        $this->tenantService = $tenantService;
 
         $this->middleware(function ($request, $next) {
             $this->tenant = session()->get('tenant');
@@ -32,26 +32,12 @@ class TenantController extends Controller
         return new TenantResource($this->tenant);
     }
 
-    public function getDeliveryPrice(Request $request, $cep) {
-        if(!$cep) {
-            return response()->json(['message' => 'Informe um cep']);
+    public function getDeliveryPrice(Request $request)
+    {
+        if (!$request->cep) {
+            return response()->json(['message' => 'Informe um cep'], 400);
         }
 
-        $apiUrl = "https://www.cepaberto.com/api/v3/cep?cep={$cep}";
-        $key = env('MIX_CEP_ABERTO');
-
-        $response = $this->client->request('GET', $apiUrl, [
-            'headers' => [
-                'Authorization' => "Token token={$key}"
-            ]
-        ]);
-
-        if($response->getStatusCode() !== 200) {
-            return response()->json(['message' => 'Houve um erro na requisição, tente novamento'], 404);
-        }
-
-        $res = $response->getBody()->getContents();
-        $res = json_decode($res);
-        dd($res);
+        return $this->tenantService->deliveryValue($request->all(), $this->tenant->url);
     }
 }
