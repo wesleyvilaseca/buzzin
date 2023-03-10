@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\StatusProductNoStock;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductResource extends JsonResource
@@ -18,8 +19,10 @@ class ProductResource extends JsonResource
             'identify' => $this->uuid,
             'flag' => $this->flag,
             'title' => $this->title,
-            // 'image' => url("storage/{$this->image}"),
             'image' => $this->image ? url("storage/" . str_replace("public/", "", $this->image)) : null,
+            'stock_controll' => $this->stock_controll,
+            'condition_sell' => StatusProductNoStock::find($this->status_product_no_stock_id ?? 1)->description,
+            'has_stock' => $this->quantity > 0 ? true : false,
             'price' => $this->price,
             'description' => $this->description,
         ];

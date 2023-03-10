@@ -37,6 +37,7 @@ class StoreUpdateProduct extends FormRequest
             'description' => ['required', 'min:3', 'max:500'],
             'image' => ['required', /*'image'*/],
             'price' => "required|regex:/^\d+(\.\d{1,2})?$/",
+            'min_for_sale' => "regex:/^\d+(\.\d{1,2})?$/"
         ];
 
         if ($this->method() == 'PUT') {

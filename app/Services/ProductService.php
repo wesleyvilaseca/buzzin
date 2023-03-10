@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\StatusProductNoStock;
 use App\Repositories\Contracts\ProductRepositoryInterface;
 use App\Repositories\Contracts\TenantRepositoryInterface;
 
@@ -28,5 +29,4 @@ class ProductService
     {
         return $this->productRepository->getProductByUuid($uuid);
     }
-
 }

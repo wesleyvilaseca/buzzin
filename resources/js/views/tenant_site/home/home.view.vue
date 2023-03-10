@@ -39,12 +39,23 @@
                                 <p class="card-text">{{ product.description }}</p>
                             </div>
 
-                            <div :class="['card-footer', 'card-footer-custom']" style="color: #fff"
-                                @click.prevent="addProductCart(product)">
-                                <span>
-                                    <i class="fas fa-cart-plus"></i> Adicionar
-                                </span>
+                            <div v-if="product.has_stock">
+                                <div :class="['card-footer', 'card-footer-custom']" style="color: #fff"
+                                    @click.prevent="addProductCart(product)">
+                                    <span>
+                                        <i class="fas fa-cart-plus"></i> Adicionar
+                                    </span>
+                                </div>
                             </div>
+
+                            <div v-if="!product.has_stock">
+                                <div :class="['card-footer', 'card-footer-custom']" :style="bntStyleNoStock" @click.prevent="aletTeste()">
+                                    <span>
+                                        <i class="fa-solid fa-triangle-exclamation"></i> {{ product.condition_sell }}
+                                    </span>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -126,6 +137,12 @@ export default {
             //     "background": `${this.layout.color} !important`,
             //     "border-radius": "15px!important"
             // }
+        },
+        bntStyleNoStock() {
+            return {
+                "color": "#fff",
+                "background-color": "#dc3545"
+            }
         }
     },
     methods: {
@@ -140,6 +157,10 @@ export default {
             if (this.layout.color) {
                 this.style.background = `${this.layout.color} !important`;
             }
+        },
+
+        aletTeste() {
+            return toast.error("Contacte o estabelecimento", { autoClose: 5000 });
         },
 
         addProductCart(item) {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateProduct;
 use App\Models\Product;
+use App\Models\StatusProductNoStock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
@@ -12,11 +13,14 @@ use Illuminate\Support\Facades\Storage;
 class ProductController extends Controller
 {
     private $repository;
+    private $statusStoque;
 
     public function __construct(
-        Product $produtc
+        Product $produtc,
+        StatusProductNoStock $statusStoque
     ) {
         $this->repository = $produtc;
+        $this->statusStoque = $statusStoque;
 
         $this->middleware(['can:products']);
     }
@@ -41,6 +45,7 @@ class ProductController extends Controller
         $data['breadcrumb'][]       = ['route' => route('admin.products'), 'title' => 'Proudutos'];
         $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Novo prouduto', 'active' => true];
         $data['prod']               = true;
+        $data['statusStoque']       = $this->statusStoque->get();
 
         return view('admin.products.create', $data);
     }
@@ -71,6 +76,7 @@ class ProductController extends Controller
         $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Editar produto ' . $product->name, 'active' => true];
         $data['prod']               = true;
         $data['product'] = $product;
+        $data['statusStoque']       = $this->statusStoque->get();
 
         return view('admin.products.edit', $data);
     }
@@ -96,6 +102,9 @@ class ProductController extends Controller
     public function store(StoreUpdateProduct $request)
     {
         $data = $request->all();
+
+        $data['min_for_sale'] = $data['min_for_sale'] == 0 ? 1 : tofloat($data['min_for_sale']);
+
         $tenant = auth()->user()->tenant;
 
         $exist = $this->repository->where('title', '=', $request->title)->first();
@@ -123,6 +132,11 @@ class ProductController extends Controller
         }
 
         $data = $request->all();
+
+        $data['min_for_sale'] = $data['min_for_sale'] == 0 ? 1 : tofloat($data['min_for_sale']);
+
+        // dd($data);
+
         $tenant = auth()->user()->tenant;
 
         if ($request->hasFile('image') && $request->image->isValid()) {
