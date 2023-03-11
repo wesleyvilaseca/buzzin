@@ -25,7 +25,7 @@
                             </td>
                             <td style="width=10px;">
                                 <a href="{{ route('profiles.permission.detach', [$profile->id, $permission->id]) }}"
-                                    class="btn btn-sm btn-danger">DESVINCULAR</a>
+                                    class="btn btn-sm btn-danger">Desvincular</a>
                             </td>
                         </tr>
                     @endforeach

@@ -35,13 +35,13 @@
                                 {{ $profile->name }}
                             </td>
                             <td style="width=10px;">
-                                <a href="{{ route('profiles.edit', $profile->id) }}" class="btn btn-sm btn-info">
+                                <a href="{{ route('profiles.edit', $profile->id) }}" class="btn btn-sm btn-info me-1">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
-                                <a href="{{ route('profiles.show', $profile->id) }}" class="btn btn-sm btn-warning">
+                                <a href="{{ route('profiles.show', $profile->id) }}" class="btn btn-sm btn-warning me-1">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
-                                <a href="{{ route('profile.permissions', $profile->id) }}" class="btn btn-sm btn-success"><i class="fa-solid fa-list-check"></i></a>
+                                <a href="{{ route('profile.permissions', $profile->id) }}" class="btn btn-sm btn-success me-1"><i class="fa-solid fa-list-check"></i></a>
                                 {{-- <a href="{{ route('profiles.plans', $profile->id) }}" class="btn btn-info"><i class="fas fa-list-alt"></i></a> --}}
                             </td>
                         </tr>

@@ -29,7 +29,7 @@ class AddRoleTenant
     {
         $user = $event->user();
 
-        if(!$role = Role::first()){
+        if(!$role = Role::where('name', 'Administrador')->first()){
             return;
         }
 

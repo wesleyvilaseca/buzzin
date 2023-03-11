@@ -12,6 +12,8 @@ class OrderController extends Controller
 
     public function __construct(Order $plan)
     {
+        $this->middleware(['can:tenant_orders']);
+
         $this->repository = $plan;
     }
 

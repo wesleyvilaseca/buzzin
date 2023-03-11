@@ -33,15 +33,15 @@
                     @foreach ($tenants as $tenant)
                         <tr>
                             <td>
-                                <img src="{{ Storage::url("$tenant->logo") }}" alt="{{ $tenant->name }}"
+                                <img src="{{ $tenant->logo ? Storage::url("$tenant->logo") : asset('images/no-image.png') }}" alt="{{ $tenant->name }}"
                                     style="max-width: 90px;">
                             </td>
                             <td>{{ $tenant->name }}</td>
                             <td style="width=10px;">
-                                <a href="{{ route('tenant.edit', $tenant->id) }}" class="btn btn-sm btn-info">
+                                <a href="{{ route('tenant.edit', $tenant->id) }}" class="btn btn-sm btn-info me-1">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
-                                <a href="{{ route('tenant.show', $tenant->id) }}" class="btn btn-sm btn-warning">
+                                <a href="{{ route('tenant.show', $tenant->id) }}" class="btn btn-sm btn-warning me-1">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
                             </td>

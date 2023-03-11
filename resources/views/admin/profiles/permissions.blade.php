@@ -3,7 +3,7 @@
 @section('content')
     <div class="mb-2" align="right">
         <div class="mb-2" align="right">
-            <a href="{{  route('profiles.permissions.available', $profile->id) }}" class="btn btn-sm btn-primary">Novo</a>
+            <a href="{{  route('profiles.permissions.available', $profile->id) }}" class="btn btn-sm btn-primary me-1">Novo</a>
 
             <a href="{{ route('admin.profiles') }}" class="btn btn-sm btn-dark">
                 <i class="fa-solid fa-chevron-left me-2"></i>
@@ -28,7 +28,7 @@
                             </td>
                             <td style="width=10px;">
                                 <a href="{{ route('profiles.permission.detach', [$profile->id, $permission->id]) }}"
-                                    class="btn btn-sm btn-danger">DESVINCULAR</a>
+                                    class="btn btn-sm btn-danger">Desvincular</a>
                             </td>
                         </tr>
                     @empty
@@ -36,13 +36,6 @@
                     @endforelse
                 </tbody>
             </table>
-        </div>
-        <div class="card-footer">
-            @if (isset($filters))
-                {!! $permissions->appends($filters)->links() !!}
-            @else
-                {!! $permissions->links() !!}
-            @endif
         </div>
     </div>
 @stop

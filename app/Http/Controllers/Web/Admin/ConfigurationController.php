@@ -9,7 +9,7 @@ class ConfigurationController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['can:configuration']);
+        $this->middleware(['can:config']);
     }
 
     public function index()

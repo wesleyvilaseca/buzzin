@@ -17,6 +17,7 @@ class RoleUserController extends Controller
 
     public function __construct(ModelsUser $userRepository, Role $role)
     {
+        $this->middleware(['can:user']);
         $this->userRepository = $userRepository;
         $this->role = $role;
 

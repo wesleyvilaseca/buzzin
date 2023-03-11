@@ -14,7 +14,7 @@ class ZonesGeolocationController extends Controller {
     private $repository;
 
     public function __construct(Zone $repository) {
-        $this->middleware(['can:zones']);
+        $this->middleware(['can:zones', 'can:geolocation_zones']);
 
         $this->repository = $repository;
     }

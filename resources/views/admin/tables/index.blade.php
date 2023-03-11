@@ -35,13 +35,13 @@
                             <td>{{ $table->identify }}</td>
                             <td>{{ $table->description }}</td>
                             <td style="width=10px;">
-                                <a href="{{ route('table.qrcode', $table->identify) }}" class="btn btn-sm btn-default" target="_blank">
+                                <a href="{{ route('table.qrcode', $table->identify) }}" class="btn btn-sm btn-default me-1" target="_blank">
                                     <i class="fas fa-qrcode"></i>
                                 </a>
-                                <a href="{{ route('table.edit', $table->id) }}" class="btn btn-sm btn-info">
+                                <a href="{{ route('table.edit', $table->id) }}" class="btn btn-sm btn-info me-1">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
-                                <a href="{{ route('table.show', $table->id) }}" class="btn btn-sm btn-warning">
+                                <a href="{{ route('table.show', $table->id) }}" class="btn btn-sm btn-warning me-1">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
                             </td>

@@ -26,7 +26,7 @@ class TenantShippingController extends Controller
         $this->tenantShipping = $tenantShipping;
         $this->shipping = $shipping;
 
-        $this->middleware(['can:tenant_shipping']);
+        $this->middleware(['can:tenant_shippment']);
     }
 
     public function index()

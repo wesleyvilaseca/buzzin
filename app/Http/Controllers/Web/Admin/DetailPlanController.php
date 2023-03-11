@@ -20,7 +20,7 @@ class DetailPlanController extends Controller
         $this->repository   = $detailPlan;
         $this->plan         = $plan;
 
-        $this->middleware(['can:detailsplan']);
+        $this->middleware(['can:plans']);
     }
 
     public function index(int $id)

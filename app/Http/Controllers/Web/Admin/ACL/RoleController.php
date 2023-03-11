@@ -15,8 +15,8 @@ class RoleController extends Controller
     public function __construct(
         Role $role
     ) {
+        $this->middleware(['can:profession']);
         $this->repository = $role;
-        $this->middleware(['can:roles']);
     }
 
     public function index()

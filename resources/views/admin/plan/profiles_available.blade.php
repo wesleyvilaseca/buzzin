@@ -23,15 +23,16 @@
             </form>
         </div>
         <div class="card-body">
-            <table class="table table-condensed">
-                <thead>
-                    <tr>
-                        <th width="50px">#</th>
-                        <th>Nome</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <form action="{{ route('plans.profiles.attach', $plan->id) }}" method="POST">
+            <form action="{{ route('plans.profiles.attach', $plan->id) }}" method="POST">
+
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th width="50px">#</th>
+                            <th>Nome</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         @if (!$profiles->isEmpty())
                             @csrf
                             <tr>
@@ -53,16 +54,9 @@
                                 </td>
                             </tr>
                         @endforeach
-                    </form>
-                </tbody>
-            </table>
-        </div>
-        <div class="card-footer">
-            @if (isset($filters))
-                {!! $profiles->appends($filters)->links() !!}
-            @else
-                {!! $profiles->links() !!}
-            @endif
+                    </tbody>
+                </table>
+            </form>
         </div>
     </div>
 @stop

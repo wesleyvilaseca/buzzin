@@ -51,7 +51,7 @@ class Plan extends Model
             if ($filter)
                 $queryFilter->where('profiles.name', 'LIKE', "%{$filter}%");
         })
-        ->paginate();
+        ->get();
 
         return $profiles;
     }

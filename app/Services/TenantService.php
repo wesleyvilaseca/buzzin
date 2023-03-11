@@ -48,23 +48,30 @@ class TenantService
         $this->data = $data;
 
         $exist = Tenant::where('email', $this->data['email'])->orWhere('cnpj', $this->data['cnpj'])->first();
-        if ($exist)
-            return Redirect::back()->with('warning', 'Já existe um cadastro com as credênciais informadas');
+        if ($exist) {
+            throw new Exception('Já existe um cadastro com as credênciais informadas');
+        }
+
+        $cnpj_is_valid = validaCNPJ($this->data['cnpj']);
+        if (!$cnpj_is_valid) {
+            throw new Exception('O CNPJ informado é inválido');
+        }
 
         $exist = User::where('email', $this->data['email'])->first();
-        if ($exist)
-            return Redirect::back()->with('warning', 'Já existe um cadastro com as credênciais informadas');
+        if ($exist) {
+            throw new Exception('Já existe um cadastro com as credênciais informadas');
+        }
 
         $tenant = $this->storeTenant();
-
-        if (!$tenant)
-            return Redirect::back()->with('error', 'Erro na operação, tente novamente');
-
+        if (!$tenant) {
+            throw new Exception('Erro na operação, tente novamente');
+        }
 
         $user = $this->storeUser($tenant);
 
-        if (!$user)
-            return Redirect::back()->with('error', 'Erro na operação, tente novamente');
+        if (!$user) {
+            throw new Exception('Erro na operação, tente novamente');
+        }
 
         return $user;
     }
@@ -75,17 +82,17 @@ class TenantService
 
         return $this->plan->tenants()->create(
             [
-                'cnpj' => $data['cnpj'],
-                'name' => $data['tenant_name'],
-                'address' => $data['address'],
-                'state' => $data['state'],
-                'zip_code' => $data['zip_code'],
-                'district' => $data['district'],
-                'city' => $data['city'],
+                'cnpj' => @$data['cnpj'],
+                'name' => @$data['tenant_name'],
+                'address' => @$data['address'],
+                'state' => @$data['state'],
+                'zip_code' => @$data['zip_code'],
+                'district' => @$data['district'],
+                'city' => @$data['city'],
                 'number' => @$data['number'] ? $data['number'] : null,
-                'email' => $data['email'],
-                'subscription' => now(),
-                'expires_at' => now()->addDay(7)
+                'email' => @$data['email'],
+                'subscription' => !empty($data['subscription']) ? $data['subscription'] : now(),
+                'expires_at' => !empty($data['expires_at']) ? $data['expires_at'] : now()->addDay(7)
             ]
         );
     }

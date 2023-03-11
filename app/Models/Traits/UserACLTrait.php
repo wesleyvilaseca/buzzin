@@ -3,6 +3,7 @@
 namespace App\Models\Traits;
 
 use App\Models\Tenant;
+use App\Models\User;
 
 trait UserACLTrait
 {
@@ -58,7 +59,11 @@ trait UserACLTrait
 
     public function isAdmin(): bool
     {
-        return in_array($this->email, config('acl.admins'));
+        if($this->super_admin == 'Y'){
+            return true;
+        }
+
+        return false;      
     }
 
     public function isTenant(): bool

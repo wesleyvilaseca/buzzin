@@ -39,13 +39,13 @@
                                 R$ {{ number_format($plan->price, 2, ',', '.') }}
                             </td>
                             <td style="width=10px;">
-                                <a href="{{ route('details.plan.index', $plan->id) }}" class="btn btn-sm btn-primary">
+                                <a href="{{ route('details.plan.index', $plan->id) }}" class="btn btn-sm btn-primary me-1">
                                     <i class="fas fa-info-circle"></i></a>
-                                <a href="{{ route('plans.edit', $plan->id) }}" class="btn btn-sm btn-info"><i
+                                <a href="{{ route('plans.edit', $plan->id) }}" class="btn btn-sm btn-info me-1"><i
                                         class="fa-solid fa-pen-to-square"></i></a>
-                                <a href="{{ route('plans.show', $plan->id) }}" class="btn btn-sm btn-warning"><i
+                                <a href="{{ route('plans.show', $plan->id) }}" class="btn btn-sm btn-warning me-1"><i
                                         class="fa-solid fa-eye"></i></a>
-                                <a href="{{ route('plans.profiles', $plan->id) }}" class="btn btn-sm btn-warning"><i
+                                <a href="{{ route('plans.profiles', $plan->id) }}" class="btn btn-sm btn-warning me-1"><i
                                         class="fas fa-address-book"></i></a>
                             </td>
                         </tr>

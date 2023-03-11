@@ -1,22 +1,36 @@
 <div class="form-group mt-2">
-    <label>* Nome:</label>
-    <input type="text" name="name" class="form-control form-control-sm" placeholder="Nome:"
-        value="{{ $tenant->name ?? old('name') }}">
+    <label>* Nome do estabelecimento:</label>
+    <input type="text" name="tenant_name" class="form-control form-control-sm" placeholder="Nome:"
+        value="{{ $tenant->tenant_name ?? old('tenant_name') }}">
 </div>
+
 <div class="form-group mt-2">
     <label>Logo:</label>
     <input type="file" name="logo" class="form-control form-control-sm">
 </div>
+
 <div class="form-group mt-2">
-    <label>* E-mail:</label>
+    <label>* Nome do administrador:</label>
+    <input type="text" name="name" class="form-control form-control-sm" placeholder="Nome:"
+        value="{{ $tenant->name ?? old('name') }}">
+</div>
+
+<div class="form-group mt-2">
+    <label>* E-mail do administrador:</label>
     <input type="email" name="email" class="form-control form-control-sm" placeholder="E-mail:"
         value="{{ $tenant->email ?? old('email') }}">
+</div>
+
+<div class="form-group mt-2">
+    <label>* Senha:</label>
+    <input type="password" name="password" class="form-control form-control-sm">
 </div>
 <div class="form-group mt-2">
     <label>* CNPJ:</label>
     <input type="text" name="cnpj" class="form-control form-control-sm" placeholder="CNPJ:"
         value="{{ $tenant->cnpj ?? old('cnpj') }}">
 </div>
+
 <div class="form-group mt-2">
     <label>* Ativo?</label>
     <select name="active" class="form-control form-control-sm">

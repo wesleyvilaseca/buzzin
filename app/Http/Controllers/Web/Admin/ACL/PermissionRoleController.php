@@ -14,17 +14,17 @@ class PermissionRoleController extends Controller
 
     public function __construct(Role $role, Permission $permission)
     {
+        $this->middleware(['can:acl']);
         $this->role = $role;
         $this->permission = $permission;
-
-        $this->middleware(['can:roles']);
     }
 
     public function permissions($role_id)
     {
         $role = $this->role->find($role_id);
-        if (!$role)
+        if (!$role) {
             return Redirect::back()->with('error', 'Operação não autorizada');
+        }
 
         $data['role']            = $role;
         $data['permissions']        =  $role->permissions()->paginate();
@@ -46,7 +46,7 @@ class PermissionRoleController extends Controller
             return Redirect::back();
         }
 
-        $roles = $permission->roles()->paginate();
+        $roles = $permission->roles()->get();
 
         return view('admin.roles.permissions.roles', compact('permission', 'roles'));
     }

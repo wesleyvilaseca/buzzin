@@ -33,6 +33,7 @@
                 <thead>
                     <tr>
                         <th>Nome</th>
+                        <th>tag</th>
                         <th width="250">Ações</th>
                     </tr>
                 </thead>
@@ -42,14 +43,17 @@
                             <td>
                                 {{ $permission->name }}
                             </td>
+                            <td>
+                                {{ $permission->description }}
+                            </td>
                             <td style="width=10px;">
-                                <a href="{{ route('permissions.edit', $permission->id) }}" class="btn btn-sm btn-info">
+                                <a href="{{ route('permissions.edit', $permission->id) }}" class="btn btn-sm btn-primary me-1">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
-                                <a href="{{ route('permissions.show', $permission->id) }}" class="btn btn-sm btn-warning">
+                                <a href="{{ route('permissions.show', $permission->id) }}" class="btn btn-sm btn-warning me-1">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
-                                <a href="{{ route('permissions.profiles', $permission->id) }}" class="btn btn-sm btn-info"><i
+                                <a href="{{ route('permissions.profiles', $permission->id) }}" class="btn btn-sm btn-info me-1"><i
                                         class="fas fa-address-book"></i>
                                     </a>
                             </td>

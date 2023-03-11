@@ -33,7 +33,7 @@
                         <li class="{{ @$prof ? 'ativo' : '' }}">
                             <a href="{{ route('admin.profiles') }}">
                                 <i class="fa-solid fa-id-badge"></i>
-                                <span>Perfis</span>
+                                <span>Modulos do sistema</span>
                             </a>
                         </li>
                     @endcan
@@ -43,6 +43,15 @@
                             <a href="{{ route('admin.users') }}">
                                 <i class="fa-solid fa-users"></i>
                                 <span>Usuários</span>
+                            </a>
+                        </li>
+                    @endcan
+
+                    @can('profession')
+                        <li class="{{ @$rol ? 'ativo' : '' }}">
+                            <a href="{{ route('admin.roles') }}">
+                                <i class="fa fa-address-card"></i>
+                                <span>Cargos</span>
                             </a>
                         </li>
                     @endcan
@@ -74,7 +83,7 @@
                         </li>
                     @endcan --}}
 
-                    @can('pedidos')
+                    @can('tenant_orders')
                         <li class="{{ @$order_m ? 'ativo' : '' }}">
                             <a href="{{ route('orders.index') }}">
                                 <i class="fa-solid fa-cart-shopping"></i>
@@ -102,7 +111,7 @@
                         </li>
                     @endcan --}}
 
-                    @can('configuracoes')
+                    @can('config')
                         <li class="{{ @$_configuration ? 'ativo' : '' }}">
                             <a href="{{ route('admin.configuration') }}">
                                 <i class="fa-solid fa-gear"></i>
@@ -137,14 +146,14 @@
                             </a>
                             <div class="sidebar-submenu {{ @$_zone ? 'd-block' : '' }}">
                                 <ul>
-                                    @can('geolocationZones')
+                                    @can('geolocation_zones')
                                         <li class="{{ @$geo ? 'ativo' : '' }}">
                                             <a href="{{ route('admin.zones.geolocation') }}">Por geolocalização</a>
                                         </li>
                                     @endcan
-                                    <li class="{{ @$cep ? 'ativo' : '' }}">
+                                    {{-- <li class="{{ @$cep ? 'ativo' : '' }}">
                                         <a href="#">Por CEP</a>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </div>
                         </li>
@@ -160,10 +169,6 @@
                                 <ul>
                                     <li class="{{ @$permi ? 'ativo' : '' }}">
                                         <a href="{{ route('admin.permissions') }}">Permissões</a>
-                                    </li>
-
-                                    <li class="{{ @$rol ? 'ativo' : '' }}">
-                                        <a href="{{ route('admin.roles') }}">Cargos</a>
                                     </li>
                                 </ul>
                             </div>

@@ -28,11 +28,11 @@
                             </td>
                             <td style="width=10px;">
                                 <a href="{{ route('details.plan.edit', [$plano->id, $detail->id]) }}"
-                                    class="btn btn-sm btn-info">
+                                    class="btn btn-sm btn-info me-1">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
                                 <a href="{{ route('details.plan.show', [$plano->id, $detail->id]) }}"
-                                    class="btn btn-sm btn-warning">
+                                    class="btn btn-sm btn-warning me-1">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
                             </td>

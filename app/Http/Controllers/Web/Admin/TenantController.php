@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Web\Admin;
 
+use App\Events\TenantCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateTenant;
 use App\Models\Plan;
 use App\Models\Tenant;
 use App\Models\User;
+use App\Services\TenantService;
+use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,12 +26,12 @@ class TenantController extends Controller
 
     public function __construct(
         Tenant $produtc,
-        Plan $plans
+        Plan $plans,
     ) {
+        $this->middleware(['can:tenants']);
+
         $this->repository = $produtc;
         $this->plans = $plans;
-
-        $this->middleware(['can:tenants']);
 
         $this->middleware(function ($request, $next) {
             $this->superAdmin = Auth()->user()->isAdmin();
@@ -77,8 +80,9 @@ class TenantController extends Controller
     public function edit($id)
     {
         $tenant = $this->repository->find($id);
-        if (!$tenant)
+        if (!$tenant) {
             return Redirect::route('admin.tenants')->with('warning', 'Operação não autorizada');
+        }
 
         $data['title']              = 'Editar empresa ' . $tenant->name;
         $data['toptitle']           = 'Editar empresa ' . $tenant->name;
@@ -96,8 +100,9 @@ class TenantController extends Controller
     public function show($id)
     {
         $tenant = $this->repository->find($id);
-        if (!$tenant)
+        if (!$tenant) {
             return Redirect::route('admin.tenants')->with('warning', 'Operação não autorizada');
+        }
 
         $data['title']              = 'Empresa ' . $tenant->name;
         $data['toptitle']           = 'Empresa ' . $tenant->name;
@@ -112,46 +117,58 @@ class TenantController extends Controller
 
     public function store(StoreUpdateTenant $request)
     {
-        $data = $request->all();
-        $tenant = auth()->user()->tenant;
-
         $exist = $this->repository->where('name', '=', $request->name)->first();
-        if ($exist)
+        if ($exist) {
             return Redirect::back()->with('warning', 'Já existe uma empresa com esse nome');
+        }
 
-        if ($request->hasFile('logo') && $request->logo->isValid())
-            $data['logo'] = $request->logo->store("public/tenants/{$tenant->uuid}/logo");
+        DB::beginTransaction();
+        try {
+            $plan = Plan::find($request->plan_id);
+            if (!$plan) {
+                return Redirect::back()->with('error', 'Operação não autorizada');
+            }
 
-        $this->repository->create($data);
+            $tenant_service = app(TenantService::class);
+            $user = $tenant_service->make($plan, $request->all());
 
-        return Redirect::route('admin.tenants')->with('success', 'Empresa criado com sucesso');
+            event(new TenantCreated($user));
+
+            DB::commit();
+            return Redirect::route('admin.tenants')->with('success', 'Empresa criado com sucesso');
+        } catch (Exception $e) {
+            DB::rollback();
+            return Redirect::route('admin.tenants')->with('warning', $e->getMessage());
+        }
     }
 
     public function update(StoreUpdateTenant $request, $id)
     {
         $tenant = $this->repository->find($id);
-        if (!$tenant)
+        if (!$tenant) {
             return Redirect::back()->with('error', 'Operação não autorizada');
+        }
 
         $except[] = '_token';
         $except[] = '_method';
 
         if ($tenant->name !== $request->name) {
             $exist = $this->repository->where('name', '=', $request->name)->first();
-            if ($exist)
+            if ($exist) {
                 return Redirect::back()->with('warning', 'Já existe uma empresa com esse nome');
+            }
         } else {
             $except[] = 'name';
         }
 
         if ($tenant->email !== $request->email) {
             $exist = $this->repository->where('email', '=', $request->email)->first();
-            if ($exist)
+            if ($exist) {
                 return Redirect::back()->with('warning', 'Já existe uma empresa com essas credenciais');
+            }
         } else {
             $except[] = 'email';
         }
-
 
         if ($tenant->cnpj !== $request->cnpj) {
             $exist = $this->repository->where('cnpj', '=', $request->cnpj)->first();
@@ -190,7 +207,9 @@ class TenantController extends Controller
         DB::beginTransaction();
         try {
 
-            if (Storage::exists($tenant->image)) Storage::delete($tenant->image);
+            if (Storage::exists($tenant->image)) {
+                Storage::delete($tenant->image);
+            }
 
             $tenant_user = User::where('tenant_id', $tenant->id)->get();
             if ($tenant_user)  User::where('tenant_id', $tenant->id)->delete();

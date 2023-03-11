@@ -18,13 +18,15 @@
                     </li>
                 @endcan
 
-                <li class="nav-item">
-                    <a class="nav-link  {{ @$_delivery ? 'activated' : '' }}" aria-current="page" style="a:hover: #fff"
-                        href="{{ route('admin.shippings') }}">
-                        <i class="fa-solid fa-truck"></i>
-                        Formas de entrega
-                    </a>
-                </li>
+                @can('tenant_shippment')
+                    <li class="nav-item">
+                        <a class="nav-link  {{ @$_delivery ? 'activated' : '' }}" aria-current="page" style="a:hover: #fff"
+                            href="{{ route('admin.shippings') }}">
+                            <i class="fa-solid fa-truck"></i>
+                            Formas de entrega
+                        </a>
+                    </li>
+                @endcan
 
                 @can('tenant_operation')
                     <li class="nav-item">

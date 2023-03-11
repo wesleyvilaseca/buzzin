@@ -17,6 +17,7 @@ class PlanProfileController extends Controller
         Plan $plan,
         Profile $profile
     ) {
+        $this->middleware(['can:acl']);
         $this->plan = $plan;
         $this->profile = $profile;
     }
@@ -27,11 +28,11 @@ class PlanProfileController extends Controller
         if (!$plan)
             return Redirect::back()->with('error', 'Operação não autorizada');
 
-        $data['title']      = 'Perfis do plano ' . $plan->name;
-        $data['toptitle']   = 'Perfis do plano ' . $plan->name;
+        $data['title']      = 'Módulos do plano ' . $plan->name;
+        $data['toptitle']   = 'Módulos do plano ' . $plan->name;
         $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
         $data['breadcrumb'][]       = ['route' => route('admin.plan'), 'title' => 'Planos'];
-        $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Perfis do plano ' . $plan->name, 'active' => true];
+        $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Módulos do plano ' . $plan->name, 'active' => true];
 
         $data['profiles']   = $plan->profiles()->paginate();
         $data['plan']       = $plan;
@@ -49,7 +50,7 @@ class PlanProfileController extends Controller
         $data['toptitle']           = 'Novo perfi do plano ' . $plan->name;
         $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
         $data['breadcrumb'][]       = ['route' => route('admin.plan'), 'title' => 'Planos'];
-        $data['breadcrumb'][]       = ['route' => route('plans.profiles', $plan->id), 'title' => 'Perfis do plano ' . $plan->name];
+        $data['breadcrumb'][]       = ['route' => route('plans.profiles', $plan->id), 'title' => 'Módulos do plano ' . $plan->name];
         $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Novo perfi do plano ' . $plan->name, 'active' => true];
         $data['profiles']           = $plan->profilesAvailable($request->filter);
         $data['filters']            = $request->except('_token');

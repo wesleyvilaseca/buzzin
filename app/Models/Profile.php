@@ -41,7 +41,7 @@ class Profile extends Model
             if ($filter)
                 $queryFilter->where('permissions.name', 'LIKE', "%{$filter}%");
         })
-        ->paginate();
+        ->get();
 
         return $permissions;
     }
@@ -50,7 +50,7 @@ class Profile extends Model
     {
         $results = $this->where('name', 'LIKE', "%{$filter}%")
                         ->orWhere('description', 'LIKE', "%{$filter}%")
-                        ->paginate();
+                        ->get();
 
         return $results;
     }

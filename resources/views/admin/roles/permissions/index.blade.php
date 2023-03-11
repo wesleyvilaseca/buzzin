@@ -3,7 +3,7 @@
 @section('content')
     <div class="mb-2" align="right">
         <div class="mb-2" align="right">
-            <a href="{{ route('roles.permissions.available', $role->id) }}" class="btn btn-sm btn-primary">Novo</a>
+            <a href="{{ route('roles.permissions.available', $role->id) }}" class="btn btn-sm btn-primary me-1">Novo</a>
 
             <a href="{{ route('admin.roles') }}" class="btn btn-sm btn-dark">
                 <i class="fa-solid fa-chevron-left me-2"></i>

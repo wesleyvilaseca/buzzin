@@ -62,12 +62,5 @@
                 </table>
             </form>
         </div>
-        <div class="card-footer">
-            @if (isset($filters))
-                {!! $permissions->appends($filters)->links() !!}
-            @else
-                {!! $permissions->links() !!}
-            @endif
-        </div>
     </div>
 @stop

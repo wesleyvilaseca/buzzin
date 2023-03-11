@@ -17,6 +17,7 @@ class PermissionProfileController extends Controller
         Profile $profile,
         Permission $permission
     ) {
+        $this->middleware(['can:acl']);
         $this->profile          = $profile;
         $this->permission       = $permission;
     }
@@ -28,7 +29,7 @@ class PermissionProfileController extends Controller
             return Redirect::back()->with('error', 'Operação não autorizada');
 
         $data['profile']            = $profile;
-        $data['permissions']        =  $profile->permissions()->paginate();
+        $data['permissions']        =  $profile->permissions()->get();
         $data['title']              = 'Permissões do perfil ' . $profile->name;
         $data['toptitle']           = 'Permissões do perfil ' . $profile->name;
         $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];

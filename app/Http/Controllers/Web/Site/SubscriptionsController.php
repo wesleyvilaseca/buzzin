@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateTenant;
 use App\Models\Plan;
 use App\Services\TenantService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class SubscriptionsController extends Controller
@@ -14,8 +16,9 @@ class SubscriptionsController extends Controller
     public function plan($url)
     {
         $plan = Plan::where('url', $url)->first();
-        if (!$plan)
+        if (!$plan) {
             return Redirect::back();
+        }
 
         session()->put('plan', $plan);
 
@@ -27,15 +30,24 @@ class SubscriptionsController extends Controller
 
     public function register(StoreUpdateTenant $request, string $url)
     {
-        $plan = Plan::where('url', $url)->first();
-        if (!$plan)
-            return Redirect::back();
 
-        $tenant_service = app(TenantService::class);
-        $user = $tenant_service->make($plan, $request->all());
+        DB::beginTransaction();
+        try {
 
-        event(new TenantCreated($user));
+            $plan = Plan::where('url', $url)->first();
+            if (!$plan) {
+                return Redirect::back();
+            }
 
-        return redirect()->route('login')->with('success', 'Registro efetuado com sucesso');
+            $tenant_service = app(TenantService::class);
+            $user = $tenant_service->make($plan, $request->all());
+            event(new TenantCreated($user));
+
+            DB::commit();
+            return redirect()->route('login')->with('success', 'Registro efetuado com sucesso');
+        } catch (ModelNotFoundException $exception) {
+            DB::rollback();
+            return Redirect::route('admin.tenants')->with('error', 'Houve na operação, tente mais tarde');
+        }
     }
 }

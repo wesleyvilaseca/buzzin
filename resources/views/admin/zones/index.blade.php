@@ -38,10 +38,10 @@
                                 {{ $zone->name }}
                             </td>
                             <td style="width=10px;">
-                                <a href="{{ route('zone.geolocation.edit', [$zone->id]) }}" class="btn btn-sm btn-info">
+                                <a href="{{ route('zone.geolocation.edit', [$zone->id]) }}" class="btn btn-sm btn-info me-1">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
-                                <a href="#" class="btn btn-sm btn-warning">
+                                <a href="#" class="btn btn-sm btn-warning me-1">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
                             </td>

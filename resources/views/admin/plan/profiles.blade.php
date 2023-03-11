@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="mb-2" align="right">
-        <a href="{{ route('plans.profiles.available', $plan->id) }}" class="btn btn-sm btn-primary">Novo</a>
+        <a href="{{ route('plans.profiles.available', $plan->id) }}" class="btn btn-sm btn-primary me-1">Novo</a>
 
         <a href="{{ route('admin.plan') }}" class="btn btn-sm btn-dark">
             <i class="fa-solid fa-chevron-left me-2"></i>
@@ -25,7 +25,7 @@
                                 {{ $profile->name }}
                             </td>
                             <td style="width=10px;">
-                                <a href="{{ route('plans.profile.detach', [$plan->id, $profile->id]) }}" class="btn btn-sm btn-danger">DESVINCULAR</a>
+                                <a href="{{ route('plans.profile.detach', [$plan->id, $profile->id]) }}" class="btn btn-sm btn-danger">Desvincular</a>
                             </td>
                         </tr>
                     @endforeach

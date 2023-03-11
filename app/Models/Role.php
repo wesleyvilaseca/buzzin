@@ -41,8 +41,7 @@ class Role extends Model
         ->where(function ($queryFilter) use ($filter) {
             if ($filter)
                 $queryFilter->where('permissions.name', 'LIKE', "%{$filter}%");
-        })
-        ->paginate();
+        })->get();
 
         return $permissions;
     }
