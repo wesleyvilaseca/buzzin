@@ -11,7 +11,7 @@
         <div class="card-body">
             <ul>
                 <div class="text-center">
-                    <img src="{{ Storage::url("$tenant->logo") }}" alt="{{ $tenant->name }}" style="max-width: 90px;">
+                    <img src="{{ @$tenant->logo ? Storage::url("$tenant->logo") : asset('images/no-image.png') }}" alt="{{ $tenant->name }}" style="max-width: 90px;">
                 </div>
                 <li>
                     <strong>Título: </strong> {{ $tenant->name }}
@@ -23,7 +23,7 @@
                 @csrf
                 @method('DELETE')
                 <div class="text-center">
-                    <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> DELETAR o EMPRESA {{ $tenant->title }}</button>
+                    <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> DELETAR EMPRESA {{ $tenant->title }}</button>
                 </div>
             </form>
         </div>
