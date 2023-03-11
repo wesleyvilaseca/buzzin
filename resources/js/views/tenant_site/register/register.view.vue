@@ -14,7 +14,6 @@
                             <div class="text-danger" v-if="errors.name != ''">
                                 {{ errors.name[0] || "" }}
                             </div>
-
                             <div class="input-group">
                                 <span class="input-group-text" id="basic-addon1">
                                     <i class="fas fa-user"></i>
@@ -26,10 +25,24 @@
                                 ]" placeholder="Nome" />
                             </div>
 
+
+                            <div class="text-danger" v-if="errors.mobile_phone != ''">
+                                {{ errors.mobile_phone[0] || "" }}
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="fa-solid fa-mobile"></i>
+                                </span>
+                                <input type="text" v-model="formData.mobile_phone" :class="[
+                                    'form-control',
+                                    'input_user',
+                                    { 'is-invalide': errors.mobile_phone != '' },
+                                ]" v-mask="'(##) #####-####'" placeholder="(91) 98820-3132"/>
+                            </div>
+
                             <div class="text-danger" v-if="errors.email != ''">
                                 {{ errors.email[0] || "" }}
                             </div>
-
                             <div class="input-group">
                                 <span class="input-group-text" id="basic-addon1">
                                     <i class="fas fa-envelope"></i>
@@ -114,11 +127,13 @@ export default {
             name: "",
             email: "",
             password: "",
+            mobile_phone: ""
         },
         errors: {
             name: "",
             email: "",
             password: "",
+            mobile_phone: ""
         },
     }),
     computed: {
