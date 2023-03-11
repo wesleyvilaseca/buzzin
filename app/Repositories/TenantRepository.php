@@ -28,4 +28,9 @@ class TenantRepository implements TenantRepositoryInterface
     {
         return $this->entity->where('url', $flag)->first();
     }
+
+    public function getById(int $id)
+    {
+        return $this->entity->find($id);
+    }
 }

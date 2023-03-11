@@ -42,25 +42,17 @@ class TenantService
         return $this->repository->getTenantByFlag($flag);
     }
 
+    public function getTenantById(int $id)
+    {
+        return $this->repository->getById($id);
+    }
+
     public function make(Plan $plan, array $data)
     {
         $this->plan = $plan;
         $this->data = $data;
 
-        $exist = Tenant::where('email', $this->data['email'])->orWhere('cnpj', $this->data['cnpj'])->first();
-        if ($exist) {
-            throw new Exception('Já existe um cadastro com as credênciais informadas');
-        }
-
-        $cnpj_is_valid = validaCNPJ($this->data['cnpj']);
-        if (!$cnpj_is_valid) {
-            throw new Exception('O CNPJ informado é inválido');
-        }
-
-        $exist = User::where('email', $this->data['email'])->first();
-        if ($exist) {
-            throw new Exception('Já existe um cadastro com as credênciais informadas');
-        }
+        $this->validate();
 
         $tenant = $this->storeTenant();
         if (!$tenant) {
@@ -76,6 +68,56 @@ class TenantService
         return $user;
     }
 
+    public function updateTenant(Plan $plan, array $data, int $id)
+    {
+        $this->plan = $plan;
+        $this->data = $data;
+        $tenant = $this->getTenantById($id);
+
+        $tenant->plan_id = $this->plan->id;
+        $tenant->cnpj = @$this->data['cnpj'];
+        $tenant->name = @$this->data['tenant_name'];
+        $tenant->subscription = !empty($this->data['subscription']) ? $this->data['subscription'] : now();
+        $tenant->expires_at = !empty($this->data['expires_at']) ? $this->data['expires_at'] : now()->addDay(7);
+        $tenant = $tenant->update();
+
+        if (!$tenant) {
+            throw new Exception('Erro na operação, tente novamente');
+        }
+
+        $dataUser = [];
+        $dataUser['name'] = $this->data['name'];
+        $dataUser['email'] = $this->data['email'];
+        if ($this->data['password']) {
+            $dataUser['password'] = Hash::make($this->data['password']);
+        }
+
+        $user = User::where('email', $this->data['email'])->update($dataUser);
+        if (!$user) {
+            throw new Exception('Erro na operação, tente novamente');
+        }
+
+        return $user;
+    }
+
+    private function validate()
+    {
+        $exist = Tenant::where('email', $this->data['email'])->orWhere('cnpj', $this->data['cnpj'])->first();
+        if ($exist) {
+            throw new Exception('Já existe um cadastro com as credênciais informadas');
+        }
+
+        $cnpj_is_valid = validaCNPJ($this->data['cnpj']);
+        if (!$cnpj_is_valid) {
+            throw new Exception('O CNPJ informado é inválido');
+        }
+
+        $exist = User::where('email', $this->data['email'])->first();
+        if ($exist) {
+            throw new Exception('Já existe um cadastro com as credênciais informadas');
+        }
+    }
+
     public function storeTenant()
     {
         $data = $this->data;
@@ -84,12 +126,6 @@ class TenantService
             [
                 'cnpj' => @$data['cnpj'],
                 'name' => @$data['tenant_name'],
-                'address' => @$data['address'],
-                'state' => @$data['state'],
-                'zip_code' => @$data['zip_code'],
-                'district' => @$data['district'],
-                'city' => @$data['city'],
-                'number' => @$data['number'] ? $data['number'] : null,
                 'email' => @$data['email'],
                 'subscription' => !empty($data['subscription']) ? $data['subscription'] : now(),
                 'expires_at' => !empty($data['expires_at']) ? $data['expires_at'] : now()->addDay(7)

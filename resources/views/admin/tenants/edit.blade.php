@@ -14,7 +14,7 @@
                 @method('PUT')
 
                 <div class="text-center">
-                    <img src="{{ Storage::url("{$tenant->logo}") }}" alt="{{ $tenant->name }}" style="max-width: 90px;" />
+                    <img src="{{ @$tenant->logo ? Storage::url("{$tenant->logo}") : asset('images/no-image.png') }}" alt="{{ $tenant->name }}" style="max-width: 90px;" />
                 </div>
 
                 @include('admin.tenants._partials.form', ['tenant' => $tenant])

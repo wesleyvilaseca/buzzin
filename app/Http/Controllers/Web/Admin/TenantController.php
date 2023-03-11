@@ -84,6 +84,10 @@ class TenantController extends Controller
             return Redirect::route('admin.tenants')->with('warning', 'Operação não autorizada');
         }
 
+        $tenantAdmin = User::where('tenant_id', $tenant->id)->orderBy('id', 'ASC')->first();
+        $tenant->tenant_name = $tenant->name;
+        $tenant->name = $tenantAdmin->name;
+
         $data['title']              = 'Editar empresa ' . $tenant->name;
         $data['toptitle']           = 'Editar empresa ' . $tenant->name;
         $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
@@ -157,8 +161,6 @@ class TenantController extends Controller
             if ($exist) {
                 return Redirect::back()->with('warning', 'Já existe uma empresa com esse nome');
             }
-        } else {
-            $except[] = 'name';
         }
 
         if ($tenant->email !== $request->email) {
@@ -166,32 +168,41 @@ class TenantController extends Controller
             if ($exist) {
                 return Redirect::back()->with('warning', 'Já existe uma empresa com essas credenciais');
             }
-        } else {
-            $except[] = 'email';
         }
 
         if ($tenant->cnpj !== $request->cnpj) {
             $exist = $this->repository->where('cnpj', '=', $request->cnpj)->first();
             if ($exist)
                 return Redirect::back()->with('warning', 'Já existe uma empresa com essas credenciais');
-        } else {
-            $except[] = 'cnpj';
         }
 
         $request->except('_token');
         $data = $request->except($except);
 
-        if ($request->hasFile('logo') && $request->logo->isValid()) {
-            if (Storage::exists($tenant->logo)) {
-                Storage::delete($tenant->logo);
+        DB::beginTransaction();
+        try {
+
+            $plan = Plan::find($request->plan_id);
+            if (!$plan) {
+                return Redirect::back()->with('error', 'Operação não autorizada');
             }
 
-            $data['logo'] = $request->logo->store("public/tenants/{$tenant->uuid}/logo");
-        }
+            if ($request->hasFile('logo') && $request->logo->isValid()) {
+                if (Storage::exists($tenant->logo)) {
+                    Storage::delete($tenant->logo);
+                }
+    
+                $data['logo'] = $request->logo->store("public/tenants/{$tenant->uuid}/logo");
+            }
 
-        Tenant::where([
-            'id' => $tenant->id,
-        ])->update($data);
+            $tenant_service = app(TenantService::class);
+            $tenant_service->updateTenant($plan, $data, $id);
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+            return Redirect::route('admin.tenants')->with('warning', $e->getMessage());
+        }
 
         return Redirect::route('admin.tenants')->with('success', 'Empresa editado com sucesso');
     }
