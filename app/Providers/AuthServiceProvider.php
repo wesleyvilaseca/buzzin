@@ -34,6 +34,7 @@ class AuthServiceProvider extends ServiceProvider
 
         foreach ($permissions as $permission) {
             Gate::define($permission->description, function (User $user) use ($permission) {
+                // $user->internal = 1;
                 return $user->hasPermission($permission->description);
             });
         }

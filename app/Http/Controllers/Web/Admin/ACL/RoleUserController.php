@@ -49,6 +49,16 @@ class RoleUserController extends Controller
 
     public function rolesAvailable(Request $request)
     {
+        $roles = $this->user->rolesAvailable($request->filter);
+
+        if(!$this->superAdmin){
+            foreach ($roles as $key => $role) {
+                if ($role->internal) {
+                    unset($roles[$key]);
+                }
+            }
+        }
+
         $data['title']              = 'Editar permissões do usuário ' . $this->user->name;
         $data['toptitle']           = 'Editar permissões do usuário ' . $this->user->name;
         $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
@@ -56,7 +66,7 @@ class RoleUserController extends Controller
         $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Editar permissões do usuário ' . $this->user->name, 'active' => true];
         $data['user'] = $this->user;
         $data['filters'] = $request->except('_token');
-        $data['roles'] = $this->user->rolesAvailable($request->filter);
+        $data['roles'] = $roles;
 
         return view('admin.user_roles.avaliable', $data);
     }

@@ -20,6 +20,15 @@
                         </a>
                     </li>
 
+                    @can('support')
+                        <li class="">
+                            <a href="#">
+                                <i class="fa-brands fa-font-awesome"></i>
+                                <span>Suporte</span>
+                            </a>
+                        </li>
+                    @endcan
+
                     @can('plans')
                         <li class="{{ @$plan ? 'ativo' : '' }}">
                             <a href="{{ route('admin.plan') }}">

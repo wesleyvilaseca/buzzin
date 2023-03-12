@@ -9,7 +9,6 @@ trait UserACLTrait
 {
     public function permissions(): array
     {
-        // dd($this->permissionsRole());
         $permissionsPlan = $this->permissionsPlan();
         $permissionsRole = $this->permissionsRole();
 
@@ -54,7 +53,11 @@ trait UserACLTrait
 
     public function hasPermission(string $permissionName): bool
     {
-        return in_array($permissionName, $this->permissions());
+        if(!$this->internal) {
+            return in_array($permissionName, $this->permissions());
+        }
+
+        return in_array($permissionName, $this->permissionsRole());
     }
 
     public function isAdmin(): bool

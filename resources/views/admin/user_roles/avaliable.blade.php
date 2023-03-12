@@ -25,15 +25,15 @@
             </form>
         </div>
         <div class="card-body">
-            <table class="table table-condensed">
-                <thead>
-                    <tr>
-                        <th width="50px">#</th>
-                        <th>Nome</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <form action="{{ route('users.roles.attach', $user->id) }}" method="POST">
+            <form action="{{ route('users.roles.attach', $user->id) }}" method="POST">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th width="50px">#</th>
+                            <th>Nome</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
                         @if (!$roles->isEmpty())
                             @csrf
@@ -56,9 +56,9 @@
                                 </td>
                             </tr>
                         @endforeach
-                    </form>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </form>
         </div>
         <div class="card-footer">
             @if (isset($filters))
