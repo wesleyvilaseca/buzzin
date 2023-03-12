@@ -40,7 +40,7 @@
                             </div>
 
                             <div v-if="product.has_stock">
-                                <div :class="['card-footer', 'card-footer-custom']" style="color: #fff"
+                                <div :class="['card-footer', 'card-footer-custom']"
                                     @click.prevent="addProductCart(product)">
                                     <span>
                                         <i class="fas fa-cart-plus"></i> Adicionar
@@ -49,7 +49,8 @@
                             </div>
 
                             <div v-if="!product.has_stock">
-                                <div :class="['card-footer', 'card-footer-custom']" :style="bntStyleNoStock" @click.prevent="aletTeste()">
+                                <div :class="['card-footer', 'card-footer-custom']" :style="bntStyleNoStock"
+                                    @click.prevent="aletTeste()">
                                     <span>
                                         <i class="fa-solid fa-triangle-exclamation"></i> {{ product.condition_sell }}
                                     </span>
@@ -71,14 +72,33 @@
 
 <style scoped>
 .load_more_btn {
-    background: #4040ff !important;
-    color: #fff !important;
+    background: v-bind("paleta.btn_color") !important;
+    color: v-bind("paleta.btn_color_letter") !important;
     border-radius: 25px !important;
 }
 
 .load_more_btn:hover {
-    background: #4060ff !important;
+    background: v-bind("paleta.btn_color_hover") !important;
 }
+
+.card--flat .card-body {
+  background-color: #fff;
+}
+
+.card--flat .card-footer {
+  /* border-radius: 0 0 .75rem .75rem; */
+  font-weight: 600;
+  background: v-bind("paleta.btn_color");
+  transition: background .5s ease;
+  border: 1px solid v-bind("paleta.btn_color");
+  color: v-bind("paleta.btn_color_letter");
+}
+
+.card--flat .card-footer:hover {
+  background: v-bind("paleta.btn_color_hover");
+  border: 1px solid v-bind("paleta.btn_color_hover");
+}
+
 </style>
 
 <script>
@@ -118,7 +138,6 @@ export default {
                 snapAlign: 'start',
             },
         },
-        style: {}
     }),
     computed: {
         ...mapState({
@@ -129,19 +148,13 @@ export default {
             paginate: (state) => state.paginate.meta,
             cart: (state) => state.cart.products,
             company: (state) => state.tenant.company,
-            layout: (state) => state.layout.layout
+            paleta: (state) => state.layout.paleta
         }),
-        btnStyles() {
-            return this.style;
-            // return {
-            //     "background": `${this.layout.color} !important`,
-            //     "border-radius": "15px!important"
-            // }
-        },
         bntStyleNoStock() {
             return {
                 "color": "#fff",
-                "background-color": "#dc3545"
+                "background-color": "#dc3545",
+                "border": "1px solid #dc3545"
             }
         }
     },

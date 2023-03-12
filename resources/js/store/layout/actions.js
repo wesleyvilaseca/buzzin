@@ -1,8 +1,11 @@
 import axios from "axios";
 
 const actions = {
-    getLayout({ commit }) {
-        commit('SET_LAYOUT', { color: '#000' })
+    setPaleta({ commit }, params) {
+        const paleta = localStorage.getItem('paleta');
+        if (paleta) {
+            commit('SET_PALETA', JSON.parse(paleta));
+        }
     },
 }
 

@@ -1,6 +1,7 @@
 export const mutations = {
-    SET_LAYOUT(state, data) {
-        state.layout = data
+    SET_PALETA(state, data) {
+        state.paleta = data;
+        localStorage.setItem('paleta', JSON.stringify(state.paleta));
     },
 }
 

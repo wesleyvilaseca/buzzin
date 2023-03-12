@@ -19,19 +19,20 @@
                 <div v-if="!maintence">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item nav-cart">
-                            <a href="/app/cart" class="nav-link" style="color: #fff">
-                                <i class="fa-solid fa-cart-shopping"></i> {{ productsCart.length }}
+                            <a href="/app/cart" class="nav-link btn-nav">
+                                <i class="white-icon fa-solid fa-cart-shopping"></i> 
+                                <span class="ms-1 white-icon"> {{ productsCart.length }}</span> 
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="#" class="nav-link mt-2 ms-5" style="color:#4060ff"
-                                v-if="me.name && me.name !== 'undefined'">Olá {{ me.name }}
+                            <a href="#" class="nav-link mt-2 ms-5" v-if="me.name && me.name !== 'undefined'">Olá {{ me.name
+                            }}
                                 <span @click.prevent="exit()" class="text-danger ms-2">
-                                    <i class="fa-solid fa-right-from-bracket"></i>
+                                    <i class="red-icon fa-solid fa-right-from-bracket"></i>
                                 </span>
                             </a>
-                            <a href="/app/login" class="nav-link mt-2 ms-5" style="color:#4060ff" v-else>
+                            <a href="/app/login" class="nav-link mt-2 ms-5" v-else>
                                 Login
                             </a>
                         </li>
@@ -40,10 +41,36 @@
             </div>
         </nav>
     </header>
-</template>
+</template>  
+
+<style scoped>
+
+.nav-cart {
+    background:  v-bind("paleta.btn_color") !important; 
+}
 
 
-  
+.nav-cart:hover {
+    background:  v-bind("paleta.btn_color_hover") !important; 
+}
+.nav-link {
+    color:  v-bind("paleta.links") !important; 
+}
+
+.nav-link:hover {
+    color:  v-bind("paleta.links_hover") !important; 
+}
+
+.nav-link .white-icon {
+    color: #fff !important;
+}
+
+.nav-link .red-icon {
+    color: red !important;
+}
+
+</style>
+
 <script>
 import { mapState, mapActions } from "vuex";
 
@@ -54,15 +81,16 @@ export default {
             productsCart: (state) => state.cart.products.data,
             preloader: (state) => state.preloader.preloader,
             me: (state) => state.auth.me,
-            maintence: (state) => state.maintence.maintence
+            maintence: (state) => state.maintence.maintence,
+            paleta: (state) => state.layout.paleta
         }),
     },
     methods: {
         ...mapActions([
             "getTenant",
             "getCart",
-            "getLayout",
-            "getMe"
+            "getMe",
+            "setPaleta"
         ]),
 
         exit() {
@@ -73,8 +101,8 @@ export default {
         if (this.maintence) return;
 
         this.getTenant();
-        this.getLayout();
-        this.getMe()
+        this.getMe();
+        this.setPaleta();
     },
     watch: {
         company() {

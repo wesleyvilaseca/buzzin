@@ -382,7 +382,8 @@ Route::middleware(['auth', 'check.status.store'])->group(function () {
 
     Route::prefix('admin-site')->group(function () {
         Route::get('/',                 [SiteController::class, 'index'])->name('admin.site');
-        Route::post('/',                 [SiteController::class, 'enable'])->name('admin.site.enable');
+        Route::post('/',                [SiteController::class, 'enable'])->name('admin.site.enable');
+        Route::post('/layout',          [SiteController::class, 'storeUpdateLayout'])->name('admin.site.layout');
     });
 
     Route::prefix('admin-payment')->group(function () {

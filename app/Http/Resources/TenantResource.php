@@ -24,6 +24,7 @@ class TenantResource extends JsonResource
             'domain' => @$this->site[0]?->domain,
             'subdomain' => @$this->site[0]?->subdomain,
             'logo' => $this->logo ? url("storage/" . str_replace("public/", "", $this->logo)) : null,
+            'site_data' => json_decode($this->site[0]->data),
             'date_created' => Carbon::parse($this->created_at)->format('d/m/Y')
         ];
     }

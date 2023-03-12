@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="shopping-cart pt-">
                     <div class="card-header text-light">
-                        <span style="color:#4060ff">
+                        <span>
                             <i class="fa fa-shopping-cart me-2" aria-hidden="true"></i>
                             Carrinho de Compras
                         </span>
@@ -67,6 +67,23 @@
 .card--flat:hover .card-image img {
     transform: none !important;
 }
+
+.shopping-cart .card-header span {
+    color: v-bind("paleta.links");
+}
+
+.shopping-cart .card-header span:hover {
+    color: v-bind("paleta.links_hover");
+}
+
+.shopping-cart .card-header .btn {
+    background-color: v-bind("paleta.btn_color") !important;
+    color: #fff !important;
+}
+
+.shopping-cart .card-header .btn:hover {
+    background-color: v-bind("paleta.btn_color_hover") !important;
+}
 </style>
 
 <script>
@@ -86,6 +103,7 @@ export default {
         ...mapState({
             products: (state) => state.cart.products.data,
             company: (state) => state.tenant.company,
+            paleta: (state) => state.layout.paleta
         }),
     },
     mounted() { },

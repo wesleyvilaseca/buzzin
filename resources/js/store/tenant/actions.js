@@ -6,7 +6,14 @@ const actions = {
         commit('SET_TEXT_PRELOADER', 'Carregando os produtos...');
         return axios.get('/app/tenant', { params })
             .then(res => { 
-                commit('SET_COMPANY', res.data.data)
+                const data = res.data.data;
+                const layout = data?.site_data?.layout;
+
+                commit('SET_COMPANY', data);
+
+                if(layout && layout.paleta_cores_site) {
+                    commit('SET_PALETA', layout.paleta_cores_site)
+                }
              })
             .finally(() => {
                 commit('SET_PRELOADER', false)
