@@ -7,6 +7,7 @@ use App\Repositories\Contracts\ClientRepositoryInterface;
 use App\Repositories\Contracts\ProductRepositoryInterface;
 use App\Repositories\Contracts\TenantRepositoryInterface;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class ClientService
 {

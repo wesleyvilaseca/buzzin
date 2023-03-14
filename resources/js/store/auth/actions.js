@@ -53,6 +53,33 @@ const actions = {
             .catch(error => {
                 console.log(error);
             })
+    },
+
+    getClientAddress({ commit }) {
+        const token = localStorage.getItem(TOKEN_NAME);
+        if (!token) return;
+        return axios.get('/app/auth/address', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then((res) => {
+                commit('SET_ADDRESS', res.data);
+            })
+    },
+
+    saveNewAddress({ dispatch }, params) {
+        const token = localStorage.getItem(TOKEN_NAME);
+        if (!token) return;
+
+        return axios.post('/app/auth/newaddress', params, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then((res) => {
+                dispatch('getClientAddress');
+            })
     }
 }
 

@@ -88,24 +88,24 @@
 
 <style scoped>
 .login_btn {
-    background: #4040ff !important;
+    background:  v-bind("paleta.btn_color")  !important;
     color: white !important;
     border-radius: 50px;
 }
 
 .login_btn:hover {
-    background: #4060ff !important;
+    background:  v-bind("paleta.btn_color_hover") !important;
 }
 
 .input-group-text {
-    background: #4040ff !important;
+    background:  v-bind("paleta.links") !important;
     color: white !important;
-    border-color: #4040ff;
+    border-color:  v-bind("paleta.links");
     border-radius: 0.25rem 0 0 0.25rem !important;
 }
 
 .input-group:focus {
-    border-color: #4040ff;
+    border-color:  v-bind("paleta.links");
     box-shadow: none;
     outline: 0;
 }
@@ -139,6 +139,7 @@ export default {
     computed: {
         ...mapState({
             company: (state) => state.tenant.company,
+            paleta: (state) => state.layout.paleta
         }),
     },
     mounted() { },

@@ -71,6 +71,18 @@ const mutations = {
             total += itemCart.qty * itemCart.item.price;
         });
         state.total = total;
+    },
+
+    SET_IS_IN_CHECKOUT(state, value) {
+        state.isInCheckout = value;
+    },
+
+    SET_SELECTED_ADDRESS(state, data) {
+        state.selectedAddress = data;
+    },
+
+    SET_SHIPPING_METHODS(state, data) {
+        state.shippingMethods = data;
     }
 
 };

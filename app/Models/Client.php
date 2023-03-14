@@ -27,4 +27,8 @@ class Client extends Authenticatable
     {
         return $this->hasMany(Evaluation::class);
     }
+
+    public function address() {
+        return $this->hasMany(ClientAddress::class, 'client_id', 'id');
+    }
 }

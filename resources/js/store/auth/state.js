@@ -3,7 +3,10 @@ const state = {
         name: '',
             email: ''
     },
-    authenticated: false
+    authenticated: false,
+    address: {
+        data: []
+    }
 };
 
 export default state;

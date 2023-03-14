@@ -2,7 +2,7 @@
     <transition name="modal-fade">
         <div class="modalVue open" :id="`${id}`">
             <div class="bs-example-modal-center show">
-                <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-dialog modal-xl" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title mt-0">{{ title }}</h5>
@@ -128,4 +128,5 @@ export default {
 .card {
     padding-bottom: 0px !important;
     margin-bottom: 0px !important;
-}</style>
+}
+</style>

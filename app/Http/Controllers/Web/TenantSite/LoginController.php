@@ -3,20 +3,22 @@
 namespace App\Http\Controllers\Web\TenantSite;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CategoryResource;
+use App\Http\Requests\StoreUpdateClientAddress;
 use App\Http\Resources\ClientResource;
 use App\Models\Client;
-use App\Models\Plan;
-use App\Services\CategoryService;
+use App\Services\ClientAddressService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
     private $tenant;
+    private $clientAddressService;
 
-    public function __construct()
+    public function __construct(ClientAddressService $clientAddressService)
     {
+        $this->clientAddressService = $clientAddressService;
         $this->middleware(function ($request, $next) {
             $this->tenant = session()->get('tenant');
             return $next($request);
@@ -53,5 +55,18 @@ class LoginController extends Controller
         $client = $request->user();
 
         return new ClientResource($client);
+    }
+
+    public function getClientAddress(Request $request)
+    {
+        return $this->clientAddressService->getClientAddress(Auth::user()->id);
+    }
+
+    public function saveNewAddress(StoreUpdateClientAddress $request)
+    {
+        $data = $request->all();
+        $data['client_id'] = Auth::user()->id;
+
+        return $this->clientAddressService->createNewAddress($data);
     }
 }

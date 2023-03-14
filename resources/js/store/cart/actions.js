@@ -32,8 +32,12 @@ const actions = {
     shippingValue({ commit }, params) {
         return axios.post('/app/delivery-price', params)
             .then((res) => {
-                return res;
+                commit('SET_SHIPPING_METHODS', res);
             })
+    },
+
+    getCepViaCep({commit}, cep) {
+        return axios.get(`https://viacep.com.br/ws/${cep}/json/`);
     }
 }
 
