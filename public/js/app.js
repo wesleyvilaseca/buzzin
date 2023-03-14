@@ -20252,6 +20252,7 @@ var __default__ = {
     },
     setShippingSelected: function setShippingSelected(item) {
       console.log(item);
+      this.modalEndereco(false);
     },
     backAddressList: function backAddressList() {
       this.setSelectedAddress(this.formAddress);

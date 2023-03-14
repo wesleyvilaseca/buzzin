@@ -363,6 +363,7 @@ export default {
 
         setShippingSelected(item) {
             console.log(item)
+            this.modalEndereco(false);
         },
         backAddressList() {
             this.setSelectedAddress(this.formAddress);
