@@ -75,8 +75,9 @@ if ($domain !== $appDomain) {
                 Route::get('/auth/me', [TenantSiteLoginController::class, 'me']);
                 Route::get('/auth/address', [TenantSiteLoginController::class, 'getClientAddress']);
                 Route::post('/auth/newaddress', [TenantSiteLoginController::class, 'saveNewAddress']);
+                Route::post('/checkout/order',  [CheckoutController::class, 'store']);
 
-                
+
                 // Route::post('/auth/logout', [TenantSiteLoginController::class, 'logout']);
 
                 // Route::post('/auth/v1/orders/{identifyOrder}/evaluations', [EvaluationController::class, 'store']);

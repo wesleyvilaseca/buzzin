@@ -12,4 +12,9 @@ class TenantOperationDay extends Model
     use HasFactory;
 
     protected $fillable = ['operation_day_id', 'data', 'status'];
+
+    public function operationDay()
+    {
+        return $this->hasOne(OperationDay::class, 'operation_day_id', 'id');
+    }
 }

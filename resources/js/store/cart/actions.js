@@ -1,5 +1,6 @@
 import axios from "axios";
 import cript from "../../support/cript";
+const TOKEN_NAME = 'buzzin';
 const actions = {
     getCart({ commit }, uuid) {
         const cart = localStorage.getItem(uuid);
@@ -36,8 +37,25 @@ const actions = {
             })
     },
 
-    getCepViaCep({commit}, cep) {
+    getCepViaCep({ commit }, cep) {
         return axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+    },
+
+    sendCheckout({ commit }, params) {
+        const token = localStorage.getItem(TOKEN_NAME);
+
+        commit('SET_PRELOADER', true);
+        commit('SET_TEXT_PRELOADER', 'Finalizando pedido...');
+
+        return axios.post('/app/checkout/order', params, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .finally(() => {
+                commit('SET_PRELOADER', false);
+                commit('SET_TEXT_PRELOADER', 'Carregando...');
+            })
     }
 }
 

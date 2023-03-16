@@ -39,6 +39,7 @@ class OrderService
 
     public function createNewOrder(array $order)
     {
+        dd($order);
         $productsOrder = $this->getProductsByOrder($order['products'] ?? []);
 
         $identify = $this->getIdentifyOrder();

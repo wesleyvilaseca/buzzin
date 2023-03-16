@@ -73,6 +73,10 @@ const mutations = {
         state.total = total;
     },
 
+    SET_SHIPPING_VALUE_TO_TOTAL_CART(state, value) {
+        state.total += parseFloat(value);
+    },
+
     SET_IS_IN_CHECKOUT(state, value) {
         state.isInCheckout = value;
     },
@@ -83,6 +87,10 @@ const mutations = {
 
     SET_SHIPPING_METHODS(state, data) {
         state.shippingMethods = data;
+    },
+
+    SET_SELECTED_SHIPPING_METHOD(state, data) {
+        state.selectedShippingMethod = data;
     }
 
 };

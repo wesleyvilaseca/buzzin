@@ -1,15 +1,13 @@
 <template>
-    <div>
-        <Header />
-        <div class="mt-2 mb-3">
-            <div class="slot mt-4">
-                <PreloaderComponent />
-                <slot name="content">
-                </slot>
-            </div>
+    <Header />
+    <div class="mt-2 mb-3">
+        <div class="slot mt-4">
+            <PreloaderComponent />
+            <slot name="content">
+            </slot>
         </div>
-        <Footer />
     </div>
+    <Footer />
 </template>
 
 <script>

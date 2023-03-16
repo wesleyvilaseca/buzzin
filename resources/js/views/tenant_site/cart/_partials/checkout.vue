@@ -52,19 +52,28 @@
             </div>
         </div>
 
+        <div class="">
+            <div class="d-flex justify-content-center" v-if="canFinish">
+                <button type="button" class="btn load_more_btn" @click.prevent="changeCheckoutInfos()">Alterar endereço de
+                    entrega?</button>
+            </div>
+
+            <div class="mb-2" v-if="canFinish">
+                <label for="exampleFormControlTextarea1" class="form-label">Deseja fazer algum comentário para o lojista?
+                </label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" v-model="comment"></textarea>
+            </div>
+        </div>
         <hr>
 
         <div class="mt-4">
-            <a href="" class="cart-finalizar" @click.prevent="openModalCheckout(true)" v-if="!checkout">Finalizar</a>
+            <a href="" class="cart-finalizar" @click.prevent="openModalCheckout(true)">{{ textButton }}</a>
         </div>
     </div>
 
     <ModalComponent v-show="isModalVisible" title="Pedido" @close="openModalCheckout(false)">
         <template v-slot:content>
             <div name="checkout-order" :heigth="350">
-                <!-- <div class="px-md-5 my-4" v-if="loading">
-                        <p>Gerando o pedido... (aguarde!)</p>
-                    </div> -->
                 <div class="px-md-5 my-4">
                     <div class="col-12" v-if="me.name == ''">
                         <div class="">
@@ -87,16 +96,38 @@
 
     <ModalComponent v-show="isModalEnderecoVisible" title="Selecione um endereço" @close="modalEndereco(false)">
         <template v-slot:content>
-            <div name="checkout-order" :heigth="350">
+            <template v-if="company.isOpen == 'N'">
+                <div class="text-center">
+                    <div class="alert alert-warning">
+                        Nesse momento a loja está fechada
+                        <p>
+                            Entregas e retiradas serão feitas quando a loja estiver aberta
+                        </p>
+                    </div>
+                </div>
+            </template>
+
+            <div name="checkout-order" :heigth="350" v-if="company.clientCanBuy == 'Y'">
+                <!-- top modal -->
+
+                <!-- caso não tenha endereço selecionado e não seja para mostrar o formulário de endereço 
+                o usuário pode clicar para adicionar um novo endereço
+                -->
                 <div class="d-flex justify-content-end" v-if="!showFormAddress && !selectedAddress.zip_code">
                     <button type="button" class="btn load_more_btn" @click.prevent="showForm(true)">Adicionar</button>
                 </div>
+
+                <!-- caso o cliente tenha um endereço selecionado, ele pode clickar em voltar
+                dai ele volta para a listagem de endereços
+                -->
                 <div class="d-flex justify-content-end" v-if="!showFormAddress && selectedAddress.zip_code">
                     <button type="button" class="btn load_more_btn" @click.prevent="backAddressList()">
                         <i class="fa-solid fa-chevron-left"></i>
                         Voltar
                     </button>
                 </div>
+
+                <!-- caso ele esteja na página de listagem de endereços -->
                 <div class="d-flex justify-content-end" v-if="showFormAddress">
                     <button type="button" class="btn calcel-button me-2" @click.prevent="showForm(false)">Cancelar</button>
                     <button type="button" class="btn load_more_btn" @click.prevent="salveAddress()" :disabled="loading">
@@ -104,8 +135,14 @@
                         <span v-else> Salvar</span>
                     </button>
                 </div>
+
+                <!--/ top modal  -->
+
+                <!-- body modal -->
+                <!-- caso não seja seja para mostrar o formulário vai ser exibido a listagem de endereços -->
                 <template v-if="!showFormAddress">
                     <div class="px-md-5 my-4" v-if="address.data.length > 0">
+                        <!-- caso o usuário tenha selecionado um endereço ficará listando apenas o selecionando -->
                         <template v-if="selectedAddress.zip_code">
                             <div class="list-group">
                                 <a href="#" class="list-group-item list-group-item-action">
@@ -121,8 +158,9 @@
                                     <small class="text-muted">{{ selectedAddress.zip_code }}</small>
                                 </a>
 
+                                <!-- aqui é a listagem das formas de entrega -->
                                 <template v-if="shippingMethods.data.length > 0">
-                                    <div class="mt-2">
+                                    <div class="mt-3">
                                         <div class="title mb-1 text-center">
                                             <h5>Selecione a forma de entrega</h5>
                                         </div>
@@ -142,20 +180,24 @@
                                         </div>
                                     </div>
                                 </template>
+
                                 <template v-if="shippingMethods.data.length <= 0">
-                                    <div class="alert alert-danger mt-2" v-if="errorMessage">
-                                        {{ errorMessage }} :(
+                                    <div class="text-center mt-2">
+                                        <div class="alert alert-danger mt-2" v-if="errorMessage">
+                                            {{ errorMessage }} :(
+                                        </div>
                                     </div>
                                 </template>
 
                                 <template v-if="loading">
-                                    <div>
+                                    <div class="text-center mt-2">
                                         <i class="fas fa-spinner fa-spin"></i> Buscando...
                                     </div>
                                 </template>
                             </div>
                         </template>
 
+                        <!-- caso não tenha endereço selecionado, será listado todos os endereços do cliente -->
                         <template v-if="!selectedAddress.zip_code">
                             <div class="list-group">
                                 <a href="#" class="list-group-item list-group-item-action"
@@ -283,15 +325,18 @@ export default {
     data() {
         return {
             modalTitle: "Checkout",
+            textButton: "Checkout",
+            showBoxComment: false,
+            comment: "",
             cartCep: "",
             isModalVisible: false,
             isModalEnderecoVisible: false,
             loading: false,
-            comment: "",
             errorMessage: "",
             disabledCart: false,
             showFormAddress: false,
-            canSaveAddress: false,
+            canSaveAdrdess: false,
+            canFinish: false,
             formAddress: {
                 address: "",
                 zip_code: "",
@@ -321,58 +366,53 @@ export default {
             me: (state) => state.auth.me,
             address: (state) => state.auth.address,
             paleta: (state) => state.layout.paleta,
-            checkout: (state) => state.cart.isInCheckout,
             selectedAddress: (state) => state.cart.selectedAddress,
-            shippingMethods: (state) => state.cart.shippingMethods
+            shippingMethods: (state) => state.cart.shippingMethods,
+            selectedShippingMethod: (state) => state.cart.selectedShippingMethod,
         })
     },
     methods: {
-        ...mapActions(["shippingValue", "getClientAddress", "getCepViaCep", "saveNewAddress"]),
+        ...mapActions(["shippingValue", "getClientAddress", "getCepViaCep", "saveNewAddress", "sendCheckout"]),
         ...mapMutations({
-            setInCheckout: "SET_IS_IN_CHECKOUT",
             setSelectedAddress: "SET_SELECTED_ADDRESS",
-            setShippingMethods: "SET_SHIPPING_METHODS"
+            setShippingMethods: "SET_SHIPPING_METHODS",
+            setSelectedShippingMethod: "SET_SELECTED_SHIPPING_METHOD",
+            setShippingPriceToTotal: "SET_SHIPPING_VALUE_TO_TOTAL_CART"
         }),
         createOrder() {
-            // this.loading = true;
-            // const action = this.me.name === "" ? "create_order" : "create_order_auth";
-            // let params = {
-            //     token_company: this.company.uuid,
-            //     comment: this.comment,
-            //     products: [...this.products],
-            // };
-            // this.$store
-            //     .dispatch(action, params)
-            //     .then((res) => {
-            //         this.$vToastify.success("Pedido realizado com sucesso", "Parabéns");
-            //         this.$router.push({
-            //             name: "detail.order",
-            //             params: { identify: res.identify },
-            //         });
-            //     })
-            //     .catch((res) => {
-            //         this.$vToastify.error(
-            //             "Falha ao realizar o pedido, tente mais tarde :(",
-            //             "Erro"
-            //         );
-            //     })
-            //     .finally((res) => {
-            //         this.loading = false;
-            //     });
+            const params = {
+                address: this.selectedAddress,
+                products: this.products,
+                shippingMethod: this.selectedShippingMethod,
+                comment: this.comment
+            }
+            this.sendCheckout(params)
+                .then((res) => {
+                    console.log(res);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
         },
 
         setShippingSelected(item) {
-            console.log(item)
             this.modalEndereco(false);
+            this.setSelectedShippingMethod(item);
+            this.setShippingPriceToTotal(this.selectedShippingMethod?.price);
         },
         backAddressList() {
             this.setSelectedAddress(this.formAddress);
-            this.setShippingMethods({ data: [] })
+            this.setShippingMethods({ data: [] });
+            this.setSelectedShippingMethod({ price: "" });
         },
         openModalCheckout(state) {
+            if (this.canFinish) {
+                this.createOrder();
+                return;
+            }
+
             if (this.me.name !== '') {
                 this.modalEndereco(true);
-                this.setInCheckout(true);
                 this.getClientAddress();
                 return;
             }
@@ -380,14 +420,15 @@ export default {
         },
         modalEndereco(state) {
             this.resetForm();
-            if (!state && !this.formAddress.id) {
-                this.setInCheckout(false);
-            }
 
             if (!this.selectedAddress.zip_code && this.shippingMethods.data.length > 0 && state) {
                 this.setShippingMethods({ data: [] })
             }
             return this.isModalEnderecoVisible = state;
+        },
+
+        changeCheckoutInfos() {
+            this.isModalEnderecoVisible = true;
         },
 
         showForm(state) {
@@ -487,6 +528,7 @@ export default {
         },
 
         getShippingValue(cep) {
+            this.errorMessage = "";
             const params = {
                 "cep": cep.replace("-", ""),
                 "cartPrice": this.total
@@ -506,6 +548,24 @@ export default {
                         }
                     })
                     .finally(() => this.loading = false);
+            }
+        },
+
+        shippingMethods() {
+            if (this.selectedAddress.zip_code && this.shippingMethods.data.length <= 0) {
+                this.errorMessage = "Não há metodos de entrega disponível"
+            }
+        },
+
+        selectedShippingMethod() {
+            if (this.selectedAddress.zip_code && this.selectedShippingMethod.price !== "") {
+                this.textButton = 'Finalizar pedido agora';
+                this.showBoxComment = true;
+                this.canFinish = true;
+            } else {
+                this.textButton = 'Checkout';
+                this.showBoxComment = false;
+                this.canFinish = false;
             }
         }
     },

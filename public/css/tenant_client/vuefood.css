@@ -471,6 +471,7 @@ body {
   justify-content: space-between;
   padding: 20px 10px 30px;
   border-radius: .75rem .75rem 0 0;
+  background-color: transparent !important;
 }
 
 .shopping-cart .card-body {

@@ -53,6 +53,9 @@ export default {
 .modal-fade-leave-to {
     opacity: 0;
 }
+.modal-backdrop {
+  z-index: -1 !important;
+}
 
 .modal-fade-enter-active,
 .modal-fade-leave-active {
@@ -65,7 +68,7 @@ export default {
     /* Hidden by default */
     position: fixed;
     /* Stay in place */
-    z-index: 55 !important;
+    z-index: 99 !important;
     /* Sit on top */
     left: 0;
     top: 0;

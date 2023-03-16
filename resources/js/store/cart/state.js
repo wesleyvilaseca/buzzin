@@ -16,6 +16,9 @@ const state = {
     },
     shippingMethods: {
         data: []
+    },
+    selectedShippingMethod: {
+        price: ""
     }
 };
 

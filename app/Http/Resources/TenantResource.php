@@ -23,9 +23,20 @@ class TenantResource extends JsonResource
             'contact' => $this->email,
             'domain' => @$this->site[0]?->domain,
             'subdomain' => @$this->site[0]?->subdomain,
+            'address' => $this->address,
+            'zip_code' => $this->zip_code,
+            'state' => $this->state,
+            'district' => $this->district,
+            'city' => $this->city,
+            'number' => $this->number,
+            'email' => $this->email,
             'logo' => $this->logo ? url("storage/" . str_replace("public/", "", $this->logo)) : null,
             'site_data' => json_decode($this->site[0]->data),
-            'date_created' => Carbon::parse($this->created_at)->format('d/m/Y')
+            'date_created' => Carbon::parse($this->created_at)->format('d/m/Y'),
+            'isOpen' => $this->isOpen(),
+            'orderWhenClose' => $this->order_when_close ? 'N' : 'S',
+            'clientCanBuy' => $this->clientCanBay(),
+            'operationDays' => $this->getGetOperationDays()
         ];
     }
 }
