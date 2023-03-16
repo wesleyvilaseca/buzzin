@@ -19,6 +19,7 @@ class CreateOrdersTable extends Migration
             $table->string('identify')->unique();
             $table->integer('client_id')->nullable();
             $table->integer('table_id')->nullable();
+            $table->json('data')->nullable()->comment('armazenar todos os detalhes do pedido');
             $table->double('total', 10, 2);
             $table->enum('status', ['open', 'done', 'rejected', 'working', 'canceled', 'delivering']);
             $table->text('comment')->nullable();
