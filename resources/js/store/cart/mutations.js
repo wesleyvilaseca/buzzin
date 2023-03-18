@@ -86,7 +86,15 @@ const mutations = {
     },
 
     SET_SHIPPING_METHODS(state, data) {
-        state.shippingMethods = data;
+        state.shippingMethods.data = data;
+    },
+
+    SET_PAYMENT_METHODS(state, data) {
+        state.paymentMethods.data = data;
+    },
+
+    SET_SELECTED_PAYMENT_METHOD(state, data) {
+        state.selectedPaymentMethod = data;
     },
 
     SET_SELECTED_SHIPPING_METHOD(state, data) {

@@ -35,7 +35,7 @@
                                 <h4 class="card-title">
                                     <a href="#">{{ product.name }}</a>
                                 </h4>
-                                <h5>R$ {{ product.price | formatPrice }}</h5>
+                                <h5>R$ {{ product.price }}</h5>
                                 <p class="card-text">{{ product.description }}</p>
                             </div>
 

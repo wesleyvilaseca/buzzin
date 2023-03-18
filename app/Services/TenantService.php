@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\TenantPaymentResource;
 use App\Models\Plan;
 use App\Models\Shipping;
 use App\Models\Tenant;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Repositories\Contracts\TenantRepositoryInterface;
 use Exception;
 use Grimzy\LaravelMysqlSpatial\Types\Point;
+use Illuminate\Support\Str;
 
 class TenantService
 {
@@ -193,14 +195,14 @@ class TenantService
 
                     $getDeliveryPrice = function ($data, $cartPrice) {
                         if (!$data->free_when) {
-                            return numberFormat($data->price);
+                            return $data->price;
                         }
 
                         if ($cartPrice >= $data->free_when) {
-                            return numberFormat(0.00);
+                            return 0.00;
                         }
 
-                        return numberFormat($data->price);
+                        return $data->price;
                     };
 
                     $shippingMethods[] = (object) [
@@ -220,5 +222,44 @@ class TenantService
         }
 
         return response()->json($shippingMethods, 200);
+    }
+
+    public function paymentMethos(array $selectedShippingMethod, string $tenantUrl)
+    {
+        $tenant = $this->getTenantByFlag($tenantUrl);
+
+        if (!$tenant) {
+            return response()->json(['message' => 'Empresa não localizada'], 404);
+        }
+
+        $tenantPayments = $tenant->tenantPaymentMethods()->where('status', 1)->get();
+        if ($tenantPayments->isEmpty()) {
+            return response()->json(['message' => 'Não há metodos de pagamento disponível'], 404);
+        }
+
+        $selectedShippingMethod = Str::kebab($selectedShippingMethod['description']);
+
+        if ($selectedShippingMethod == 'retirada') {
+            foreach ($tenantPayments as $key => $paymentMethod) {
+                $paymentMethodDescription = Str::kebab($paymentMethod->payment->description);
+                if ($paymentMethodDescription !== 'pagar-na-retirada') {
+                    unset($tenantPayments[$key]);
+                }
+            }
+        }
+
+        if($selectedShippingMethod == 'delivery'){
+            foreach ($tenantPayments as $key => $paymentMethod) {
+                $paymentMethodDescription = Str::kebab($paymentMethod->payment->description);
+                if ($paymentMethodDescription == 'pagar-na-retirada') {
+                    unset($tenantPayments[$key]);
+                    break;
+                }
+            }
+        }
+
+        $data = TenantPaymentResource::collection($tenantPayments);
+
+        return response()->json($data);
     }
 }

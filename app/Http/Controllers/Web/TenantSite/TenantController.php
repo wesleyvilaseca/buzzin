@@ -40,4 +40,12 @@ class TenantController extends Controller
 
         return $this->tenantService->deliveryValue($request->all(), $this->tenant->url);
     }
+
+    public function getPaymentMethods(Request $request) {
+        if(!$request->selectedShippingMethod){
+            return response()->json(['message' => "informe a forma de entrega"], 400);
+        }
+
+        return $this->tenantService->paymentMethos($request->selectedShippingMethod, $this->tenant->url);
+    }
 }

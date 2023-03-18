@@ -33,7 +33,7 @@ const actions = {
     shippingValue({ commit }, params) {
         return axios.post('/app/delivery-price', params)
             .then((res) => {
-                commit('SET_SHIPPING_METHODS', res);
+                commit('SET_SHIPPING_METHODS', res.data);
             })
     },
 
@@ -55,6 +55,13 @@ const actions = {
             .finally(() => {
                 commit('SET_PRELOADER', false);
                 commit('SET_TEXT_PRELOADER', 'Carregando...');
+            })
+    },
+
+    getPaymentMethods({ commit }, params) {
+        return axios.post('/app/payment-methods', params)
+            .then((res) => {
+                commit("SET_PAYMENT_METHODS", res.data);
             })
     }
 }

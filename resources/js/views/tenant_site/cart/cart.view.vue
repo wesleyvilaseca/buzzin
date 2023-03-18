@@ -13,114 +13,79 @@
                         </a>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="container">
-                        <div class="">
-                            <div class="text-center" v-if="showAlertDeliveryDate">
-                                <div class="alert alert-warning">
-                                    Nesse momento a loja está fechada
-                                    <p v-if="selectedShippingMethod.description == 'Retirada'">
-                                        Você poderá efetuar a <strong>retirada</strong> da sua compra quando estivermos
-                                        aberto
-                                    </p>
-                                    <p v-else>
-                                        A sua entrega será processados quando a loja estiver aberta
-                                    </p>
+                    <template v-if="!isInCheckout">
+                        <div class="container" v-if="total">
+                            <div class="">
+                                <div class="text-center" v-if="showAlertDeliveryDate">
+                                    <div class="alert alert-warning">
+                                        Nesse momento a loja está fechada
+                                        <p v-if="selectedShippingMethod.description == 'Retirada'">
+                                            Você poderá efetuar a <strong>retirada</strong> da sua compra quando estivermos
+                                            aberto
+                                        </p>
+                                        <p v-else>
+                                            A sua entrega será processados quando a loja estiver aberta
+                                        </p>
 
-                                    <p> Consulte nosso horário de funcionamento
-                                        <a href="/"> <strong>aqui </strong></a>
-                                        :)
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="div">
-                                <div class="row align-items-center" v-for="(product, index) in products" :key="index">
-                                    <div class="col-4 text-center">
-                                        <div class="img-circle">
-                                            <img class="img-responsive" :src="product.item.image" alt="prewiew" width="120"
-                                                height="80" />
-                                        </div>
+                                        <p> Consulte nosso horário de funcionamento
+                                            <a href="/"> <strong>aqui </strong></a>
+                                            :)
+                                        </p>
                                     </div>
-                                    <div class="col-8 text-left">
-                                        <h4 class="product-name">
-                                            <strong>{{ product.item.title }}</strong>
-                                        </h4>
-                                        <h5 class="h6">{{ product.item.description }}</h5>
-                                        <div class="d-flex py-4 justify-content-between align-items-center">
-                                            <div class="col-10 d-flex align-items-center p-0">
-                                                <h6>
-                                                    <strong>R$ {{ product.item.price }}
-                                                        <span class="text-muted">x</span></strong>
-                                                </h6>
-                                                <div class="quantity ml-4">
-                                                    <input type="button" value="+" class="plus"
-                                                        @click.prevent="incrementQty(product.item)"
-                                                        :disabled="{ disabledProductButtons }" />
-                                                    <input type="number" step="1" max="99" min="1" :value="product.qty"
-                                                        title="Qty" class="qty" size="4" />
-                                                    <input type="button" value="-" class="minus"
-                                                        @click.prevent="decrementQty(product.item)"
-                                                        :disabled="{ disabledProductButtons }" />
+                                </div>
+
+                                <div class="div">
+                                    <div class="row align-items-center" v-for="(product, index) in products" :key="index">
+                                        <div class="col-4 text-center">
+                                            <div class="img-circle">
+                                                <img class="img-responsive" :src="product.item.image" alt="prewiew"
+                                                    width="120" height="80" />
+                                            </div>
+                                        </div>
+                                        <div class="col-8 text-left">
+                                            <h4 class="product-name">
+                                                <strong>{{ product.item.title }}</strong>
+                                            </h4>
+                                            <h5 class="h6">{{ product.item.description }}</h5>
+                                            <div class="d-flex py-4 justify-content-between align-items-center">
+                                                <div class="col-10 d-flex align-items-center p-0">
+                                                    <h6>
+                                                        <strong>R$ {{ product.item.price }}
+                                                            <span class="text-muted">x</span></strong>
+                                                    </h6>
+                                                    <div class="quantity ml-4">
+                                                        <input type="button" value="+" class="plus"
+                                                            @click.prevent="incrementQty(product.item)" />
+                                                        <input type="number" step="1" max="99" min="1" :value="product.qty"
+                                                            title="Qty" class="qty" size="4" />
+                                                        <input type="button" value="-" class="minus"
+                                                            @click.prevent="decrementQty(product.item)" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-2 col-sm-2 col-md-2 text-right">
+                                                    <button type="button" class="btn btn-outline-danger btn-xs"
+                                                        @click.prevent="deleteFromCart(product.item)">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </button>
                                                 </div>
                                             </div>
-
-                                            <div class="col-2 col-sm-2 col-md-2 text-right" v-if="disabledProductButtons">
-                                                <button type="button" class="btn btn-outline-danger btn-xs"
-                                                    @click.prevent="deleteFromCart(product.item)">
-                                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                                </button>
-                                            </div>
-                                            <div class="col-2 col-sm-2 col-md-2 text-right" v-else>
-                                                <strong> R$ {{ product.qty * product.item.price }}</strong>
-                                            </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="row align-items-center" v-if="selectedAddress.zip_code !== ''">
-                                    <hr>
-                                    <div class="title text-center">
-                                        <h5>Endereço de entrega</h5>
-                                    </div>
-                                    <div class="col-4">
-                                        <div class="">
-                                            <h5 class="mb-1">{{ selectedAddress.address }}
-                                                <span v-if="selectedAddress.number"> n: {{ selectedAddress.number
-                                                }}</span>
-                                                {{ selectedAddress.district }}
-                                            </h5>
-                                        </div>
-                                        <p class="mb-1"> {{ selectedAddress.complement }} {{ selectedAddress.city }} -
-                                            {{
-                                                selectedAddress.state }}</p>
-                                        <small class="text-muted">{{ selectedAddress.zip_code }}</small>
-                                    </div>
-                                    <div class="col-8 text-left">
-                                        <h4 class="product-name">
-                                            <strong></strong>
-                                        </h4>
-                                        <h5 class="h6"></h5>
-                                        <div class="d-flex py-4 justify-content-between align-items-center">
-                                            <div class="col-10 d-flex align-items-center p-0">
-                                                <h6>
-                                                    <strong></strong>
-                                                </h6>
-                                                <div class="quantity ml-4">
-                                                </div>
-                                            </div>
-                                            <div class="col-2 col-sm-2 col-md-2 text-right">
-                                                <strong v-if="selectedShippingMethod.price !== ''">
-                                                    R$ {{ selectedShippingMethod.price }}</strong>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <hr>
                                 </div>
                             </div>
-                            <!-- <hr /> -->
                         </div>
+                        <div class="container mt-3" v-else>
+                            <div class="text-center">
+                                <div class="alert alert-warning">
+                                    Seu carrinho de compra esta vazio
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <template v-if="total > 0">
                         <Checkout />
-                    </div>
+                    </template>
                 </div>
             </div>
         </template>
@@ -164,7 +129,6 @@ export default {
     },
     data: () => ({
         showAlertDeliveryDate: false,
-        disabledProductButtons: false
     }),
     computed: {
         ...mapState({
@@ -174,6 +138,8 @@ export default {
             checkout: (state) => state.cart.isInCheckout,
             selectedAddress: (state) => state.cart.selectedAddress,
             selectedShippingMethod: (state) => state.cart.selectedShippingMethod,
+            isInCheckout: (state) => state.cart.isInCheckout,
+            total: (state) => state.cart.total,
         }),
     },
     mounted() { },
@@ -204,13 +170,6 @@ export default {
     },
     watch: {
         selectedShippingMethod() {
-
-            if (this.selectedAddress.zip_code) {
-                this.disabledProductButtons = true
-            } else {
-                this.disabledProductButtons = true
-            }
-
             if (this.company.isOpen === 'N' && this.company.orderWhenClose === 'S' && this.selectedShippingMethod.price !== "") {
                 this.showAlertDeliveryDate = true;
                 return;

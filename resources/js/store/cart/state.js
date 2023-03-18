@@ -19,6 +19,12 @@ const state = {
     },
     selectedShippingMethod: {
         price: ""
+    },
+    paymentMethods: {
+        data: []
+    },
+    selectedPaymentMethod: {
+        description: ""
     }
 };
 

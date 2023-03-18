@@ -2,12 +2,13 @@
     <transition name="modal-fade">
         <div class="modalVue open" :id="`${id}`">
             <div class="bs-example-modal-center show">
-                <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-dialog modal-dialog-centered" :class="modalSize ? modalSize : 'modal-xl'" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title mt-0">{{ title }}</h5>
+                            
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                                @click="close()"></button>
+                                @click="close()" v-if="showClose"></button>
                         </div>
 
                         <!-- Conteudo -->
@@ -34,6 +35,11 @@ export default {
     name: 'Modal',
     props: {
         id: String,
+        modalSize: String,
+        showClose: {
+            type: Boolean,
+            default: true
+        },
         title: {
             type: String,
             required: false,
@@ -53,8 +59,9 @@ export default {
 .modal-fade-leave-to {
     opacity: 0;
 }
+
 .modal-backdrop {
-  z-index: -1 !important;
+    z-index: -1 !important;
 }
 
 .modal-fade-enter-active,

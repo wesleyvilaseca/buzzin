@@ -1,0 +1,573 @@
+<template>
+    <div class="">
+        <div class="d-flex justify-content-between">
+            <div class="cep">
+                <div class="form-group">
+                    <input type="text" id="cep" class="form-control" v-model="cartCep"
+                        placeholder="Informe o CEP de entrega" v-mask="'#####-###'" v-if="!selectedAddress.zip_code" />
+                </div>
+            </div>
+            <div class="text-right">
+                <div class="cart-price text-red">
+                    Preço Total: <b>R$ {{ total }}</b>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-left" v-if="!selectedAddress.zip_code">
+            <div class="">
+                <template v-if="loading">
+                    <i class="fas fa-spinner fa-spin"></i> Buscando...
+                </template>
+
+                <template v-else>
+                    <div class="alert alert-danger mt-2" v-if="errorMessage">
+                        {{ errorMessage }} :(
+                    </div>
+
+                    <template v-if="shippingMethods.data.length > 0">
+                        <ul class="list-group list-group-flush mt-2">
+                            <li class="list-group-item list-group-item-success"
+                                v-for="(method, index) in shippingMethods.data" :key="index">
+                                {{ method.description }} : <strong>R$ {{ method.price }}</strong>
+                                <template v-if="method.estimation">
+                                    <ul class="ps-2">
+                                        <li>Bairro: <strong>{{ method.estimation.location }}</strong><br />
+                                            <span>
+                                                Tempo estimado: <strong>
+                                                    de {{ method.estimation.time_ini }}
+                                                    a {{ method.estimation.time_end }} {{ method.estimation.time_unid }}
+                                                </strong>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </template>
+                            </li>
+                        </ul>
+                        <template v-if="shippingMethods.data[index++]">
+                            <hr>
+                        </template>
+                    </template>
+                </template>
+            </div>
+        </div>
+
+        <div class="">
+            <div class="d-flex justify-content-center" v-if="canFinish">
+                <button type="button" class="btn load_more_btn" @click.prevent="changeCheckoutInfos()">Alterar endereço de
+                    entrega?</button>
+            </div>
+
+            <div class="mb-2" v-if="canFinish">
+                <label for="exampleFormControlTextarea1" class="form-label">Deseja fazer algum comentário para o lojista?
+                </label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" v-model="comment"></textarea>
+            </div>
+        </div>
+        <hr>
+
+        <div class="mt-4">
+            <a href="" class="cart-finalizar" @click.prevent="openModalCheckout(true)">{{ textButton }}</a>
+        </div>
+    </div>
+
+    <ModalComponent v-show="isModalVisible" title="Pedido" @close="openModalCheckout(false)">
+        <template v-slot:content>
+            <div name="checkout-order" :heigth="350">
+                <div class="px-md-5 my-4">
+                    <div class="col-12" v-if="me.name == ''">
+                        <div class="">
+                            <div class="alert alert-warning">
+                                Para finalizar o pedido você precisa estar logado
+                            </div>
+                            <p><strong>Total de produtos: </strong>{{ products.length }}</p>
+                            <p><strong>Preço total: </strong> R$ {{ total }}</p>
+                            <div class="text-center d-grid gap-2 d-md-block">
+                                <a href="/app/login" type="button" class="btn load_more_btn" style="width: 200px;">
+                                    Login
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </ModalComponent>
+
+    <ModalComponent v-show="isModalEnderecoVisible" title="Selecione um endereço" @close="modalEndereco(false)">
+        <template v-slot:content>
+            <template v-if="company.isOpen == 'N'">
+                <div class="text-center">
+                    <div class="alert alert-warning">
+                        Nesse momento a loja está fechada
+                        <p>
+                            Entregas e retiradas serão feitas quando a loja estiver aberta
+                        </p>
+                    </div>
+                </div>
+            </template>
+
+            <div name="checkout-order" :heigth="350" v-if="company.clientCanBuy == 'Y'">
+                <!-- top modal -->
+
+                <!-- caso não tenha endereço selecionado e não seja para mostrar o formulário de endereço 
+                o usuário pode clicar para adicionar um novo endereço
+                -->
+                <div class="d-flex justify-content-end" v-if="!showFormAddress && !selectedAddress.zip_code">
+                    <button type="button" class="btn load_more_btn" @click.prevent="showForm(true)">Adicionar</button>
+                </div>
+
+                <!-- caso o cliente tenha um endereço selecionado, ele pode clickar em voltar
+                dai ele volta para a listagem de endereços
+                -->
+                <div class="d-flex justify-content-end" v-if="!showFormAddress && selectedAddress.zip_code">
+                    <button type="button" class="btn load_more_btn" @click.prevent="backAddressList()">
+                        <i class="fa-solid fa-chevron-left"></i>
+                        Voltar
+                    </button>
+                </div>
+
+                <!-- caso ele esteja na página de listagem de endereços -->
+                <div class="d-flex justify-content-end" v-if="showFormAddress">
+                    <button type="button" class="btn calcel-button me-2" @click.prevent="showForm(false)">Cancelar</button>
+                    <button type="button" class="btn load_more_btn" @click.prevent="salveAddress()" :disabled="loading">
+                        <span v-if="loading">Salvando...</span>
+                        <span v-else> Salvar</span>
+                    </button>
+                </div>
+
+                <!--/ top modal  -->
+
+                <!-- body modal -->
+                <!-- caso não seja seja para mostrar o formulário vai ser exibido a listagem de endereços -->
+                <template v-if="!showFormAddress">
+                    <div class="px-md-5 my-4" v-if="address.data.length > 0">
+                        <!-- caso o usuário tenha selecionado um endereço ficará listando apenas o selecionando -->
+                        <template v-if="selectedAddress.zip_code">
+                            <div class="list-group">
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ selectedAddress.address }} <span
+                                                v-if="selectedAddress.number">n: {{ selectedAddress.number
+                                                }}</span>
+                                            {{ selectedAddress.district }}</h5>
+                                        <!-- <small class="badge bg-success" v-if="selectedAddress.status == 1">Endereço principal</small> -->
+                                    </div>
+                                    <p class="mb-1"> {{ selectedAddress.complement }} {{ selectedAddress.city }} - {{
+                                        selectedAddress.state }}</p>
+                                    <small class="text-muted">{{ selectedAddress.zip_code }}</small>
+                                </a>
+
+                                <!-- aqui é a listagem das formas de entrega -->
+                                <template v-if="shippingMethods.data.length > 0">
+                                    <div class="mt-3">
+                                        <div class="title mb-1 text-center">
+                                            <h5>Selecione a forma de entrega</h5>
+                                        </div>
+                                        <div class="form-check" v-for="(method, index) in shippingMethods.data"
+                                            :key="index">
+                                            <input class="form-check-input" name="exampleRadios" type="radio"
+                                                :id="`radio${index}`" @change.prevent="setShippingSelected(method)">
+                                            <label class="form-check-label" :for="`radio${index}`">
+                                                {{ method.description }} : <strong>R$ {{ method.price }}</strong>
+                                                <br>
+                                                <span v-if="method.estimation">
+                                                    Tempo estimado: <strong> de {{ method.estimation.time_ini }} a {{
+                                                        method.estimation.time_end }} {{ method.estimation.time_unid }}
+                                                    </strong>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </template>
+
+                                <template v-if="shippingMethods.data.length <= 0">
+                                    <div class="text-center mt-2">
+                                        <div class="alert alert-danger mt-2" v-if="errorMessage">
+                                            {{ errorMessage }} :(
+                                        </div>
+                                    </div>
+                                </template>
+
+                                <template v-if="loading">
+                                    <div class="text-center mt-2">
+                                        <i class="fas fa-spinner fa-spin"></i> Buscando...
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+
+                        <!-- caso não tenha endereço selecionado, será listado todos os endereços do cliente -->
+                        <template v-if="!selectedAddress.zip_code">
+                            <div class="list-group">
+                                <a href="#" class="list-group-item list-group-item-action"
+                                    v-for="(item, index) in address.data" :key="index" @click.prevent="setAddress(item)">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ item.address }} <span v-if="item.number">n: {{ item.number
+                                        }}</span>
+                                            {{ item.district }}</h5>
+                                        <!-- <small class="badge bg-success" v-if="item.status == 1">Endereço principal</small> -->
+                                    </div>
+                                    <p class="mb-1"> {{ item.complement }} {{ item.city }} - {{ item.state }}</p>
+                                    <small class="text-muted">{{ item.zip_code }}</small>
+                                </a>
+                            </div>
+
+                        </template>
+
+                    </div>
+                    <div class="mt-2" v-else>
+                        <div class="alert alert-warning text-center"> Você não possuí endereços cadastrados </div>
+                    </div>
+                </template>
+
+                <template v-if="showFormAddress">
+                    <form>
+                        <div class="row">
+                            <div class="form-group mt-2 col-md-4">
+                                <label>CEP:</label>
+                                <input type="text" v-model="formAddress.zip_code" class="form-control form-control-sm"
+                                    placeholder="CEP:" @blur.prevent="buscacep()" v-mask="'#####-###'">
+                                <div class="form-text text-danger" v-if="errors.zip_code != ''">
+                                    {{ errors.zip_code[0] || "" }}
+                                </div>
+                            </div>
+
+                            <div class="form-group mt-2 col-md-5">
+                                <label>Cidade: *</label>
+                                <input type="text" v-model="formAddress.city" class="form-control form-control-sm"
+                                    placeholder="Cidade:" readonly>
+                                <div class="form-text text-danger" v-if="errors.city != ''">
+                                    {{ errors.city[0] || "" }}
+                                </div>
+                            </div>
+
+                            <div class="form-group mt-2 col-md-2">
+
+                                <label>UF: *</label>
+                                <input type="text" v-model="formAddress.state" class="form-control form-control-sm"
+                                    placeholder="UF:" readonly>
+                                <div class="form-text text-danger" v-if="errors.state != ''">
+                                    {{ errors.state[0] || "" }}
+                                </div>
+                            </div>
+
+                            <div class="form-group mt-2 col-md-5">
+
+                                <label>Bairro: *</label>
+                                <input type="text" v-model="formAddress.district" class="form-control form-control-sm"
+                                    placeholder="Bairro:" readonly>
+                                <div class="form-text text-danger" v-if="errors.district != ''">
+                                    {{ errors.district[0] || "" }}
+                                </div>
+                            </div>
+
+                            <div class="form-group mt-2 col-md-5">
+                                <label>Endereço: *</label>
+                                <input type="text" v-model="formAddress.address" class="form-control form-control-sm"
+                                    placeholder="Endereço:">
+                                <div class="form-text text-danger" vv-if="errors.address != ''">
+                                    {{ errors.address[0] || "" }}
+                                </div>
+                            </div>
+
+                            <div class="form-group mt-2 col-md-2">
+                                <label>Numero:</label>
+                                <input type="text" v-model="formAddress.number" class="form-control form-control-sm">
+                                <div class="form-text text-danger" v-if="errors.number != ''">
+                                    {{ errors.number[0] || "" }}
+                                </div>
+                            </div>
+
+                            <div class="form-group mt-2 col-md-12">
+                                <label>Complemento:</label>
+                                <input type="text" v-model="formAddress.complement" class="form-control form-control-sm"
+                                    placeholder="Complemento:">
+                                <div class="form-text text-danger" v-if="errors.complement != ''">
+                                    {{ errors.complement[0] || "" }}
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </template>
+            </div>
+        </template>
+    </ModalComponent>
+</template>
+
+<style scoped>
+.load_more_btn {
+    background: v-bind("paleta.btn_color") !important;
+    color: v-bind("paleta.btn_color_letter") !important;
+    border-radius: 25px !important;
+}
+
+.calcel-button {
+    background: v-bind("paleta.btn_color_hover") !important;
+    color: v-bind("paleta.btn_color_letter") !important;
+    border-radius: 25px !important;
+}
+
+.load_more_btn:hover {
+    background: v-bind("paleta.btn_color_hover") !important;
+}
+</style>
+  
+<script>
+import ModalComponent from "../../../../components/widgets/ModalComponent.vue";
+import { mapState, mapActions, mapMutations } from "vuex";
+import { toast } from 'vue3-toastify';
+
+export default {
+    components: {
+        ModalComponent
+    },
+    data() {
+        return {
+            modalTitle: "Checkout",
+            textButton: "Checkout",
+            showBoxComment: false,
+            comment: "",
+            cartCep: "",
+            isModalVisible: false,
+            isModalEnderecoVisible: false,
+            loading: false,
+            errorMessage: "",
+            disabledCart: false,
+            showFormAddress: false,
+            canSaveAdrdess: false,
+            canFinish: false,
+            formAddress: {
+                address: "",
+                zip_code: "",
+                state: "",
+                city: "",
+                district: "",
+                number: "",
+                complement: "",
+                id: ""
+            },
+            errors: {
+                address: "",
+                zip_code: "",
+                state: "",
+                city: "",
+                district: "",
+                number: "",
+                complement: ""
+            },
+        };
+    },
+    computed: {
+        ...mapState({
+            products: (state) => state.cart.products.data,
+            total: (state) => state.cart.total,
+            company: (state) => state.tenant.company,
+            me: (state) => state.auth.me,
+            address: (state) => state.auth.address,
+            paleta: (state) => state.layout.paleta,
+            selectedAddress: (state) => state.cart.selectedAddress,
+            shippingMethods: (state) => state.cart.shippingMethods,
+            selectedShippingMethod: (state) => state.cart.selectedShippingMethod,
+        })
+    },
+    methods: {
+        ...mapActions(["shippingValue", "getClientAddress", "getCepViaCep", "saveNewAddress", "sendCheckout"]),
+        ...mapMutations({
+            setSelectedAddress: "SET_SELECTED_ADDRESS",
+            setShippingMethods: "SET_SHIPPING_METHODS",
+            setSelectedShippingMethod: "SET_SELECTED_SHIPPING_METHOD",
+            setShippingPriceToTotal: "SET_SHIPPING_VALUE_TO_TOTAL_CART"
+        }),
+        createOrder() {
+            const params = {
+                address: this.selectedAddress,
+                products: this.products,
+                shippingMethod: this.selectedShippingMethod,
+                comment: this.comment
+            }
+            this.sendCheckout(params)
+                .then((res) => {
+                    console.log(res);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        },
+
+        setShippingSelected(item) {
+            this.modalEndereco(false);
+            this.setSelectedShippingMethod(item);
+            this.setShippingPriceToTotal(this.selectedShippingMethod?.price);
+        },
+        backAddressList() {
+            this.setSelectedAddress(this.formAddress);
+            this.setShippingMethods({ data: [] });
+            this.setSelectedShippingMethod({ price: "" });
+        },
+        openModalCheckout(state) {
+            if (this.canFinish) {
+                this.createOrder();
+                return;
+            }
+
+            if (this.me.name !== '') {
+                this.modalEndereco(true);
+                this.getClientAddress();
+                return;
+            }
+            this.isModalVisible = state;
+        },
+        modalEndereco(state) {
+            this.resetForm();
+
+            if (!this.selectedAddress.zip_code && this.shippingMethods.data.length > 0 && state) {
+                this.setShippingMethods({ data: [] })
+            }
+            return this.isModalEnderecoVisible = state;
+        },
+
+        changeCheckoutInfos() {
+            this.isModalEnderecoVisible = true;
+        },
+
+        showForm(state) {
+            this.showFormAddress = state
+        },
+
+        setAddress(item) {
+            this.loading = true;
+            this.setSelectedAddress(item);
+            this.getShippingValue(item.zip_code)
+                .catch((error) => {
+                    if (error?.response?.data?.message) {
+                        this.errorMessage = error.response.data.message;
+                    }
+                })
+                .finally(() => this.loading = false);
+        },
+
+        salveAddress() {
+            this.reset();
+            this.validateForm();
+            if (!this.canSaveAddress) return;
+
+            this.loading = true;
+
+            this.saveNewAddress(this.formAddress)
+                .then((res) => {
+                    this.showFormAddress = false
+                    toast.success("Endereço salvo com sucesso", { autoClose: 300 });
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+                .finally(() => {
+                    this.loading = false;
+                    this.resetForm()
+                })
+        },
+
+        buscacep() {
+            if (this.formAddress.zip_code.length < 9) {
+                this.errors.zip_code = ["Informe um cep valido"];
+                return;
+            }
+
+            this.getCepViaCep(this.formAddress.zip_code)
+                .then((res) => {
+                    const { data } = res;
+                    this.formAddress.city = data?.localidade;
+                    this.formAddress.district = data?.bairro;
+                    this.formAddress.address = data?.logradouro;
+                    this.formAddress.state = data?.uf
+                    this.formAddress.complement = data?.complemento
+                })
+                .catch((error) => {
+                    toast.error("Informe um CEP válido", { autoClose: 300 });
+                })
+        },
+
+        validateForm() {
+            if (this.formAddress.zip_code.length < 9) {
+                this.canSaveAddress = false;
+                return this.errors.zip_code = ["Informe um cep valido"];
+            }
+            if (!this.formAddress.state) {
+                this.canSaveAddress = false;
+                return this.errors.state = ["O estado é um campo obrigatório"];
+            }
+            if (!this.formAddress.city) {
+                this.canSaveAddress = false;
+                return this.errors.city = ["A cidade campo obrigatório"];
+            }
+            if (!this.formAddress.district) {
+                this.canSaveAddress = false;
+                return this.errors.district = ["O bairro é um campo obrigatório"];
+            }
+            if (!this.formAddress.address) {
+                this.canSaveAddress = false
+                return this.errors.address = ["A rua é um campo obrigatório"];
+            }
+
+            if (!this.formAddress.complement) {
+                this.canSaveAddress = false
+                return this.errors.complement = ["O complemento campo obrigatório"];
+            }
+
+
+            this.canSaveAddress = true;
+        },
+
+        reset() {
+            this.errors = { address: "", zip_code: "", state: "", city: "", district: "", number: "", complement: "" }
+        },
+
+        resetForm() {
+            this.formAddress = { address: "", zip_code: "", state: "", city: "", district: "", number: "", complement: "" }
+        },
+
+        getShippingValue(cep) {
+            this.errorMessage = "";
+            const params = {
+                "cep": cep.replace("-", ""),
+                "cartPrice": this.total
+            }
+            return this.shippingValue(params)
+        }
+    },
+    watch: {
+        cartCep() {
+            if (this.cartCep.length === 9) {
+                this.errorMessage = "";
+                this.loading = true;
+                this.getShippingValue(this.cartCep)
+                    .catch((error) => {
+                        if (error?.response?.data?.message) {
+                            this.errorMessage = error.response.data.message;
+                        }
+                    })
+                    .finally(() => this.loading = false);
+            }
+        },
+
+        shippingMethods() {
+            if (this.selectedAddress.zip_code && this.shippingMethods.data.length <= 0) {
+                this.errorMessage = "Não há metodos de entrega disponível"
+            }
+        },
+
+        selectedShippingMethod() {
+            if (this.selectedAddress.zip_code && this.selectedShippingMethod.price !== "") {
+                this.textButton = 'Finalizar pedido agora';
+                this.showBoxComment = true;
+                this.canFinish = true;
+            } else {
+                this.textButton = 'Checkout';
+                this.showBoxComment = false;
+                this.canFinish = false;
+            }
+        }
+    },
+};
+</script>

@@ -13,4 +13,8 @@ class TenantPayment extends Model
 
     protected $fillable = ['payment_id', 'data', 'status'];
 
+    public function payment()
+    {
+        return $this->hasOne(Payment::class, 'id', 'payment_id');
+    }
 }
