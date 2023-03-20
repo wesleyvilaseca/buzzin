@@ -13,27 +13,23 @@
                         </a>
                         <div class="clearfix"></div>
                     </div>
+
+                    <div class="text-center mt-2 ps-2 pe-2" v-if="showAlertDeliveryDate">
+                        <div class="alert alert-warning">
+                            Nesse momento a loja está fechada
+                            <p v-if="selectedShippingMethod?.description == 'Retirada'">
+                                Você poderá efetuar a <strong>retirada</strong> da sua compra quando estivermos
+                                aberto
+                            </p>
+                            <p v-if="selectedShippingMethod?.description !== 'Retirada'">
+                                A sua entrega será processada quando a loja estiver aberta
+                            </p>
+                        </div>
+                    </div>
+
                     <template v-if="!isInCheckout">
                         <div class="container" v-if="total">
                             <div class="">
-                                <div class="text-center" v-if="showAlertDeliveryDate">
-                                    <div class="alert alert-warning">
-                                        Nesse momento a loja está fechada
-                                        <p v-if="selectedShippingMethod.description == 'Retirada'">
-                                            Você poderá efetuar a <strong>retirada</strong> da sua compra quando estivermos
-                                            aberto
-                                        </p>
-                                        <p v-else>
-                                            A sua entrega será processados quando a loja estiver aberta
-                                        </p>
-
-                                        <p> Consulte nosso horário de funcionamento
-                                            <a href="/"> <strong>aqui </strong></a>
-                                            :)
-                                        </p>
-                                    </div>
-                                </div>
-
                                 <div class="div">
                                     <div class="row align-items-center" v-for="(product, index) in products" :key="index">
                                         <div class="col-4 text-center">
@@ -169,25 +165,13 @@ export default {
         },
     },
     watch: {
-        selectedShippingMethod() {
-            if (this.company.isOpen === 'N' && this.company.orderWhenClose === 'S' && this.selectedShippingMethod.price !== "") {
+        selectedAddress() {
+            if (this.company.isOpen === 'N' && this.company.orderWhenClose === 'Y') {
                 this.showAlertDeliveryDate = true;
                 return;
             }
 
             this.showAlertDeliveryDate = false;
-        },
-
-        selectedShippingMethod() {
-            if (this.selectedAddress.zip_code && this.selectedShippingMethod.price !== "") {
-                this.textButton = 'Finalizar pedido agora';
-                this.showBoxComment = true;
-                this.canFinish = true;
-            } else {
-                this.textButton = 'Checkout';
-                this.showBoxComment = false;
-                this.canFinish = false;
-            }
         }
     },
 }

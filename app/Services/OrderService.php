@@ -2,10 +2,13 @@
 
 namespace App\Services;
 
+use App\Models\OrderShipping;
 use App\Repositories\Contracts\OrderRepositoryInterface;
 use App\Repositories\Contracts\ProductRepositoryInterface;
 use App\Repositories\Contracts\TableRepositoryInterface;
 use App\Repositories\Contracts\TenantRepositoryInterface;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 use function Psy\debug;
 
@@ -39,30 +42,59 @@ class OrderService
 
     public function createNewOrder(array $order)
     {
-        dd($order);
-        $productsOrder = $this->getProductsByOrder($order['products'] ?? []);
+        DB::beginTransaction();
+        try {
+            $clientAdress = $order['address'];
+            $paymentMethod = $order['paymentMethod'];
+            $shippingMethod = $order['shippingMethod'];
 
-        $identify = $this->getIdentifyOrder();
-        $total = $this->getTotalOrder($productsOrder);
-        $status = 'open';
-        $tenantId = $this->getTenantIdByOrder($order['token_company']);
-        $comment = isset($order['comment']) ? $order['comment'] : '';
-        $clientId = $this->getClientIdByOrder();
-        $tableId = $this->getTableIdByOrder($order['table'] ?? '');
+            $jsonData = [
+                'client_address' => $clientAdress,
+                'payment_method' => $paymentMethod,
+                'shipping_method' => $shippingMethod
+            ];
 
-        $order = $this->orderRepository->createNewOrder(
-            $identify,
-            $total,
-            $status,
-            $tenantId,
-            $comment,
-            $clientId,
-            $tableId
-        );
+            $productsOrder = $this->getProductsByOrder($order['products'] ?? []);
+            $identify = $this->getIdentifyOrder();
+            $total = $this->getTotalOrder($productsOrder) + tofloat($shippingMethod['price']);
 
-        $this->orderRepository->registerProductsOrder($order->id, $productsOrder);
+            if ($paymentMethod['tag'] == "pagar-em-dinheiro") {
+                if ($order['precisaTroco'] == 'Y') {
+                    $jsonData['precisa_de_troco'] = "Sim";
+                    $jsonData['troco_para'] = tofloat($order['troco']);
+                    $jsonData['valor_do_troco'] = tofloat($order['troco']) - $total;
+                }
 
-        return $order;
+                if ($order['precisaTroco'] == 'N') {
+                    $jsonData['precisa_de_troco'] = "Sim";
+                }
+            }
+
+            $status = 'open';
+            $tenantId = $this->getTenantIdByOrder($order['token_company']);
+            $comment = isset($order['comment']) ? $order['comment'] : '';
+            $clientId = $this->getClientIdByOrder();
+            $tableId = $this->getTableIdByOrder($order['table'] ?? '');
+
+            $order = $this->orderRepository->createNewOrder(
+                $identify,
+                $total,
+                $status,
+                $tenantId,
+                $comment,
+                $clientId,
+                $tableId,
+                json_encode($jsonData)
+            );
+
+            $this->orderRepository->registerProductsOrder($order->id, $productsOrder);
+
+            DB::commit();
+            return $order;
+        } catch (Exception $e) {
+            // dd($e->getMessage());
+            return response()->json(['message' => 'Houve um erro na requisição, tente novamento'], 404);
+        }
     }
 
     private function getIdentifyOrder(int $qtyCaraceters = 8)
@@ -110,7 +142,7 @@ class OrderService
             $total += ($product['price'] * $product['qty']);
         }
 
-        return (float) $total;
+        return tofloat($total);
     }
 
     private function getTenantIdByOrder(string $uuid)

@@ -34,7 +34,7 @@ class TenantResource extends JsonResource
             'site_data' => json_decode($this->site[0]->data),
             'date_created' => Carbon::parse($this->created_at)->format('d/m/Y'),
             'isOpen' => $this->isOpen(),
-            'orderWhenClose' => $this->order_when_close ? 'N' : 'S',
+            'orderWhenClose' => $this->order_when_closed ? 'Y' : 'N',
             'clientCanBuy' => $this->clientCanBay(),
             'operationDays' => $this->getGetOperationDays()
         ];

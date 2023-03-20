@@ -4,16 +4,19 @@ namespace App\Services;
 
 use App\Http\Resources\ClientAddressResource;
 use App\Http\Resources\ClientResource;
+use App\Models\Client;
 use App\Repositories\Contracts\ClientAddressRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
 class ClientAddressService
 {
     protected $clientRepository;
+    private $clientService;
 
-    public function __construct(ClientAddressRepositoryInterface $clientRepository)
+    public function __construct(ClientAddressRepositoryInterface $clientRepository, ClientService $clientService)
     {
         $this->clientRepository = $clientRepository;
+        $this->clientService = $clientService;
     }
 
     public function getClientAddressById(int $id, int $client_id)
@@ -29,6 +32,17 @@ class ClientAddressService
 
     public function createNewAddress(array $data)
     {
+        //significa que o cliente está castrando o cpf pela primeira vez
+        if ($data['cpf'] !== "") {
+            $client_id = Auth::user()->id;
+            $res = $this->clientService->validateCpf($data["cpf"], $client_id);
+            if (sizeof($res) > 0) {
+                return response()->json((object) ["errors" => $res], 400);
+            }
+
+            Client::where('id', $client_id)->update(['cpf' => unMaskCPF($data['cpf'])]);
+        }
+
         $res = $this->clientRepository->createNewAddress($data);
         if (!$res) {
             return response()->json(['message' => 'Erro na operação, tente novamente'], 400);

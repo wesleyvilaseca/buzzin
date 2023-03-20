@@ -22,6 +22,9 @@ import checkoutSiteTenantView from './views/tenant_site/checkout/checkout.view.v
 
 import maintenceSiteTenantView from './views/tenant_site/maintence/maintence.view.vue';
 
+import ClientSiteTenantView from './views/tenant_site/client/index.view.vue';
+
+
 var app = createApp();
 
 /**
@@ -39,6 +42,7 @@ app.component('login-tenant-view', loginSiteTenantView);
 app.component('register-tenant-view', registerSiteTenantView);
 app.component('checkout-tenant-view', checkoutSiteTenantView);
 app.component('maintence-sitetenant-view', maintenceSiteTenantView);
+app.component('client-tenant-view', ClientSiteTenantView);
 
 const vfm = createVfm()
 app.use(vfm);

@@ -11,7 +11,8 @@ interface OrderRepositoryInterface
         int $tenantId,
         string $comment = '',
         $clientId = '',
-        $tableId = ''
+        $tableId = '',
+        string $jsonData = ''
     );
     public function getOrderByIdentify(string $identify);
     public function registerProductsOrder(int $orderId, array $products);

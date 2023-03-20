@@ -35,6 +35,7 @@ use App\Http\Controllers\Web\Site\SubscriptionsController;
 use App\Http\Controllers\Web\TenantSite\CartController;
 use App\Http\Controllers\Web\TenantSite\CategoryController as TenantSiteCategoryController;
 use App\Http\Controllers\Web\TenantSite\CheckoutController;
+use App\Http\Controllers\Web\TenantSite\ClientController;
 use App\Http\Controllers\Web\TenantSite\LoginController as TenantSiteLoginController;
 use App\Http\Controllers\Web\TenantSite\ProductController as TenantSiteProductController;
 use App\Http\Controllers\Web\TenantSite\RegisterController as TenantSiteRegisterController;
@@ -54,7 +55,6 @@ if ($domain !== $appDomain) {
         Route::prefix('app')->group(function () {
             Route::get('/cart',         [CartController::class, 'index'])->name('cart');
 
-
             Route::get('/login',         [TenantSiteLoginController::class, 'index'])->name('app.login');
             Route::post('/login',        [TenantSiteLoginController::class, 'auth'])->name('app.login.auth');
 
@@ -70,6 +70,8 @@ if ($domain !== $appDomain) {
 
             Route::get('/checkout',         [CheckoutController::class, 'index']);
 
+            Route::get('/cliente-area',  [ClientController::class, 'index']);
+
             Route::group([
                 'middleware' => ['auth:sanctum']
             ], function () {
@@ -77,7 +79,6 @@ if ($domain !== $appDomain) {
                 Route::get('/auth/address', [TenantSiteLoginController::class, 'getClientAddress']);
                 Route::post('/auth/newaddress', [TenantSiteLoginController::class, 'saveNewAddress']);
                 Route::post('/checkout/order',  [CheckoutController::class, 'store']);
-
 
                 // Route::post('/auth/logout', [TenantSiteLoginController::class, 'logout']);
 

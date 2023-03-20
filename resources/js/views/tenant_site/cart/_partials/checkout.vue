@@ -143,7 +143,7 @@
                             </div>
                         </template>
 
-                        <template v-if="shippingMethods.data.length <= 0">
+                        <template v-else>
                             <div class="text-center mt-2">
                                 <div class="alert alert-danger mt-2" v-if="errorMessage">
                                     {{ errorMessage }} :(
@@ -180,6 +180,14 @@
                                         {{ method.description }}
                                     </label>
                                 </div>
+                            </div>
+
+                            <div class="mt-2 mb-2">
+                                <label for="exampleFormControlTextarea1" class="form-label">Deseja fazer algum comentário
+                                    para o lojista?
+                                </label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                    v-model="comment"></textarea>
                             </div>
                         </template>
                         <template v-else>
@@ -281,6 +289,15 @@
         </div>
     </div>
 
+    <ModalComponent v-show="isModalStoreIsClosed" title="Estabelecimento fechada" @close="openModalStoreIsClose(false)">
+        <template v-slot:content>
+            <div name="checkout-order" :heigth="350">
+                <div class="alert alert-warning text-center">
+                    Nesse momento estamos <strong>fechado</strong> :(
+                </div>
+            </div>
+        </template>
+    </ModalComponent>
 
     <ModalComponent v-show="isModalVisible" title="Pedido" @close="openModalCheckout(false)">
         <template v-slot:content>
@@ -330,6 +347,15 @@
                 </div>
 
                 <form>
+                    <div class="form-group mt-2 col-md-4" v-if="me.hasIdDoc == 'N'">
+                        <label>Informe seu CPF:</label>
+                        <input type="text" v-model="formAddress.cpf" class="form-control form-control-sm" placeholder="CPF"
+                            v-mask="'###.###.###-##'">
+                        <div class="form-text text-danger" v-if="errors.cpf != ''">
+                            {{ errors.cpf[0] || "" }}
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="form-group mt-2 col-md-4">
                             <label>CEP:</label>
@@ -517,12 +543,13 @@ export default {
             isModalVisible: false,
             isModalEnderecoVisible: false,
             isModalTrocoVisible: false,
+            isModalStoreIsClosed: false,
             loading: false,
             errorMessage: "",
             disabledCart: false,
             canSaveAdrdess: false,
-            canFinish: false,
             formAddress: {
+                cpf: "",
                 address: "",
                 zip_code: "",
                 state: "",
@@ -533,6 +560,7 @@ export default {
                 id: ""
             },
             errors: {
+                cpf: "",
                 address: "",
                 zip_code: "",
                 state: "",
@@ -573,21 +601,30 @@ export default {
             setShippingPriceToTotal: "SET_SHIPPING_VALUE_TO_TOTAL_CART",
             setInCheckout: "SET_IS_IN_CHECKOUT",
             setPaymentMethods: "SET_PAYMENT_METHODS",
-            setSelectedPaymentMethod: "SET_SELECTED_PAYMENT_METHOD"
+            setSelectedPaymentMethod: "SET_SELECTED_PAYMENT_METHOD",
+            clearCart: "CLEAR_CART"
         }),
         createOrder() {
             const params = {
                 address: this.selectedAddress,
                 products: this.products,
                 shippingMethod: this.selectedShippingMethod,
-                comment: this.comment
+                comment: this.comment,
+                paymentMethod: this.selectedPaymentMethod,
+                precisaTroco: this.precisaTroco ? "Y" : "N",
+                troco: this.troco ? this.troco : 0
             }
             this.sendCheckout(params)
                 .then((res) => {
-                    console.log(res);
+                    this.clearCart(this.company.uuid);
+                    toast.success("Pedido realizado com sucesso", { autoClose: 3000 });
+                    window.location.href = `http://${this.company.subdomain}/app/cliente-area`;
                 })
                 .catch((error) => {
-                    console.log(error);
+                    toast.error(
+                        "Falha na operação, tente novamente",
+                        { autoClose: 5000 }
+                    );
                 })
         },
 
@@ -686,17 +723,13 @@ export default {
             this.setSelectedShippingMethod({ price: "" });
         },
         openModalCheckout(state) {
-            // if (this.canFinish) {
-            //     this.createOrder();
-            //     return;
-            // }
+            if (this.company.isOpen === 'N' && this.company.clientCanBuy === 'N') {
+                return this.openModalStoreIsClose(true);
+            }
 
             if (this.me.name !== '') {
                 this.setInCheckout(true);
-                this.getClientAddress();
-                return;
-                // this.modalEndereco(true);
-                // return;
+                return this.getClientAddress();
             }
 
 
@@ -704,9 +737,6 @@ export default {
         },
         modalEndereco(state) {
             this.resetForm();
-            // if (!this.selectedAddress.zip_code && this.shippingMethods.data.length > 0 && state) {
-            //     this.setShippingMethods({ data: [] })
-            // }
             if (!state) {
                 this.resetForm();
                 this.reset();
@@ -718,13 +748,13 @@ export default {
             this.isModalTrocoVisible = state;
         },
 
+        openModalStoreIsClose(state) {
+            this.isModalStoreIsClosed = state
+        },
+
         changeCheckoutInfos() {
             this.isModalEnderecoVisible = true;
         },
-
-        // showForm(state) {
-        //     this.showFormAddress = state
-        // },
 
         salveAddress() {
             this.reset();
@@ -735,16 +765,20 @@ export default {
 
             this.saveNewAddress(this.formAddress)
                 .then((res) => {
-                    // this.showFormAddress = false
                     toast.success("Endereço salvo com sucesso", { autoClose: 300 });
                     this.modalEndereco(false);
+                    this.resetForm()
                 })
                 .catch((error) => {
-                    console.log(error)
+                    const errorResponse = error.response;
+                    this.errors = Object.assign(this.errors, errorResponse.data.errors);
+                    toast.error(
+                        "Falha na operação",
+                        { autoClose: 5000 }
+                    );
                 })
                 .finally(() => {
                     this.loading = false;
-                    this.resetForm()
                 })
         },
 
@@ -795,12 +829,24 @@ export default {
                 return this.errors.complement = ["O complemento campo obrigatório"];
             }
 
+            if (this.me.hasIdDoc == 'N') {
+                if (!this.formAddress.cpf) {
+                    this.canSaveAddress = false
+                    return this.errors.cpf = ["O CPF é um campo obrigatório"];
+                }
+
+                if (this.formAddress.cpf?.length < 14) {
+                    this.canSaveAddress = false
+                    return this.errors.cpf = ["A quantida de caracteres informádo é inválido"];
+                }
+            }
+
 
             this.canSaveAddress = true;
         },
 
         reset() {
-            this.errors = { address: "", zip_code: "", state: "", city: "", district: "", number: "", complement: "", troco: "" }
+            this.errors = { cpf: "", address: "", zip_code: "", state: "", city: "", district: "", number: "", complement: "", troco: "" }
         },
 
         resetForm() {
@@ -838,7 +884,7 @@ export default {
             if (this.selectedAddress.zip_code && this.shippingMethods.data.length <= 0) {
                 this.errorMessage = "Não há metodos de entrega disponível"
             }
-        },
+        }
     },
 };
 </script>

@@ -1,6 +1,7 @@
 <?php
 
-function isBase64Encoded(string $s): bool {
+function isBase64Encoded(string $s): bool
+{
     if ((bool) preg_match('/^[a-zA-Z0-9\/\r\n+]*={0,2}$/', $s) === false) {
         return false;
     }
@@ -15,33 +16,43 @@ function isBase64Encoded(string $s): bool {
     return $decoded !== false && base64_encode($decoded) === $s;
 }
 
-function is_base64($s) {
+function is_base64($s)
+{
     return (bool) preg_match('/^[a-zA-Z0-9\/\r\n+]*={0,2}$/', $s);
 }
 
-function back_route_pagebuilder() {
+function back_route_pagebuilder()
+{
     $id = @$_GET['site_id'] ? $_GET['site_id'] : 0;
     $route = '/settings/website/' . $id;
     return $route;
 }
 
-function get_site_url() {
+function get_site_url()
+{
     return url('/');
 }
 
-function getasset($route) {
+function getasset($route)
+{
     return asset($route);
 }
 
+function unMaskCNPJ($cnpj)
+{
+    return  preg_replace('/[^0-9]/', '', $cnpj);
+}
 
-function validaCNPJ($cnpj) {
+function validaCNPJ($cnpj)
+{
     $cnpj = preg_replace('/[^0-9]/', '', $cnpj);
     $cnpj = (string)$cnpj;
     $cnpj_original = $cnpj;
     $primeiros_numeros_cnpj = substr($cnpj, 0, 12);
 
     if (!function_exists('multiplica_cnpj')) {
-        function multiplica_cnpj($cnpj, $posicao = 5) {
+        function multiplica_cnpj($cnpj, $posicao = 5)
+        {
             $calculo = 0;
             for ($i = 0; $i < strlen($cnpj); $i++) {
                 $calculo = $calculo + ($cnpj[$i] * $posicao);
@@ -67,7 +78,13 @@ function validaCNPJ($cnpj) {
     }
 }
 
-function validaCPF($cpf = null) {
+function unMaskCPF($cpf)
+{
+    return preg_replace("/[^0-9]/", "", $cpf);
+}
+
+function validaCPF($cpf = null)
+{
 
     if (empty($cpf)) {
         return false;
@@ -108,7 +125,8 @@ function validaCPF($cpf = null) {
     }
 }
 
-function tofloat($num) {
+function tofloat($num)
+{
     $dotPos = strrpos($num, '.');
     $commaPos = strrpos($num, ',');
     if (($dotPos > $commaPos) && $dotPos) {
@@ -128,20 +146,22 @@ function tofloat($num) {
     ));
 }
 
-function numberFormat($number, $decimals = 2, $sep = ",", $k = "") {
+function numberFormat($number, $decimals = 2, $sep = ",", $k = "")
+{
     $var = number_format($number, $decimals, $sep, $k);
     return  $var;
 }
 
-function celular($telefone){
-    $telefone= trim(str_replace('/', '', str_replace(' ', '', str_replace('-', '', str_replace(')', '', str_replace('(', '', $telefone))))));
+function celular($telefone)
+{
+    $telefone = trim(str_replace('/', '', str_replace(' ', '', str_replace('-', '', str_replace(')', '', str_replace('(', '', $telefone))))));
 
     // $regexTelefone = "^[0-9]{11}$";
 
     $regexCel = '/[0-9]{2}[6789][0-9]{3,4}[0-9]{4}/'; // Regex para validar somente celular
     if (preg_match($regexCel, $telefone)) {
         return $telefone;
-    }else{
+    } else {
         return false;
     }
 }
@@ -150,7 +170,8 @@ function celular($telefone){
 /**
  * list fontawesome 5
  */
-function fa_icons() {
+function fa_icons()
+{
     return array(
         'fab fa-500px' => '500px',
         'fab fa-accessible-icon' => 'accessible-icon',

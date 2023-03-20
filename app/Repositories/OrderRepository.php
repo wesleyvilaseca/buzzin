@@ -21,7 +21,8 @@ class OrderRepository implements OrderRepositoryInterface
         int $tenantId,
         string $comment = '',
         $clientId = '',
-        $tableId = ''
+        $tableId = '',
+        string $jsonData = ''
     ) {
         $data = [
             'tenant_id' => $tenantId,
@@ -29,6 +30,7 @@ class OrderRepository implements OrderRepositoryInterface
             'total' => $total,
             'status' => $status,
             'comment' => $comment,
+            'data' => $jsonData
         ];
 
         if ($clientId) $data['client_id'] = $clientId;

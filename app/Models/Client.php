@@ -13,7 +13,7 @@ class Client extends Authenticatable
     use HasApiTokens;
 
     protected $fillable = [
-        'name', 'email', 'password', 'mobile_fone'
+        'name', 'email', 'cpf','password', 'mobile_fone'
     ];
 
 
