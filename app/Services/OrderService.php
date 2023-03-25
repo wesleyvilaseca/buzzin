@@ -168,7 +168,7 @@ class OrderService
         return auth()->check() ? auth()->user()->id : '';
     }
 
-    public function getOrdersByTenantId(int $idTenant, string $status, string $date)
+    public function getOrdersByTenantId(int $idTenant, string $status, string $date = null)
     {
         return $this->orderRepository->getOrdersByTenantId($idTenant, $status, $date);
     }

@@ -43,8 +43,28 @@ class Order extends Model
         return $this->belongsToMany(Product::class);
     }
 
+    public function order_products()
+    {
+        return $this->hasMany(OrderProduct::class, 'order_id', 'id');
+    }
+
     public function evaluations()
     {
         return $this->hasMany(Evaluation::class);
+    }
+
+    public function addressClientOrder() {
+        $data = json_decode($this->data);
+        return $data->client_address;
+    }
+
+    public function paymentMethodOrder() {
+        $data = json_decode($this->data);
+        return $data->payment_method;
+    }
+
+    public function shippingMethodOrder() {
+        $data = json_decode($this->data);
+        return $data->shipping_method;
     }
 }

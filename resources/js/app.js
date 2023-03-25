@@ -14,14 +14,21 @@ import 'vue-final-modal/style.css'
 import Vue3Toasity from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 
+/**
+ * components admin
+ */
+import ordersAdminView from './views/admin/orders/orders.view.vue';
+
+
+/**
+ * components tenantwebsite
+ */
 import homeSiteTenantView from './views/tenant_site/home/home.view.vue';
 import cartSiteTenantView from './views/tenant_site/cart/cart.view.vue';
 import loginSiteTenantView from './views/tenant_site/login/login.view.vue';
 import registerSiteTenantView from './views/tenant_site/register/register.view.vue';
 import checkoutSiteTenantView from './views/tenant_site/checkout/checkout.view.vue';
-
 import maintenceSiteTenantView from './views/tenant_site/maintence/maintence.view.vue';
-
 import ClientSiteTenantView from './views/tenant_site/client/index.view.vue';
 
 
@@ -34,7 +41,13 @@ app.component('Select2', Select2)
 app.component('Pagination', Bootstrap5Pagination);
 
 /**
- * view components
+ * admin components
+ */
+app.component('orders-tenant', ordersAdminView);
+
+
+/**
+ * view components website
  */
 app.component('home-client-view', homeSiteTenantView);
 app.component('cart-tenant-view', cartSiteTenantView);

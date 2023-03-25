@@ -21,7 +21,8 @@ class OrderTenantController extends Controller
     {
         $tenant = Auth::guard('web')->user()->tenant;
 
-        $date = $request->date ?? date('Y-m-d');
+        // $date = $request->date ?? date('Y-m-d');
+        $date = @$request->date;
         $status = $request->status ?? 'all';
         $orders = $this->orderService->getOrdersByTenantId($tenant->id, $status, $date);
 
