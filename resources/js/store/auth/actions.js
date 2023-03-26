@@ -80,6 +80,21 @@ const actions = {
             .then((res) => {
                 dispatch('getClientAddress');
             })
+    },
+
+    getOrders({ commit }, params) {
+        const token = localStorage.getItem(TOKEN_NAME);
+        if (!token) return;
+
+        return axios.get('/app/auth/my-orders', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then((res) => {
+                const { data } = res;
+                commit('SET_ORDERS', data);
+            })
     }
 }
 

@@ -6,6 +6,9 @@ const state = {
     authenticated: false,
     address: {
         data: []
+    },
+    orders: {
+        data: []
     }
 };
 

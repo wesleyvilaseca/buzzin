@@ -85,6 +85,17 @@ class OrderRepository implements OrderRepositoryInterface
         return $orders;
     }
 
+    public function ordersByClientByTenant(int $idClient, int $tenantId){
+        $orders = $this->entity
+        ->where([
+            'client_id' => $idClient,
+            'tenant_id' => $tenantId
+            ])
+        ->paginate();
+
+    return $orders;
+    }
+
     public function getOrdersByTenantId(int $idTenant, string $status, string $date = null)
     {
         $orders = $this->entity

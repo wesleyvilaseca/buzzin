@@ -23,6 +23,10 @@ const mutations = {
         state.address = address;
     },
 
+    SET_ORDERS(state, data) {
+        state.orders = data;
+    }
+
 };
 
 export default mutations;

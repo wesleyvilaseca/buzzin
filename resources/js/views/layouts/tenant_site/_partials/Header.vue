@@ -26,7 +26,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="#" class="nav-link mt-2 ms-5" v-if="me.name && me.name !== 'undefined'">Olá {{ me.name
+                            <a href="/app/cliente-area" class="nav-link mt-2 ms-5" v-if="me.name && me.name !== 'undefined'">Olá {{ me.name
                             }}
                                 <span @click.prevent="exit()" class="text-danger ms-2">
                                     <i class="red-icon fa-solid fa-right-from-bracket"></i>
