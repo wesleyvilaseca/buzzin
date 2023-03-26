@@ -33,7 +33,7 @@
                         <AddressesView />
                     </div>
                     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-
+                        <AccountView />
                     </div>
                 </div>
             </div>
@@ -52,13 +52,15 @@ import { mapState, mapActions } from "vuex";
 import DefaultLayout from '../../layouts/tenant_site/DefaultLayout.vue';
 import OrdersView from "./orders/orders.view.vue";
 import AddressesView from "./addresses/addresses.view.vue";
+import AccountView from "./account/account.view.vue";
 
 export default {
     props: [],
     components: {
         DefaultLayout,
         OrdersView,
-        AddressesView
+        AddressesView,
+        AccountView
     },
     data: () => ({}),
     computed: {

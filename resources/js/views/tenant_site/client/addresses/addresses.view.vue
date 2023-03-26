@@ -46,6 +46,14 @@
                     <span v-else> Salvar</span>
                 </button>
             </div>
+            <div class="form-group mt-2 col-md-4" v-if="me.hasIdDoc == 'N'">
+                <label>Informe seu CPF:</label>
+                <input type="text" v-model="formAddress.cpf" class="form-control form-control-sm" placeholder="CPF"
+                    v-mask="'###.###.###-##'">
+                <div class="form-text text-danger" v-if="errors.cpf != ''">
+                    {{ errors.cpf[0] || "" }}
+                </div>
+            </div>
             <div class="row">
                 <div class="form-group mt-2 col-md-4">
                     <label>CEP:</label>
@@ -163,7 +171,8 @@ export default {
             district: "",
             number: "",
             complement: "",
-            id: ""
+            id: "",
+            cpf: ""
         },
         errors: {
             address: "",
@@ -172,7 +181,8 @@ export default {
             city: "",
             district: "",
             number: "",
-            complement: ""
+            complement: "",
+            cpf: ""
         },
         displayAddress: 'none',
     }),
@@ -180,6 +190,7 @@ export default {
         ...mapState({
             paleta: (state) => state.layout.paleta,
             addresses: (state) => state.auth.address.data,
+            me: (state) => state.auth.me,
         })
     },
     created() { },
@@ -204,9 +215,9 @@ export default {
 
             this.saveNewAddress(this.formAddress)
                 .then((res) => {
-                    if(this.formAddress.id) {
+                    if (this.formAddress.id) {
                         toast.success("Endereço atualizado com sucesso", { autoClose: 3000 });
-                    }else {
+                    } else {
                         toast.success("Endereço salvo com sucesso", { autoClose: 3000 });
                     }
                     this.resetForm()
@@ -229,17 +240,17 @@ export default {
         deleteAddress(address) {
             if (confirm("Tem certeza que deseja apagar este endereço?")) {
                 this.removeAddress(address)
-                .then((res) => {
-                    toast.success("Endereço removido com sucesso", { autoClose: 3000 });
-                })
-                .catch((error) => {
-                    const errorResponse = error.response;
-                    this.errors = Object.assign(this.errors, errorResponse.data.errors);
-                    toast.error(
-                        "Falha na operação",
-                        { autoClose: 5000 }
-                    );
-                })
+                    .then((res) => {
+                        toast.success("Endereço removido com sucesso", { autoClose: 3000 });
+                    })
+                    .catch((error) => {
+                        const errorResponse = error.response;
+                        this.errors = Object.assign(this.errors, errorResponse.data.errors);
+                        toast.error(
+                            "Falha na operação",
+                            { autoClose: 5000 }
+                        );
+                    })
             }
         },
         openDetailsAddress(address = null) {

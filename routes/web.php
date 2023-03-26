@@ -75,15 +75,18 @@ if ($domain !== $appDomain) {
             Route::group([
                 'middleware' => ['auth:sanctum']
             ], function () {
-                Route::get('/auth/me',          [TenantSiteLoginController::class, 'me']);
-                Route::post('/auth/logout',     [TenantSiteLoginController::class, 'logout']);
+                Route::get('/auth/me',                  [TenantSiteLoginController::class, 'me']);
+                Route::post('/auth/account-update',      [ClientController::class, 'updateAccount']);
+                Route::post('/auth/account-password',     [ClientController::class, 'updatePasswordAccount']);
 
-                Route::get('/auth/address',     [TenantSiteLoginController::class, 'getClientAddress']);
-                Route::post('/auth/newaddress', [TenantSiteLoginController::class, 'saveNewAddress']);
+                Route::post('/auth/logout',             [TenantSiteLoginController::class, 'logout']);
+
+                Route::get('/auth/address',             [TenantSiteLoginController::class, 'getClientAddress']);
+                Route::post('/auth/newaddress',         [TenantSiteLoginController::class, 'saveNewAddress']);
                 Route::put('/auth/{id}/address',        [ClientController::class, 'updateAddress']);
                 Route::delete('/auth/{id}/address',     [ClientController::class, 'deleteAddress']);
 
-                Route::post('/checkout/order',  [CheckoutController::class, 'store']);
+                Route::post('/checkout/order',          [CheckoutController::class, 'store']);
                 Route::get('/auth/my-orders',           [ClientController::class, 'getOrders']);
 
 

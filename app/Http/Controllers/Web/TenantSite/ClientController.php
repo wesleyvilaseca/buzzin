@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\TenantSite;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderClientResource;
 use App\Services\ClientAddressService;
+use App\Services\ClientService;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
 
@@ -13,11 +14,13 @@ class ClientController extends Controller
     private $tenant;
     private $orderService;
     private $clientAddressService;
+    private $clientService;
 
-    public function __construct(OrderService $orderService, ClientAddressService $clientAddressService)
+    public function __construct(OrderService $orderService, ClientAddressService $clientAddressService, ClientService $clientService)
     {
         $this->orderService = $orderService;
         $this->clientAddressService = $clientAddressService;
+        $this->clientService = $clientService;
 
         $this->middleware(function ($request, $next) {
             $this->tenant = session()->get('tenant');
@@ -43,5 +46,13 @@ class ClientController extends Controller
 
     public function deleteAddress(Request $request, $id) {
         return $this->clientAddressService->deleteAddress($id);
+    }
+
+    public function updateAccount(Request $request) {
+        return $this->clientService->update($request->all());
+    }
+
+    public function updatePasswordAccount(Request $request) {
+        return $this->clientService->updatePasswordAccount($request->all());
     }
 }

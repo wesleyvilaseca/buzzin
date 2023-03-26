@@ -21,6 +21,27 @@ function is_base64($s)
     return (bool) preg_match('/^[a-zA-Z0-9\/\r\n+]*={0,2}$/', $s);
 }
 
+function cript($value, $aces = 10) {
+    $count = 0;
+    while(true) {
+        if($count == $aces) break;
+        $value = base64_encode($value);
+        $count++;
+    }
+    return strrev($value);
+}
+
+function decript($value, $aces = 10) {
+    $value = strrev($value);
+    $count = 0;
+    while(true) {
+        if($count == $aces) break;
+        $value = base64_decode($value);
+        $count++;
+    }
+    return $value;
+}
+
 function back_route_pagebuilder()
 {
     $id = @$_GET['site_id'] ? $_GET['site_id'] : 0;

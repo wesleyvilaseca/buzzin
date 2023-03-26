@@ -18,6 +18,8 @@ class ClientResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'hasIdDoc' => @isset($this->cpf) ? 'Y' : 'N',
+            'doc' => cript(@$this->cpf),
+            'mobile_phone' => cript(@$this->mobile_phone),
         ];
     }
 }

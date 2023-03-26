@@ -7,6 +7,35 @@ const actions = {
         return axios.post('/app/register', params);
     },
 
+    updateAccount({ dispatch }, params) {
+        const token = localStorage.getItem(TOKEN_NAME);
+        if (!token) return;
+
+        return axios.post('/app/auth/account-update', params, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then((res) => {
+                dispatch('getMe');
+            })
+    },
+
+
+    updatePassword({ dispatch }, params) {
+        const token = localStorage.getItem(TOKEN_NAME);
+        if (!token) return;
+
+        return axios.post('/app/auth/account-password', params, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then((res) => {
+                dispatch('getMe');
+            })
+    },
+
     login({ commit }, params) {
         return axios.post('/app/login', params)
             .then((res) => {
