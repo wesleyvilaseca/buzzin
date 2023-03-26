@@ -39,7 +39,7 @@ const actions = {
 
         if (!token) return;
 
-        return axios.post('auth/logout', {}, {
+        return axios.post('/app/auth/logout', {}, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }

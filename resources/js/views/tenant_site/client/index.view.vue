@@ -1,7 +1,7 @@
 <template>
     <DefaultLayout>
         <template v-slot:content>
-            <div class="container pt-5 pb-3">
+            <div class="container pt-5 pb-3" v-if="me.name !== ''">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
@@ -41,15 +41,14 @@
     </DefaultLayout>
 </template>
 
-<style> 
-    .modal {
-        background-color: rgba(0, 0, 0, 0.6) !important;
-    }
+<style> .modal {
+     background-color: rgba(0, 0, 0, 0.6) !important;
+ }
 </style>
 
 
 <script>
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 import DefaultLayout from '../../layouts/tenant_site/DefaultLayout.vue';
 import OrdersView from "./orders/orders.view.vue";
 import AddressesView from "./addresses/addresses.view.vue";
@@ -62,9 +61,25 @@ export default {
         AddressesView
     },
     data: () => ({}),
-    computed: {},
-    created() { },
+    computed: {
+        ...mapState({
+            me: (state) => state.auth.me,
+        }),
+    },
+    created() {
+        this.getMe()
+            .then(() => {
+                if (this.me.name == '') {
+                    window.location.href = `/`;
+                }
+            })
+    },
     methods: {
-    }
+        ...mapActions([
+            "getMe",
+        ]),
+    },
+    watch: {},
+
 }
 </script>

@@ -69,4 +69,12 @@ class LoginController extends Controller
 
         return $this->clientAddressService->createNewAddress($data);
     }
+
+    public function logout(Request $request)
+    {
+        $client = $request->user();
+        $client->tokens()->delete();
+
+        return response()->json([], 204);
+    }
 }

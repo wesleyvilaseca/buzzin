@@ -76,9 +76,9 @@ if ($domain !== $appDomain) {
                 'middleware' => ['auth:sanctum']
             ], function () {
                 Route::get('/auth/me',          [TenantSiteLoginController::class, 'me']);
+                Route::post('/auth/logout',     [TenantSiteLoginController::class, 'logout']);
 
-                Route::get('/auth/address',     [TenantSiteLoginController::class, 'getClientAddress']
-            );
+                Route::get('/auth/address',     [TenantSiteLoginController::class, 'getClientAddress']);
                 Route::post('/auth/newaddress', [TenantSiteLoginController::class, 'saveNewAddress']);
                 Route::put('/auth/{id}/address',        [ClientController::class, 'updateAddress']);
                 Route::delete('/auth/{id}/address',     [ClientController::class, 'deleteAddress']);
