@@ -33,7 +33,7 @@ class ClientAddressService
     public function createNewAddress(array $data)
     {
         //significa que o cliente está castrando o cpf pela primeira vez
-        if ($data['cpf'] !== "") {
+        if (isset($data['cpf']) && $data['cpf'] !== "") {
             $client_id = Auth::user()->id;
             $res = $this->clientService->validateCpf($data["cpf"], $client_id);
             if (sizeof($res) > 0) {
@@ -64,5 +64,26 @@ class ClientAddressService
         }
 
         return response()->json(['message' => 'Endereço atualizado com sucesso'], 200);
+    }
+
+    public function deleteAddress(int $id)
+    {
+        $client_id = $this->getClientId();
+        $address = $this->getClientAddressById($id, $client_id);
+        if (!$address) {
+            return response()->json(['message' => "Operação não autorizada", 401]);
+        }
+
+        $res = $address->delete();
+        if(!$res) {
+            return response()->json(['message' => 'Erro na operação'], 403);
+        }
+
+        return response()->json(['message' => 'Endereço removido com sucesso'], 200);
+    }
+
+    private function getClientId()
+    {
+        return auth()->check() ? auth()->user()->id : '';
     }
 }

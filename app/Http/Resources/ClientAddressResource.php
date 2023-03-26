@@ -15,6 +15,7 @@ class ClientAddressResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'address' => $this->address,
             'zip_code' => $this->zip_code,
             'state' => $this->state,

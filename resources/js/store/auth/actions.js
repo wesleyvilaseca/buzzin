@@ -82,6 +82,20 @@ const actions = {
             })
     },
 
+    removeAddress({ dispatch }, params) {
+        const token = localStorage.getItem(TOKEN_NAME);
+        if (!token) return;
+
+        return axios.delete(`/app/auth/${params.id}/address`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then((res) => {
+                dispatch('getClientAddress');
+            }) 
+    },
+
     getOrders({ commit }, params) {
         const token = localStorage.getItem(TOKEN_NAME);
         if (!token) return;

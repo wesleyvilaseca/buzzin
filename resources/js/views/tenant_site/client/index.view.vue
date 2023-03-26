@@ -30,7 +30,7 @@
                         <OrdersView />
                     </div>
                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-
+                        <AddressesView />
                     </div>
                     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
 
@@ -41,16 +41,25 @@
     </DefaultLayout>
 </template>
 
+<style> 
+    .modal {
+        background-color: rgba(0, 0, 0, 0.6) !important;
+    }
+</style>
+
+
 <script>
 import { mapActions } from "vuex";
 import DefaultLayout from '../../layouts/tenant_site/DefaultLayout.vue';
 import OrdersView from "./orders/orders.view.vue";
+import AddressesView from "./addresses/addresses.view.vue";
 
 export default {
     props: [],
     components: {
         DefaultLayout,
-        OrdersView
+        OrdersView,
+        AddressesView
     },
     data: () => ({}),
     computed: {},

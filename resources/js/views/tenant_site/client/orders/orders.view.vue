@@ -1,7 +1,7 @@
 <template>
     <div class="container pt-5 pb-3">
         <div class="my-4">
-            <h1 class="title-tenant">Meus Pedidos</h1>
+            <h4 class="title-tenant">Meus Pedidos</h4>
         </div>
         <template v-if="orders.length > 0">
             <div class="my-orders my-4">
