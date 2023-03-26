@@ -204,7 +204,11 @@ export default {
 
             this.saveNewAddress(this.formAddress)
                 .then((res) => {
-                    toast.success("Endereço salvo com sucesso", { autoClose: 3000 });
+                    if(this.formAddress.id) {
+                        toast.success("Endereço atualizado com sucesso", { autoClose: 3000 });
+                    }else {
+                        toast.success("Endereço salvo com sucesso", { autoClose: 3000 });
+                    }
                     this.resetForm()
                 })
                 .catch((error) => {

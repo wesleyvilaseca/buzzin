@@ -51,9 +51,9 @@ class ClientAddressService
         return new ClientAddressResource($res);
     }
 
-    public function updateAddress(array $data, int $id, int $client_id = null)
+    public function updateAddress(array $data, int $id)
     {
-        $exist = $this->getClientAddressById($id, $client_id ? $client_id : Auth::user()->id);
+        $exist = $this->getClientAddressById($id, $this->getClientId());
         if (!$exist) {
             return response()->json(['message' => 'Operação não autorizada'], 401);
         }

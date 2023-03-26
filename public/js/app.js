@@ -21118,9 +21118,15 @@ var __default__ = {
       if (!this.canSaveAddress) return;
       this.loading = true;
       this.saveNewAddress(this.formAddress).then(function (res) {
-        vue3_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.success("Endereço salvo com sucesso", {
-          autoClose: 3000
-        });
+        if (_this.formAddress.id) {
+          vue3_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.success("Endereço atualizado com sucesso", {
+            autoClose: 3000
+          });
+        } else {
+          vue3_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.success("Endereço salvo com sucesso", {
+            autoClose: 3000
+          });
+        }
         _this.resetForm();
       })["catch"](function (error) {
         var errorResponse = error.response;
@@ -24918,7 +24924,16 @@ var actions = {
     var dispatch = _ref6.dispatch;
     var token = localStorage.getItem(TOKEN_NAME);
     if (!token) return;
-    return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/app/auth/newaddress', params, {
+    if (!params.id) {
+      return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/app/auth/newaddress', params, {
+        headers: {
+          'Authorization': "Bearer ".concat(token)
+        }
+      }).then(function (res) {
+        dispatch('getClientAddress');
+      });
+    }
+    return axios__WEBPACK_IMPORTED_MODULE_0___default().put("/app/auth/".concat(params.id, "/address"), params, {
       headers: {
         'Authorization': "Bearer ".concat(token)
       }

@@ -77,8 +77,10 @@ if ($domain !== $appDomain) {
             ], function () {
                 Route::get('/auth/me',          [TenantSiteLoginController::class, 'me']);
 
-                Route::get('/auth/address',     [TenantSiteLoginController::class, 'getClientAddress']);
+                Route::get('/auth/address',     [TenantSiteLoginController::class, 'getClientAddress']
+            );
                 Route::post('/auth/newaddress', [TenantSiteLoginController::class, 'saveNewAddress']);
+                Route::put('/auth/{id}/address',        [ClientController::class, 'updateAddress']);
                 Route::delete('/auth/{id}/address',     [ClientController::class, 'deleteAddress']);
 
                 Route::post('/checkout/order',  [CheckoutController::class, 'store']);

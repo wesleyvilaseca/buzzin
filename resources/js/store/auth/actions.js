@@ -72,7 +72,18 @@ const actions = {
         const token = localStorage.getItem(TOKEN_NAME);
         if (!token) return;
 
-        return axios.post('/app/auth/newaddress', params, {
+        if (!params.id) {
+            return axios.post('/app/auth/newaddress', params, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+                .then((res) => {
+                    dispatch('getClientAddress');
+                })
+        }
+
+        return axios.put(`/app/auth/${params.id}/address`, params, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -93,7 +104,7 @@ const actions = {
         })
             .then((res) => {
                 dispatch('getClientAddress');
-            }) 
+            })
     },
 
     getOrders({ commit }, params) {

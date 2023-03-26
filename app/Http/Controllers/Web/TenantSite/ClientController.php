@@ -37,6 +37,10 @@ class ClientController extends Controller
         return OrderClientResource::collection($orders);
     }
 
+    public function updateAddress(Request $request, $id) {
+        return $this->clientAddressService->updateAddress($request->all(), $id);
+    }
+
     public function deleteAddress(Request $request, $id) {
         return $this->clientAddressService->deleteAddress($id);
     }
