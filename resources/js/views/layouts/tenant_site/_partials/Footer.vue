@@ -79,18 +79,20 @@
               <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
               <table class="table text-center">
                 <tbody class="font-weight-normal">
-                  <tr v-for="(item, index) in company.operationDays" :key="index">
-                    <td>{{ item.description }}</td>
-                    <td>8am - 9pm</td>
-                  </tr>
-                  <!-- <tr>
-                    <td>Fri - Sat:</td>
-                    <td>8am - 1am</td>
-                  </tr>
-                  <tr>
-                    <td>Sunday:</td>
-                    <td>9am - 10pm</td>
-                  </tr> -->
+                  <template v-for="(item, index) in company.operationDays" :key="index">
+                    <tr>
+                      <td>{{ item.description }}</td>
+                      <td>
+                        <tr v-for="(item, index) in item?.time" :key="index">
+                          <td>
+                            <strong>
+                              {{ item.time_ini }} - {{ item.time_end }}
+                            </strong>
+                          </td>
+                        </tr>
+                    </td>
+                    </tr>
+                  </template>
                 </tbody>
               </table>
             </div>
@@ -111,9 +113,14 @@
   <!-- End of .container -->
 </template>
 <style scoped>
+element.style {
+  padding: 10px 0;
+}
+
 .border-footer hr {
   color: antiquewhite;
 }
+
 .title-section-footer {
   color: v-bind("paleta.links") !important;
 }
@@ -121,6 +128,7 @@
 .social-footer-links li a {
   color: v-bind("paleta.links") !important;
 }
+
 .social-footer-links li a:hover {
   color: v-bind("paleta.links_hover") !important;
 }

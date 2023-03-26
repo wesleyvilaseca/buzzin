@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Tenant extends Model
 {
@@ -60,9 +61,20 @@ class Tenant extends Model
 
     public function getGetOperationDays()
     {
-        return $this->operatioDay()
+        $operationDays = $this->operatioDay()
+            ->select('tenant_operation_days.*', 'operation_days.description')
             ->join('operation_days', 'tenant_operation_days.operation_day_id', '=', 'operation_days.id')
             ->where('status', 1)->get();
+
+        if(sizeof($operationDays) > 0){
+            foreach($operationDays as $key => $day) {
+                $operationDays[$key]->time = DB::table('tenant_operation_day_times')->select(
+                    DB::raw("TIME_FORMAT(time_ini, '%H-%i') as time_ini, TIME_FORMAT(time_end, '%H-%i') as time_end"),
+                    )->where(['tenant_operation_day_id' => $day->id, 'tenant_id' => $day->tenant_id])->get();
+            }
+        }
+
+        return $operationDays;
     }
 
     public function isOpen()

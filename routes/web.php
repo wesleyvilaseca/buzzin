@@ -423,7 +423,9 @@ Route::middleware(['auth', 'check.status.store'])->group(function () {
         Route::put('/disable/{id}',     [OperationController::class, 'disable'])->name('operation.disable');
         Route::put('/enable/{id}',      [OperationController::class, 'enable'])->name('operation.enable');
         Route::get('/{id}/detail',      [OperationController::class, 'detailOperation'])->name('operation.detail');
-        Route::put('/{id}/detail',      [OperationController::class, 'detailUpdate'])->name('operation.update');
+
+        Route::post('/{id}/detail',      [OperationController::class, 'detailStore'])->name('operation.store');
+        Route::post('/{id}/delete',      [OperationController::class, 'detailDelete'])->name('operation.delete');
     });
 
     Route::prefix('admin-myaccount')->group(function () {
