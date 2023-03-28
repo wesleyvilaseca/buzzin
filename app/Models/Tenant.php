@@ -117,7 +117,7 @@ class Tenant extends Model
     public function getSocial()
     {
         $data = json_decode($this->data);
-        $item['facebook'] = @$data?->social?->facebook ?? '';
+        $item['facebook'] = @$data?->social?->facebook;
         $item['instagram'] = @$data?->social?->instagram;
         $item['youtube'] = @$data?->social?->youtube;
         return $item;
@@ -126,6 +126,6 @@ class Tenant extends Model
     public function getAboutUs()
     {
         $data = json_decode($this->data);
-        return @$data?->about_us ?? '';
+        return @$data?->about_us;
     }
 }
