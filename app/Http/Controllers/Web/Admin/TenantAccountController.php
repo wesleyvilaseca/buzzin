@@ -24,11 +24,14 @@ class TenantAccountController extends Controller
 
     public function index()
     {
+        $tenant = $this->tenant->find(Auth::user()->tenant_id);
+        $tenant->data = json_decode($tenant->data);
+
         $data['title']              = 'Minha conta';
         $data['_configuration']     = true;
         $data['_myaccount']         = true;
 
-        $data['tenant']          = $this->tenant->find(Auth::user()->tenant_id);
+        $data['tenant']          = $tenant;
 
         return view('admin.configuration.myaccount', $data);
     }
@@ -83,20 +86,27 @@ class TenantAccountController extends Controller
             return Redirect::back()->with('warning', 'O logo da sua empresa é um campo obrigatório');
         }
 
-        $validate = Validator::make($request->all(), [
-            'image'          => ['required', 'file', 'max:2000', 'mimes:jpeg,jpg,png'],
-        ]);
-
-        if ($validate->fails()) {
-            return Redirect::back()->with('error', $validate->errors());
-        }
-
         $data['address'] = $request->address;
         $data['state'] = $request->state;
         $data['zip_code'] = $request->zip_code;
         $data['district'] = $request->district;
         $data['city'] = $request->city;
         $data['number'] = $request->number ?? null;
+
+
+        $social = (object)[
+            'facebook' => @$request->facebook,
+            'instagram' => @$request->instagram,
+            'youtube' => @$request->youtube
+        ]; 
+
+        $about_us = @$request->about_us;
+
+
+        $data['data'] = json_encode((object)[
+            'social' => $social,
+            'about_us' => $about_us,
+        ]);
 
         if ($request->hasFile('image') && $request->image->isValid()) {
             if (Storage::exists($tenant->logo)) {

@@ -26385,12 +26385,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _support_cript__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../support/cript */ "./resources/js/support/cript.js");
+
 
 var actions = {
   getTenant: function getTenant(_ref, params) {
     var commit = _ref.commit;
     commit('SET_PRELOADER', true);
     commit('SET_TEXT_PRELOADER', 'Carregando os produtos...');
+    var hasSession = sessionStorage.getItem('company');
+    if (hasSession) {
+      commit('SET_COMPANY', JSON.parse(_support_cript__WEBPACK_IMPORTED_MODULE_1__["default"].decript(hasSession)));
+      commit('SET_PRELOADER', false);
+    }
     return axios__WEBPACK_IMPORTED_MODULE_0___default().get('/app/tenant', {
       params: params
     }).then(function (res) {
@@ -26446,9 +26453,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _support_cript__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../support/cript */ "./resources/js/support/cript.js");
+
 var mutations = {
   SET_COMPANY: function SET_COMPANY(state, company) {
     state.company = company;
+    sessionStorage.setItem('company', _support_cript__WEBPACK_IMPORTED_MODULE_0__["default"].cript(JSON.stringify(state.company)));
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (mutations);

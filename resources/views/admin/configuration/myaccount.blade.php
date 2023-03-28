@@ -97,6 +97,45 @@
                                     </div>
                                 </div>
 
+                                <hr>
+
+                                <div class="row">
+                                    <div class="text-center mb-2">
+                                        <h5>Redes sociais</h5>
+                                    </div>
+                                    <div class="form-group mt-2 col-md-4">
+                                        <label>Facebook:</label>
+                                        <input type="url" name="facebook" class="form-control form-control-sm"
+                                            placeholder="https://facebook.com/meu-facebook"
+                                            value="{{ @$tenant?->data?->social?->facebook ?? old('facebook') }}">
+                                    </div>
+
+                                    <div class="form-group mt-2 col-md-4">
+                                        <label>Instagram:</label>
+                                        <input type="url" name="instagram" class="form-control form-control-sm"
+                                            placeholder="https://instagram.com/meu-instagram"
+                                            value="{{ @$tenant?->data?->social?->instagram ?? old('instagram') }}">
+                                    </div>
+
+                                    <div class="form-group mt-2 col-md-4">
+                                        <label>Youtube:</label>
+                                        <input type="url" name="youtube" class="form-control form-control-sm"
+                                            placeholder="https://youtube.com/meu-youtube"
+                                            value="{{ @$tenant?->data?->social?->youtube ?? old('youtube') }}">
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="form-group mt-2">
+                                    <div class="mb-3">
+                                        <label for="about_us" class="form-label">Sobre seu comércio:</label>
+                                        <textarea class="form-control" id="about_us" name="about_us"
+                                            value="{{ @$tenant?->data?->about_us ?? old('about_us') }}" rows="3"
+                                            placeholder="Aqui você pode fazer uma breve descrição do seu comércio"></textarea>
+                                    </div>
+                                </div>
+
                                 <div class="form-group mt-2" align="right">
                                     <button type="submit" class="btn btn-sm btn-success">Atualizar</button>
                                 </div>

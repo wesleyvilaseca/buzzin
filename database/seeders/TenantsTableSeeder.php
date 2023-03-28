@@ -19,9 +19,9 @@ class TenantsTableSeeder extends Seeder
 
         $plan->tenants()->create([
             'cnpj' => '24074848000181',
-            'name' => 'loveburguer',
-            'url'  => 'loveburguer',
-            'email' => 'loveburgue@mail.com'
+            'name' => 'buzzingame',
+            'url'  => 'buzzingame',
+            'email' => 'buzzingame@buzzin.com.br'
         ]);
     }
 }
