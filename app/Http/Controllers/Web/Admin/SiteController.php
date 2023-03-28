@@ -28,7 +28,9 @@ class SiteController extends Controller
         $data['toptitle']           = 'Meu site';
         $data['_site']              = true;
 
-        $site->data = json_decode($site->data);
+        if (@isset($site->data)) {
+            $site->data = json_decode($site->data);
+        }
 
         $data['site']               = $site;
 
@@ -62,7 +64,7 @@ class SiteController extends Controller
 
         $data = [
             'domain' => null,
-            'subdomain' => $tenant->url . '.' . request()->getHttpHost(),
+            'subdomain' => str_replace('-', '', $tenant->url) . '.' . request()->getHttpHost(),
             'maintence' => 1,
             'status' => 0
         ];
