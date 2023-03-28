@@ -1,9 +1,6 @@
 @extends('layouts.admin.dashboard')
 
 @section('scripts-header')
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing&key={{ env('GOOGLE_MAPS_KEY') }}&callback=initMap">
-    </script>
     <style>
         #map {
             height: 500px;
@@ -104,6 +101,14 @@
         </div>
         <div class="col-md-8">
             <div class="card">
+                <div class="card-header">
+                    <div class="form-group mt-2">
+                        <label>Pesquise pelo bairro</label>
+                        <input type="text" id="autocomplete" name="autocomplete"
+                            value="{{ @$zone->autocomplete ?? old('autocomplete') }}"
+                            class="form-control form-control-sm" />
+                    </div>
+                </div>
                 <div class="card-body">
                     <div class="card-title">Desenhe a zona de entrega</div>
                     <hr>
@@ -112,7 +117,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="maps">
-                            <button class="btn btn-sm btn-success" id="save-button">Salvar</button>
+                            <button class="btn btn-sm btn-success me-1" id="save-button">Salvar</button>
                             {{-- <button class="btn btn-sm btn-primary" id="edit-button">Edit Shape</button> --}}
                             <button class="btn btn-sm btn-danger" id="delete-button">Limpar seleção</button>
                         </div>
@@ -225,6 +230,21 @@
                 setShapeFromDb();
             }
             // document.getElementById('edit-button').addEventListener('click', editShape);
+            startAutoComplete();
+        }
+
+        function startAutoComplete() {
+            var input = document.getElementById('autocomplete');
+            var autocomplete = new google.maps.places.Autocomplete(input);
+
+            autocomplete.addListener('place_changed', function() {
+                var place = autocomplete.getPlace();
+
+                map.setCenter({
+                    lat: place.geometry['location'].lat(),
+                    lng: place.geometry['location'].lng()
+                });
+            })
         }
 
         function setShapeFromDb() {
@@ -315,6 +335,7 @@
                 _token: "{{ csrf_token() }}",
                 coordinates: JSON.stringify(shapeCoords),
                 name: $("#name").val(),
+                autocomplete: $("#autocomplete").val(),
                 delivery_time_ini: $("#delivery_time_ini").val(),
                 delivery_time_end: $("#delivery_time_end").val(),
                 time_type: $("#time_type").val(),
@@ -381,5 +402,9 @@
         //         });
         //     }
         // }
+    </script>
+
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key={{ env('GOOGLE_MAPS_KEY') }}&callback=initMap">
     </script>
 @stop

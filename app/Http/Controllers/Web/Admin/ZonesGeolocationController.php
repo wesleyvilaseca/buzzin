@@ -95,6 +95,7 @@ class ZonesGeolocationController extends Controller {
 
         $zone = new Zone();
         $zone->name = $request->name;
+        $zone->autocomplete = $request->autocomplete;
         $zone->price = @tofloat($request->price);
         $zone->free_when = @tofloat($request->free_when);
         $zone->coordinates = $coordinates;
@@ -162,7 +163,6 @@ class ZonesGeolocationController extends Controller {
             return response()->json(['message' => 'Coordinate is not within the shape']);
         }
     }
-
 
     public function destroy($id) {
     }

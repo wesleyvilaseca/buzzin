@@ -134,18 +134,6 @@
     <script src="{{ asset('js/admin/sidebar/sidebar.js') }}"></script>
     <script src="{{ asset('js/helper.js') }}"></script>
 
-    <script>
-        /*********************************************
-         * Gif para requisições request
-         ********************************************/
-        // $(document).ready(function() {
-        //     $("form").on("submit", function() {
-        //         var spinner = $('#formloader');
-        //         spinner.show();
-        //     });
-        // });
-    </script>
-
     @yield('js')
     @yield('components-js')
 </body>
