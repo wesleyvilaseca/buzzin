@@ -41,21 +41,21 @@
               <h6 class="text-center text-capitalize fw-bold title-section-footer">{{ company.name }}</h6>
               <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
 
-              <p class="text-center">Homless animal shelter The budgetary unit of the Capital City of Warsaw</p>
+              <p class="text-center" v-if="company.about_us"> {{ company.about_us }}</p>
 
               <ul class="list-unstyled d-flex flex-row justify-content-center social-footer-links">
-                <li>
-                  <a class="text-white px-2" href="#!">
+                <li v-if="company?.social?.facebook">
+                  <a class="text-white px-2" target="_blank" :href="company?.social?.facebook">
                     <i class="fab fa-facebook-square"></i>
                   </a>
                 </li>
-                <li>
-                  <a class="text-white px-2" href="#!">
+                <li v-if="company?.social?.instagram">
+                  <a class="text-white px-2" target="_blank" :href="company?.social?.instagram">
                     <i class="fab fa-instagram"></i>
                   </a>
                 </li>
                 <li>
-                  <a class="text-white ps-2" href="#!">
+                  <a class="text-white ps-2" target="_blank" :href="company?.social?.instagram">
                     <i class="fab fa-youtube"></i>
                   </a>
                 </li>

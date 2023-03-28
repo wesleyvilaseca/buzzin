@@ -66,11 +66,11 @@ class Tenant extends Model
             ->join('operation_days', 'tenant_operation_days.operation_day_id', '=', 'operation_days.id')
             ->where('status', 1)->get();
 
-        if(sizeof($operationDays) > 0){
-            foreach($operationDays as $key => $day) {
+        if (sizeof($operationDays) > 0) {
+            foreach ($operationDays as $key => $day) {
                 $operationDays[$key]->time = DB::table('tenant_operation_day_times')->select(
                     DB::raw("TIME_FORMAT(time_ini, '%H-%i') as time_ini, TIME_FORMAT(time_end, '%H-%i') as time_end"),
-                    )->where(['tenant_operation_day_id' => $day->id, 'tenant_id' => $day->tenant_id])->get();
+                )->where(['tenant_operation_day_id' => $day->id, 'tenant_id' => $day->tenant_id])->get();
             }
         }
 
@@ -112,5 +112,20 @@ class Tenant extends Model
         }
 
         return 'Y';
+    }
+
+    public function getSocial()
+    {
+        $data = json_decode($this->data);
+        $item['facebook'] = @$data?->social?->facebook ?? '';
+        $item['instagram'] = @$data?->social?->instagram;
+        $item['youtube'] = @$data?->social?->youtube;
+        return $item;
+    }
+
+    public function getAboutUs()
+    {
+        $data = json_decode($this->data);
+        return @$data?->about_us ?? '';
     }
 }

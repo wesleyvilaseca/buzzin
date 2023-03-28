@@ -36,7 +36,9 @@ class TenantResource extends JsonResource
             'isOpen' => $this->isOpen(),
             'orderWhenClose' => $this->order_when_closed ? 'Y' : 'N',
             'clientCanBuy' => $this->clientCanBay(),
-            'operationDays' => $this->getGetOperationDays()
+            'operationDays' => $this->getGetOperationDays(),
+            'social' => $this->getSocial(),
+            'about_us' => $this->getAboutUs()
         ];
     }
 }
