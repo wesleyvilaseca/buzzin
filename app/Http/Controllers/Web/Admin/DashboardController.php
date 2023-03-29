@@ -12,10 +12,22 @@ use App\Models\Role;
 use App\Models\Table;
 use App\Models\Tenant;
 use App\Models\User;
+use App\Services\TenantService;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    private $tenantService;
+
+    public function __construct(TenantService $tenantService)
+    {
+        $this->tenantService = $tenantService;
+        $this->middleware(function ($request, $next) {
+            $this->tenantService->checkSubscription();
+            return $next($request);
+        });
+    }
+
     public function index(Request $request)
     {
         $data['title']      = 'dashboard';

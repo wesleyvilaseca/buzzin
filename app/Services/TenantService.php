@@ -11,8 +11,10 @@ use App\Models\User;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
 use App\Repositories\Contracts\TenantRepositoryInterface;
+use Carbon\Carbon;
 use Exception;
 use Grimzy\LaravelMysqlSpatial\Types\Point;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class TenantService
@@ -79,8 +81,10 @@ class TenantService
         $tenant->plan_id = $this->plan->id;
         $tenant->cnpj = @$this->data['cnpj'];
         $tenant->name = @$this->data['tenant_name'];
-        $tenant->subscription = !empty($this->data['subscription']) ? $this->data['subscription'] : now();
-        $tenant->expires_at = !empty($this->data['expires_at']) ? $this->data['expires_at'] : now()->addDay(7);
+        $tenant->subscription = @$this->data['subscription'];
+        $tenant->expires_at =  @$this->data['expires_at'];
+        $tenant->subscription_active = @$this->data['subscription_active'];
+        $tenant->subscription_id = @$this->data['subscription_id'];
         $tenant = $tenant->update();
 
         if (!$tenant) {
@@ -94,8 +98,9 @@ class TenantService
             $dataUser['password'] = Hash::make($this->data['password']);
         }
 
-        $user = User::where('email', $this->data['email'])->update($dataUser);
-        if (!$user) {
+        try {
+            $user = User::where('email', $this->data['email'])->update($dataUser);
+        } catch (Exception $e) {
             throw new Exception('Erro na operação, tente novamente');
         }
 
@@ -130,7 +135,8 @@ class TenantService
                 'name' => @$data['tenant_name'],
                 'email' => @$data['email'],
                 'subscription' => !empty($data['subscription']) ? $data['subscription'] : now(),
-                'expires_at' => !empty($data['expires_at']) ? $data['expires_at'] : now()->addDay(7)
+                'expires_at' => !empty($data['expires_at']) ? $data['expires_at'] : now()->addDay(7),
+                'subscription_active' =>  1
             ]
         );
     }
@@ -144,6 +150,26 @@ class TenantService
             'email' => $data['email'],
             'password'  => Hash::make($data['password']),
         ]);
+    }
+
+    public function checkSubscription()
+    {
+        $tenant = Auth::user()->tenant;
+        $isSuper = User::where('email', $tenant->email)->first()->super_admin == 'Y';
+        if (!$isSuper) {
+            if ($tenant->expires_at < Carbon::today()) {
+                $tenant->update(['subscription_active' => 0]);
+            } else {
+                if ($tenant->subscription_active == 0) {
+                    $tenant->update(['subscription_active' => 1]);
+                }
+            }
+        }
+    }
+
+    public function subscriptionIsActive()
+    {
+        return Auth::user()->tenant->subscription_active;
     }
 
     public function deliveryValue(array $data, string $tenantUrl)
@@ -248,7 +274,7 @@ class TenantService
             }
         }
 
-        if($selectedShippingMethod == 'delivery'){
+        if ($selectedShippingMethod == 'delivery') {
             foreach ($tenantPayments as $key => $paymentMethod) {
                 $paymentMethodDescription = Str::kebab($paymentMethod->payment->description);
                 if ($paymentMethodDescription == 'pagar-na-retirada') {

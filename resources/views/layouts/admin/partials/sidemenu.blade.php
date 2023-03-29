@@ -95,11 +95,18 @@
                     @can('tenant_orders')
                         <li class="{{ @$order_m ? 'ativo' : '' }}">
                             <a href="{{ route('orders.index') }}">
-                                <i class="fa-solid fa-cart-shopping"></i>
-                                <span>Pedidos</span>
+                                <i class="fa-regular fa-money-bill"></i>
+                                 <span>Pedidos</span>
                             </a>
                         </li>
                     @endcan
+
+                    <li class="{{ @$transactions ? 'ativo' : '' }}">
+                        <a href="#">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <span>Minhas transações</span>
+                        </a>
+                    </li>
 
                     @can('tenants')
                         <li class="{{ @$ten ? 'ativo' : '' }}">

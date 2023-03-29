@@ -21,6 +21,7 @@ use App\Http\Controllers\Web\Admin\PlanController;
 use App\Http\Controllers\Web\Admin\ProductController;
 use App\Http\Controllers\Web\Admin\ProductMarketsController;
 use App\Http\Controllers\Web\Admin\SiteController;
+use App\Http\Controllers\Web\Admin\SubscriptionController;
 use App\Http\Controllers\Web\Admin\TableController;
 use App\Http\Controllers\Web\Admin\TenantAccountController;
 use App\Http\Controllers\Web\Admin\TenantController;
@@ -122,11 +123,15 @@ Route::get('/login',       [LoginController::class, 'index'])->name('login');
 Route::post('/login',      [LoginController::class, 'auth'])->name('login.auth');
 Route::get('/logout',      [LoginController::class, 'logout'])->name('logout');
 
-Route::middleware(['auth', 'check.status.store'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/admin-dashboard',                   [DashboardController::class, 'index'])->name('admin.dashboard');
 
     // Orders
     Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
+
+    Route::prefix('admin-subscriptions')->group(function () {
+        Route::get('/',            [SubscriptionController::class, 'index'])->name('admin.subscriptions');
+    });
 
     Route::prefix('admin-permissions')->group(function () {
         /**
@@ -171,65 +176,6 @@ Route::middleware(['auth', 'check.status.store'])->group(function () {
         Route::get('permissions/{id}/role',                 [PermissionRoleController::class, 'roles'])->name('permissions.roles');
     });
 
-
-    Route::prefix('admin-profiles')->group(function () {
-        /**
-         * routes profiles
-         */
-        Route::get('/',            [ProfileController::class, 'index'])->name('admin.profiles');
-        Route::get('/create',      [ProfileController::class, 'create'])->name('profiles.create');
-        Route::post('/',           [ProfileController::class, 'store'])->name('profiles.store');
-
-        Route::get('/{id}/edit',   [ProfileController::class, 'edit'])->name('profiles.edit');
-        Route::put('/{id}',        [ProfileController::class, 'update'])->name('profiles.update');
-
-        Route::get('/{id}/show',   [ProfileController::class, 'show'])->name('profiles.show');
-        Route::delete('/{id}',     [ProfileController::class, 'destroy'])->name('profiles.destroy');
-
-        Route::any('/search',      [ProfileController::class, 'search'])->name('profiles.search');
-
-        /**
-         * permissions x profile
-         */
-        Route::get('{id}/permission/{idPermission}/detach',         [PermissionProfileController::class, 'detachPermissionProfile'])->name('profiles.permission.detach');
-        Route::post('{id}/permissions',                             [PermissionProfileController::class, 'attachPermissionsProfile'])->name('profiles.permissions.attach');
-        Route::any('{id}/permissions/create',                       [PermissionProfileController::class, 'permissionsAvailable'])->name('profiles.permissions.available');
-        Route::get('{id}/permission',                               [PermissionProfileController::class, 'permissions'])->name('profile.permissions');
-        Route::get('{id}/permissions',                              [PermissionProfileController::class, 'profiles'])->name('permissions.profiles');
-    });
-
-
-    Route::prefix('admin-zones')->group(function () {
-        /**
-         * routes zones
-         */
-        Route::get('/',            [ZonesGeolocationController::class, 'index'])->name('admin.zones.geolocation');
-        Route::get('/create', [ZonesGeolocationController::class, 'create'])->name('zone.geolocation.create');
-        Route::post('/create', [ZonesGeolocationController::class, 'store'])->name('zone.geolocation.store');
-        Route::get('/{id}/edit',   [ZonesGeolocationController::class, 'edit'])->name('zone.geolocation.edit');
-        Route::put('/{id}/edit',   [ZonesGeolocationController::class, 'update'])->name('zone.geolocation.update');
-        // Route::get('/create',      [ProfileController::class, 'create'])->name('profiles.create');
-        // Route::post('/',           [ProfileController::class, 'store'])->name('profiles.store');
-
-        // Route::put('/{id}',        [ProfileController::class, 'update'])->name('profiles.update');
-
-        // Route::get('/{id}/show',   [ProfileController::class, 'show'])->name('profiles.show');
-        // Route::delete('/{id}',     [ProfileController::class, 'destroy'])->name('profiles.destroy');
-
-        // Route::any('/search',      [ProfileController::class, 'search'])->name('profiles.search');
-
-        /**
-         * permissions x profile
-         */
-        Route::get('{id}/permission/{idPermission}/detach',         [PermissionProfileController::class, 'detachPermissionProfile'])->name('profiles.permission.detach');
-        Route::post('{id}/permissions',                             [PermissionProfileController::class, 'attachPermissionsProfile'])->name('profiles.permissions.attach');
-        Route::any('{id}/permissions/create',                       [PermissionProfileController::class, 'permissionsAvailable'])->name('profiles.permissions.available');
-        Route::get('{id}/permission',                               [PermissionProfileController::class, 'permissions'])->name('profile.permissions');
-        Route::get('{id}/permissions',                              [PermissionProfileController::class, 'profiles'])->name('permissions.profiles');
-    });
-
-
-
     Route::prefix('admin-plan')->group(function () {
         /**
          * Routes Plans
@@ -264,82 +210,30 @@ Route::middleware(['auth', 'check.status.store'])->group(function () {
         Route::get('/{url}/details',                     [DetailPlanController::class, 'index'])->name('details.plan.index');
     });
 
-    Route::prefix('admin-user')->group(function () {
+    Route::prefix('admin-profiles')->group(function () {
         /**
-         * Routes users
+         * routes profiles
          */
-        Route::get('/',                  [UserController::class, 'index'])->name('admin.users');
-        Route::get('/create',            [UserController::class, 'create'])->name('user.create');
-        Route::post('/',                 [UserController::class, 'store'])->name('user.store');
-        Route::put('/{id}',              [UserController::class, 'update'])->name('user.update');
-        Route::get('/{id}/edit',         [UserController::class, 'edit'])->name('user.edit');
-        Route::any('/search',            [UserController::class, 'search'])->name('user.search');
-        Route::get('/{id}',             [UserController::class, 'show'])->name('user.show');
-        Route::delete('/{id}',          [UserController::class, 'destroy'])->name('user.destroy');
+        Route::get('/',            [ProfileController::class, 'index'])->name('admin.profiles');
+        Route::get('/create',      [ProfileController::class, 'create'])->name('profiles.create');
+        Route::post('/',           [ProfileController::class, 'store'])->name('profiles.store');
 
+        Route::get('/{id}/edit',   [ProfileController::class, 'edit'])->name('profiles.edit');
+        Route::put('/{id}',        [ProfileController::class, 'update'])->name('profiles.update');
 
-        /**
-         * Role x User
-         */
-        Route::get('{id}/role/{idRole}/detach', [RoleUserController::class, 'detachRoleUser'])->name('users.role.detach');
-        Route::post('{id}/roles', [RoleUserController::class, 'attachRolesUser'])->name('users.roles.attach');
-        Route::any('{id}/roles/create', [RoleUserController::class, 'rolesAvailable'])->name('users.roles.available');
-        Route::get('{id}/roles', [RoleUserController::class, 'roles'])->name('users.roles');
-        Route::get('{id}/users', [RoleUserController::class, 'users'])->name('roles.users');
-    });
+        Route::get('/{id}/show',   [ProfileController::class, 'show'])->name('profiles.show');
+        Route::delete('/{id}',     [ProfileController::class, 'destroy'])->name('profiles.destroy');
 
-
-    Route::prefix('admin-category')->group(function () {
-        /**
-         * Routes categories
-         */
-        Route::get('/',                  [CategoryController::class, 'index'])->name('admin.categories');
-        Route::get('/create',            [CategoryController::class, 'create'])->name('category.create');
-        Route::post('/',                 [CategoryController::class, 'store'])->name('category.store');
-        Route::put('/{id}',              [CategoryController::class, 'update'])->name('category.update');
-        Route::get('/{id}/edit',         [CategoryController::class, 'edit'])->name('category.edit');
-        Route::any('/search',            [CategoryController::class, 'search'])->name('category.search');
-        Route::get('/{id}',             [CategoryController::class, 'show'])->name('category.show');
-        Route::delete('/{id}',          [CategoryController::class, 'destroy'])->name('category.destroy');
-    });
-
-    Route::prefix('admin-product')->group(function () {
-        /**
-         * Routes products
-         */
-        Route::get('/',                  [ProductController::class, 'index'])->name('admin.products');
-        Route::get('/create',            [ProductController::class, 'create'])->name('product.create');
-        Route::post('/',                 [ProductController::class, 'store'])->name('product.store');
-        Route::put('/{id}',              [ProductController::class, 'update'])->name('product.update');
-        Route::get('/{id}/edit',         [ProductController::class, 'edit'])->name('product.edit');
-        Route::any('/search',            [ProductController::class, 'search'])->name('product.search');
-        Route::get('/{id}',             [ProductController::class, 'show'])->name('product.show');
-        Route::delete('/{id}',          [ProductController::class, 'destroy'])->name('product.destroy');
+        Route::any('/search',      [ProfileController::class, 'search'])->name('profiles.search');
 
         /**
-         * Product x Category
+         * permissions x profile
          */
-        Route::get('{id}/category/{idCategory}/detach', [CategoryProductController::class, 'detachCategoryProduct'])->name('products.category.detach');
-        Route::post('{id}/categories', [CategoryProductController::class, 'attachCategoriesProduct'])->name('products.categories.attach');
-        Route::any('{id}/categories/create', [CategoryProductController::class, 'categoriesAvailable'])->name('products.categories.available');
-        Route::get('{id}/categories',  [CategoryProductController::class, 'categories'])->name('product.categories');
-        Route::get('{id}/products',  [CategoryProductController::class, 'products'])->name('categories.products');
-    });
-
-    Route::prefix('admin-table')->group(function () {
-        /**
-         * Routes products
-         */
-        Route::get('/',                  [TableController::class, 'index'])->name('admin.tables');
-        Route::get('/create',            [TableController::class, 'create'])->name('table.create');
-        Route::post('/',                 [TableController::class, 'store'])->name('table.store');
-        Route::put('/{id}',              [TableController::class, 'update'])->name('table.update');
-        Route::get('/{id}/edit',         [TableController::class, 'edit'])->name('table.edit');
-        Route::any('/search',            [TableController::class, 'search'])->name('table.search');
-        Route::get('/{id}',             [TableController::class, 'show'])->name('table.show');
-        Route::delete('/{id}',          [TableController::class, 'destroy'])->name('table.destroy');
-
-        Route::get('tables/qrcode/{identify}', [TableController::class, 'qrcode'])->name('table.qrcode');
+        Route::get('{id}/permission/{idPermission}/detach',         [PermissionProfileController::class, 'detachPermissionProfile'])->name('profiles.permission.detach');
+        Route::post('{id}/permissions',                             [PermissionProfileController::class, 'attachPermissionsProfile'])->name('profiles.permissions.attach');
+        Route::any('{id}/permissions/create',                       [PermissionProfileController::class, 'permissionsAvailable'])->name('profiles.permissions.available');
+        Route::get('{id}/permission',                               [PermissionProfileController::class, 'permissions'])->name('profile.permissions');
+        Route::get('{id}/permissions',                              [PermissionProfileController::class, 'profiles'])->name('permissions.profiles');
     });
 
     Route::prefix('admin-tenants')->group(function () {
@@ -359,82 +253,153 @@ Route::middleware(['auth', 'check.status.store'])->group(function () {
         Route::post('/open-place',          [TenantController::class, 'open'])->name('tenant.open');
     });
 
-    Route::prefix('admin-category-markets')->group(function () {
-        /**
-         * Routes categories
-         */
-        Route::get('/',                 [CategoryMarketsController::class, 'index'])->name('admin.categories.market');
-        Route::get('/create',           [CategoryMarketsController::class, 'create'])->name('market.category.create');
-        Route::post('/',                [CategoryMarketsController::class, 'store'])->name('market.category.store');
-        Route::put('/{id}',             [CategoryMarketsController::class, 'update'])->name('market.category.update');
-        Route::get('/{id}/edit',        [CategoryMarketsController::class, 'edit'])->name('market.category.edit');
-        Route::any('/search',           [CategoryMarketsController::class, 'search'])->name('market.category.search');
-        Route::get('/{id}',             [CategoryMarketsController::class, 'show'])->name('market.category.show');
-        Route::delete('/{id}',          [CategoryMarketsController::class, 'destroy'])->name('market.category.destroy');
+    Route::middleware(['check.subscrition.tenant'])->group(function () {
+        Route::prefix('admin-zones')->group(function () {
+            /**
+             * routes zones
+             */
+            Route::get('/',            [ZonesGeolocationController::class, 'index'])->name('admin.zones.geolocation');
+            Route::get('/create', [ZonesGeolocationController::class, 'create'])->name('zone.geolocation.create');
+            Route::post('/create', [ZonesGeolocationController::class, 'store'])->name('zone.geolocation.store');
+            Route::get('/{id}/edit',   [ZonesGeolocationController::class, 'edit'])->name('zone.geolocation.edit');
+            Route::put('/{id}/edit',   [ZonesGeolocationController::class, 'update'])->name('zone.geolocation.update');
+            // Route::get('/create',      [ProfileController::class, 'create'])->name('profiles.create');
+            // Route::post('/',           [ProfileController::class, 'store'])->name('profiles.store');
+
+            // Route::put('/{id}',        [ProfileController::class, 'update'])->name('profiles.update');
+
+            // Route::get('/{id}/show',   [ProfileController::class, 'show'])->name('profiles.show');
+            // Route::delete('/{id}',     [ProfileController::class, 'destroy'])->name('profiles.destroy');
+
+            // Route::any('/search',      [ProfileController::class, 'search'])->name('profiles.search');
+
+            /**
+             * permissions x profile
+             */
+            Route::get('{id}/permission/{idPermission}/detach',         [PermissionProfileController::class, 'detachPermissionProfile'])->name('profiles.permission.detach');
+            Route::post('{id}/permissions',                             [PermissionProfileController::class, 'attachPermissionsProfile'])->name('profiles.permissions.attach');
+            Route::any('{id}/permissions/create',                       [PermissionProfileController::class, 'permissionsAvailable'])->name('profiles.permissions.available');
+            Route::get('{id}/permission',                               [PermissionProfileController::class, 'permissions'])->name('profile.permissions');
+            Route::get('{id}/permissions',                              [PermissionProfileController::class, 'profiles'])->name('permissions.profiles');
+        });
+
+        Route::prefix('admin-user')->group(function () {
+            /**
+             * Routes users
+             */
+            Route::get('/',                  [UserController::class, 'index'])->name('admin.users');
+            Route::get('/create',            [UserController::class, 'create'])->name('user.create');
+            Route::post('/',                 [UserController::class, 'store'])->name('user.store');
+            Route::put('/{id}',              [UserController::class, 'update'])->name('user.update');
+            Route::get('/{id}/edit',         [UserController::class, 'edit'])->name('user.edit');
+            Route::any('/search',            [UserController::class, 'search'])->name('user.search');
+            Route::get('/{id}',             [UserController::class, 'show'])->name('user.show');
+            Route::delete('/{id}',          [UserController::class, 'destroy'])->name('user.destroy');
+
+
+            /**
+             * Role x User
+             */
+            Route::get('{id}/role/{idRole}/detach', [RoleUserController::class, 'detachRoleUser'])->name('users.role.detach');
+            Route::post('{id}/roles', [RoleUserController::class, 'attachRolesUser'])->name('users.roles.attach');
+            Route::any('{id}/roles/create', [RoleUserController::class, 'rolesAvailable'])->name('users.roles.available');
+            Route::get('{id}/roles', [RoleUserController::class, 'roles'])->name('users.roles');
+            Route::get('{id}/users', [RoleUserController::class, 'users'])->name('roles.users');
+        });
+
+        Route::prefix('admin-category')->group(function () {
+            /**
+             * Routes categories
+             */
+            Route::get('/',                  [CategoryController::class, 'index'])->name('admin.categories');
+            Route::get('/create',            [CategoryController::class, 'create'])->name('category.create');
+            Route::post('/',                 [CategoryController::class, 'store'])->name('category.store');
+            Route::put('/{id}',              [CategoryController::class, 'update'])->name('category.update');
+            Route::get('/{id}/edit',         [CategoryController::class, 'edit'])->name('category.edit');
+            Route::any('/search',            [CategoryController::class, 'search'])->name('category.search');
+            Route::get('/{id}',             [CategoryController::class, 'show'])->name('category.show');
+            Route::delete('/{id}',          [CategoryController::class, 'destroy'])->name('category.destroy');
+        });
+
+        Route::prefix('admin-product')->group(function () {
+            /**
+             * Routes products
+             */
+            Route::get('/',                  [ProductController::class, 'index'])->name('admin.products');
+            Route::get('/create',            [ProductController::class, 'create'])->name('product.create');
+            Route::post('/',                 [ProductController::class, 'store'])->name('product.store');
+            Route::put('/{id}',              [ProductController::class, 'update'])->name('product.update');
+            Route::get('/{id}/edit',         [ProductController::class, 'edit'])->name('product.edit');
+            Route::any('/search',            [ProductController::class, 'search'])->name('product.search');
+            Route::get('/{id}',             [ProductController::class, 'show'])->name('product.show');
+            Route::delete('/{id}',          [ProductController::class, 'destroy'])->name('product.destroy');
+
+            /**
+             * Product x Category
+             */
+            Route::get('{id}/category/{idCategory}/detach', [CategoryProductController::class, 'detachCategoryProduct'])->name('products.category.detach');
+            Route::post('{id}/categories', [CategoryProductController::class, 'attachCategoriesProduct'])->name('products.categories.attach');
+            Route::any('{id}/categories/create', [CategoryProductController::class, 'categoriesAvailable'])->name('products.categories.available');
+            Route::get('{id}/categories',  [CategoryProductController::class, 'categories'])->name('product.categories');
+            Route::get('{id}/products',  [CategoryProductController::class, 'products'])->name('categories.products');
+        });
+
+        Route::prefix('admin-table')->group(function () {
+            /**
+             * Routes products
+             */
+            Route::get('/',                  [TableController::class, 'index'])->name('admin.tables');
+            Route::get('/create',            [TableController::class, 'create'])->name('table.create');
+            Route::post('/',                 [TableController::class, 'store'])->name('table.store');
+            Route::put('/{id}',              [TableController::class, 'update'])->name('table.update');
+            Route::get('/{id}/edit',         [TableController::class, 'edit'])->name('table.edit');
+            Route::any('/search',            [TableController::class, 'search'])->name('table.search');
+            Route::get('/{id}',             [TableController::class, 'show'])->name('table.show');
+            Route::delete('/{id}',          [TableController::class, 'destroy'])->name('table.destroy');
+
+            Route::get('tables/qrcode/{identify}', [TableController::class, 'qrcode'])->name('table.qrcode');
+        });
+
+        Route::prefix('admin-site')->group(function () {
+            Route::get('/',                 [SiteController::class, 'index'])->name('admin.site');
+            Route::post('/',                [SiteController::class, 'enable'])->name('admin.site.enable');
+            Route::post('/layout',          [SiteController::class, 'storeUpdateLayout'])->name('admin.site.layout');
+        });
+
+        Route::prefix('admin-payment')->group(function () {
+            Route::get('/',                 [TenantPaymentsController::class, 'index'])->name('admin.payments');
+            Route::post('/active',          [TenantPaymentsController::class, 'active'])->name('payment.active');
+            Route::put('/disable/{id}',     [TenantPaymentsController::class, 'disable'])->name('payment.disable');
+            Route::put('/enable/{id}',      [TenantPaymentsController::class, 'enable'])->name('payment.enable');
+        });
+
+        Route::prefix('admin-shipping')->group(function () {
+            Route::get('/',                 [TenantShippingController::class, 'index'])->name('admin.shippings');
+            Route::post('/active',          [TenantShippingController::class, 'active'])->name('shipping.active');
+            Route::put('/disable/{id}',     [TenantShippingController::class, 'disable'])->name('shipping.disable');
+            Route::put('/enable/{id}',      [TenantShippingController::class, 'enable'])->name('shipping.enable');
+        });
+
+        Route::prefix('admin-operation')->group(function () {
+            Route::get('/',                 [OperationController::class, 'index'])->name('admin.operations');
+            Route::post('/active',          [OperationController::class, 'active'])->name('operation.active');
+            Route::put('/disable/{id}',     [OperationController::class, 'disable'])->name('operation.disable');
+            Route::put('/enable/{id}',      [OperationController::class, 'enable'])->name('operation.enable');
+            Route::get('/{id}/detail',      [OperationController::class, 'detailOperation'])->name('operation.detail');
+
+            Route::post('/{id}/detail',      [OperationController::class, 'detailStore'])->name('operation.store');
+            Route::post('/{id}/delete',      [OperationController::class, 'detailDelete'])->name('operation.delete');
+        });
+
+        Route::prefix('admin-myaccount')->group(function () {
+            Route::get('/',                 [TenantAccountController::class, 'index'])->name('admin.myaccount');
+            Route::put('/update-password',  [TenantAccountController::class, 'updatePassword'])->name('update.passwordaccount');
+            Route::put('/update-data',      [TenantAccountController::class, 'updateData'])->name('update.dataaccount');
+        });
+
+        Route::prefix('admin-configuration')->group(function () {
+            Route::get('/',                 [ConfigurationController::class, 'index'])->name('admin.configuration');
+        });
     });
 
-
-    Route::prefix('admin-product-markets')->group(function () {
-        /**
-         * Routes products markets
-         */
-        Route::get('/',                 [ProductMarketsController::class, 'index'])->name('admin.products.market');
-        Route::get('/create',           [ProductMarketsController::class, 'create'])->name('market.product.create');
-        Route::post('/',                [ProductMarketsController::class, 'store'])->name('market.product.store');
-        Route::put('/{id}',             [ProductMarketsController::class, 'update'])->name('market.product.update');
-        Route::get('/{id}/edit',        [ProductMarketsController::class, 'edit'])->name('market.product.edit');
-        Route::any('/search',           [ProductMarketsController::class, 'search'])->name('market.product.search');
-        Route::get('/{id}',             [ProductMarketsController::class, 'show'])->name('market.product.show');
-        Route::delete('/{id}',          [ProductMarketsController::class, 'destroy'])->name('market.product.destroy');
-
-        /**
-         * Product x Category
-         */
-        Route::get('{id}/category/{idCategory}/detach', [CategoryProductMarketController::class, 'detachCategoryProduct'])->name('market.products.category.detach');
-        Route::any('{id}/categories/create', [CategoryProductMarketController::class, 'categoriesAvailable'])->name('market.products.categories.available');
-        Route::post('{id}/categories', [CategoryProductMarketController::class, 'attachCategoriesProduct'])->name('market.products.categories.attach');
-        Route::get('{id}/categories',  [CategoryProductMarketController::class, 'categories'])->name('market.product.categories');
-        Route::get('{id}/products',  [CategoryProductMarketController::class, 'products'])->name('market.categories.products');
-    });
-
-    Route::prefix('admin-site')->group(function () {
-        Route::get('/',                 [SiteController::class, 'index'])->name('admin.site');
-        Route::post('/',                [SiteController::class, 'enable'])->name('admin.site.enable');
-        Route::post('/layout',          [SiteController::class, 'storeUpdateLayout'])->name('admin.site.layout');
-    });
-
-    Route::prefix('admin-payment')->group(function () {
-        Route::get('/',                 [TenantPaymentsController::class, 'index'])->name('admin.payments');
-        Route::post('/active',          [TenantPaymentsController::class, 'active'])->name('payment.active');
-        Route::put('/disable/{id}',     [TenantPaymentsController::class, 'disable'])->name('payment.disable');
-        Route::put('/enable/{id}',      [TenantPaymentsController::class, 'enable'])->name('payment.enable');
-    });
-
-    Route::prefix('admin-shipping')->group(function () {
-        Route::get('/',                 [TenantShippingController::class, 'index'])->name('admin.shippings');
-        Route::post('/active',          [TenantShippingController::class, 'active'])->name('shipping.active');
-        Route::put('/disable/{id}',     [TenantShippingController::class, 'disable'])->name('shipping.disable');
-        Route::put('/enable/{id}',      [TenantShippingController::class, 'enable'])->name('shipping.enable');
-    });
-
-    Route::prefix('admin-operation')->group(function () {
-        Route::get('/',                 [OperationController::class, 'index'])->name('admin.operations');
-        Route::post('/active',          [OperationController::class, 'active'])->name('operation.active');
-        Route::put('/disable/{id}',     [OperationController::class, 'disable'])->name('operation.disable');
-        Route::put('/enable/{id}',      [OperationController::class, 'enable'])->name('operation.enable');
-        Route::get('/{id}/detail',      [OperationController::class, 'detailOperation'])->name('operation.detail');
-
-        Route::post('/{id}/detail',      [OperationController::class, 'detailStore'])->name('operation.store');
-        Route::post('/{id}/delete',      [OperationController::class, 'detailDelete'])->name('operation.delete');
-    });
-
-    Route::prefix('admin-myaccount')->group(function () {
-        Route::get('/',                 [TenantAccountController::class, 'index'])->name('admin.myaccount');
-        Route::put('/update-password',  [TenantAccountController::class, 'updatePassword'])->name('update.passwordaccount');
-        Route::put('/update-data',      [TenantAccountController::class, 'updateData'])->name('update.dataaccount');
-    });
-
-    Route::prefix('admin-configuration')->group(function () {
-        Route::get('/',                 [ConfigurationController::class, 'index'])->name('admin.configuration');
-    });
 });

@@ -73,13 +73,13 @@
         <option value="0" @if (isset($tenant) && !$tenant->subscription_active) selected @endif>Não</option>
     </select>
 </div>
-<div class="form-group mt-2">
+{{-- <div class="form-group mt-2">
     <label>* Assinatura Cancelada?</label>
     <select name="subscription_suspended" class="form-control form-control-sm">
         <option value="1" @if (isset($tenant) && $tenant->subscription_suspended) selected @endif>SIM</option>
         <option value="0" @if (isset($tenant) && !$tenant->subscription_suspended) selected @endif>Não</option>
     </select>
-</div>
+</div> --}}
 <div class="form-group mt-2 text-center">
     <button type="submit" class="btn btn-sm btn-success">Enviar</button>
 </div>

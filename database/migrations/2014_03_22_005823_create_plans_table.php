@@ -18,6 +18,7 @@ class CreatePlansTable extends Migration
             $table->string('name')->unique();
             $table->string('url')->unique();
             $table->double('price', 10, 2);
+            $table->integer('status')->default(1)->comment("0 - disbled | 1 - enabled");
             $table->string('description')->nullable();
             $table->timestamps();
         });

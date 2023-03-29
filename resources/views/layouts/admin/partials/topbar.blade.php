@@ -10,11 +10,11 @@
         <form action="{{ route('tenant.open') }}" method="POST" class="form form-inline">
             @csrf
             <div class="container mb-2">
-                <input type="hidden" name="open" value="{{ Request::session()->get('open') == 'N' ? 'Y' : 'N' }}">
+                <input type="hidden" name="open" value="{{ Auth::user()->tenant->open == 'N' ? 'Y' : 'N' }}">
                 <div class="form-group mt-2" align="center">
                     <button type="submit"
                         class="btn btn-sm btn-{{ Request::session()->get('open') == 'N' ? 'success' : 'danger' }}">
-                        @if (Request::session()->get('open') == 'N')
+                        @if ( Auth::user()->tenant->open == 'N')
                         <i class="fa-sharp fa-solid fa-door-open"></i> Abrir
                         @else
                             <i class="fa-sharp fa-solid fa-door-closed"></i> Fechar

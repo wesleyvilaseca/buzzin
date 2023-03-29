@@ -70,6 +70,17 @@
                         <h5>{{ $toptitle }}</h5>
                     @endif
 
+
+                    @if (
+                        (Auth::user()->tenant->subscription_active == 0 && !@isset($dontShowSubscriptionStatus)) ||
+                            $dontShowSubscriptionStatus !== true)
+                        <div class="text-center alert alert-danger alert-dismissible fade show" role="alert">
+                            A sua assinatura está expirada e seus serviços estão inativos, para regularizar <strong><a
+                                    href="{{ route('admin.subscriptions') }}">click aqui</a></strong>
+                        </div>
+                    @endif
+
+
                     @if (@isset($breadcrumb))
                         <div id="breadcrumb" class="mt-2">
                             <ol class="breadcrumb">
