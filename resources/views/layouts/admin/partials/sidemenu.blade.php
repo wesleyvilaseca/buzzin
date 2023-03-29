@@ -95,7 +95,7 @@
                     @can('tenant_orders')
                         <li class="{{ @$order_m ? 'ativo' : '' }}">
                             <a href="{{ route('orders.index') }}">
-                                <i class="fa-regular fa-money-bill"></i>
+                                <i class="fa-solid fa-cart-shopping"></i>
                                  <span>Pedidos</span>
                             </a>
                         </li>
@@ -103,7 +103,7 @@
 
                     <li class="{{ @$transactions ? 'ativo' : '' }}">
                         <a href="#">
-                            <i class="fa-solid fa-cart-shopping"></i>
+                            <i class="fa-solid fa-money-bill"></i>
                             <span>Minhas transações</span>
                         </a>
                     </li>
