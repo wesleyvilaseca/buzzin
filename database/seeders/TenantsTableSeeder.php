@@ -21,7 +21,7 @@ class TenantsTableSeeder extends Seeder
             'cnpj' => '24074848000181',
             'name' => 'buzzingame',
             'url'  => 'buzzingame',
-            'email' => 'buzzingame@buzzin.com.br'
+            'email' => 'admin@buzzin.com.br'
         ]);
     }
 }

@@ -8,16 +8,17 @@ import money from 'v-money3'
 import { Bootstrap5Pagination } from 'laravel-vue-pagination';
 import Select2 from 'vue3-select2-component';
 
-import { createVfm } from 'vue-final-modal'
-import 'vue-final-modal/style.css'
-
 import Vue3Toasity from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+
+import preloader from './components/common/PreloaderComponent.vue';
+
 
 /**
  * components admin
  */
 import ordersAdminView from './views/admin/orders/orders.view.vue';
+import subscriptionAdminView from './views/admin/subscriptions/subscriptions.view.vue';
 
 
 /**
@@ -39,11 +40,13 @@ var app = createApp();
  */
 app.component('Select2', Select2)
 app.component('Pagination', Bootstrap5Pagination);
+app.component('preloader-component', preloader);
 
 /**
  * admin components
  */
 app.component('orders-tenant', ordersAdminView);
+app.component('subscription-tenant', subscriptionAdminView);
 
 
 /**
@@ -57,8 +60,6 @@ app.component('checkout-tenant-view', checkoutSiteTenantView);
 app.component('maintence-sitetenant-view', maintenceSiteTenantView);
 app.component('client-tenant-view', ClientSiteTenantView);
 
-const vfm = createVfm()
-app.use(vfm);
 app.use(Vue3Toasity, { autoClose: 3000 });
 app.use(store);
 app.use(VueTheMask);

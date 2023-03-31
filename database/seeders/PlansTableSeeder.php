@@ -18,7 +18,7 @@ class PlansTableSeeder extends Seeder
             'name' => 'Businers',
             'url' => 'businers',
             'price' => 100.00,
-            'description' => 'Plano Empresarial'
+            'description' => 'Plano Mensal'
         ]);
     }
 }

@@ -52,64 +52,63 @@
 
 <body>
     <div id="app">
-        <div id="formloader"></div>
-        <div id="side-menu" class="page-wrapper chiller-theme toggled">
-            <a id="show-sidebar" class="btn btn-sm btn-dark" style="cursor:pointer;">
-                <i class="fas fa-bars"></i>
-            </a>
+            <div id="formloader"></div>
+            <div id="side-menu" class="page-wrapper chiller-theme toggled">
+                <a id="show-sidebar" class="btn btn-sm btn-dark" style="cursor:pointer;">
+                    <i class="fas fa-bars"></i>
+                </a>
 
-            @include('layouts.admin.partials.sidemenu')
+                @include('layouts.admin.partials.sidemenu')
 
-            @include('layouts.admin.partials.topbar')
+                @include('layouts.admin.partials.topbar')
 
-            <main class="page-content">
-                <div class="container-fluid">
-                    @include('layouts.admin.alerts')
+                <main class="page-content">
+                    <div class="container-fluid">
+                        @include('layouts.admin.alerts')
 
-                    @if (@isset($toptitle))
-                        <h5>{{ $toptitle }}</h5>
-                    @endif
+                        @if (@isset($toptitle))
+                            <h5>{{ $toptitle }}</h5>
+                        @endif
 
+                        @if (Auth::user()->tenant->subscription_active == 0)
+                            @if (@!isset($showSubscriptionMessage))
+                                <div class="text-center alert alert-danger alert-dismissible fade show" role="alert">
+                                    A sua assinatura está expirada e seus serviços estão inativos, para regularizar
+                                    <strong><a href="{{ route('admin.subscriptions') }}">click aqui</a></strong>
+                                </div>
+                            @endif
+                        @endif
 
-                    @if (
-                        (Auth::user()->tenant->subscription_active == 0 && !@isset($dontShowSubscriptionStatus)) ||
-                            $dontShowSubscriptionStatus !== true)
-                        <div class="text-center alert alert-danger alert-dismissible fade show" role="alert">
-                            A sua assinatura está expirada e seus serviços estão inativos, para regularizar <strong><a
-                                    href="{{ route('admin.subscriptions') }}">click aqui</a></strong>
-                        </div>
-                    @endif
+                        @if (@isset($breadcrumb))
+                            <div id="breadcrumb" class="mt-2">
+                                <ol class="breadcrumb">
+                                    @foreach ($breadcrumb as $bread)
+                                        @if (@$bread['active'])
+                                            <li class="breadcrumb-item active">
+                                                {{ $bread['title'] }}
+                                            </li>
+                                        @else
+                                            <li class="breadcrumb-item">
+                                                <a href="{{ $bread['route'] }}">{{ $bread['title'] }}</a>
+                                            </li>
+                                        @endif
+                                    @endforeach
+                                </ol>
+                            </div>
+                        @endif
 
+                        @if (@isset($toptitle) || @isset($breadcrumb))
+                            <hr>
+                        @endif
 
-                    @if (@isset($breadcrumb))
-                        <div id="breadcrumb" class="mt-2">
-                            <ol class="breadcrumb">
-                                @foreach ($breadcrumb as $bread)
-                                    @if (@$bread['active'])
-                                        <li class="breadcrumb-item active">
-                                            {{ $bread['title'] }}
-                                        </li>
-                                    @else
-                                        <li class="breadcrumb-item">
-                                            <a href="{{ $bread['route'] }}">{{ $bread['title'] }}</a>
-                                        </li>
-                                    @endif
-                                @endforeach
-                            </ol>
-                        </div>
-                    @endif
+                        @yield('content')
 
-                    @if (@isset($toptitle) || @isset($breadcrumb))
-                        <hr>
-                    @endif
-
-                    @yield('content')
-
-                </div>
-            </main>
-            <div class="modal"></div>
-        </div>
+                    </div>
+                </main>
+                <div class="modal"></div>
+            </div>
     </div>
+
     <script>
         if (w <= 660) {
             $(".page-wrapper").removeClass("toggled");
@@ -117,7 +116,6 @@
             $(".page-wrapper").addClass("toggled");
         }
     </script>
-
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>

@@ -17,6 +17,7 @@
         "vue-loader": "^16.8.3"
     },
     "dependencies": {
+        "@mercadopago/sdk-js": "^0.0.2",
         "laravel-vue-pagination": "^4.0.0",
         "v-money3": "^3.23.0",
         "vue": "^3.2.36",

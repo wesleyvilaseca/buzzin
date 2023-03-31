@@ -29,9 +29,17 @@ class SubscriptionController extends Controller
         $data['title']              = 'Planos';
         $data['toptitle']           = 'Planos';
         $data['subscritions']       = true;
-        $data['plans']      = Plan::where('status', 1)->with('details')->get()->all();
-        $data['dontShowSubscriptionStatus'] = true;
+        $data['showSubscriptionMessage'] = 'N';
 
         return view('admin.subscription.index', $data);
+    }
+
+    public function getPlans() {
+        $plans = Plan::where('status', 1)->with('details')->get();
+        return response()->json($plans, 200);
+    }
+
+    public function payCard(Request $request) {
+        dd($request->all());
     }
 }

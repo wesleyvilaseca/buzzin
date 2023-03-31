@@ -1,6 +1,6 @@
 <template>
     <div class="preloader" v-if="preloader">
-        <img src="../../assets/imgs/preloader.gif" alt="Carregando..." />
+        <img src="../../assets/imgs/preloader.gif" alt="Carregando..." style="max-width: 80px;" />
         <p class="fw-bold">{{ textPreloader }}</p>
     </div>
 </template>

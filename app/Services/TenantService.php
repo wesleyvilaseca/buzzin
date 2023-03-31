@@ -155,7 +155,7 @@ class TenantService
     public function checkSubscription()
     {
         $tenant = Auth::user()->tenant;
-        $isSuper = User::where('email', $tenant->email)->first()->super_admin == 'Y';
+        $isSuper = User::where('email', $tenant->email)->first()?->super_admin == 'Y';
         if (!$isSuper) {
             if ($tenant->expires_at < Carbon::today()) {
                 $tenant->update(['subscription_active' => 0]);

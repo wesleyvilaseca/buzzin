@@ -51,6 +51,10 @@ class Tenant extends Model
 
     public function clientCanBay()
     {
+        if ($this->subscription_active == 0) {
+            return 'N';
+        }
+
         $isOpen = $this->isOpen();
         if ($isOpen == 'N' && !$this->order_when_closed) {
             return 'N';
