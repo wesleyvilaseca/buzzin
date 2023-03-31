@@ -14,7 +14,7 @@ Route::group([
     /**
      * admis-subscription
      */
-    Route::get('/plans', [SubscriptionController::class, 'getPlans'])->middleware(['auth']);
-    Route::post('/paycard', [SubscriptionController::class, 'payCard'])->middleware(['auth']);
-
+    Route::get('/plans',        [SubscriptionController::class, 'getPlans'])->middleware(['auth']);
+    Route::post('/paycard',     [SubscriptionController::class, 'payCard'])->middleware(['auth']);
+    Route::post('/mp-notify',   [SubscriptionController::class, 'payCard'])->middleware(['auth']);
 });

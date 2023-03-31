@@ -20271,18 +20271,22 @@ __webpack_require__.r(__webpack_exports__);
   computed: {},
   methods: {
     _payCard: function _payCard() {
+      this.loadPayment = true;
       document.getElementById('docNumber').value = this.cpf.replace(/[^a-zA-Z0-9]/g, '');
       window.Mercadopago.createToken(document.getElementById('pay'), this.setCardTokenAndPay);
     },
     setCardTokenAndPay: function setCardTokenAndPay(status, response) {
       var _this2 = this;
       if (status == 200 || status == 201) {
-        this.loadPayment = true;
+        var _parcelas$value;
+        var parcelas = document.getElementById('installments');
         axios.post('/api/v1/paycard', {
           token: response.id,
           payment_method_id: document.getElementById('paymentMethodId').value,
           plan_id: this.plan.id,
-          email: this.tenant.email
+          email: this.tenant.email,
+          installments: (_parcelas$value = parcelas === null || parcelas === void 0 ? void 0 : parcelas.value) !== null && _parcelas$value !== void 0 ? _parcelas$value : 1,
+          cpf: this.cpf.replace(/[^a-zA-Z0-9]/g, '')
         }).then(function (res) {
           vue3_toastify__WEBPACK_IMPORTED_MODULE_0__.toast.success("Pagamento realizado com sucesso", {
             autoClose: 3000
@@ -20295,7 +20299,7 @@ __webpack_require__.r(__webpack_exports__);
           _this2.loadPayment = false;
         });
       } else {
-        console.log(response, this.card_expiration);
+        this.loadPayment = false;
         this._setError(response.cause[0].code);
       }
     },

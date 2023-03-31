@@ -3,25 +3,20 @@
 namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\Permission;
 use App\Models\Plan;
-use App\Models\Product;
-use App\Models\Profile;
-use App\Models\Role;
-use App\Models\Table;
-use App\Models\Tenant;
-use App\Models\User;
+use App\Services\MercadoPagoService;
 use App\Services\TenantService;
 use Illuminate\Http\Request;
 
 class SubscriptionController extends Controller
 {
     private $tenantService;
+    private $mercadoPagoService;
 
-    public function __construct(TenantService $tenantService)
+    public function __construct(TenantService $tenantService, MercadoPagoService $mercadoPagoService)
     {
         $this->tenantService = $tenantService;
+        $this->mercadoPagoService = $mercadoPagoService;
     }
 
     public function index(Request $request)
@@ -40,6 +35,10 @@ class SubscriptionController extends Controller
     }
 
     public function payCard(Request $request) {
-        dd($request->all());
+        return $this->mercadoPagoService->processPayment($request->all());
+    }
+
+    public function mpNotify(Request $request) {
+        return $this->mercadoPagoService->mpNotify($request->all());
     }
 }

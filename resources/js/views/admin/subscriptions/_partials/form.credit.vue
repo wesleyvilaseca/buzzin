@@ -90,7 +90,7 @@ export default {
             document.body.removeChild(script);
         }
     },
-    mounted() {},
+    mounted() { },
     data() {
         return {
             loadPayment: false,
@@ -107,18 +107,21 @@ export default {
     computed: {},
     methods: {
         _payCard() {
+            this.loadPayment = true;
             document.getElementById('docNumber').value = this.cpf.replace(/[^a-zA-Z0-9]/g, '');
             window.Mercadopago.createToken(document.getElementById('pay'), this.setCardTokenAndPay);
         },
 
         setCardTokenAndPay(status, response) {
             if (status == 200 || status == 201) {
-                this.loadPayment = true;
+                const parcelas = document.getElementById('installments');
                 axios.post('/api/v1/paycard', {
                     token: response.id,
                     payment_method_id: document.getElementById('paymentMethodId').value,
                     plan_id: this.plan.id,
-                    email: this.tenant.email
+                    email: this.tenant.email,
+                    installments: parcelas?.value ?? 1,
+                    cpf: this.cpf.replace(/[^a-zA-Z0-9]/g, '')
                 })
                     .then((res) => {
                         toast.success("Pagamento realizado com sucesso", { autoClose: 3000 });
@@ -131,7 +134,7 @@ export default {
                     })
 
             } else {
-                console.log(response, this.card_expiration)
+                this.loadPayment = false;
                 this._setError(response.cause[0].code)
             }
         },
@@ -237,13 +240,13 @@ export default {
             document.getElementById('docNumber').value = ""
 
             this.cardnumber = "",
-            this.cpf = "";
+                this.cpf = "";
             this.expiration = "",
-            this.card_expiration = {
+                this.card_expiration = {
                     expirationMonth: "",
                     expirationYear: ""
                 },
-            this.showstallmants = false
+                this.showstallmants = false
         }
     },
     watch: {
