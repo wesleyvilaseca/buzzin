@@ -92,8 +92,13 @@
                     @can('tenant_orders')
                         <li class="{{ @$order_m ? 'ativo' : '' }}">
                             <a href="{{ route('orders.index') }}">
-                                <i class="fa-solid fa-cart-shopping"></i>
-                                 <span>Pedidos</span>
+                                <i class="fa-solid fa-cart-shopping position-relative">
+                                    <span
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger mt-0 ms-0">
+                                        {{ Auth::user()->tenant->order->where('status', 'open')->count() }}
+                                    </span>
+                                </i>
+                                <span>Pedidos</span>
                             </a>
                         </li>
                     @endcan
@@ -192,9 +197,10 @@
         </div>
     </div>
     <div class="sidebar-footer">
-        {{-- <a href="#">
+        {{--  
+        <a href="#">
             <i class="fa fa-bell"></i>
-            <span class="badge badge-pill badge-warning notification">3</span>
+            <span class="badge badge-pill badge-warning notification"> 3</span>
         </a>
         <a href="#">
             <i class="fa fa-envelope"></i>
