@@ -10,6 +10,11 @@
                     <div class="card">
                         <div class="card-header text-center" style="background-color: #fff;">
                             <div class="position-relative">
+                                <h5 class="fw-bold">{{ plan.name }}</h5>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="inner-content position-relative">
                                 <div class="position-absolute" v-if="hasSelectedPlan">
                                     <span class="badge bg-dark text-light" @click.prevent="unSelectPlan()"
                                         style="cursor:pointer">
@@ -21,11 +26,7 @@
                                 <div class="position-absolute" v-if="plan.id == tenant.plan_id && !hasSelectedPlan">
                                     <span class="badge bg-primary">Plano atual</span>
                                 </div>
-                                <h5 class="fw-bold">{{ plan.name }}</h5>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="inner-content">
+
                                 <div class="text-center">
                                     <span class="">R$
                                         <span class="fw-bold fs-1">{{ plan.price }}</span>
@@ -92,18 +93,19 @@
                 <div class="col-md-4" v-if="selectedPaymentType">
                     <div class="card">
                         <div class="card-header text-center" style="background-color: #fff;">
-                            <div class="position-relative">
-                                <div class="position-absolute" v-if="hasSelectedPlan">
-                                    <span class="badge bg-dark text-light" @click.prevent="setSelectedPaymentMethod('')"
-                                        style="cursor:pointer">
-                                        <i class="fa-solid fa-chevron-left"></i>
-                                        Mudar
-                                    </span>
-                                </div>
+                            <div class="">
                                 <h5 class="fw-bold">{{ titlePayment }}</h5>
                             </div>
                         </div>
                         <div class="card-body" v-if="selectedPaymentType == 'credit_card'">
+                            <div class="" v-if="hasSelectedPlan">
+                                <span class="badge bg-dark text-light" @click.prevent="setSelectedPaymentMethod('')"
+                                    style="cursor:pointer">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                    Mudar
+                                </span>
+                            </div>
+
                             <formCreditVue :tenant="tenant" :plan="selectPlan" />
                         </div>
                     </div>
@@ -162,7 +164,7 @@ export default {
         PreloaderComponent,
         formCreditVue
     },
-    created() {},
+    created() { },
     mounted() {
         this.getPlans()
     },

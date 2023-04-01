@@ -124,9 +124,12 @@ export default {
                     cpf: this.cpf.replace(/[^a-zA-Z0-9]/g, '')
                 })
                     .then((res) => {
-                        toast.success("Pagamento realizado com sucesso", { autoClose: 3000 });
+                        const { data } = res;
+                        toast.success("Transação realizado com sucesso", { autoClose: 3000 });
+                        window.location.href = data.redirect;
                     })
                     .catch((error) => {
+                        this.clearCardForm();
                         toast.error("Erro na transação", { autoClose: 3000 });
                     })
                     .finally(() => {

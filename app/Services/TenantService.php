@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
 use App\Repositories\Contracts\TenantRepositoryInterface;
 use Carbon\Carbon;
+use Error;
 use Exception;
 use Grimzy\LaravelMysqlSpatial\Types\Point;
 use Illuminate\Support\Facades\Auth;
@@ -287,5 +288,30 @@ class TenantService
         $data = TenantPaymentResource::collection($tenantPayments);
 
         return response()->json($data);
+    }
+
+    public function updateAssignatureRenew($subscription_id, Plan $plan) {
+        if ($plan->url === 'plano-mensal') {
+            $newExpiresDate = Carbon::now()->addMonths(1)->toDateString();
+        }
+
+        if ($plan->url === 'plano-trimestral') {
+            $newExpiresDate = Carbon::now()->addMonths(3)->toDateString();
+        }
+
+        if ($plan->url === 'plano-semestral') {
+            $newExpiresDate = Carbon::now()->addMonths(6)->toDateString();
+        }
+        try{
+            Tenant::where('uuid', Auth::user()->tenant->uuid)->update([
+                'subscription' => $subscription_id,
+                'subscription' => Carbon::now()->toDateString(),
+                'expires_at' => $newExpiresDate,
+                'subscription_active' => 1
+            ]);
+        }catch(Exception $e) {
+            throw new Error($e->getMessage());
+        }
+        
     }
 }

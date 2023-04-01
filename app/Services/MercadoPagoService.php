@@ -3,8 +3,10 @@
 namespace App\Services;
 
 use App\Models\Plan;
+use App\Models\Transaction;
 use App\Repositories\Contracts\TableRepositoryInterface;
 use App\Repositories\Contracts\TenantRepositoryInterface;
+use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
@@ -13,15 +15,18 @@ class MercadoPagoService
 {
     protected $httpClient;
     private $access_token;
+    private $tenantService;
+    const APPROVED = 'approved';
 
-    public function __construct()
+    public function __construct(TenantService $tenantService)
     {
         $this->httpClient = new Client();
         $this->access_token = env('MP_PRODUCTION') ? env('MERCADO_PAGO_TOKEN') : env('MERCADO_PAGO_SANDBOX_TOKEN');
+        $this->tenantService = $tenantService;
     }
 
-    public function processPayment(array $data)
-    {
+    public function processPlanPaymentCard(array $data)
+    {   
         $plan = Plan::find($data['plan_id']);
         if (!$plan) {
             return response()->json(['message' => 'Operação não autorizada'], 401);
@@ -62,7 +67,25 @@ class MercadoPagoService
                 'body' => json_encode($form)
             ]);
 
-            return response()->json($response->getBody()->getContents(), 200);
+            $response = json_decode($response->getBody()->getContents());
+
+            Transaction::create([
+                'type_transaction' => 'subscription',
+                'data' => json_encode($response->metadata->item),
+                'transaction_id' => $response->id,
+                'transaction_amount' => $response->transaction_amount,
+                'last_four_digits' => $response->card->last_four_digits,
+                'payment_method_id' => $response->payment_method_id,
+                'payment_type_id' => $response->payment_type_id,
+                'status' => $response->status,
+                'status_detail' => $response->status_detail
+            ]);
+
+            if ($response->status == self::APPROVED) {
+                $this->tenantService->updateAssignatureRenew($response->id, $plan);
+            }
+
+            return response()->json(['message' => 'Transação efetuada com sucesso', 'redirect' => route('admin.transactions')], 200);
         } catch (\GuzzleHttp\Exception\ClientException $e) {
             return response()->json(['message' => 'Falha na transação, tente novamente', 'error' => $e->getResponse()->getBody()->getContents()], 401);
         }

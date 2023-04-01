@@ -26,6 +26,7 @@ use App\Http\Controllers\Web\Admin\TableController;
 use App\Http\Controllers\Web\Admin\TenantAccountController;
 use App\Http\Controllers\Web\Admin\TenantController;
 use App\Http\Controllers\Web\Admin\TenantShippingController;
+use App\Http\Controllers\Web\Admin\TransactionsController;
 use App\Http\Controllers\Web\Admin\UserController;
 use App\Http\Controllers\Web\Admin\ZonesGeolocationController;
 use App\Http\Controllers\Web\Auth\LoginController;
@@ -131,6 +132,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('admin-subscriptions')->group(function () {
         Route::get('/',            [SubscriptionController::class, 'index'])->name('admin.subscriptions');
+    });
+
+    Route::prefix('admin-transactions')->group(function () {
+        Route::get('/',            [TransactionsController::class, 'index'])->name('admin.transactions');
     });
 
     Route::prefix('admin-permissions')->group(function () {

@@ -93,10 +93,14 @@
                         <li class="{{ @$order_m ? 'ativo' : '' }}">
                             <a href="{{ route('orders.index') }}">
                                 <i class="fa-solid fa-cart-shopping position-relative">
-                                    <span
-                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger mt-0 ms-0">
-                                        {{ Auth::user()->tenant->order->where('status', 'open')->count() }}
-                                    </span>
+                                    @if (
+                                        $orders =
+                                            Auth::user()->tenant->order->where('status', 'open')->count() > 0)
+                                        <span
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger mt-0 ms-0">
+                                            {{ $orders }}
+                                        </span>
+                                    @endif
                                 </i>
                                 <span>Pedidos</span>
                             </a>
@@ -104,7 +108,7 @@
                     @endcan
 
                     <li class="{{ @$transactions ? 'ativo' : '' }}">
-                        <a href="#">
+                        <a href="{{ route('admin.transactions') }}">
                             <i class="fa-solid fa-money-bill"></i>
                             <span>Minhas transações</span>
                         </a>
