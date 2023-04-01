@@ -13,7 +13,7 @@
                         <a class="nav-link  {{ @$_payment ? 'activated' : '' }}" aria-current="page"
                             href="{{ route('admin.payments') }}">
                             <i class="fa-solid fa-credit-card"></i>
-                            Formas de pagamento
+                            Pagamentos
                         </a>
                     </li>
                 @endcan
@@ -23,7 +23,7 @@
                         <a class="nav-link  {{ @$_delivery ? 'activated' : '' }}" aria-current="page" style="a:hover: #fff"
                             href="{{ route('admin.shippings') }}">
                             <i class="fa-solid fa-truck"></i>
-                            Formas de entrega
+                            Entregas
                         </a>
                     </li>
                 @endcan
