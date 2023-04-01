@@ -1,10 +1,11 @@
 import axios from "axios";
+import cript from "../../support/cript";
 
 const actions = {
     setPaleta({ commit }, params) {
-        const paleta = localStorage.getItem('paleta');
+        const paleta = sessionStorage.getItem('paleta');
         if (paleta) {
-            commit('SET_PALETA', JSON.parse(paleta));
+            commit('SET_PALETA', JSON.parse(cript.decript(paleta)));
         }
     },
 }

@@ -1,7 +1,9 @@
+import cript from "../../support/cript";
+
 export const mutations = {
     SET_PALETA(state, data) {
         state.paleta = data;
-        localStorage.setItem('paleta', JSON.stringify(state.paleta));
+        sessionStorage.setItem('paleta', cript.cript(JSON.stringify(state.paleta)));
     },
 }
 

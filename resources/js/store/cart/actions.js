@@ -3,7 +3,7 @@ import cript from "../../support/cript";
 const TOKEN_NAME = 'buzzin';
 const actions = {
     getCart({ commit }, uuid) {
-        const cart = localStorage.getItem(uuid);
+        const cart = sessionStorage.getItem(uuid);
         if (cart) {
             commit('SET_CART', JSON.parse(cript.decript(cart)));
             commit('TOTAL_CART')

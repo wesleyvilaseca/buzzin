@@ -11,7 +11,7 @@ const mutations = {
             item,
         });
 
-        localStorage.setItem(company_uuid, cript.cript(JSON.stringify(state.products.data)));
+        sessionStorage.setItem(company_uuid, cript.cript(JSON.stringify(state.products.data)));
     },
 
     REMOVE_PROD_CART(state, params) {
@@ -22,7 +22,7 @@ const mutations = {
             return productCart.identify !== item.identify;
         });
 
-        localStorage.setItem(company_uuid, cript.cript(JSON.stringify(state.products.data)));
+        sessionStorage.setItem(company_uuid, cript.cript(JSON.stringify(state.products.data)));
     },
 
     INCREMENT_QTY_PROD_CART(state, params) {
@@ -37,7 +37,7 @@ const mutations = {
             return state.products.data[index];
         });
 
-        localStorage.setItem(company_uuid, cript.cript(JSON.stringify(state.products.data)));
+        sessionStorage.setItem(company_uuid, cript.cript(JSON.stringify(state.products.data)));
     },
 
     DECREMENT_QTY_PROD_CART(state, params) {
@@ -53,12 +53,12 @@ const mutations = {
                 return state.products.data[index];
         });
 
-        localStorage.setItem(company_uuid, cript.cript(JSON.stringify(state.products.data)));
+        sessionStorage.setItem(company_uuid, cript.cript(JSON.stringify(state.products.data)));
     },
 
     CLEAR_CART(state, uuid) {
         state.products.data = [];
-        localStorage.removeItem(uuid);
+        sessionStorage.removeItem(uuid);
     },
 
     SET_CART(state, params) {

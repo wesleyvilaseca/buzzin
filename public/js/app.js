@@ -26288,7 +26288,7 @@ var TOKEN_NAME = 'buzzin';
 var actions = {
   getCart: function getCart(_ref, uuid) {
     var commit = _ref.commit;
-    var cart = localStorage.getItem(uuid);
+    var cart = sessionStorage.getItem(uuid);
     if (cart) {
       commit('SET_CART', JSON.parse(_support_cript__WEBPACK_IMPORTED_MODULE_1__["default"].decript(cart)));
       commit('TOTAL_CART');
@@ -26396,7 +26396,7 @@ var mutations = {
       identify: item.identify,
       item: item
     });
-    localStorage.setItem(company_uuid, _support_cript__WEBPACK_IMPORTED_MODULE_0__["default"].cript(JSON.stringify(state.products.data)));
+    sessionStorage.setItem(company_uuid, _support_cript__WEBPACK_IMPORTED_MODULE_0__["default"].cript(JSON.stringify(state.products.data)));
   },
   REMOVE_PROD_CART: function REMOVE_PROD_CART(state, params) {
     var company_uuid = params.uuid;
@@ -26404,7 +26404,7 @@ var mutations = {
     state.products.data = state.products.data.filter(function (productCart, index) {
       return productCart.identify !== item.identify;
     });
-    localStorage.setItem(company_uuid, _support_cript__WEBPACK_IMPORTED_MODULE_0__["default"].cript(JSON.stringify(state.products.data)));
+    sessionStorage.setItem(company_uuid, _support_cript__WEBPACK_IMPORTED_MODULE_0__["default"].cript(JSON.stringify(state.products.data)));
   },
   INCREMENT_QTY_PROD_CART: function INCREMENT_QTY_PROD_CART(state, params) {
     var item = params.product;
@@ -26415,7 +26415,7 @@ var mutations = {
       }
       return state.products.data[index];
     });
-    localStorage.setItem(company_uuid, _support_cript__WEBPACK_IMPORTED_MODULE_0__["default"].cript(JSON.stringify(state.products.data)));
+    sessionStorage.setItem(company_uuid, _support_cript__WEBPACK_IMPORTED_MODULE_0__["default"].cript(JSON.stringify(state.products.data)));
   },
   DECREMENT_QTY_PROD_CART: function DECREMENT_QTY_PROD_CART(state, params) {
     var item = params.product;
@@ -26426,11 +26426,11 @@ var mutations = {
       }
       if (state.products.data[index].qty > 0) return state.products.data[index];
     });
-    localStorage.setItem(company_uuid, _support_cript__WEBPACK_IMPORTED_MODULE_0__["default"].cript(JSON.stringify(state.products.data)));
+    sessionStorage.setItem(company_uuid, _support_cript__WEBPACK_IMPORTED_MODULE_0__["default"].cript(JSON.stringify(state.products.data)));
   },
   CLEAR_CART: function CLEAR_CART(state, uuid) {
     state.products.data = [];
-    localStorage.removeItem(uuid);
+    sessionStorage.removeItem(uuid);
   },
   SET_CART: function SET_CART(state, params) {
     state.products.data = params;
@@ -26673,13 +26673,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _support_cript__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../support/cript */ "./resources/js/support/cript.js");
+
 
 var actions = {
   setPaleta: function setPaleta(_ref, params) {
     var commit = _ref.commit;
-    var paleta = localStorage.getItem('paleta');
+    var paleta = sessionStorage.getItem('paleta');
     if (paleta) {
-      commit('SET_PALETA', JSON.parse(paleta));
+      commit('SET_PALETA', JSON.parse(_support_cript__WEBPACK_IMPORTED_MODULE_1__["default"].decript(paleta)));
     }
   }
 };
@@ -26724,10 +26726,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
 /* harmony export */   "mutations": () => (/* binding */ mutations)
 /* harmony export */ });
+/* harmony import */ var _support_cript__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../support/cript */ "./resources/js/support/cript.js");
+
 var mutations = {
   SET_PALETA: function SET_PALETA(state, data) {
     state.paleta = data;
-    localStorage.setItem('paleta', JSON.stringify(state.paleta));
+    sessionStorage.setItem('paleta', _support_cript__WEBPACK_IMPORTED_MODULE_0__["default"].cript(JSON.stringify(state.paleta)));
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (mutations);
