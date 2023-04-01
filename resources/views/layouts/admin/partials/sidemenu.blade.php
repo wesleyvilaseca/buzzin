@@ -10,9 +10,6 @@
         <div class="sidebar-header">
             <div class="sidebar-menu">
                 <ul id="sitemaps">
-                    <li class="header-menu">
-                        <span>Navegação</span>
-                    </li>
                     <li class="{{ @$dashboard ? 'ativo' : '' }}">
                         <a href="{{ route('admin.dashboard') }}">
                             <i class="fas fa-chart-bar"></i>

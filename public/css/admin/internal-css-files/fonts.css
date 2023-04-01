@@ -1,17 +1,17 @@
 @font-face {
-    font-family: 'OpenSans';
-    src: url(../../fonts/OpenSans-Regular.ttf);
+    font-family: 'Woff';
+    src: url('../fonts/ionicons.woff') format('woff');
     font-weight: normal;
 }
 
 @font-face {
-    font-family: 'OpenSans';
-    src: url(../../fonts/OpenSans-Bold.ttf);
+    font-family: 'Woff';
+    src: url('../fonts/ionicons.woff2') format('woff');;
     font-weight: 600;
 }
 
 @font-face {
-    font-family: 'OpenSans';
-    src: url(../../fonts/OpenSans-Light.ttf);
+    font-family: 'Woff';
+    src: url('../fonts/ionicons.woff') format('woff');;
     font-weight: 300;
 }
