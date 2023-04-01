@@ -1,5 +1,38 @@
 version: '3'
 services:
+  db:
+    image: mysql:5.7.22
+    container_name: buzzin-db
+    restart: always
+    ports:
+        - "3308:3306"
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+    volumes:
+        - ./.docker/mysql/dbdata:/var/lib/mysql
+    networks:
+      - app-network
+
+  queue:
+      image: buzzin/queue
+      restart: unless-stopped
+      command: "php artisan queue:work"
+      volumes:
+          - ./:/var/www/html
+      depends_on:
+          - redis
+          - app
+      networks:
+          - app-network
+
+  redis:
+      image: redis:latest
+      networks:
+          - app-network
+
   app:
     build:
       context: .
@@ -9,4 +42,37 @@ services:
       - ./:/var/www/html
     ports:
       - 3000:3000
-    network_mode: "host"
+    networks:
+      - app-network
+    depends_on:
+      - db
+    links: 
+      - db
+
+networks:
+  app-network:
+    driver: bridge
+
+
+
+
+
+
+#para conectar na base local do pc
+
+#version: '3'
+#services:
+#  app:
+#    build:
+#      context: .
+#      dockerfile: ./Dockerfile
+#    container_name: codevilafood
+#    volumes:
+#      - ./:/var/www/html
+#    ports:
+#      - 3000:3000
+#    network_mode: "host"
+
+#networks:
+#app-network:
+# driver: bridge

@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM php:8.1-apache
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
@@ -26,6 +26,6 @@ ADD ./ ./
 #RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-EXPOSE 3000
+EXPOSE 8080
 
 ENTRYPOINT [ "/var/www/html/run-after-build.sh" ]
