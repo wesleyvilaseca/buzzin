@@ -119,7 +119,7 @@ export default {
                     token: response.id,
                     payment_method_id: document.getElementById('paymentMethodId').value,
                     plan_id: this.plan.id,
-                    email: this.tenant.email,
+                    email: document.getElementById('email').value,
                     installments: parcelas?.value ?? 1,
                     cpf: this.cpf.replace(/[^a-zA-Z0-9]/g, '')
                 })

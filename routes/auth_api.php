@@ -16,5 +16,6 @@ Route::group([
      */
     Route::get('/plans',        [SubscriptionController::class, 'getPlans'])->middleware(['auth']);
     Route::post('/paycard',     [SubscriptionController::class, 'payCard'])->middleware(['auth']);
+    Route::post('/payslip',     [SubscriptionController::class, 'payslip'])->middleware(['auth']);
     Route::post('/mp-notify',   [SubscriptionController::class, 'payCard'])->middleware(['auth']);
 });

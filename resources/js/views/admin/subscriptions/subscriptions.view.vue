@@ -70,7 +70,7 @@
                                     </div>
                                 </div>
                                 <hr>
-                                <div class="option ps-3 hover-zoom" @click.prevent="setSelectedPaymentMethod('slips')">
+                                <div class="option ps-3 hover-zoom" @click.prevent="setSelectedPaymentMethod('slip')">
                                     <div class="row">
                                         <div class="col-md-2">
                                             <span style="font-size: 50px;">
@@ -97,7 +97,7 @@
                                 <h5 class="fw-bold">{{ titlePayment }}</h5>
                             </div>
                         </div>
-                        <div class="card-body" v-if="selectedPaymentType == 'credit_card'">
+                        <div class="card-body">
                             <div class="" v-if="hasSelectedPlan">
                                 <span class="badge bg-dark text-light" @click.prevent="setSelectedPaymentMethod('')"
                                     style="cursor:pointer">
@@ -106,7 +106,13 @@
                                 </span>
                             </div>
 
-                            <formCreditVue :tenant="tenant" :plan="selectPlan" />
+                            <div v-if="selectedPaymentType == 'credit_card'">
+                                <formCreditVue :tenant="tenant" :plan="selectPlan" />
+                            </div>
+
+                            <div v-if="selectedPaymentType == 'slip'">
+                                <formSlip :tenant="tenant" :plan="selectPlan" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -155,6 +161,7 @@
 import { mapMutations } from "vuex";
 import PreloaderComponent from '../../../components/common/PreloaderComponent.vue';
 import formCreditVue from "./_partials/form.credit.vue";
+import formSlip from "./_partials/form.boleto.vue";
 
 export default {
     props: {
@@ -162,7 +169,8 @@ export default {
     },
     components: {
         PreloaderComponent,
-        formCreditVue
+        formCreditVue,
+        formSlip
     },
     created() { },
     mounted() {

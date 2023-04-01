@@ -26,7 +26,7 @@ class MercadoPagoService
     }
 
     public function processPlanPaymentCard(array $data)
-    {   
+    {
         $plan = Plan::find($data['plan_id']);
         if (!$plan) {
             return response()->json(['message' => 'Operação não autorizada'], 401);
@@ -86,6 +86,72 @@ class MercadoPagoService
             }
 
             return response()->json(['message' => 'Transação efetuada com sucesso', 'redirect' => route('admin.transactions')], 200);
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            return response()->json(['message' => 'Falha na transação, tente novamente', 'error' => $e->getResponse()->getBody()->getContents()], 401);
+        }
+    }
+
+    public function payslip(array $data)
+    {
+        $plan = Plan::find($data['plan_id']);
+        if (!$plan) {
+            return response()->json(['message' => 'Operação não autorizada'], 401);
+        }
+
+        if (!validaCPF($data['cpf'])) {
+            $errors['cpf'][] = 'O CPF informado é inválido';
+            return response()->json((object) ["errors" => $errors], 400);
+        }
+
+        try {
+            $tenant = Auth::user()->tenant;
+            $apiUrl = 'https://api.mercadopago.com/v1/payments';
+
+            $form = [
+                'external_reference' => $tenant->uuid,
+                'transaction_amount' => (float) $plan->price,
+                'description' => $plan->name,
+                'payment_method_id' => 'pec',
+                'payer' => (object) [
+                    'first_name' => $data['first_name'],
+                    'last_name' => $data['last_name'],
+                    'email' => $data['email'],
+                    'identification' => (object)[
+                        "type" => 'CPF',
+                        "number" => $data['cpf']
+                    ]
+                ],
+                'metadata' => (object) [
+                    'user_id' => $tenant->uuid,
+                    'item' => (object) $plan,
+                ],
+                'notification_url' => env('MP_URL_NOTIFY')
+            ];
+
+            $response = $this->httpClient->post($apiUrl, [
+                'headers' => [
+                    'Authorization' => "Bearer {$this->access_token}",
+                    'content-type' => 'application/json',
+                    'accept' => 'application/json'
+                ],
+                'body' => json_encode($form)
+            ]);
+
+            $response = json_decode($response->getBody()->getContents());
+
+            Transaction::create([
+                'type_transaction' => 'subscription',
+                'data' => json_encode($response->metadata->item),
+                'transaction_id' => $response->id,
+                'transaction_amount' => $response->transaction_amount,
+                'payment_method_id' => $response->payment_method_id,
+                'payment_type_id' => $response->payment_type_id,
+                'status' => $response->status,
+                'status_detail' => $response->status_detail,
+                'barcode' => $response->barcode->content,
+            ]);
+
+            return response()->json(['message' => 'Boleto gerado com sucesso', 'redirect' => route('admin.transactions')], 200);
         } catch (\GuzzleHttp\Exception\ClientException $e) {
             return response()->json(['message' => 'Falha na transação, tente novamente', 'error' => $e->getResponse()->getBody()->getContents()], 401);
         }

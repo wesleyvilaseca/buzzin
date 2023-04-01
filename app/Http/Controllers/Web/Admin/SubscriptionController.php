@@ -50,6 +50,10 @@ class SubscriptionController extends Controller
         return $this->mercadoPagoService->processPlanPaymentCard($request->all());
     }
 
+    public function payslip(Request $request) {
+        return $this->mercadoPagoService->paySlip($request->all());
+    }
+
     public function mpNotify(Request $request)
     {
         return $this->mercadoPagoService->mpNotify($request->all());
