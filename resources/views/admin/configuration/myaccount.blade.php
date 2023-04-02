@@ -200,10 +200,10 @@
                                         value="{{ $tenant->plan->name }}" disabled>
                                 </div>
 
-                                <div class="form-group mt-2" align="center">
+                                {{-- <div class="form-group mt-2" align="center">
                                     <button type="button" class="btn btn-sm btn-primary"
                                         onclick="return alert('colocar a funcionalidade')">Mudar plano</button>
-                                </div>
+                                </div> --}}
                             </div>
                         </form>
                     </div>
