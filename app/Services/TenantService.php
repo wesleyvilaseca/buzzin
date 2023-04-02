@@ -304,7 +304,7 @@ class TenantService
         }
         try{
             Tenant::where('uuid', Auth::user()->tenant->uuid)->update([
-                'subscription' => $subscription_id,
+                'subscription_id' => $subscription_id,
                 'subscription' => Carbon::now()->toDateString(),
                 'expires_at' => $newExpiresDate,
                 'subscription_active' => 1
