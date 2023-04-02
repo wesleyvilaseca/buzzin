@@ -31,17 +31,9 @@ use App\Http\Controllers\Web\Admin\UserController;
 use App\Http\Controllers\Web\Admin\ZonesGeolocationController;
 use App\Http\Controllers\Web\Auth\LoginController;
 use App\Http\Controllers\Web\Auth\RegisterController;
-use App\Http\Controllers\Web\TenantSite\HomeController as ClientSiteHomeController;
 use App\Http\Controllers\Web\Site\HomeController;
 use App\Http\Controllers\Web\Site\SubscriptionsController;
-use App\Http\Controllers\Web\TenantSite\CartController;
-use App\Http\Controllers\Web\TenantSite\CategoryController as TenantSiteCategoryController;
-use App\Http\Controllers\Web\TenantSite\CheckoutController;
-use App\Http\Controllers\Web\TenantSite\ClientController;
-use App\Http\Controllers\Web\TenantSite\LoginController as TenantSiteLoginController;
-use App\Http\Controllers\Web\TenantSite\ProductController as TenantSiteProductController;
-use App\Http\Controllers\Web\TenantSite\RegisterController as TenantSiteRegisterController;
-use App\Http\Controllers\Web\TenantSite\TenantController as TenantSiteTenantController;
+
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -52,57 +44,7 @@ $domain = request()->getHttpHost();
 $appDomain = str_replace(['http://', 'https://'], "", env('APP_URL'));
 
 if ($domain !== $appDomain) {
-    Route::middleware(['check.site.client'])->group(function () {
-        Route::any('/',         [ClientSiteHomeController::class, 'index']);
-        Route::prefix('app')->group(function () {
-            Route::get('/cart',         [CartController::class, 'index'])->name('cart');
-
-            Route::get('/login',         [TenantSiteLoginController::class, 'index'])->name('app.login');
-            Route::post('/login',        [TenantSiteLoginController::class, 'auth'])->name('app.login.auth');
-
-            Route::get('/register',      [TenantSiteRegisterController::class, 'index'])->name('app.register');
-            Route::post('/register',     [TenantSiteRegisterController::class, 'store'])->name('app.register.store');
-
-            Route::get('/tenant',           [TenantSiteTenantController::class, 'getTenant']);
-            Route::post('/delivery-price',  [TenantSiteTenantController::class, 'getDeliveryPrice']);
-            Route::post('/payment-methods', [TenantSiteTenantController::class, 'getPaymentMethods']);
-
-            Route::get('/category',         [TenantSiteCategoryController::class, 'categories']);
-            Route::get('/products',         [TenantSiteProductController::class, 'productsByTenant']);
-
-            Route::get('/checkout',         [CheckoutController::class, 'index']);
-
-            Route::get('/cliente-area',  [ClientController::class, 'index']);
-
-            Route::group([
-                'middleware' => ['auth:sanctum']
-            ], function () {
-                Route::get('/auth/me',                  [TenantSiteLoginController::class, 'me']);
-                Route::post('/auth/account-update',      [ClientController::class, 'updateAccount']);
-                Route::post('/auth/account-password',     [ClientController::class, 'updatePasswordAccount']);
-
-                Route::post('/auth/logout',             [TenantSiteLoginController::class, 'logout']);
-
-                Route::get('/auth/address',             [TenantSiteLoginController::class, 'getClientAddress']);
-                Route::post('/auth/newaddress',         [TenantSiteLoginController::class, 'saveNewAddress']);
-                Route::put('/auth/{id}/address',        [ClientController::class, 'updateAddress']);
-                Route::delete('/auth/{id}/address',     [ClientController::class, 'deleteAddress']);
-
-                Route::post('/checkout/order',          [CheckoutController::class, 'store']);
-                Route::get('/auth/my-orders',           [ClientController::class, 'getOrders']);
-
-
-                // Route::post('/auth/logout', [TenantSiteLoginController::class, 'logout']);
-
-                // Route::post('/auth/v1/orders/{identifyOrder}/evaluations', [EvaluationController::class, 'store']);
-
-                // Route::get('/auth/v1/my-orders', [OrderController::class, 'myOrders']);
-                // Route::post('/auth/v1/orders', [OrderController::class, 'store']);
-            });
-        });
-    });
-
-    Route::any('/site-em-manutencao',         [ClientSiteHomeController::class, 'inMaintence'])->name('tenant.maintence');
+    include_once('./site_tenant_routes.php');
     return;
 }
 
@@ -406,5 +348,4 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/',                 [ConfigurationController::class, 'index'])->name('admin.configuration');
         });
     });
-
 });

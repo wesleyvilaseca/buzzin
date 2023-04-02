@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Plan;
+use App\Models\Tenant;
 use App\Models\Transaction;
 use App\Repositories\Contracts\TableRepositoryInterface;
 use App\Repositories\Contracts\TenantRepositoryInterface;
@@ -10,6 +11,7 @@ use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class MercadoPagoService
 {
@@ -158,7 +160,54 @@ class MercadoPagoService
         }
     }
 
-    public function mpNotify(array $data)
+    public function mpNotifyPlan(array $data)
     {
+        Log::info(['payment' => $data]);
+        $dataMp = $data['data'];
+        if (!$data['type'] && !$dataMp['id']) {
+            return response()->json(['message' => 'Operação não autorizada'], 403);
+        }
+
+        if ($data['type'] == 'payment') {
+            try {
+                $apiUrl = 'https://api.mercadopago.com/v1/payments/' . $dataMp['id'];
+                $response = $this->httpClient->get($apiUrl, [
+                    'headers' => [
+                        'Authorization' => "Bearer {$this->access_token}",
+                        'content-type' => 'application/json',
+                        'accept' => 'application/json'
+                    ]
+                ]);
+
+                $response = json_decode($response->getBody()->getContents());
+
+                $tenant = Tenant::where('uuid', $response->metadata->user_id)->first();
+
+                $transaction = Transaction::where([
+                    'transaction_id' => $response->id,
+                    'tenant_id' => $tenant->id
+                ])->first();
+
+                if (!$transaction) {
+                    Log::info(['error_payment' => 'transação não localizada']);
+                    return response()->json(['message' => 'transação não localizada'], 401);
+                }
+
+                $transaction->update([
+                        'status' => $response->status,
+                        'status_detail' => $response->status_detail
+                ]);
+
+                if($response->status == self::APPROVED) {
+                    $plan = Plan::find($response->item->id);
+                    $this->tenantService->updateAssignatureRenew($response->id, $plan);
+                }
+
+                return response()->json(['message' => 'transação atualização com sucesso'], 200);
+            } catch (\GuzzleHttp\Exception\ClientException $e) {
+                Log::info(['error_payment' => $e->getResponse()->getBody()->getContents()]);
+                return response()->json(['message' => 'Falha na requisição', 'error' => $e->getResponse()->getBody()->getContents()], 401);
+            }
+        }
     }
 }

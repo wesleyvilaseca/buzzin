@@ -20360,18 +20360,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   components: {},
   created: function created() {
-    var _this = this;
-    var script = document.createElement('script');
-    script.src = 'https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js';
-    script.addEventListener('load', function () {
-      window.Mercadopago.setPublishableKey(_this.tenant.mpkey);
-    });
-    document.body.appendChild(script);
-    var iframe = document.querySelector('iframe');
-    if (iframe) {
-      document.body.removeChild(iframe);
-      document.body.removeChild(script);
-    }
+    this.startMp();
   },
   mounted: function mounted() {},
   data: function data() {
@@ -20392,10 +20381,12 @@ __webpack_require__.r(__webpack_exports__);
     _payCard: function _payCard() {
       this.loadPayment = true;
       document.getElementById('docNumber').value = this.cpf.replace(/[^a-zA-Z0-9]/g, '');
+      document.getElementById('docType').value = 'CPF';
       window.Mercadopago.createToken(document.getElementById('pay'), this.setCardTokenAndPay);
     },
     setCardTokenAndPay: function setCardTokenAndPay(status, response) {
-      var _this2 = this;
+      var _this = this;
+      console.log(response);
       if (status == 200 || status == 201) {
         var _parcelas$value;
         var parcelas = document.getElementById('installments');
@@ -20413,12 +20404,12 @@ __webpack_require__.r(__webpack_exports__);
           });
           window.location.href = data.redirect;
         })["catch"](function (error) {
-          _this2.clearCardForm();
+          _this.clearCardForm();
           vue3_toastify__WEBPACK_IMPORTED_MODULE_0__.toast.error("Erro na transação", {
             autoClose: 3000
           });
         })["finally"](function () {
-          _this2.loadPayment = false;
+          _this.loadPayment = false;
         });
       } else {
         this.loadPayment = false;
@@ -20530,6 +20521,21 @@ __webpack_require__.r(__webpack_exports__);
         expirationMonth: "",
         expirationYear: ""
       }, this.showstallmants = false;
+      this.startMp();
+    },
+    startMp: function startMp() {
+      var _this2 = this;
+      var script = document.createElement('script');
+      script.src = 'https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js';
+      script.addEventListener('load', function () {
+        window.Mercadopago.setPublishableKey(_this2.tenant.mpkey);
+      });
+      document.body.appendChild(script);
+      var iframe = document.querySelector('iframe');
+      if (iframe) {
+        document.body.removeChild(iframe);
+        document.body.removeChild(script);
+      }
     }
   },
   watch: {

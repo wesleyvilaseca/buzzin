@@ -61,16 +61,43 @@
                                 @endswitch
                             </td>
                             <td style="width=10px;">
-                                <a href="#" class="btn btn-sm btn-warning me-1" title="Categorias"><i
-                                        class="fas fa-layer-group"></i></a>
-                                <a href="#" class="btn btn-sm btn-info me-1">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </a>
-                                @if ('ticket')
-                                    <a href="{{ $transaction->external_resource_url }}" class="btn btn-sm btn-warning me-1"
-                                        target="_blank">
-                                        <i class="fa-solid fa-barcode"></i>
-                                    </a>
+                                @if ($transaction->payment_type_id == 'credit_card')
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#staticBackdrop">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+                                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="staticBackdropLabel">Detalhes</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    {{ $status_detail }}
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary btn-sm"
+                                                        data-bs-dismiss="modal">Fechar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+
+                                @if ($transaction->payment_method_id = 'bolbradesco')
+                                    @if ($transaction->status == 'pending')
+                                        <a href="{{ $transaction->external_resource_url }}"
+                                            class="btn btn-sm btn-light me-1" target="_blank">
+                                            <i class="fa-solid fa-barcode"></i>
+                                        </a>
+                                    @endif
                                 @endif
                             </td>
                         </tr>

@@ -76,20 +76,7 @@ export default {
         plan: Object
     },
     components: {},
-    created() {
-        const script = document.createElement('script')
-        script.src = 'https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js'
-        script.addEventListener('load', () => {
-            window.Mercadopago.setPublishableKey(this.tenant.mpkey)
-        })
-        document.body.appendChild(script)
-
-        let iframe = document.querySelector('iframe');
-        if (iframe) {
-            document.body.removeChild(iframe);
-            document.body.removeChild(script);
-        }
-    },
+    created() { this.startMp() },
     mounted() { },
     data() {
         return {
@@ -109,10 +96,12 @@ export default {
         _payCard() {
             this.loadPayment = true;
             document.getElementById('docNumber').value = this.cpf.replace(/[^a-zA-Z0-9]/g, '');
+            document.getElementById('docType').value = 'CPF';
             window.Mercadopago.createToken(document.getElementById('pay'), this.setCardTokenAndPay);
         },
 
         setCardTokenAndPay(status, response) {
+            console.log(response);
             if (status == 200 || status == 201) {
                 const parcelas = document.getElementById('installments');
                 axios.post('/api/v1/paycard', {
@@ -243,13 +232,26 @@ export default {
             document.getElementById('docNumber').value = ""
 
             this.cardnumber = "",
-                this.cpf = "";
+            this.cpf = "";
             this.expiration = "",
-                this.card_expiration = {
-                    expirationMonth: "",
-                    expirationYear: ""
-                },
-                this.showstallmants = false
+            this.card_expiration = { expirationMonth: "", expirationYear: ""},
+            this.showstallmants = false
+
+            this.startMp();
+        },
+        startMp() {
+            const script = document.createElement('script')
+            script.src = 'https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js'
+            script.addEventListener('load', () => {
+                window.Mercadopago.setPublishableKey(this.tenant.mpkey)
+            })
+            document.body.appendChild(script)
+
+            let iframe = document.querySelector('iframe');
+            if (iframe) {
+                document.body.removeChild(iframe);
+                document.body.removeChild(script);
+            }
         }
     },
     watch: {

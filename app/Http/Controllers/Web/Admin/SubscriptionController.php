@@ -63,6 +63,7 @@ class SubscriptionController extends Controller
 
     public function mpNotify(Request $request)
     {
-        return $this->mercadoPagoService->mpNotify($request->all());
+        dd('aqui');
+        return $this->mercadoPagoService->mpNotifyPlan($request->all());
     }
 }
