@@ -68,7 +68,6 @@ class MercadoPagoService
             ]);
 
             $response = json_decode($response->getBody()->getContents());
-
             Transaction::create([
                 'type_transaction' => 'subscription',
                 'data' => json_encode($response->metadata->item),
@@ -78,7 +77,8 @@ class MercadoPagoService
                 'payment_method_id' => $response->payment_method_id,
                 'payment_type_id' => $response->payment_type_id,
                 'status' => $response->status,
-                'status_detail' => $response->status_detail
+                'status_detail' => $response->status_detail,
+                'external_resource_url' => $response->transaction_details->external_resource_url
             ]);
 
             if ($response->status == self::APPROVED) {
@@ -111,7 +111,7 @@ class MercadoPagoService
                 'external_reference' => $tenant->uuid,
                 'transaction_amount' => (float) $plan->price,
                 'description' => $plan->name,
-                'payment_method_id' => 'pec',
+                'payment_method_id' => 'bolbradesco',
                 'payer' => (object) [
                     'first_name' => $data['first_name'],
                     'last_name' => $data['last_name'],
@@ -149,6 +149,7 @@ class MercadoPagoService
                 'status' => $response->status,
                 'status_detail' => $response->status_detail,
                 'barcode' => $response->barcode->content,
+                'external_resource_url' => $response->transaction_details->external_resource_url
             ]);
 
             return response()->json(['message' => 'Boleto gerado com sucesso', 'redirect' => route('admin.transactions')], 200);

@@ -49,6 +49,10 @@ class Tenant extends Model
         return $this->hasMany(TenantOperationDay::class, 'tenant_id', 'id');
     }
 
+    public function transactions() {
+        return $this->hasMany(Transaction::class, 'tenant_id', 'id');
+    }
+
     public function order() {
         return $this->hasMany(Order::class, 'tenant_id', 'id');
     }

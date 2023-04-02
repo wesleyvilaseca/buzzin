@@ -21,9 +21,16 @@ class SubscriptionController extends Controller
         $this->mercadoPagoService = $mercadoPagoService;
 
         $this->middleware(function ($request, $next) {
-            $status = Auth::user()->tenant->subscription_active;
-            if($status == 1) {
+            $tenant = Auth::user()->tenant;
+            if($tenant->subscription_active == 1) {
                 return Redirect::back()->with('warning', 'Sua assinatura está ativa');
+            }
+
+            if($tenant->subscription_active == 0) {
+                $hasPendingTransction = $tenant->transactions()->where(['type_transaction' => 'subscription', 'status' => 'pending'])->first();
+                if($hasPendingTransction) {
+                    return Redirect::route('admin.transactions')->with('warning', 'Você possuí uma transação de pagamento pendente');
+                }
             }
             return $next($request);
         });
