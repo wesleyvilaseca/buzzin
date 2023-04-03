@@ -28,6 +28,8 @@
 
     <script src="{{ mix('js/app.js') }}" defer></script>
 
+    @yield('scripts-header')
+
     <title>{{ @$title ? $title : 'BuzzIn!' }}</title>
 </head>
 
