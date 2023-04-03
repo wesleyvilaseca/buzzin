@@ -26,6 +26,7 @@ class SiteController extends Controller
         $site = $this->repository->first();
         $data['title']              = 'Site';
         $data['toptitle']           = 'Meu site';
+        $data['_sitearea']          = true;
         $data['_site']              = true;
 
         if (@isset($site->data)) {
@@ -73,47 +74,5 @@ class SiteController extends Controller
         if (!$res) return Redirect::route('admin.site')->with('warning', 'Houve um erro ao ativar o seu site, tente outra vez');
 
         return Redirect::route('admin.site')->with('success', 'Site ativado com sucesso');
-    }
-
-    public function storeUpdateLayout(Request $request)
-    {
-        $site = $this->repository->first();
-        $tab = $request->get('tab');
-
-        if (!$site) {
-            return Redirect::back()->with('error', 'Operação não autorizada');
-        }
-
-        $datalayout = (object)[
-            'btn_color' => $request->btn_color,
-            'btn_color_hover' => $request->btn_color_hover,
-            'btn_color_letter' => $request->btn_color_letter,
-            'links' => $request->links,
-            'links_hover' => $request->links_hover
-        ];
-
-        $data = json_decode($site->data);
-        $layout = (array) @$data?->layout;
-
-        if ($layout) {
-            $data->layout = (object)[
-                ...$layout,
-                "paleta_cores_site" => $datalayout
-            ];
-        }
-
-        if (!$layout) {
-            $data = (array) $data;
-            $data['layout'] = (object)[
-                "paleta_cores_site" => $datalayout
-            ];
-        }
-
-        $res = $this->repository->where('id', $site->id)->update(['data' => json_encode($data)]);
-        if (!$res) {
-            return Redirect::route('admin.site', ['tab' => $tab])->with('warning', 'Erro na operação, tente novamente');
-        }
-
-        return Redirect::route('admin.site', ['tab' => $tab])->with('success', 'Layout salvo com sucesso');
     }
 }

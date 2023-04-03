@@ -7,6 +7,7 @@
             </slot>
         </div>
     </div>
+    <balonWhatsappComponent />
     <Footer />
 </template>
 
@@ -14,12 +15,14 @@
 import Header from './_partials/Header.vue';
 import Footer from './_partials/Footer.vue';
 import PreloaderComponent from '../../../components/common/PreloaderComponent.vue';
+import balonWhatsappComponent from '../../../components/ExtensionsComponents/balonWhatsappComponent.vue';
 
 export default {
     components: {
         Header,
         Footer,
-        PreloaderComponent
+        PreloaderComponent,
+        balonWhatsappComponent
     }
 }
 </script>

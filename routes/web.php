@@ -18,6 +18,7 @@ use App\Http\Controllers\Web\Admin\TenantPaymentsController;
 use App\Http\Controllers\Web\Admin\PlanController;
 use App\Http\Controllers\Web\Admin\ProductController;
 use App\Http\Controllers\Web\Admin\SiteController;
+use App\Http\Controllers\Web\Admin\SiteLayoutController;
 use App\Http\Controllers\Web\Admin\SubscriptionController;
 use App\Http\Controllers\Web\Admin\TableController;
 use App\Http\Controllers\Web\Admin\TenantAccountController;
@@ -372,7 +373,9 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('admin-site')->group(function () {
             Route::get('/',                 [SiteController::class, 'index'])->name('admin.site');
             Route::post('/',                [SiteController::class, 'enable'])->name('admin.site.enable');
-            Route::post('/layout',          [SiteController::class, 'storeUpdateLayout'])->name('admin.site.layout');
+
+            Route::get('/layout',          [SiteLayoutController::class, 'index'])->name('admin.site.layout');
+            Route::post('/layout-update',          [SiteLayoutController::class, 'storeUpdateLayout'])->name('admin.site.layout_update');
         });
 
         Route::prefix('admin-payment')->group(function () {

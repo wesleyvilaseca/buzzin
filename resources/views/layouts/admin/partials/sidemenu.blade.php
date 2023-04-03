@@ -143,7 +143,7 @@
                     @endcan
 
                     @can('site')
-                        <li class="{{ @$_site ? 'ativo' : '' }}">
+                        <li class="{{ @$_sitearea ? 'ativo' : '' }}">
                             <a href="{{ route('admin.site') }}">
                                 <i class="fa-solid fa-store"></i>
                                 <span>Meu Site</span>
