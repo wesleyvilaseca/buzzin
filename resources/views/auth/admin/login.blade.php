@@ -4,10 +4,37 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet" />
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+
+    <script>
+        function callbackthen(res) {
+            res.json().then((data) => {
+               if(data.success && data.score > 0.5) {
+                //
+               }else {
+                document.getElementById('loginform').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    alert('Erro na validação do recaptcha')
+                })
+               }
+            })
+        }
+
+        function callbackcatch(error) {
+            console.error(error);
+        }
+    </script>
+
+    {!! htmlScriptTagJsApi([
+        'callback_then' => 'callbackthen',
+        'callback_catch' => 'callbackcatch'
+    ]) !!}
 
     <title>{{ $title }}</title>
 </head>
@@ -23,7 +50,7 @@
                 <div class="card">
                     <div class="card-header">Login</div>
                     <div class="card-body">
-                        <form action="{{ route('login.auth') }}" method="post">
+                        <form action="{{ route('login.auth') }}" method="post" id="loginform">
                             @csrf
                             <div class="form-group">
                                 <label for="email_address" class="col-md-4 col-form-label text-md-right">E-Mail</label>

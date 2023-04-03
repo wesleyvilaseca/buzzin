@@ -1,1 +1,1 @@
-A senha da sua conta foi auterado com sucesso!
+A senha da sua conta foi alterado com sucesso!
