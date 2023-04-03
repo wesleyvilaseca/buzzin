@@ -21,23 +21,19 @@
         <div class="row justify-content-center align-items-center" style="">
             <div class="col-md-5">
                 <div class="card">
-                    <div class="card-header">Login</div>
+                    <div class="card-header">Recuperar conta</div>
                     <div class="card-body">
-                        <form action="{{ route('login.auth') }}" method="post">
+                        <form action="{{ route('recover') }}" method="post">
                             @csrf
                             <div class="form-group">
-                                <label for="email_address" class="col-md-4 col-form-label text-md-right">E-Mail</label>
+                                <label for="email_address" class="col-md-4 col-form-label text-md-right">Informe seu email:</label>
                                 <input type="text" class="form-control form-control-sm" name="email" required>
                             </div>
-                            <div class="form-group">
-                                <label for="password" class="col-md-4 col-form-label text-md-right">Senha</label>
-                                <input type="password" class="form-control form-control-sm" name="password" required>
-                            </div>
                             <div class="mt-1 mb-1" align="right">
-                                <a href="{{ route('recover') }}"> Recuperar acesso </a>
+                                <a href="{{ route('login') }}"> Login </a>
                             </div>
                             <div class="d-grid gap-2 col-6 mx-auto">
-                                <button type="submit" id="sendlogin" class="btn btn-primary btn-sm mt-2">login</button>
+                                <button type="submit" class="btn btn-primary btn-sm mt-2">Enviar</button>
                             </div>
                         </form>
                     </div>
@@ -95,6 +91,7 @@
         margin-left: 0;
         margin-right: 0;
     }
+
 </style>
 
 </html>

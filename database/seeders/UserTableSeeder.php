@@ -20,6 +20,7 @@ class UserTableSeeder extends Seeder
         $tenants->users()->create([
             'name' => 'Wesley Vila Seca',
             'email' => 'admin@buzzin.com.br',
+            'super_admin' => 'Y',
             'password' => bcrypt('12345678')
         ]);
     }

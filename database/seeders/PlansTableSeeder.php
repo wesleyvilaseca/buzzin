@@ -14,11 +14,25 @@ class PlansTableSeeder extends Seeder
      */
     public function run()
     {
-        Plan::create([
-            'name' => 'Businers',
-            'url' => 'businers',
+        Plan::create(
+            [
+            'name' => 'Plano mensal',
+            'url' => 'plano-mensal',
             'price' => 100.00,
             'description' => 'Plano Mensal'
-        ]);
+            ],
+            [
+                'name' => 'Plano trimestral',
+                'url' => 'plano-trimestral',
+                'price' => 270.00,
+                'description' => 'Plano trimestral'
+            ],
+            [
+                'name' => 'Plano semestral',
+                'url' => 'plano-semestral',
+                'price' => 540.00,
+                'description' => 'Plano semestral'
+            ]
+    );
     }
 }

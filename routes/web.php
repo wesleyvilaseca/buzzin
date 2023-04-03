@@ -8,9 +8,7 @@ use App\Http\Controllers\Web\Admin\ACL\ProfileController;
 use App\Http\Controllers\Web\Admin\ACL\RoleController;
 use App\Http\Controllers\Web\Admin\ACL\RoleUserController;
 use App\Http\Controllers\Web\Admin\CategoryController;
-use App\Http\Controllers\Web\Admin\CategoryMarketsController;
 use App\Http\Controllers\Web\Admin\CategoryProductController;
-use App\Http\Controllers\Web\Admin\CategoryProductMarketController;
 use App\Http\Controllers\Web\Admin\ConfigurationController;
 use App\Http\Controllers\Web\Admin\DashboardController;
 use App\Http\Controllers\Web\Admin\DetailPlanController;
@@ -19,7 +17,6 @@ use App\Http\Controllers\Web\Admin\OrderController;
 use App\Http\Controllers\Web\Admin\TenantPaymentsController;
 use App\Http\Controllers\Web\Admin\PlanController;
 use App\Http\Controllers\Web\Admin\ProductController;
-use App\Http\Controllers\Web\Admin\ProductMarketsController;
 use App\Http\Controllers\Web\Admin\SiteController;
 use App\Http\Controllers\Web\Admin\SubscriptionController;
 use App\Http\Controllers\Web\Admin\TableController;
@@ -55,8 +52,8 @@ Route::post('/subscription/{url}', [SubscriptionsController::class, 'register'])
 /**
  * register routes
  */
-Route::get('/register',     [RegisterController::class, 'index'])->name('register');
-Route::post('/register',    [RegisterController::class, 'create'])->name('register.create');
+// Route::get('/register',     [RegisterController::class, 'index'])->name('register');
+// Route::post('/register',    [RegisterController::class, 'create'])->name('register.create');
 
 /**
  * login routes
@@ -65,6 +62,13 @@ Route::post('/register',    [RegisterController::class, 'create'])->name('regist
 Route::get('/login',       [LoginController::class, 'index'])->name('login');
 Route::post('/login',      [LoginController::class, 'auth'])->name('login.auth');
 Route::get('/logout',      [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/recover',      [LoginController::class, 'recover'])->name('recover');
+Route::post('/recover',     [LoginController::class, 'sendRecover'])->name('recover');
+
+Route::get('/password/reset/{token}',     [LoginController::class, 'newPassword'])->name('reset_password');
+Route::post('/password/reset',            [LoginController::class, 'resetPasswordStore'])->name('reset_password.store');
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin-dashboard',                   [DashboardController::class, 'index'])->name('admin.dashboard');

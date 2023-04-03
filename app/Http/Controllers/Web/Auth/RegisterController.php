@@ -14,7 +14,7 @@ class RegisterController extends Controller
     {
         $this->middleware(['check.selected.plan']);
     }
-    
+
     public function index()
     {
         $data['title'] = 'Register';
