@@ -27,5 +27,5 @@
 @endsection
 
 @section('content')
-    <login-tenant-view></login-tenant-view>
+    <recover-tenant-view></recover-tenant-view>
 @stop

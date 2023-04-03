@@ -44,6 +44,14 @@ const actions = {
             })
     },
 
+    recover({ commit }, params) {
+        return axios.post('/app/recover', params);
+    },
+
+    resetPassword({commit}, params) {
+        return axios.post('/app/password/reset', params);
+    },
+
     getMe({ commit }) {
         const token = localStorage.getItem(TOKEN_NAME);
 

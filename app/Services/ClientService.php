@@ -3,13 +3,22 @@
 namespace App\Services;
 
 use App\Http\Resources\ClientResource;
+use App\Mail\RecoverEmail;
+use App\Mail\RecoverEmailClient;
+use App\Mail\RecoverEmailSuccess;
+use App\Mail\RecoverEmailSuccessClient;
 use App\Models\Client;
+use App\Models\Site;
 use App\Repositories\Contracts\ClientRepositoryInterface;
 use App\Repositories\Contracts\ProductRepositoryInterface;
 use App\Repositories\Contracts\TenantRepositoryInterface;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class ClientService
 {
@@ -36,7 +45,8 @@ class ClientService
         return new ClientResource($client);
     }
 
-    public function updatePasswordAccount(array $data) {
+    public function updatePasswordAccount(array $data)
+    {
         $validate = Validator::make($data, [
             'new_password' => ['required', 'min:8'],
             'new_password_confirm' => ['required', 'min:8'],
@@ -46,7 +56,7 @@ class ClientService
             return response()->json((object) ["errors" => $validate->errors()], 400);
         }
 
-        if($data['new_password'] !== $data['new_password_confirm']) {
+        if ($data['new_password'] !== $data['new_password_confirm']) {
             return response()->json((object)[
                 'errors' => (object)[
                     'new_password' => ['A senha e confirmação da senha precisam ser iguais'],
@@ -58,7 +68,7 @@ class ClientService
         $client_id = $this->getClientId();
         $res = Client::where('id', $client_id)->update(['password' => bcrypt($data['new_password'])]);
 
-        if(!$res) {
+        if (!$res) {
             return response()->json(['message' => 'Erro na operação'], 403);
         }
 
@@ -82,7 +92,7 @@ class ClientService
         $data['cpf'] = decript($data['cpf']);
 
         $validateCpf = $this->validateCpf($data['cpf'], $client_id);
-        if(sizeof($validateCpf) > 0) {
+        if (sizeof($validateCpf) > 0) {
             return response()->json((object) ["errors" => $validateCpf], 400);
         }
 
@@ -98,7 +108,7 @@ class ClientService
         $data['mobile_phone'] = $mobilePhoneIsValid;
 
         $res = Client::where('id', $client_id)->update($data);
-        if(!$res) {
+        if (!$res) {
             return response()->json(['message' => 'Erro na operação'], 403);
         }
 
@@ -136,6 +146,86 @@ class ClientService
         }
 
         return $errors;
+    }
+
+    public function sendRecoverPassord(array $data, $tenant)
+    {
+        $validate = Validator::make($data, [
+            'email'         => ['required'],
+        ]);
+
+        if ($validate->fails()) {
+            return response()->json((object) ["errors" => $validate->errors()], 402);
+        }
+
+        DB::beginTransaction();
+        try {
+            $user = Client::where('email', '=', $data['email'])->first();
+            if (!$user) {
+                $errors['email'][] = 'Registro não localizado';
+                return response()->json((object) ["errors" => $errors], 400);
+            }
+
+            DB::table('password_resets')->insert([
+                'email' => $data['email'],
+                'token' =>  Str::random(60),
+                'created_at' => Carbon::now()
+            ]);
+
+            $tokenData = DB::table('password_resets')->where('email', $data['email'])->first();
+            $siteTenant = Site::where('tenant_id', $tenant->id)->first();
+            $http = env('APP_ENV') == 'local' ? 'http://' : 'https://';
+            $link = $http . $siteTenant->subdomain . '/app/password/reset/' .  $tokenData->token . '?email=' . urlencode($user->email);
+            Mail::to($user->email)->send(new RecoverEmailClient($link, $user));
+
+            DB::commit();
+            return response()->json(['message' => 'Foi enviado um email com os dados de recuperação de sua conta, verifique seu email.'], 200);
+        } catch (Exception $e) {
+            DB::rollback();
+            return response()->json(['message' => 'Erro na operação, tente novamente']);
+        }
+    }
+
+    public function resetPassword(array $data)
+    {
+        $validate = Validator::make($data, [
+            'password' => 'required|min:8',
+            'confirm_password' => 'required|min:8',
+        ]);
+
+        if ($validate->fails()) {
+            return response()->json((object) ["errors" => $validate->errors()], 402);
+        }
+
+        if ($data['password'] !== $data['confirm_password']) {
+            $errors['password'][] = 'A senha e a confirmação precisam ser iguais';
+            $errors['confirm_password'][] = 'A senha e a confirmação precisam ser iguais';
+            return response()->json((object) ["errors" => $errors], 400);
+        }
+
+        if(!$data['email'] || !$data['token']){
+            return response()->json(['message' => 'Operação não autorizada'], 403);
+        }
+ 
+        DB::beginTransaction();
+        try {
+            $tokenData = DB::table('password_resets')->where('token', $data['token'])->first();
+            if (!$tokenData) return response()->json(['message' => 'Operação não autorizada'], 403);
+
+            $user = Client::where('email', $tokenData->email)->first();
+            if (!$user) return response()->json(['message' => 'Operação não autorizada'], 403);
+            $user->password =  bcrypt($data['password']);
+            $user->update();
+
+            DB::table('password_resets')->where('email', $user->email)->delete();
+            Mail::to($user->email)->send(new RecoverEmailSuccessClient($user));
+
+            DB::commit();
+            return response()->json(['message' => 'Sua senha foi atualizada com sucesso'], 200);
+        } catch (Exception $e) {
+            DB::rollback();
+            return response()->json(['message' => 'Erro na operação, tente novamente']);
+        }
     }
 
     private function getClientId()

@@ -1,8 +1,11 @@
 <template>
     <DefaultLayout>
         <template v-slot:content>
-            <!-- login -->
-            <div class="d-flex justify-content-center pt-5 pb-5">
+            <div class="pt-4 pb-5">
+                <buzzInBrandComponent />
+            </div>
+
+            <div class="d-flex justify-content-center pb-5">
                 <div class="user_card">
                     <!-- <div class="d-flex justify-content-center">
                         <div class="brand_logo_container">
@@ -37,7 +40,7 @@
                                     'form-control',
                                     'input_user',
                                     { 'is-invalide': errors.mobile_phone != '' },
-                                ]" v-mask="'(##) #####-####'" placeholder="(91) 98820-3132"/>
+                                ]" v-mask="'(##) #####-####'" placeholder="(91) 98820-3132" />
                             </div>
 
                             <div class="text-danger" v-if="errors.email != ''">
@@ -68,6 +71,7 @@
                                     <span v-else>Cadastrar</span>
                                 </button>
                             </div>
+                            <input type="hidden" id="recaptcha">
                         </form>
                     </div>
 
@@ -88,24 +92,24 @@
 
 <style scoped>
 .login_btn {
-    background:  v-bind("paleta.btn_color")  !important;
+    background: v-bind("paleta.btn_color") !important;
     color: white !important;
     border-radius: 50px;
 }
 
 .login_btn:hover {
-    background:  v-bind("paleta.btn_color_hover") !important;
+    background: v-bind("paleta.btn_color_hover") !important;
 }
 
 .input-group-text {
-    background:  v-bind("paleta.links") !important;
+    background: v-bind("paleta.links") !important;
     color: white !important;
-    border-color:  v-bind("paleta.links");
+    border-color: v-bind("paleta.links");
     border-radius: 0.25rem 0 0 0.25rem !important;
 }
 
 .input-group:focus {
-    border-color:  v-bind("paleta.links");
+    border-color: v-bind("paleta.links");
     box-shadow: none;
     outline: 0;
 }
@@ -115,13 +119,16 @@
 import DefaultLayout from '../../layouts/tenant_site/DefaultLayout.vue';
 import { mapActions, mapState } from "vuex";
 import { toast } from 'vue3-toastify';
+import buzzInBrandComponent from "../../../components/common/buzzInBrandComponent.vue";
 
 export default {
     props: [],
     components: {
-        DefaultLayout
+        DefaultLayout,
+        buzzInBrandComponent
     },
     data: () => ({
+        recaptcha: "",
         loading: false,
         formData: {
             name: "",
@@ -147,6 +154,11 @@ export default {
         ...mapActions(["register"]),
         registerClient() {
             this.reset();
+
+            if(this.recaptcha == 'N') {
+                return toast.error("Erro na validação do recaptcha", { autoClose: 4000 });
+            }
+
             this.loading = true;
             this.register(this.formData)
                 .then((res) => {
@@ -176,6 +188,9 @@ export default {
                 });
         },
         reset() {
+            if(!this.recaptcha){
+                this.recaptcha = document.getElementById('recaptcha').value;
+            }
             this.errors = { name: "", email: "", password: "" };
         },
     }

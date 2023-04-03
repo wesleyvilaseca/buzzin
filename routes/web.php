@@ -30,7 +30,7 @@ use App\Http\Controllers\Web\Auth\LoginController;
 use App\Http\Controllers\Web\Auth\RegisterController;
 use App\Http\Controllers\Web\Site\HomeController;
 use App\Http\Controllers\Web\Site\SubscriptionsController;
-
+use App\Http\Controllers\Web\TenantSite\AccountRecoverLoginController;
 use App\Http\Controllers\Web\TenantSite\CartController;
 use App\Http\Controllers\Web\TenantSite\CategoryController as TenantSiteCategoryController;
 use App\Http\Controllers\Web\TenantSite\CheckoutController;
@@ -58,6 +58,12 @@ if ($domain !== $appDomain) {
 
             Route::get('/login',         [TenantSiteLoginController::class, 'index'])->name('app.login');
             Route::post('/login',        [TenantSiteLoginController::class, 'auth'])->name('app.login.auth');
+
+            Route::get('/recuperar-acesso', [AccountRecoverLoginController::class, 'index'])->name('app.recover');
+            Route::post('/recover',         [AccountRecoverLoginController::class, 'sendRecover'])->name('app.recover.send');
+
+            Route::get('/password/reset/{token}',         [AccountRecoverLoginController::class, 'pagePasswordReset'])->name('app.recover.send');
+            Route::post('/password/reset',         [AccountRecoverLoginController::class, 'resetPassword'])->name('app.recover.send');
 
             Route::get('/register',      [TenantSiteRegisterController::class, 'index'])->name('app.register');
             Route::post('/register',     [TenantSiteRegisterController::class, 'store'])->name('app.register.store');

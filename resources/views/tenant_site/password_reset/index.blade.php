@@ -27,5 +27,5 @@
 @endsection
 
 @section('content')
-    <login-tenant-view></login-tenant-view>
+    <passord-reset-tenant-view token="{{ $token }}" email="{{ $email }}"></passord-reset-tenant-view>
 @stop
