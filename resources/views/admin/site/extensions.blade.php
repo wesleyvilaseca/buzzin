@@ -15,15 +15,24 @@
                     <thead>
                         <tr>
                             <th>Nome</th>
-                            <th>Image</th>
-                            <th width="150">Ações</th>
+                            <th class="text-center">Tipo</th>
+                            <th class="text-center">Image</th>
+                            <th class="text-center">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($extensions as $extension)
                             <tr>
                                 <td>{{ $extension->description }} - <strong>{{ $extension->detail }}</strong></td>
-                                <td>
+                                <td class="text-center">
+                                    @if ($extension->free)
+                                        <span class="alert alert-success p-0">Grátis</span>
+                                    @else
+                                        <span class="alert alert-primary p-0">Limeração sob pagamento</span>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+
                                     <img src="{{ Storage::url("$extension->image") }}" alt="{{ $extension->title }}"
                                         style="max-width: 90px; cursor:pointer;" data-bs-toggle="modal"
                                         data-bs-target="#{{ Str::slug($extension->description) . 'modal' }}" />
@@ -54,7 +63,8 @@
                                     </div>
 
                                 </td>
-                                <td style="width=10px;">
+
+                                <td class="text-center">
                                     @if (!$tenantExtensions->where('site_extension_id', $extension->id)->first())
                                         <form action="{{ route('admin.site_extension.active') }}" method="POST"
                                             class="form form-inline">
