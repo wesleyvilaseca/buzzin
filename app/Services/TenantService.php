@@ -3,9 +3,12 @@
 namespace App\Services;
 
 use App\Http\Resources\TenantPaymentResource;
+use App\Http\Resources\TenantSiteExtensionsResource;
 use App\Models\Plan;
 use App\Models\Shipping;
+use App\Models\SiteTenantExtensions;
 use App\Models\Tenant;
+use App\Models\TenantSiteExtensions;
 use App\Models\TenantSiteZoneDelivery;
 use App\Models\User;
 use Illuminate\Support\Facades\Redirect;
@@ -313,5 +316,11 @@ class TenantService
             throw new Error($e->getMessage());
         }
         
+    }
+
+    public function getSiteExtensions(object $tenant) {
+        $siteExtensions = TenantSiteExtensions::where(['tenant_id' => $tenant->id, 'status' => 1])->get();
+        $siteExtensions = TenantSiteExtensionsResource::collection($siteExtensions);
+        return response()->json($siteExtensions, 200);
     }
 }

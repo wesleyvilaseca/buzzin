@@ -18,6 +18,7 @@ use App\Http\Controllers\Web\Admin\TenantPaymentsController;
 use App\Http\Controllers\Web\Admin\PlanController;
 use App\Http\Controllers\Web\Admin\ProductController;
 use App\Http\Controllers\Web\Admin\SiteController;
+use App\Http\Controllers\Web\Admin\SiteExtensionsController;
 use App\Http\Controllers\Web\Admin\SiteLayoutController;
 use App\Http\Controllers\Web\Admin\SubscriptionController;
 use App\Http\Controllers\Web\Admin\TableController;
@@ -79,6 +80,8 @@ if ($domain !== $appDomain) {
             Route::get('/checkout',         [CheckoutController::class, 'index']);
 
             Route::get('/cliente-area',  [ClientController::class, 'index']);
+
+            Route::get('/site-extensions', [TenantSiteTenantController::class, 'getSiteExtensions']);
 
             Route::group([
                 'middleware' => ['auth:sanctum']
@@ -374,8 +377,14 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/',                 [SiteController::class, 'index'])->name('admin.site');
             Route::post('/',                [SiteController::class, 'enable'])->name('admin.site.enable');
 
-            Route::get('/layout',          [SiteLayoutController::class, 'index'])->name('admin.site.layout');
-            Route::post('/layout-update',          [SiteLayoutController::class, 'storeUpdateLayout'])->name('admin.site.layout_update');
+            Route::get('/layout',               [SiteLayoutController::class, 'index'])->name('admin.site.layout');
+            Route::post('/layout-update',       [SiteLayoutController::class, 'storeUpdateLayout'])->name('admin.site.layout_update');
+
+            Route::get('/extensions',           [SiteExtensionsController::class, 'index'])->name('admin.site.extensions');
+            Route::post('/extension-active',    [SiteExtensionsController::class, 'active'])->name('admin.site_extension.active');
+            Route::put('/extension-disable/{id}', [SiteExtensionsController::class, 'disable'])->name('admin.site_extension.disable');
+            Route::put('/extension-enable/{id}',  [SiteExtensionsController::class, 'enable'])->name('admin.site_extension.enable');
+
         });
 
         Route::prefix('admin-payment')->group(function () {

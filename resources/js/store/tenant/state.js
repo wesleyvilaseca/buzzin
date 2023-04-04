@@ -1,5 +1,6 @@
 const state = {
-    company: ""
+    company: "",
+    extensions: { }
 }
 
 export default state;

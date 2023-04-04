@@ -27,6 +27,16 @@
                         </a>
                     </li>
                 @endcan
+
+                @can('site')
+                    <li class="nav-item">
+                        <a class="nav-link  {{ @$_siteextensions ? 'activated' : '' }}" aria-current="page"
+                            style="a:hover: #fff" href="{{ route('admin.site.extensions') }}">
+                            <i class="fa-solid fa-puzzle-piece"></i>
+                            Extenções
+                        </a>
+                    </li>
+                @endcan
             </ul>
             <form class="d-flex">
                 <a href="http://{{ $linkWebSite }}" target="_blank" class="btn btn-sm btn-info text-white">
@@ -37,7 +47,6 @@
         </div>
     </div>
 </nav>
-
 
 @if (@isset($breadcrumb_config))
     <div id="breadcrumb" class="mt-2">

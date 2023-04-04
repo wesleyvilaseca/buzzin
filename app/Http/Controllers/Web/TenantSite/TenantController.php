@@ -48,4 +48,8 @@ class TenantController extends Controller
 
         return $this->tenantService->paymentMethos($request->selectedShippingMethod, $this->tenant->url);
     }
+
+    public function getSiteExtensions(Request $request) {
+        return $this->tenantService->getSiteExtensions($this->tenant);
+    }
 }

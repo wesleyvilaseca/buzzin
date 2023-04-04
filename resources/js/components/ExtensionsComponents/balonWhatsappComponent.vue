@@ -1,8 +1,10 @@
 <template>
-    <a href="https://api.whatsapp.com/send?phone=51955081075&text=Hola%21%20Quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20Varela%202."
-        class="float" target="_blank">
-        <i class="fa-brands fa-whatsapp my-float"></i>
-    </a>
+    <span v-if="hasExtension">
+        <a :href="extension?.data?.link"
+            class="float" target="_blank">
+            <i class="fa-brands fa-whatsapp my-float"></i>
+        </a>
+    </span>
 </template>
 
 <style scoped>
@@ -20,23 +22,58 @@
     box-shadow: 2px 2px 3px #999;
     z-index: 100;
 }
+
 .my-float {
     margin-top: 16px;
 }
 </style>
 
 <script>
+import { mapState, mapActions } from "vuex";
+
 export default {
     props: [],
     components: {},
-    data: () => ({}),
-    computed: {},
+    computed: {
+        ...mapState({
+            extensions: (state) => state.tenant.extensions,
+            company: (state) => state.tenant.company,
+        }),
+
+        // hasExtension() {
+        //     return this.extensions.some((item) => {
+        //         return item.tag == this.tag;
+        //     });
+        // }
+    },
+    data: () => ({
+        tag: 'whatsapp',
+        hasExtension: false,
+        extension: {}
+    }),
+
     mounted() { },
     created() { },
     methods: {
-        redirect() {
-            return window.open(process.env.MIX_APP_URL, '_blank');
+        checkHasExtension() {
+            this.hasExtension = this.extensions.data.some((item) => {
+                return item.tag == this.tag;
+            });
+
+            if(this.hasExtension){
+                this.extension = this.extensions.data.find(({ tag }) => tag === this.tag);
+                this.extension.data = JSON.parse(this.extension?.data);
+            }
+        },
+
+        setExtension() {
+            
         }
+    },
+    watch: {
+        'extensions.data': function (newVal, oldVal) {
+            if(newVal.length > 0) this.checkHasExtension()
+        },
     }
 }
 </script>

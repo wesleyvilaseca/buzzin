@@ -19970,18 +19970,54 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: [],
   components: {},
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)({
+    extensions: function extensions(state) {
+      return state.tenant.extensions;
+    },
+    company: function company(state) {
+      return state.tenant.company;
+    }
+  })),
   data: function data() {
-    return {};
+    return {
+      tag: 'whatsapp',
+      hasExtension: false,
+      extension: {}
+    };
   },
-  computed: {},
   mounted: function mounted() {},
   created: function created() {},
   methods: {
-    redirect: function redirect() {
-      return window.open("http://codevilafood.com", '_blank');
+    checkHasExtension: function checkHasExtension() {
+      var _this = this;
+      this.hasExtension = this.extensions.data.some(function (item) {
+        return item.tag == _this.tag;
+      });
+      if (this.hasExtension) {
+        var _this$extension;
+        this.extension = this.extensions.data.find(function (_ref) {
+          var tag = _ref.tag;
+          return tag === _this.tag;
+        });
+        this.extension.data = JSON.parse((_this$extension = this.extension) === null || _this$extension === void 0 ? void 0 : _this$extension.data);
+      }
+    },
+    setExtension: function setExtension() {}
+  },
+  watch: {
+    'extensions.data': function extensionsData(newVal, oldVal) {
+      if (newVal.length > 0) this.checkHasExtension();
     }
   }
 });
@@ -20864,7 +20900,7 @@ var __default__ = {
       return state.layout.paleta;
     }
   })),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(["getMe", "getTenant", "getCart", "setPaleta", "logout"])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(["getMe", "getTenant", "getCart", "setPaleta", "logout", "getSiteExtensions"])), {}, {
     exit: function exit() {
       var _this = this;
       this.logout().then(function () {
@@ -20882,6 +20918,9 @@ var __default__ = {
     company: function company() {
       if (this.maintence) return;
       this.getCart(this.company.uuid);
+      this.getSiteExtensions({
+        uuid: this.company.uuid
+      });
     }
   }
 };
@@ -22974,18 +23013,22 @@ var _withScopeId = function _withScopeId(n) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-62c2ac89"), n = n(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)(), n;
 };
 var _hoisted_1 = {
-  href: "https://api.whatsapp.com/send?phone=51955081075&text=Hola%21%20Quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20Varela%202.",
-  "class": "float",
-  target: "_blank"
+  key: 0
 };
-var _hoisted_2 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_2 = ["href"];
+var _hoisted_3 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fa-brands fa-whatsapp my-float"
   }, null, -1 /* HOISTED */);
 });
-var _hoisted_3 = [_hoisted_2];
+var _hoisted_4 = [_hoisted_3];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", _hoisted_1, _hoisted_3);
+  var _ctx$extension, _ctx$extension$data;
+  return _ctx.hasExtension ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: (_ctx$extension = _ctx.extension) === null || _ctx$extension === void 0 ? void 0 : (_ctx$extension$data = _ctx$extension.data) === null || _ctx$extension$data === void 0 ? void 0 : _ctx$extension$data.link,
+    "class": "float",
+    target: "_blank"
+  }, _hoisted_4, 8 /* PROPS */, _hoisted_2)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true);
 }
 
 /***/ }),
@@ -28056,6 +28099,18 @@ var actions = {
     })["finally"](function () {
       commit('SET_PRELOADER', false);
     });
+  },
+  getSiteExtensions: function getSiteExtensions(_ref2, params) {
+    var commit = _ref2.commit;
+    var hasSession = sessionStorage.getItem('extensions');
+    if (hasSession) {
+      commit('SET_EXTENSIONS', JSON.parse(_support_cript__WEBPACK_IMPORTED_MODULE_1__["default"].decript(hasSession)));
+    }
+    return axios__WEBPACK_IMPORTED_MODULE_0___default().get('/app/site-extensions', {
+      params: params
+    }).then(function (res) {
+      commit('SET_EXTENSIONS', res.data);
+    });
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (actions);
@@ -28104,6 +28159,10 @@ var mutations = {
   SET_COMPANY: function SET_COMPANY(state, company) {
     state.company = company;
     sessionStorage.setItem('company', _support_cript__WEBPACK_IMPORTED_MODULE_0__["default"].cript(JSON.stringify(state.company)));
+  },
+  SET_EXTENSIONS: function SET_EXTENSIONS(state, extensions) {
+    state.extensions.data = extensions;
+    sessionStorage.setItem('extensions', _support_cript__WEBPACK_IMPORTED_MODULE_0__["default"].cript(JSON.stringify(state.extensions)));
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (mutations);
@@ -28122,7 +28181,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 var state = {
-  company: ""
+  company: "",
+  extensions: {}
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (state);
 

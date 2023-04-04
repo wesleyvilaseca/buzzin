@@ -5,6 +5,11 @@ const mutations = {
         state.company = company
         sessionStorage.setItem('company', cript.cript(JSON.stringify(state.company)));
     },
+
+    SET_EXTENSIONS(state, extensions) {
+        state.extensions.data = extensions
+        sessionStorage.setItem('extensions', cript.cript(JSON.stringify(state.extensions)));
+    },
 }
 
 export default mutations;

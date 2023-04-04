@@ -91,7 +91,8 @@ export default {
             "getTenant",
             "getCart",
             "setPaleta",
-            "logout"
+            "logout",
+            "getSiteExtensions"
         ]),
 
         exit() {
@@ -113,6 +114,7 @@ export default {
             if (this.maintence) return;
 
             this.getCart(this.company.uuid);
+            this.getSiteExtensions({uuid: this.company.uuid});
         }
     },
 };
