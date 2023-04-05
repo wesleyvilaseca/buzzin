@@ -24,7 +24,7 @@
     @if (@isset($site) && ($site->status == 1 || $site->status == 2))
         @include('admin.site._partials.navbar')
 
-        <form action="#" method="PUT" class="form form-inline">
+        <form action="{{ route('admin.site.maintence') }}" method="POST" class="form form-inline">
             @csrf
             <div class="form-group mt-2">
                 <label>* Dominio:</label>
@@ -32,13 +32,13 @@
             </div>
             <div class="form-group mt-2">
                 <label>* Em manutenção</label>
-                <select name="active" class="form-control form-control-sm">
-                    <option value="1" {{ $site->maintence == '1' ? 'selected' : '' }}>Sim </option>
+                <select name="maintence" class="form-control form-control-sm">
+                    <option value="1" {{ $site->maintence == '1' ? 'selected' : '' }}>Sim</option>
                     <option value="0" {{ $site->maintence == '0' ? 'selected' : '' }}>Não</option>
                 </select>
             </div>
             <div class="text-center mt-2">
-                <button type="submit" class="btn btn-sm btn-outline-success">Salvar </button>
+                <button type="submit" class="btn btn-sm btn-outline-success">Salvar</button>
             </div>
         </form>
     @endif

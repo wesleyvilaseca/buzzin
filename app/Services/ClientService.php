@@ -3,18 +3,13 @@
 namespace App\Services;
 
 use App\Http\Resources\ClientResource;
-use App\Mail\RecoverEmail;
 use App\Mail\RecoverEmailClient;
-use App\Mail\RecoverEmailSuccess;
 use App\Mail\RecoverEmailSuccessClient;
 use App\Models\Client;
 use App\Models\Site;
 use App\Repositories\Contracts\ClientRepositoryInterface;
-use App\Repositories\Contracts\ProductRepositoryInterface;
-use App\Repositories\Contracts\TenantRepositoryInterface;
 use Carbon\Carbon;
 use Exception;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;

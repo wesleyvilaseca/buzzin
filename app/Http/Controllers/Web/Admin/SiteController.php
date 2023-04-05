@@ -9,6 +9,7 @@ use App\Supports\Cripto\Cripto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 class SiteController extends Controller
 {
@@ -74,5 +75,27 @@ class SiteController extends Controller
         if (!$res) return Redirect::route('admin.site')->with('warning', 'Houve um erro ao ativar o seu site, tente outra vez');
 
         return Redirect::route('admin.site')->with('success', 'Site ativado com sucesso');
+    }
+
+    public function maintence(Request $request) {
+        $validate = Validator::make($request->all(), [
+            'maintence' => ['required'],
+        ]);
+
+        if ($validate->fails()) {
+            return Redirect::route('admin.site')->with("errors", $validate->errors());
+        }
+
+        $site = $this->repository->first();
+        if(!$site) {
+            return Redirect::back()->with('error', 'Operação não autorizada');
+        }
+
+        $res = $site->update(['maintence' => $request->maintence]);
+        if(!$res) {
+            return Redirect::route('admin.site')->with('error', 'Erro na operação, tente novamente');
+        }
+
+        return Redirect::route('admin.site')->with('success', 'Operação realizada com sucesso');
     }
 }
