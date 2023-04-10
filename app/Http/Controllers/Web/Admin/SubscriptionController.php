@@ -23,7 +23,7 @@ class SubscriptionController extends Controller
         $this->middleware(function ($request, $next) {
             $tenant = Auth::user()->tenant;
             if($tenant->subscription_active == 1) {
-                return Redirect::back()->with('warning', 'Sua assinatura está ativa');
+                // return Redirect::back()->with('warning', 'Sua assinatura está ativa');
             }
 
             if($tenant->subscription_active == 0) {
@@ -61,9 +61,7 @@ class SubscriptionController extends Controller
         return $this->mercadoPagoService->paySlip($request->all());
     }
 
-    public function mpNotify(Request $request)
-    {
-        dd('aqui');
-        return $this->mercadoPagoService->mpNotifyPlan($request->all());
+    public function pix(Request $request) {
+        return $this->mercadoPagoService->payPix($request->all());
     }
 }

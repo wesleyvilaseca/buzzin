@@ -9,11 +9,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link href="https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;700&display=swap" rel="stylesheet" />
     <link rel="icon" href="{{ asset('images/favicon.ico') }}">
-    <link href="{{ asset('css/site.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('css/site.css') }}" rel="stylesheet"> --}}
 
     <link href="{{ asset('css/tenant_client/auth.css') }}" rel="stylesheet">
     <link href="{{ asset('css/tenant_client/reset.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/tenant_client/vuefood.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/tenant_client/tenant_site.css') }}" rel="stylesheet">
     <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css'>
 
     <!-- Bootstrap CSS -->

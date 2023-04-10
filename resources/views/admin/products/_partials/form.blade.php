@@ -36,8 +36,8 @@
 <div class="form-group mt-2">
     <label>* Reduzir estoque?</label>
     <select name="stock_controll" class="form-control form-control-sm">
-        <option value="1" {{ @$product->stock_controll == '1' ? 'selected' : '' }}>Não</option>
-        <option value="0" {{ @$product->stock_controll == '0' ? 'selected' : '' }}>Sim</option>
+        <option value="0" {{ @$product->stock_controll == '0' ? 'selected' : '' }}>Não</option>
+        <option value="1" {{ @$product->stock_controll == '1' ? 'selected' : '' }}>Sim</option>
     </select>
 </div>
 

@@ -28,4 +28,4 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 EXPOSE 8080
 
-ENTRYPOINT [ "/var/www/html/run-after-build.sh" ]
+# ENTRYPOINT [ "/var/www/html/run-after-build.sh" ]

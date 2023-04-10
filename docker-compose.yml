@@ -16,18 +16,6 @@ services:
     networks:
       - app-network
 
-  queue:
-      image: buzzin/queue
-      restart: unless-stopped
-      command: "php artisan queue:work"
-      volumes:
-          - ./:/var/www/html
-      depends_on:
-          - redis
-          - app
-      networks:
-          - app-network
-
   redis:
       image: redis:latest
       networks:
@@ -37,11 +25,11 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    container_name: codevilafood-app
+    container_name: buzzin-app
     volumes: 
       - ./:/var/www/html
     ports:
-      - 3000:3000
+      - 80:80
     networks:
       - app-network
     depends_on:

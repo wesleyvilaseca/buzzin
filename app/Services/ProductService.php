@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Product;
 use App\Models\StatusProductNoStock;
 use App\Repositories\Contracts\ProductRepositoryInterface;
 use App\Repositories\Contracts\TenantRepositoryInterface;
@@ -28,5 +29,13 @@ class ProductService
     public function getProductByUuid(string $uuid)
     {
         return $this->productRepository->getProductByUuid($uuid);
+    }
+
+    public function productStockOut($uuid, $qtd)
+    {
+        $product = $this->getProductByUuid($uuid);
+        return Product::where('id', $product->id)->update([
+            'quantity' => $product->quantity - $qtd
+        ]);
     }
 }

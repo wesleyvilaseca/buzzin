@@ -4,14 +4,17 @@ namespace App\Repositories;
 
 use App\Models\Order;
 use App\Repositories\Contracts\OrderRepositoryInterface;
+use App\Services\ProductService;
 
 class OrderRepository implements OrderRepositoryInterface
 {
     protected $entity;
+    private $productService;
 
-    public function __construct(Order $order)
+    public function __construct(Order $order, ProductService $productService)
     {
         $this->entity = $order;
+        $this->productService = $productService;
     }
 
     public function createNewOrder(
@@ -60,20 +63,13 @@ class OrderRepository implements OrderRepositoryInterface
                 'qty' => $product['qty'],
                 'price' => $product['price'],
             ];
+
+            if ($product['stock_controll'] == 1) {
+                $this->productService->productStockOut($product['uuid'], $product['qty']);
+            }
         }
 
         $order->products()->attach($orderProducts);
-
-        // foreach ($products as $product) {
-        //     array_push($orderProducts, [
-        //         'order_id' => $orderId,
-        //         'product_id' => $product['id'],
-        //         'qty' => $product['qty'],
-        //         'price' => $product['price'],
-        //     ]);
-        // }
-
-        // DB::table('order_product')->insert($orderProducts);
     }
 
     public function getOrdersByClientId(int $idClient)

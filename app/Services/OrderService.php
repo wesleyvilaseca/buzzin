@@ -98,8 +98,9 @@ class OrderService
             DB::commit();
             return $order;
         } catch (Exception $e) {
+            DB::rollBack();
             // dd($e->getMessage());
-            return response()->json(['message' => 'Houve um erro na requisição, tente novamento'], 404);
+            return response()->json(['message' => 'Houve um erro na requisição, tente novamento', 'detail' => $e->getMessage()], 404);
         }
     }
 
@@ -129,10 +130,11 @@ class OrderService
         $products = [];
         foreach ($productsOrder as $productOrder) {
             $product = $this->productRepository->getProductByUuid($productOrder['identify']);
-
             array_push($products, [
                 'id' => $product->id,
+                'uuid' => $product->uuid,
                 'qty' => $productOrder['qty'],
+                'stock_controll' => $product->stock_controll,
                 'price' => $product->price,
             ]);
         }

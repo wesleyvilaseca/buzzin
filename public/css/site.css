@@ -670,7 +670,7 @@ html {
 }
 .nav__link:not(:last-child):hover {
     --tw-text-opacity: 1;
-    color: rgba(59, 130, 246, var(--tw-text-opacity));
+    color: #4040ff;
 }
 .main--hero {
     position: absolute;
@@ -874,17 +874,17 @@ h3 {
 }
 .button.button--filled.button--primary {
     --tw-bg-opacity: 1;
-    background-color: rgba(59, 130, 246, var(--tw-bg-opacity));
+    background-color: #4040ff;
     --tw-border-opacity: 1;
-    border-color: rgba(37, 99, 235, var(--tw-border-opacity));
+    border-color: #4040ff;
     --tw-text-opacity: 1;
     color: rgba(255, 255, 255, var(--tw-text-opacity));
 }
 .button.button--filled.button--primary:hover {
     --tw-bg-opacity: 1;
-    background-color: rgba(37, 99, 235, var(--tw-bg-opacity));
+    background-color: #4060ff;
     --tw-border-opacity: 1;
-    border-color: rgba(96, 165, 250, var(--tw-border-opacity));
+    border-color: #4060ff;
 }
 .button.button--link {
     border-color: transparent;
@@ -1085,7 +1085,7 @@ h3 {
 }
 .main-footer--fixed {
     --tw-bg-opacity: 1;
-    background-color: rgba(17, 24, 39, var(--tw-bg-opacity));
+    background-color: #000;
     /* position: fixed; */
     /* bottom: 0; */
     --tw-text-opacity: 1;
@@ -1381,7 +1381,7 @@ svg:not(:root) {
         var(--tw-ring-shadow, 0 0 transparent), var(--tw-shadow);
     box-shadow: var(--tw-ring-offset-shadow, 0 0 transparent),
         var(--tw-ring-shadow, 0 0 transparent), var(--tw-shadow);
-    border-top-color: #10b981;
+    border-top-color: #4060ff;
 }
 .pricingTable .card__title {
     font-weight: 500;
@@ -1620,4 +1620,12 @@ svg:not(:root) {
     .lg\:w-2\/3 {
         width: 66.666667%;
     }
+}
+
+.brand {
+    font-size: 24px;
+}
+
+.brand span{
+   color: #4040ff;
 }

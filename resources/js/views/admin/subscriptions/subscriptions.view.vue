@@ -6,7 +6,7 @@
         </div>
         <template v-if="listPlans.data.length > 0">
             <div class="row">
-                <div class="col-md-4 col-sm-6" v-for="(plan, index) in listPlans.data" :key="index">
+                <div class="col-md-6 col-sm-12" v-for="(plan, index) in listPlans.data" :key="index">
                     <div class="card">
                         <div class="card-header text-center" style="background-color: #fff;">
                             <div class="position-relative">
@@ -46,7 +46,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-4 col-md-4" v-if="hasSelectedPlan && !selectedPaymentType">
+                <div class="col-md-6 col-sm-12" v-if="hasSelectedPlan && !selectedPaymentType">
                     <div class="card">
                         <div class="card-header text-center" style="background-color: #fff;">
                             <h5 class="fw-bold">Como você prefere pagar?</h5>
@@ -85,12 +85,28 @@
                                         </div>
                                     </div>
                                 </div>
+                                <hr>
+                                <div class="option ps-3 hover-zoom" @click.prevent="setSelectedPaymentMethod('pix')">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <span style="font-size: 50px;">
+                                                <i class="fa-brands fa-pix"></i>
+                                            </span>
+                                        </div>
+                                        <div class="col-md-8 mt-1">
+                                            <h6>Pix</h6>
+                                            <p class="text-muted">
+                                                Aprovação imediata
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-4" v-if="selectedPaymentType">
+                <div class="col-md-6 col-sm-12" v-if="selectedPaymentType">
                     <div class="card">
                         <div class="card-header text-center" style="background-color: #fff;">
                             <div class="">
@@ -107,11 +123,15 @@
                             </div>
 
                             <div v-if="selectedPaymentType == 'credit_card'">
-                                <formCreditVue :tenant="tenant" :plan="selectPlan" />
+                                <formCreditVue :tenant="tenant" :plan="selectedPlan" />
                             </div>
 
                             <div v-if="selectedPaymentType == 'slip'">
-                                <formSlip :tenant="tenant" :plan="selectPlan" />
+                                <formSlip :tenant="tenant" :plan="selectedPlan" />
+                            </div>
+
+                            <div v-if="selectedPaymentType == 'pix'">
+                                <formPix :tenant="tenant" :plan="selectedPlan" />
                             </div>
                         </div>
                     </div>
@@ -162,6 +182,7 @@ import { mapMutations } from "vuex";
 import PreloaderComponent from '../../../components/common/PreloaderComponent.vue';
 import formCreditVue from "./_partials/form.credit.vue";
 import formSlip from "./_partials/form.boleto.vue";
+import formPix from "./_partials/form.pix.vue";
 
 export default {
     props: {
@@ -170,7 +191,8 @@ export default {
     components: {
         PreloaderComponent,
         formCreditVue,
-        formSlip
+        formSlip,
+        formPix
     },
     created() { },
     mounted() {
@@ -231,12 +253,12 @@ export default {
             this.plans = { data: [] }
         },
         selectPlan(plan) {
-            this.selectPlan = plan;
+            this.selectedPlan = plan;
             this.hasSelectedPlan = true;
             this.listPlans.data = [plan];
         },
         unSelectPlan() {
-            this.selectPlan = {};
+            this.selectedPlan = {};
             this.showstallmants = false;
             this.selectedPaymentType = "";
             this.hasSelectedPlan = false;
