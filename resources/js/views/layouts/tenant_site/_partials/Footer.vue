@@ -3,33 +3,6 @@
   <div class="mt-5">
     <!-- Footer -->
     <footer class="text-center text-lg-start text-dark pt-2 " style="background-color: #ECEFF1">
-      <!-- <section class="d-flex justify-content-between p-4 text-white" style="background-color: #21D192">
-        <div class="me-5">
-          <span>Get connected with us on social networks:</span>
-        </div>
-
-        <div>
-          <a href="" class="text-white me-4">
-            <i class="fab fa-facebook-f"></i>
-          </a>
-          <a href="" class="text-white me-4">
-            <i class="fab fa-twitter"></i>
-          </a>
-          <a href="" class="text-white me-4">
-            <i class="fab fa-google"></i>
-          </a>
-          <a href="" class="text-white me-4">
-            <i class="fab fa-instagram"></i>
-          </a>
-          <a href="" class="text-white me-4">
-            <i class="fab fa-linkedin"></i>
-          </a>
-          <a href="" class="text-white me-4">
-            <i class="fab fa-github"></i>
-          </a>
-        </div>
-      </section> -->
-
       <!-- Section: Links  -->
       <section class="">
         <div class="container text-center text-md-start mt-5">

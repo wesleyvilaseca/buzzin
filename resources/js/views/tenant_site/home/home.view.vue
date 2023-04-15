@@ -37,6 +37,10 @@
                                 </h4>
                                 <h5>R$ {{ product.price }}</h5>
                                 <p class="card-text">{{ product.description }}</p>
+
+                               <div class="text-center">
+                                    <balonCartWhatsappComponent :item='product'/>
+                               </div>
                             </div>
 
                             <div v-if="product.has_stock">
@@ -107,7 +111,8 @@ import { mapActions, mapState, mapMutations, mapGetters } from "vuex";
 import { toast } from 'vue3-toastify';
 
 import 'vue3-carousel/dist/carousel.css';
-import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
+import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel';
+import balonCartWhatsappComponent from '../../../components/ExtensionsComponents/balonCartWhatsappComponent.vue';
 
 export default {
     props: [],
@@ -115,6 +120,7 @@ export default {
         DefaultLayout,
         Carousel,
         Slide,
+        balonCartWhatsappComponent,
         Pagination,
         Navigation,
     },
