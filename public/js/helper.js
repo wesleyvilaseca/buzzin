@@ -3,9 +3,18 @@ $(function () {
 });
 
 
-Helper = function () { }
+Helper = function () {
+    this.startTooltip()
+}
 
 Helper.prototype = {
+    startTooltip: () => {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    },
+
     formatCurrency: (input, separator = '.', decimalSeparator = ',') => {
         let value = input.value.replace(separator, '').replace(decimalSeparator, '').replace(/\D/g, '');
         value = parseFloat(value) / 100;
