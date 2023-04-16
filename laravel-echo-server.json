@@ -3,8 +3,8 @@
 	"authEndpoint": "/broadcasting/auth",
 	"clients": [
 		{
-			"appId": "7c09b77392ad137e",
-			"key": "bc4d86c6482a5fac996c1750cafc46cb"
+			"appId": "3eee469aff836562",
+			"key": "d47f30c4fcecb201af3b4a65e9ba6cb1"
 		}
 	],
 	"database": "redis",
@@ -16,7 +16,7 @@
 	},
 	"devMode": true,
 	"host": null,
-	"port": "6379",
+	"port": "6001",
 	"protocol": "http",
 	"socketio": {},
 	"secureOptions": 67108864,

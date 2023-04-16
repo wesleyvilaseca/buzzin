@@ -1,3 +1,5 @@
-import * as Vue from 'vue'
+import { createApp } from "vue";
 
-export default new Vue()
+const app = createApp();
+
+export default app;

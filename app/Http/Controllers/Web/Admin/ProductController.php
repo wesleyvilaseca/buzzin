@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\Admin;
 
+use App\Events\ProductCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateProduct;
 use App\Models\Product;
@@ -114,7 +115,9 @@ class ProductController extends Controller
         if ($request->hasFile('image') && $request->image->isValid())
             $data['image'] = $request->image->store("public/tenants/{$tenant->uuid}/products");
 
-        $this->repository->create($data);
+        $product = $this->repository->create($data);
+
+        event(new ProductCreated($product));
 
         return Redirect::route('admin.products')->with('success', 'Produto criado com sucesso');
     }
@@ -147,6 +150,9 @@ class ProductController extends Controller
         }
 
         $product->update($data);
+
+        event(new ProductCreated($product));
+        
         return Redirect::route('admin.products')->with('success', 'Produto editado com sucesso');
     }
 

@@ -3,7 +3,9 @@
 namespace App\Events;
 
 use App\Http\Resources\OrderResource;
+use App\Http\Resources\ProductResource;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -12,20 +14,20 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class OrderCreated implements ShouldBroadcast
+class ProductCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $order;
+    public $product;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Order $order)
+    public function __construct(Product $product)
     {
-        $this->order = $order;
+        $this->product = $product;
     }
 
     /**
@@ -35,7 +37,7 @@ class OrderCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('order-created.' . $this->order->tenant_id);
+        return new PrivateChannel('product-created.' . $this->product->tenant_id);
     }
 
     /**
@@ -45,6 +47,6 @@ class OrderCreated implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        return ['order' => (new OrderResource($this->order))->resolve()];
+        return ['product' => (new ProductResource($this->product))->resolve()];
     }
 }
