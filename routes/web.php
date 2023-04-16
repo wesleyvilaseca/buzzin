@@ -42,7 +42,6 @@ use App\Http\Controllers\Web\TenantSite\ProductController as TenantSiteProductCo
 use App\Http\Controllers\Web\TenantSite\RegisterController as TenantSiteRegisterController;
 use App\Http\Controllers\Web\TenantSite\TenantController as TenantSiteTenantController;
 use App\Http\Controllers\Web\TenantSite\HomeController as ClientSiteHomeController;
-
 use Illuminate\Support\Facades\Route;
 
 /**

@@ -27313,7 +27313,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 // get id tenant
-var tenantId = window.Laravel.tenantId;
+var tenantId = "1";
 
 // window.Echo.channel(`buzzin_database_private-order-created.${tenantId}`)
 // .listen('.App\\Events\\OrderCreated', (e) => {
