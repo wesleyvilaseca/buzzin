@@ -37,7 +37,7 @@ class ProductCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('product-created.' . $this->product->tenant_id);
+        return new PresenceChannel('product-created.' . $this->product->tenant_id);
     }
 
     /**

@@ -35,7 +35,7 @@ class OrderCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('order-created.' . $this->order->tenant_id);
+        return new PresenceChannel('order-created.' . $this->order->tenant_id);
     }
 
     /**
