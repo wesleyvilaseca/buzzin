@@ -24,7 +24,7 @@ import Socket from 'socket.io-client';
 window.io = Socket;
 
 window.Echo = new Echo({
-    broadcaster: 'socket.io',   
+    broadcaster: 'socket.io',
     host: `${window.location.host}:6001`,
 });
 

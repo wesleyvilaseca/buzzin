@@ -13,7 +13,7 @@ const tenantId = window.Laravel.tenantId;
 
 
 window.Echo.channel(`buzzin_database_private-product-created.${tenantId}`)
-.listen('.App\\Events\\ProductCreated', (e) => {
+.listen('ProductCreated', (e) => {
     console.log('aqui');
     toast.success(`Novo produto criado ${e.product.title}`, { autoClose: 9000 });
 })

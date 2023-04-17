@@ -86,8 +86,8 @@ if ($domain !== $appDomain) {
                 'middleware' => ['auth:sanctum']
             ], function () {
                 Route::get('/auth/me',                  [TenantSiteLoginController::class, 'me']);
-                Route::post('/auth/account-update',      [ClientController::class, 'updateAccount']);
-                Route::post('/auth/account-password',     [ClientController::class, 'updatePasswordAccount']);
+                Route::post('/auth/account-update',     [ClientController::class, 'updateAccount']);
+                Route::post('/auth/account-password',   [ClientController::class, 'updatePasswordAccount']);
 
                 Route::post('/auth/logout',             [TenantSiteLoginController::class, 'logout']);
 
