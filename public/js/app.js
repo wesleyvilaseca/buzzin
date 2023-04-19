@@ -27314,14 +27314,15 @@ __webpack_require__.r(__webpack_exports__);
 
 // get id tenant
 var tenantId = window.Laravel.tenantId;
-window.Echo.channel("buzzin_database_private-order-created.".concat(tenantId)).listen('.App\\Events\\OrderCreated', function (e) {
+window.Echo.channel("buzzin_database_presence-order-created.".concat(tenantId)).listen('OrderCreated', function (e) {
   _bus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('order.created', e.order);
   vue3_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.success("Novo pedido ".concat(e.order.identify), {
     autoClose: 9000
   });
 });
-window.Echo.channel("buzzin_database_private-product-created.".concat(tenantId)).listen('.App\\Events\\ProductCreated', function (e) {
-  _bus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('order.created', e.order);
+window.Echo.channel("buzzin_database_presence-product-created.".concat(tenantId)).listen('ProductCreated', function (e) {
+  console.log(e);
+  // Bus.$emit('order.created', e.product);
   vue3_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.success("Novo produto criado ".concat(e.product.title), {
     autoClose: 9000
   });
