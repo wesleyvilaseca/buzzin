@@ -17,6 +17,8 @@ class CreateShippingsTable extends Migration
             $table->bigIncrements('id');
             $table->string('description')->nullable();
             $table->string('detail')->nullable();
+            $table->string('image', 200)->nullable();
+            $table->string('route_base')->nullable();
             $table->json('data')->nullable();
             $table->string('integration')->nullable();
             $table->integer('status')->default(0)->comment("0 - disableb | 1 - enabled");

@@ -17,6 +17,8 @@ class Payments extends Migration
             $table->bigIncrements('id');
             $table->string('description')->nullable();
             $table->string('detail')->nullable();
+            $table->string('image', 200)->nullable();
+            $table->string('route_base')->nullable();
             $table->json('data')->nullable();
             $table->string('integration')->nullable();
             $table->integer('ismoney')->nullable();

@@ -28713,7 +28713,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ":root {\n  /* Color */\n  --vc-clr-primary: #000;\n  --vc-clr-secondary: #090f207f;\n  --vc-clr-white: #ffffff;\n\n  /* Icon */\n  --vc-icn-width: 1.2em;\n\n  /* Navigation */\n  --vc-nav-width: 30px;\n  --vc-nav-height: 30px;\n  --vc-nav-border-radius: 0;\n  --vc-nav-color: var(--vc-clr-primary);\n  --vc-nav-color-hover: var(--vc-clr-secondary);\n  --vc-nav-background: transparent;\n\n  /* Pagination */\n  --vc-pgn-width: 12px;\n  --vc-pgn-height: 4px;\n  --vc-pgn-margin: 4px;\n  --vc-pgn-border-radius: 0;\n  --vc-pgn-background-color: var(--vc-clr-secondary);\n  --vc-pgn-active-color: var(--vc-clr-primary);\n}\n.carousel {\n  position: relative;\n  text-align: center;\n  box-sizing: border-box;\n}\n\n.carousel * {\n  box-sizing: border-box;\n}\n\n.carousel__track {\n  display: flex;\n  margin: 0;\n  padding: 0;\n  position: relative;\n}\n\n.carousel__viewport {\n  overflow: hidden;\n}\n\n.carousel__sr-only {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  border: 0;\n}\n.carousel__prev,\n.carousel__next {\n  box-sizing: content-box;\n  background: var(--vc-nav-background);\n  border-radius: var(--vc-nav-border-radius);\n  width: var(--vc-nav-width);\n  height: var(--vc-nav-height);\n  text-align: center;\n  font-size: var(--vc-nav-height);\n  padding: 0;\n  color: var(--vc-nav-color);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  position: absolute;\n  border: 0;\n  cursor: pointer;\n  margin: 0 10px;\n  top: 50%;\n  transform: translateY(-50%);\n}\n\n.carousel__prev:hover,\n.carousel__next:hover {\n  color: var(--vc-nav-color-hover);\n}\n\n.carousel__next--disabled,\n.carousel__prev--disabled {\n  cursor: not-allowed;\n  opacity: 0.5;\n}\n\n.carousel__prev {\n  left: 0;\n}\n\n.carousel__next {\n  right: 0;\n}\n\n.carousel--rtl .carousel__prev {\n  left: auto;\n  right: 0;\n}\n\n.carousel--rtl .carousel__next {\n  right: auto;\n  left: 0;\n}\n.carousel__icon {\n  width: var(--vc-icn-width);\n  height: var(--vc-icn-width);\n  fill: currentColor;\n}\n.carousel__slide {\n  scroll-snap-stop: auto;\n  flex-shrink: 0;\n  margin: 0;\n  position: relative;\n\n  display: flex;\n  justify-content: center;\n  align-items: center;\n\n  /* Fix iOS scrolling #22 */\n  transform: translateZ(0);\n}\n.carousel__pagination {\n  display: flex;\n  justify-content: center;\n  list-style: none;\n  line-height: 0;\n  margin: 10px 0 0;\n}\n\n.carousel__pagination-button {\n  display: block;\n  border: 0;\n  margin: 0;\n  cursor: pointer;\n  padding: var(--vc-pgn-margin);\n  background: transparent;\n}\n\n.carousel__pagination-button::after {\n  display: block;\n  content: '';\n  width: var(--vc-pgn-width);\n  height: var(--vc-pgn-height);\n  border-radius: var(--vc-pgn-border-radius);\n  background-color: var(--vc-pgn-background-color);\n}\n\n.carousel__pagination-button:hover::after,\n.carousel__pagination-button--active::after {\n  background-color: var(--vc-pgn-active-color);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ":root {\n  /* Color */\n  --vc-clr-primary: #000;\n  --vc-clr-secondary: #090f207f;\n  --vc-clr-white: #ffffff;\n\n  /* Icon */\n  --vc-icn-width: 1.2em;\n\n  /* Navigation */\n  --vc-nav-width: 30px;\n  --vc-nav-height: 30px;\n  --vc-nav-border-radius: 0;\n  --vc-nav-color: var(--vc-clr-primary);\n  --vc-nav-color-hover: var(--vc-clr-secondary);\n  --vc-nav-background: transparent;\n\n  /* Pagination */\n  --vc-pgn-width: 12px;\n  --vc-pgn-height: 4px;\n  --vc-pgn-margin: 4px;\n  --vc-pgn-border-radius: 0;\n  --vc-pgn-background-color: var(--vc-clr-secondary);\n  --vc-pgn-active-color: var(--vc-clr-primary);\n}\n.carousel__pagination {\n  display: flex;\n  justify-content: center;\n  list-style: none;\n  line-height: 0;\n  margin: 10px 0 0;\n}\n\n.carousel__pagination-button {\n  display: block;\n  border: 0;\n  margin: 0;\n  cursor: pointer;\n  padding: var(--vc-pgn-margin);\n  background: transparent;\n}\n\n.carousel__pagination-button::after {\n  display: block;\n  content: '';\n  width: var(--vc-pgn-width);\n  height: var(--vc-pgn-height);\n  border-radius: var(--vc-pgn-border-radius);\n  background-color: var(--vc-pgn-background-color);\n}\n\n.carousel__pagination-button:hover::after,\n.carousel__pagination-button--active::after {\n  background-color: var(--vc-pgn-active-color);\n}\n.carousel__prev,\n.carousel__next {\n  box-sizing: content-box;\n  background: var(--vc-nav-background);\n  border-radius: var(--vc-nav-border-radius);\n  width: var(--vc-nav-width);\n  height: var(--vc-nav-height);\n  text-align: center;\n  font-size: var(--vc-nav-height);\n  padding: 0;\n  color: var(--vc-nav-color);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  position: absolute;\n  border: 0;\n  cursor: pointer;\n  margin: 0 10px;\n  top: 50%;\n  transform: translateY(-50%);\n}\n\n.carousel__prev:hover,\n.carousel__next:hover {\n  color: var(--vc-nav-color-hover);\n}\n\n.carousel__next--disabled,\n.carousel__prev--disabled {\n  cursor: not-allowed;\n  opacity: 0.5;\n}\n\n.carousel__prev {\n  left: 0;\n}\n\n.carousel__next {\n  right: 0;\n}\n\n.carousel--rtl .carousel__prev {\n  left: auto;\n  right: 0;\n}\n\n.carousel--rtl .carousel__next {\n  right: auto;\n  left: 0;\n}\n.carousel {\n  position: relative;\n  text-align: center;\n  box-sizing: border-box;\n}\n\n.carousel * {\n  box-sizing: border-box;\n}\n\n.carousel__track {\n  display: flex;\n  padding: 0 !important;\n  position: relative;\n  touch-action: none;\n  overscroll-behavior: none;\n}\n\n.carousel__viewport {\n  overflow: hidden;\n}\n\n.carousel__sr-only {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  border: 0;\n}\n.carousel__icon {\n  width: var(--vc-icn-width);\n  height: var(--vc-icn-width);\n  fill: currentColor;\n}\n.carousel__slide {\n  scroll-snap-stop: auto;\n  flex-shrink: 0;\n  margin: 0;\n  position: relative;\n\n  display: flex;\n  justify-content: center;\n  align-items: center;\n\n  /* Fix iOS scrolling #22 */\n  transform: translateZ(0);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -28737,7 +28737,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ":root{--toastify-color-light:#fff;--toastify-color-dark:#121212;--toastify-color-info:#3498db;--toastify-color-success:#07bc0c;--toastify-color-warning:#f1c40f;--toastify-color-error:#e74c3c;--toastify-color-transparent:hsla(0,0%,100%,.7);--toastify-icon-color-info:var(--toastify-color-info);--toastify-icon-color-success:var(--toastify-color-success);--toastify-icon-color-warning:var(--toastify-color-warning);--toastify-icon-color-error:var(--toastify-color-error);--toastify-toast-width:320px;--toastify-toast-background:#fff;--toastify-toast-min-height:64px;--toastify-toast-max-height:800px;--toastify-font-family:sans-serif;--toastify-z-index:9999;--toastify-text-color-light:#757575;--toastify-text-color-dark:#fff;--toastify-text-color-info:#fff;--toastify-text-color-success:#fff;--toastify-text-color-warning:#fff;--toastify-text-color-error:#fff;--toastify-spinner-color:#616161;--toastify-spinner-color-empty-area:#e0e0e0;--toastify-color-progress-light:linear-gradient(90deg,#4cd964,#5ac8fa,#007aff,#34aadc,#5856d6,#ff2d55);--toastify-color-progress-dark:#bb86fc;--toastify-color-progress-info:var(--toastify-color-info);--toastify-color-progress-success:var(--toastify-color-success);--toastify-color-progress-warning:var(--toastify-color-warning);--toastify-color-progress-error:var(--toastify-color-error);--toastify-color-progress-colored:#ddd}.Toastify__toast-container{box-sizing:border-box;color:#fff;padding:4px;position:fixed;transform:translate3d(0,0,var(--toastify-z-index) px);width:var(--toastify-toast-width);z-index:var(--toastify-z-index)}.Toastify__toast-container--top-left{left:1em;top:1em}.Toastify__toast-container--top-center{left:50%;top:1em;transform:translateX(-50%)}.Toastify__toast-container--top-right{right:1em;top:1em}.Toastify__toast-container--bottom-left{bottom:1em;left:1em}.Toastify__toast-container--bottom-center{bottom:1em;left:50%;transform:translateX(-50%)}.Toastify__toast-container--bottom-right{bottom:1em;right:1em}@media only screen and (max-width:480px){.Toastify__toast-container{left:0;margin:0;padding:0;width:100vw}.Toastify__toast-container--top-center,.Toastify__toast-container--top-left,.Toastify__toast-container--top-right{top:0;transform:translateX(0)}.Toastify__toast-container--bottom-center,.Toastify__toast-container--bottom-left,.Toastify__toast-container--bottom-right{bottom:0;transform:translateX(0)}.Toastify__toast-container--rtl{left:auto;right:0}}.Toastify__toast{border-radius:4px;box-shadow:0 1px 10px 0 rgba(0,0,0,.1),0 2px 15px 0 rgba(0,0,0,.05);box-sizing:border-box;cursor:pointer;direction:ltr;display:flex;font-family:var(--toastify-font-family);justify-content:space-between;margin-bottom:1rem;max-height:var(--toastify-toast-max-height);min-height:var(--toastify-toast-min-height);overflow:hidden;padding:8px;position:relative;z-index:0}.Toastify__toast--rtl{direction:rtl}.Toastify__toast-body{align-items:center;display:flex;flex:1 1 auto;margin:auto 0;padding:6px;white-space:pre-wrap;word-break:break-all}.Toastify__toast-body>div:last-child{flex:1}.Toastify__toast-icon{display:flex;flex-shrink:0;-webkit-margin-end:10px;margin-inline-end:10px;width:20px}.Toastify--animate{animation-duration:.7s;animation-fill-mode:both}.Toastify--animate-icon{animation-duration:.3s;animation-fill-mode:both}@media only screen and (max-width:480px){.Toastify__toast{border-radius:0;margin-bottom:0}}.Toastify__toast-theme--dark{background:var(--toastify-color-dark);color:var(--toastify-text-color-dark)}.Toastify__toast-theme--colored.Toastify__toast--default,.Toastify__toast-theme--light{background:var(--toastify-color-light);color:var(--toastify-text-color-light)}.Toastify__toast-theme--colored.Toastify__toast--info{background:var(--toastify-color-info);color:var(--toastify-text-color-info)}.Toastify__toast-theme--colored.Toastify__toast--success{background:var(--toastify-color-success);color:var(--toastify-text-color-success)}.Toastify__toast-theme--colored.Toastify__toast--warning{background:var(--toastify-color-warning);color:var(--toastify-text-color-warning)}.Toastify__toast-theme--colored.Toastify__toast--error{background:var(--toastify-color-error);color:var(--toastify-text-color-error)}.Toastify__progress-bar-theme--light{background:var(--toastify-color-progress-light)}.Toastify__progress-bar-theme--dark{background:var(--toastify-color-progress-dark)}.Toastify__progress-bar--info{background:var(--toastify-color-progress-info)}.Toastify__progress-bar--success{background:var(--toastify-color-progress-success)}.Toastify__progress-bar--warning{background:var(--toastify-color-progress-warning)}.Toastify__progress-bar--error{background:var(--toastify-color-progress-error)}.Toastify__progress-bar-theme--colored.Toastify__progress-bar--default{background:var(--toastify-color-progress-colored)}.Toastify__progress-bar-theme--colored.Toastify__progress-bar--error,.Toastify__progress-bar-theme--colored.Toastify__progress-bar--info,.Toastify__progress-bar-theme--colored.Toastify__progress-bar--success,.Toastify__progress-bar-theme--colored.Toastify__progress-bar--warning{background:var(--toastify-color-transparent)}.Toastify__close-button{align-self:flex-start;background:transparent;border:none;color:#fff;cursor:pointer;opacity:.7;outline:none;padding:0;transition:.3s ease}.Toastify__close-button--light{color:#000;opacity:.3}.Toastify__close-button>svg{fill:currentcolor;height:16px;width:14px}.Toastify__close-button:focus,.Toastify__close-button:hover{opacity:1}@keyframes Toastify__trackProgress{0%{transform:scaleX(1)}to{transform:scaleX(0)}}.Toastify__progress-bar{bottom:0;height:5px;left:0;opacity:.7;position:absolute;transform-origin:left;width:100%;z-index:var(--toastify-z-index)}.Toastify__progress-bar--animated{animation:Toastify__trackProgress linear 1 forwards}.Toastify__progress-bar--controlled{transition:transform .2s}.Toastify__progress-bar--rtl{left:auto;right:0;transform-origin:right}.Toastify__spinner{animation:Toastify__spin .65s linear infinite;border:2px solid;border-color:var(--toastify-spinner-color-empty-area);border-radius:100%;border-right-color:var(--toastify-spinner-color);box-sizing:border-box;height:20px;width:20px}@keyframes Toastify__bounceInRight{0%,60%,75%,90%,to{animation-timing-function:cubic-bezier(.215,.61,.355,1)}0%{opacity:0;transform:translate3d(3000px,0,0)}60%{opacity:1;transform:translate3d(-25px,0,0)}75%{transform:translate3d(10px,0,0)}90%{transform:translate3d(-5px,0,0)}to{transform:none}}@keyframes Toastify__bounceOutRight{20%{opacity:1;transform:translate3d(-20px,0,0)}to{opacity:0;transform:translate3d(2000px,0,0)}}@keyframes Toastify__bounceInLeft{0%,60%,75%,90%,to{animation-timing-function:cubic-bezier(.215,.61,.355,1)}0%{opacity:0;transform:translate3d(-3000px,0,0)}60%{opacity:1;transform:translate3d(25px,0,0)}75%{transform:translate3d(-10px,0,0)}90%{transform:translate3d(5px,0,0)}to{transform:none}}@keyframes Toastify__bounceOutLeft{20%{opacity:1;transform:translate3d(20px,0,0)}to{opacity:0;transform:translate3d(-2000px,0,0)}}@keyframes Toastify__bounceInUp{0%,60%,75%,90%,to{animation-timing-function:cubic-bezier(.215,.61,.355,1)}0%{opacity:0;transform:translate3d(0,3000px,0)}60%{opacity:1;transform:translate3d(0,-20px,0)}75%{transform:translate3d(0,10px,0)}90%{transform:translate3d(0,-5px,0)}to{transform:translateZ(0)}}@keyframes Toastify__bounceOutUp{20%{transform:translate3d(0,-10px,0)}40%,45%{opacity:1;transform:translate3d(0,20px,0)}to{opacity:0;transform:translate3d(0,-2000px,0)}}@keyframes Toastify__bounceInDown{0%,60%,75%,90%,to{animation-timing-function:cubic-bezier(.215,.61,.355,1)}0%{opacity:0;transform:translate3d(0,-3000px,0)}60%{opacity:1;transform:translate3d(0,25px,0)}75%{transform:translate3d(0,-10px,0)}90%{transform:translate3d(0,5px,0)}to{transform:none}}@keyframes Toastify__bounceOutDown{20%{transform:translate3d(0,10px,0)}40%,45%{opacity:1;transform:translate3d(0,-20px,0)}to{opacity:0;transform:translate3d(0,2000px,0)}}.Toastify__bounce-enter--bottom-left,.Toastify__bounce-enter--top-left{animation-name:Toastify__bounceInLeft}.Toastify__bounce-enter--bottom-right,.Toastify__bounce-enter--top-right{animation-name:Toastify__bounceInRight}.Toastify__bounce-enter--top-center{animation-name:Toastify__bounceInDown}.Toastify__bounce-enter--bottom-center{animation-name:Toastify__bounceInUp}.Toastify__bounce-exit--bottom-left,.Toastify__bounce-exit--top-left{animation-name:Toastify__bounceOutLeft}.Toastify__bounce-exit--bottom-right,.Toastify__bounce-exit--top-right{animation-name:Toastify__bounceOutRight}.Toastify__bounce-exit--top-center{animation-name:Toastify__bounceOutUp}.Toastify__bounce-exit--bottom-center{animation-name:Toastify__bounceOutDown}@keyframes Toastify__zoomIn{0%{opacity:0;transform:scale3d(.3,.3,.3)}50%{opacity:1}}@keyframes Toastify__zoomOut{0%{opacity:1}50%{opacity:0;transform:scale3d(.3,.3,.3)}to{opacity:0}}.Toastify__zoom-enter{animation-name:Toastify__zoomIn}.Toastify__zoom-exit{animation-name:Toastify__zoomOut}@keyframes Toastify__flipIn{0%{animation-timing-function:ease-in;opacity:0;transform:perspective(400px) rotateX(90deg)}40%{animation-timing-function:ease-in;transform:perspective(400px) rotateX(-20deg)}60%{opacity:1;transform:perspective(400px) rotateX(10deg)}80%{transform:perspective(400px) rotateX(-5deg)}to{transform:perspective(400px)}}@keyframes Toastify__flipOut{0%{transform:perspective(400px)}30%{opacity:1;transform:perspective(400px) rotateX(-20deg)}to{opacity:0;transform:perspective(400px) rotateX(90deg)}}.Toastify__flip-enter{animation-name:Toastify__flipIn}.Toastify__flip-exit{animation-name:Toastify__flipOut}@keyframes Toastify__slideInRight{0%{transform:translate3d(110%,0,0);visibility:visible}to{transform:translateZ(0)}}@keyframes Toastify__slideInLeft{0%{transform:translate3d(-110%,0,0);visibility:visible}to{transform:translateZ(0)}}@keyframes Toastify__slideInUp{0%{transform:translate3d(0,110%,0);visibility:visible}to{transform:translateZ(0)}}@keyframes Toastify__slideInDown{0%{transform:translate3d(0,-110%,0);visibility:visible}to{transform:translateZ(0)}}@keyframes Toastify__slideOutRight{0%{transform:translateZ(0)}to{transform:translate3d(110%,0,0);visibility:hidden}}@keyframes Toastify__slideOutLeft{0%{transform:translateZ(0)}to{transform:translate3d(-110%,0,0);visibility:hidden}}@keyframes Toastify__slideOutDown{0%{transform:translateZ(0)}to{transform:translate3d(0,500px,0);visibility:hidden}}@keyframes Toastify__slideOutUp{0%{transform:translateZ(0)}to{transform:translate3d(0,-500px,0);visibility:hidden}}.Toastify__slide-enter--bottom-left,.Toastify__slide-enter--top-left{animation-name:Toastify__slideInLeft}.Toastify__slide-enter--bottom-right,.Toastify__slide-enter--top-right{animation-name:Toastify__slideInRight}.Toastify__slide-enter--top-center{animation-name:Toastify__slideInDown}.Toastify__slide-enter--bottom-center{animation-name:Toastify__slideInUp}.Toastify__slide-exit--bottom-left,.Toastify__slide-exit--top-left{animation-name:Toastify__slideOutLeft}.Toastify__slide-exit--bottom-right,.Toastify__slide-exit--top-right{animation-name:Toastify__slideOutRight}.Toastify__slide-exit--top-center{animation-name:Toastify__slideOutUp}.Toastify__slide-exit--bottom-center{animation-name:Toastify__slideOutDown}@keyframes Toastify__spin{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ":root{--toastify-color-light:#fff;--toastify-color-dark:#121212;--toastify-color-info:#3498db;--toastify-color-success:#07bc0c;--toastify-color-warning:#f1c40f;--toastify-color-error:#e74c3c;--toastify-color-transparent:#ffffffb3;--toastify-icon-color-info:var(--toastify-color-info);--toastify-icon-color-success:var(--toastify-color-success);--toastify-icon-color-warning:var(--toastify-color-warning);--toastify-icon-color-error:var(--toastify-color-error);--toastify-toast-width:320px;--toastify-toast-background:#fff;--toastify-toast-min-height:64px;--toastify-toast-max-height:800px;--toastify-font-family:sans-serif;--toastify-z-index:9999;--toastify-text-color-light:#757575;--toastify-text-color-dark:#fff;--toastify-text-color-info:#fff;--toastify-text-color-success:#fff;--toastify-text-color-warning:#fff;--toastify-text-color-error:#fff;--toastify-spinner-color:#616161;--toastify-spinner-color-empty-area:#e0e0e0;--toastify-color-progress-light:linear-gradient(90deg,#4cd964,#5ac8fa,#007aff,#34aadc,#5856d6,#ff2d55);--toastify-color-progress-dark:#bb86fc;--toastify-color-progress-info:var(--toastify-color-info);--toastify-color-progress-success:var(--toastify-color-success);--toastify-color-progress-warning:var(--toastify-color-warning);--toastify-color-progress-error:var(--toastify-color-error);--toastify-color-progress-colored:#ddd}.Toastify__toast-container{box-sizing:border-box;color:#fff;padding:4px;position:fixed;transform:translate3d(0,0,var(--toastify-z-index) px);width:var(--toastify-toast-width);z-index:var(--toastify-z-index)}.Toastify__toast-container--top-left{left:1em;top:1em}.Toastify__toast-container--top-center{left:50%;top:1em;transform:translateX(-50%)}.Toastify__toast-container--top-right{right:1em;top:1em}.Toastify__toast-container--bottom-left{bottom:1em;left:1em}.Toastify__toast-container--bottom-center{bottom:1em;left:50%;transform:translateX(-50%)}.Toastify__toast-container--bottom-right{bottom:1em;right:1em}@media only screen and (max-width:480px){.Toastify__toast-container{left:0;margin:0;padding:0;width:100vw}.Toastify__toast-container--top-center,.Toastify__toast-container--top-left,.Toastify__toast-container--top-right{top:0;transform:translateX(0)}.Toastify__toast-container--bottom-center,.Toastify__toast-container--bottom-left,.Toastify__toast-container--bottom-right{bottom:0;transform:translateX(0)}.Toastify__toast-container--rtl{left:auto;right:0}}.Toastify__toast{border-radius:4px;box-shadow:0 1px 10px 0 #0000001a,0 2px 15px 0 #0000000d;box-sizing:border-box;cursor:pointer;direction:ltr;display:flex;font-family:var(--toastify-font-family);justify-content:space-between;margin-bottom:1rem;max-height:var(--toastify-toast-max-height);min-height:var(--toastify-toast-min-height);overflow:hidden;padding:8px;position:relative;z-index:0}.Toastify__toast--rtl{direction:rtl}.Toastify__toast-body{align-items:center;display:flex;flex:1 1 auto;margin:auto 0;padding:6px;white-space:pre-wrap}.Toastify__toast-body>div:last-child{flex:1}.Toastify__toast-icon{display:flex;flex-shrink:0;-webkit-margin-end:10px;margin-inline-end:10px;width:20px}.Toastify--animate{animation-duration:.7s;animation-fill-mode:both}.Toastify--animate-icon{animation-duration:.3s;animation-fill-mode:both}@media only screen and (max-width:480px){.Toastify__toast{border-radius:0;margin-bottom:0}}.Toastify__toast-theme--dark{background:var(--toastify-color-dark);color:var(--toastify-text-color-dark)}.Toastify__toast-theme--colored.Toastify__toast--default,.Toastify__toast-theme--light{background:var(--toastify-color-light);color:var(--toastify-text-color-light)}.Toastify__toast-theme--colored.Toastify__toast--info{background:var(--toastify-color-info);color:var(--toastify-text-color-info)}.Toastify__toast-theme--colored.Toastify__toast--success{background:var(--toastify-color-success);color:var(--toastify-text-color-success)}.Toastify__toast-theme--colored.Toastify__toast--warning{background:var(--toastify-color-warning);color:var(--toastify-text-color-warning)}.Toastify__toast-theme--colored.Toastify__toast--error{background:var(--toastify-color-error);color:var(--toastify-text-color-error)}.Toastify__progress-bar-theme--light{background:var(--toastify-color-progress-light)}.Toastify__progress-bar-theme--dark{background:var(--toastify-color-progress-dark)}.Toastify__progress-bar--info{background:var(--toastify-color-progress-info)}.Toastify__progress-bar--success{background:var(--toastify-color-progress-success)}.Toastify__progress-bar--warning{background:var(--toastify-color-progress-warning)}.Toastify__progress-bar--error{background:var(--toastify-color-progress-error)}.Toastify__progress-bar-theme--colored.Toastify__progress-bar--default{background:var(--toastify-color-progress-colored)}.Toastify__progress-bar-theme--colored.Toastify__progress-bar--error,.Toastify__progress-bar-theme--colored.Toastify__progress-bar--info,.Toastify__progress-bar-theme--colored.Toastify__progress-bar--success,.Toastify__progress-bar-theme--colored.Toastify__progress-bar--warning{background:var(--toastify-color-transparent)}.Toastify__close-button{align-self:flex-start;background:#0000;border:none;color:#fff;cursor:pointer;opacity:.7;outline:none;padding:0;transition:.3s ease}.Toastify__close-button--light{color:#000;opacity:.3}.Toastify__close-button>svg{fill:currentcolor;height:16px;width:14px}.Toastify__close-button:focus,.Toastify__close-button:hover{opacity:1}@keyframes Toastify__trackProgress{0%{transform:scaleX(1)}to{transform:scaleX(0)}}.Toastify__progress-bar{bottom:0;height:5px;left:0;opacity:.7;position:absolute;transform-origin:left;width:100%;z-index:var(--toastify-z-index)}.Toastify__progress-bar--animated{animation:Toastify__trackProgress linear 1 forwards}.Toastify__progress-bar--controlled{transition:transform .2s}.Toastify__progress-bar--rtl{left:auto;right:0;transform-origin:right}.Toastify__spinner{animation:Toastify__spin .65s linear infinite;border:2px solid;border-color:var(--toastify-spinner-color-empty-area);border-radius:100%;border-right-color:var(--toastify-spinner-color);box-sizing:border-box;height:20px;width:20px}@keyframes Toastify__bounceInRight{0%,60%,75%,90%,to{animation-timing-function:cubic-bezier(.215,.61,.355,1)}0%{opacity:0;transform:translate3d(3000px,0,0)}60%{opacity:1;transform:translate3d(-25px,0,0)}75%{transform:translate3d(10px,0,0)}90%{transform:translate3d(-5px,0,0)}to{transform:none}}@keyframes Toastify__bounceOutRight{20%{opacity:1;transform:translate3d(-20px,0,0)}to{opacity:0;transform:translate3d(2000px,0,0)}}@keyframes Toastify__bounceInLeft{0%,60%,75%,90%,to{animation-timing-function:cubic-bezier(.215,.61,.355,1)}0%{opacity:0;transform:translate3d(-3000px,0,0)}60%{opacity:1;transform:translate3d(25px,0,0)}75%{transform:translate3d(-10px,0,0)}90%{transform:translate3d(5px,0,0)}to{transform:none}}@keyframes Toastify__bounceOutLeft{20%{opacity:1;transform:translate3d(20px,0,0)}to{opacity:0;transform:translate3d(-2000px,0,0)}}@keyframes Toastify__bounceInUp{0%,60%,75%,90%,to{animation-timing-function:cubic-bezier(.215,.61,.355,1)}0%{opacity:0;transform:translate3d(0,3000px,0)}60%{opacity:1;transform:translate3d(0,-20px,0)}75%{transform:translate3d(0,10px,0)}90%{transform:translate3d(0,-5px,0)}to{transform:translateZ(0)}}@keyframes Toastify__bounceOutUp{20%{transform:translate3d(0,-10px,0)}40%,45%{opacity:1;transform:translate3d(0,20px,0)}to{opacity:0;transform:translate3d(0,-2000px,0)}}@keyframes Toastify__bounceInDown{0%,60%,75%,90%,to{animation-timing-function:cubic-bezier(.215,.61,.355,1)}0%{opacity:0;transform:translate3d(0,-3000px,0)}60%{opacity:1;transform:translate3d(0,25px,0)}75%{transform:translate3d(0,-10px,0)}90%{transform:translate3d(0,5px,0)}to{transform:none}}@keyframes Toastify__bounceOutDown{20%{transform:translate3d(0,10px,0)}40%,45%{opacity:1;transform:translate3d(0,-20px,0)}to{opacity:0;transform:translate3d(0,2000px,0)}}.Toastify__bounce-enter--bottom-left,.Toastify__bounce-enter--top-left{animation-name:Toastify__bounceInLeft}.Toastify__bounce-enter--bottom-right,.Toastify__bounce-enter--top-right{animation-name:Toastify__bounceInRight}.Toastify__bounce-enter--top-center{animation-name:Toastify__bounceInDown}.Toastify__bounce-enter--bottom-center{animation-name:Toastify__bounceInUp}.Toastify__bounce-exit--bottom-left,.Toastify__bounce-exit--top-left{animation-name:Toastify__bounceOutLeft}.Toastify__bounce-exit--bottom-right,.Toastify__bounce-exit--top-right{animation-name:Toastify__bounceOutRight}.Toastify__bounce-exit--top-center{animation-name:Toastify__bounceOutUp}.Toastify__bounce-exit--bottom-center{animation-name:Toastify__bounceOutDown}@keyframes Toastify__zoomIn{0%{opacity:0;transform:scale3d(.3,.3,.3)}50%{opacity:1}}@keyframes Toastify__zoomOut{0%{opacity:1}50%{opacity:0;transform:scale3d(.3,.3,.3)}to{opacity:0}}.Toastify__zoom-enter{animation-name:Toastify__zoomIn}.Toastify__zoom-exit{animation-name:Toastify__zoomOut}@keyframes Toastify__flipIn{0%{animation-timing-function:ease-in;opacity:0;transform:perspective(400px) rotateX(90deg)}40%{animation-timing-function:ease-in;transform:perspective(400px) rotateX(-20deg)}60%{opacity:1;transform:perspective(400px) rotateX(10deg)}80%{transform:perspective(400px) rotateX(-5deg)}to{transform:perspective(400px)}}@keyframes Toastify__flipOut{0%{transform:perspective(400px)}30%{opacity:1;transform:perspective(400px) rotateX(-20deg)}to{opacity:0;transform:perspective(400px) rotateX(90deg)}}.Toastify__flip-enter{animation-name:Toastify__flipIn}.Toastify__flip-exit{animation-name:Toastify__flipOut}@keyframes Toastify__slideInRight{0%{transform:translate3d(110%,0,0);visibility:visible}to{transform:translateZ(0)}}@keyframes Toastify__slideInLeft{0%{transform:translate3d(-110%,0,0);visibility:visible}to{transform:translateZ(0)}}@keyframes Toastify__slideInUp{0%{transform:translate3d(0,110%,0);visibility:visible}to{transform:translateZ(0)}}@keyframes Toastify__slideInDown{0%{transform:translate3d(0,-110%,0);visibility:visible}to{transform:translateZ(0)}}@keyframes Toastify__slideOutRight{0%{transform:translateZ(0)}to{transform:translate3d(110%,0,0);visibility:hidden}}@keyframes Toastify__slideOutLeft{0%{transform:translateZ(0)}to{transform:translate3d(-110%,0,0);visibility:hidden}}@keyframes Toastify__slideOutDown{0%{transform:translateZ(0)}to{transform:translate3d(0,500px,0);visibility:hidden}}@keyframes Toastify__slideOutUp{0%{transform:translateZ(0)}to{transform:translate3d(0,-500px,0);visibility:hidden}}.Toastify__slide-enter--bottom-left,.Toastify__slide-enter--top-left{animation-name:Toastify__slideInLeft}.Toastify__slide-enter--bottom-right,.Toastify__slide-enter--top-right{animation-name:Toastify__slideInRight}.Toastify__slide-enter--top-center{animation-name:Toastify__slideInDown}.Toastify__slide-enter--bottom-center{animation-name:Toastify__slideInUp}.Toastify__slide-exit--bottom-left,.Toastify__slide-exit--top-left{animation-name:Toastify__slideOutLeft}.Toastify__slide-exit--bottom-right,.Toastify__slide-exit--top-right{animation-name:Toastify__slideOutRight}.Toastify__slide-exit--top-center{animation-name:Toastify__slideOutUp}.Toastify__slide-exit--bottom-center{animation-name:Toastify__slideOutDown}@keyframes Toastify__spin{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -29289,7 +29289,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * jQuery JavaScript Library v3.6.3
+ * jQuery JavaScript Library v3.6.4
  * https://jquery.com/
  *
  * Includes Sizzle.js
@@ -29299,7 +29299,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
  * Released under the MIT license
  * https://jquery.org/license
  *
- * Date: 2022-12-20T21:28Z
+ * Date: 2023-03-08T15:28Z
  */
 ( function( global, factory ) {
 
@@ -29441,7 +29441,7 @@ function toType( obj ) {
 
 
 var
-	version = "3.6.3",
+	version = "3.6.4",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -29812,14 +29812,14 @@ function isArrayLike( obj ) {
 }
 var Sizzle =
 /*!
- * Sizzle CSS Selector Engine v2.3.9
+ * Sizzle CSS Selector Engine v2.3.10
  * https://sizzlejs.com/
  *
  * Copyright JS Foundation and other contributors
  * Released under the MIT license
  * https://js.foundation/
  *
- * Date: 2022-12-19
+ * Date: 2023-02-14
  */
 ( function( window ) {
 var i,
@@ -29923,7 +29923,7 @@ var i,
 		whitespace + "+$", "g" ),
 
 	rcomma = new RegExp( "^" + whitespace + "*," + whitespace + "*" ),
-	rcombinators = new RegExp( "^" + whitespace + "*([>+~]|" + whitespace + ")" + whitespace +
+	rleadingCombinator = new RegExp( "^" + whitespace + "*([>+~]|" + whitespace + ")" + whitespace +
 		"*" ),
 	rdescend = new RegExp( whitespace + "|>" ),
 
@@ -30140,7 +30140,7 @@ function Sizzle( selector, context, results, seed ) {
 				// as such selectors are not recognized by querySelectorAll.
 				// Thanks to Andrew Dupont for this technique.
 				if ( nodeType === 1 &&
-					( rdescend.test( selector ) || rcombinators.test( selector ) ) ) {
+					( rdescend.test( selector ) || rleadingCombinator.test( selector ) ) ) {
 
 					// Expand context for sibling selectors
 					newContext = rsibling.test( selector ) && testContext( context.parentNode ) ||
@@ -30169,27 +30169,6 @@ function Sizzle( selector, context, results, seed ) {
 				}
 
 				try {
-
-					// `qSA` may not throw for unrecognized parts using forgiving parsing:
-					// https://drafts.csswg.org/selectors/#forgiving-selector
-					// like the `:has()` pseudo-class:
-					// https://drafts.csswg.org/selectors/#relational
-					// `CSS.supports` is still expected to return `false` then:
-					// https://drafts.csswg.org/css-conditional-4/#typedef-supports-selector-fn
-					// https://drafts.csswg.org/css-conditional-4/#dfn-support-selector
-					if ( support.cssSupportsSelector &&
-
-						// eslint-disable-next-line no-undef
-						!CSS.supports( "selector(:is(" + newSelector + "))" ) ) {
-
-						// Support: IE 11+
-						// Throw to get to the same code path as an error directly in qSA.
-						// Note: once we only support browser supporting
-						// `CSS.supports('selector(...)')`, we can most likely drop
-						// the `try-catch`. IE doesn't implement the API.
-						throw new Error();
-					}
-
 					push.apply( results,
 						newContext.querySelectorAll( newSelector )
 					);
@@ -30485,29 +30464,22 @@ setDocument = Sizzle.setDocument = function( node ) {
 			!el.querySelectorAll( ":scope fieldset div" ).length;
 	} );
 
-	// Support: Chrome 105+, Firefox 104+, Safari 15.4+
-	// Make sure forgiving mode is not used in `CSS.supports( "selector(...)" )`.
-	//
-	// `:is()` uses a forgiving selector list as an argument and is widely
-	// implemented, so it's a good one to test against.
-	support.cssSupportsSelector = assert( function() {
-		/* eslint-disable no-undef */
-
-		return CSS.supports( "selector(*)" ) &&
-
-			// Support: Firefox 78-81 only
-			// In old Firefox, `:is()` didn't use forgiving parsing. In that case,
-			// fail this test as there's no selector to test against that.
-			// `CSS.supports` uses unforgiving parsing
-			document.querySelectorAll( ":is(:jqfake)" ) &&
-
-			// `*` is needed as Safari & newer Chrome implemented something in between
-			// for `:has()` - it throws in `qSA` if it only contains an unsupported
-			// argument but multiple ones, one of which is supported, are fine.
-			// We want to play safe in case `:is()` gets the same treatment.
-			!CSS.supports( "selector(:is(*,:jqfake))" );
-
-		/* eslint-enable */
+	// Support: Chrome 105 - 110+, Safari 15.4 - 16.3+
+	// Make sure the the `:has()` argument is parsed unforgivingly.
+	// We include `*` in the test to detect buggy implementations that are
+	// _selectively_ forgiving (specifically when the list includes at least
+	// one valid selector).
+	// Note that we treat complete lack of support for `:has()` as if it were
+	// spec-compliant support, which is fine because use of `:has()` in such
+	// environments will fail in the qSA path and fall back to jQuery traversal
+	// anyway.
+	support.cssHas = assert( function() {
+		try {
+			document.querySelector( ":has(*,:jqfake)" );
+			return false;
+		} catch ( e ) {
+			return true;
+		}
 	} );
 
 	/* Attributes
@@ -30776,14 +30748,14 @@ setDocument = Sizzle.setDocument = function( node ) {
 		} );
 	}
 
-	if ( !support.cssSupportsSelector ) {
+	if ( !support.cssHas ) {
 
-		// Support: Chrome 105+, Safari 15.4+
-		// `:has()` uses a forgiving selector list as an argument so our regular
-		// `try-catch` mechanism fails to catch `:has()` with arguments not supported
-		// natively like `:has(:contains("Foo"))`. Where supported & spec-compliant,
-		// we now use `CSS.supports("selector(:is(SELECTOR_TO_BE_TESTED))")`, but
-		// outside that we mark `:has` as buggy.
+		// Support: Chrome 105 - 110+, Safari 15.4 - 16.3+
+		// Our regular `try-catch` mechanism fails to detect natively-unsupported
+		// pseudo-classes inside `:has()` (such as `:has(:contains("Foo"))`)
+		// in browsers that parse the `:has()` argument as a forgiving selector list.
+		// https://drafts.csswg.org/selectors/#relational now requires the argument
+		// to be parsed unforgivingly, but browsers have not yet fully adjusted.
 		rbuggyQSA.push( ":has" );
 	}
 
@@ -31696,7 +31668,7 @@ tokenize = Sizzle.tokenize = function( selector, parseOnly ) {
 		matched = false;
 
 		// Combinators
-		if ( ( match = rcombinators.exec( soFar ) ) ) {
+		if ( ( match = rleadingCombinator.exec( soFar ) ) ) {
 			matched = match.shift();
 			tokens.push( {
 				value: matched,
@@ -40295,14 +40267,14 @@ return jQuery;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Bootstrap4Pagination": () => (/* binding */ Z),
-/* harmony export */   "Bootstrap5Pagination": () => (/* binding */ ee),
-/* harmony export */   "RenderlessPagination": () => (/* binding */ R),
-/* harmony export */   "TailwindPagination": () => (/* binding */ te)
+/* harmony export */   "Bootstrap4Pagination": () => (/* binding */ ae),
+/* harmony export */   "Bootstrap5Pagination": () => (/* binding */ ne),
+/* harmony export */   "RenderlessPagination": () => (/* binding */ B),
+/* harmony export */   "TailwindPagination": () => (/* binding */ ie)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-const R = {
+const B = {
   emits: ["pagination-change-page"],
   props: {
     data: {
@@ -40313,6 +40285,10 @@ const R = {
     limit: {
       type: Number,
       default: 0
+    },
+    keepLength: {
+      type: Boolean,
+      default: !1
     }
   },
   computed: {
@@ -40354,11 +40330,11 @@ const R = {
         return 0;
       if (this.limit === 0)
         return this.lastPage;
-      for (var t = this.currentPage, g = this.lastPage, a = this.limit, m = t - a, p = t + a + 1, c = [], o = [], e, n = 1; n <= g; n++)
-        (n === 1 || n === g || n >= m && n < p) && c.push(n);
-      return c.forEach(function(d) {
-        e && (d - e === 2 ? o.push(e + 1) : d - e !== 1 && o.push("...")), o.push(d), e = d;
-      }), o;
+      for (var t = this.currentPage, d = this.keepLength, a = this.lastPage, u = this.limit, f = t - u, m = t + u, h = (u + 2) * 2, e = (u + 2) * 2 - 1, n = [], g = [], P, l = 1; l <= a; l++)
+        (l === 1 || l === a || l >= f && l <= m || d && l < h && t < h - 2 || d && l > a - e && t > a - e + 2) && n.push(l);
+      return n.forEach(function(x) {
+        P && (x - P === 2 ? g.push(P + 1) : x - P !== 1 && g.push("...")), g.push(x), P = x;
+      }), g;
     }
   },
   methods: {
@@ -40401,25 +40377,25 @@ const R = {
         }
       },
       pageButtonEvents: (t) => ({
-        click: (g) => {
-          g.preventDefault(), this.selectPage(t);
+        click: (d) => {
+          d.preventDefault(), this.selectPage(t);
         }
       })
     });
   }
-}, C = (t, g) => {
+}, w = (t, d) => {
   const a = t.__vccOpts || t;
-  for (const [m, p] of g)
-    a[m] = p;
+  for (const [u, f] of d)
+    a[u] = f;
   return a;
-}, w = {
+}, E = {
   compatConfig: {
     MODE: 3
   },
   inheritAttrs: !1,
   emits: ["pagination-change-page"],
   components: {
-    RenderlessPagination: R
+    RenderlessPagination: B
   },
   props: {
     data: {
@@ -40430,6 +40406,10 @@ const R = {
     limit: {
       type: Number,
       default: 0
+    },
+    keepLength: {
+      type: Boolean,
+      default: !1
     },
     showDisabled: {
       type: Boolean,
@@ -40451,16 +40431,17 @@ const R = {
       this.$emit("pagination-change-page", t);
     }
   }
-}, B = ["tabindex"], A = /* @__PURE__ */ (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", { "aria-hidden": "true" }, "\xAB", -1), E = /* @__PURE__ */ (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", { class: "sr-only" }, "Previous", -1), $ = {
+}, $ = ["tabindex"], D = /* @__PURE__ */ (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", { "aria-hidden": "true" }, "\xAB", -1), z = /* @__PURE__ */ (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", { class: "sr-only" }, "Previous", -1), O = {
   key: 0,
   class: "sr-only"
-}, D = ["tabindex"], O = /* @__PURE__ */ (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", { "aria-hidden": "true" }, "\xBB", -1), z = /* @__PURE__ */ (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", { class: "sr-only" }, "Next", -1);
-function N(t, g, a, m, p, c) {
-  const o = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("RenderlessPagination");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(o, {
+}, N = ["tabindex"], j = /* @__PURE__ */ (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", { "aria-hidden": "true" }, "\xBB", -1), L = /* @__PURE__ */ (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", { class: "sr-only" }, "Next", -1);
+function S(t, d, a, u, f, m) {
+  const h = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("RenderlessPagination");
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(h, {
     data: a.data,
     limit: a.limit,
-    onPaginationChangePage: c.onPaginationChangePage
+    "keep-length": a.keepLength,
+    onPaginationChangePage: m.onPaginationChangePage
   }, {
     default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)((e) => [
       e.computed.total > e.computed.perPage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("ul", (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({ key: 0 }, t.$attrs, {
@@ -40482,21 +40463,21 @@ function N(t, g, a, m, p, c) {
             tabindex: !e.computed.prevPageUrl && -1
           }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toHandlers)(e.prevButtonEvents, !0)), [
             (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(t.$slots, "prev-nav", {}, () => [
-              A,
-              E
+              D,
+              z
             ])
-          ], 16, B)
+          ], 16, $)
         ], 2)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("", !0),
-        ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(!0), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(e.computed.pageRange, (n, d) => ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+        ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(!0), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(e.computed.pageRange, (n, g) => ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
           class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item pagination-page-nav", { active: n == e.computed.currentPage }]),
-          key: d
+          key: g
         }, [
           (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
             class: "page-link",
             href: "#"
           }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toHandlers)(e.pageButtonEvents(n), !0)), [
             (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(n) + " ", 1),
-            n == e.computed.currentPage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", $, "(current)")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("", !0)
+            n == e.computed.currentPage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", O, "(current)")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("", !0)
           ], 16)
         ], 2))), 128)),
         e.computed.nextPageUrl || a.showDisabled ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
@@ -40510,24 +40491,24 @@ function N(t, g, a, m, p, c) {
             tabindex: !e.computed.nextPageUrl && -1
           }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toHandlers)(e.nextButtonEvents, !0)), [
             (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(t.$slots, "next-nav", {}, () => [
-              O,
-              z
+              j,
+              L
             ])
-          ], 16, D)
+          ], 16, N)
         ], 2)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("", !0)
       ], 16)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("", !0)
     ]),
     _: 3
-  }, 8, ["data", "limit", "onPaginationChangePage"]);
+  }, 8, ["data", "limit", "keep-length", "onPaginationChangePage"]);
 }
-const Z = /* @__PURE__ */ C(w, [["render", N]]), j = {
+const ae = /* @__PURE__ */ w(E, [["render", S]]), M = {
   compatConfig: {
     MODE: 3
   },
   inheritAttrs: !1,
   emits: ["pagination-change-page"],
   components: {
-    RenderlessPagination: R
+    RenderlessPagination: B
   },
   props: {
     data: {
@@ -40540,6 +40521,10 @@ const Z = /* @__PURE__ */ C(w, [["render", N]]), j = {
       default: 0
     },
     showDisabled: {
+      type: Boolean,
+      default: !1
+    },
+    keepLength: {
       type: Boolean,
       default: !1
     },
@@ -40559,13 +40544,14 @@ const Z = /* @__PURE__ */ C(w, [["render", N]]), j = {
       this.$emit("pagination-change-page", t);
     }
   }
-}, S = ["tabindex"], M = /* @__PURE__ */ (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", { "aria-hidden": "true" }, "\xAB", -1), V = ["aria-current"], L = ["tabindex"], T = /* @__PURE__ */ (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", { "aria-hidden": "true" }, "\xBB", -1);
-function F(t, g, a, m, p, c) {
-  const o = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("RenderlessPagination");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(o, {
+}, V = ["tabindex"], T = /* @__PURE__ */ (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", { "aria-hidden": "true" }, "\xAB", -1), F = ["aria-current"], H = ["tabindex"], q = /* @__PURE__ */ (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", { "aria-hidden": "true" }, "\xBB", -1);
+function G(t, d, a, u, f, m) {
+  const h = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("RenderlessPagination");
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(h, {
     data: a.data,
     limit: a.limit,
-    onPaginationChangePage: c.onPaginationChangePage
+    "keep-length": a.keepLength,
+    onPaginationChangePage: m.onPaginationChangePage
   }, {
     default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)((e) => [
       e.computed.total > e.computed.perPage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("ul", (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({ key: 0 }, t.$attrs, {
@@ -40587,20 +40573,20 @@ function F(t, g, a, m, p, c) {
             tabindex: !e.computed.prevPageUrl && -1
           }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toHandlers)(e.prevButtonEvents, !0)), [
             (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(t.$slots, "prev-nav", {}, () => [
-              M
+              T
             ])
-          ], 16, S)
+          ], 16, V)
         ], 2)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("", !0),
-        ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(!0), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(e.computed.pageRange, (n, d) => ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+        ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(!0), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(e.computed.pageRange, (n, g) => ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
           class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item pagination-page-nav", { active: n == e.computed.currentPage }]),
-          key: d
+          key: g
         }, [
           (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
             class: "page-link",
             href: "#"
           }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toHandlers)(e.pageButtonEvents(n), !0), {
             "aria-current": n == e.computed.currentPage ? "page" : null
-          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(n), 17, V)
+          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(n), 17, F)
         ], 2))), 128)),
         e.computed.nextPageUrl || a.showDisabled ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
           key: 1,
@@ -40613,23 +40599,23 @@ function F(t, g, a, m, p, c) {
             tabindex: !e.computed.nextPageUrl && -1
           }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toHandlers)(e.nextButtonEvents, !0)), [
             (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(t.$slots, "next-nav", {}, () => [
-              T
+              q
             ])
-          ], 16, L)
+          ], 16, H)
         ], 2)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("", !0)
       ], 16)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("", !0)
     ]),
     _: 3
-  }, 8, ["data", "limit", "onPaginationChangePage"]);
+  }, 8, ["data", "limit", "keep-length", "onPaginationChangePage"]);
 }
-const ee = /* @__PURE__ */ C(j, [["render", F]]), H = {
+const ne = /* @__PURE__ */ w(M, [["render", G]]), I = {
   compatConfig: {
     MODE: 3
   },
   inheritAttrs: !1,
   emits: ["pagination-change-page"],
   components: {
-    RenderlessPagination: R
+    RenderlessPagination: B
   },
   props: {
     data: {
@@ -40640,6 +40626,10 @@ const ee = /* @__PURE__ */ C(j, [["render", F]]), H = {
     limit: {
       type: Number,
       default: 0
+    },
+    keepLength: {
+      type: Boolean,
+      default: !1
     },
     itemClasses: {
       type: Array,
@@ -40664,7 +40654,7 @@ const ee = /* @__PURE__ */ C(j, [["render", F]]), H = {
       this.$emit("pagination-change-page", t);
     }
   }
-}, q = ["disabled"], G = /* @__PURE__ */ (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", { class: "sr-only" }, "Previous", -1), I = /* @__PURE__ */ (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+}, J = ["disabled"], K = /* @__PURE__ */ (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", { class: "sr-only" }, "Previous", -1), Q = /* @__PURE__ */ (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
   class: "h-5 w-5",
   "aria-hidden": "true",
   xmlns: "http://www.w3.org/2000/svg",
@@ -40678,7 +40668,7 @@ const ee = /* @__PURE__ */ C(j, [["render", F]]), H = {
     "stroke-linejoin": "round",
     d: "M15.75 19.5L8.25 12l7.5-7.5"
   })
-], -1), J = ["aria-current"], K = ["disabled"], Q = /* @__PURE__ */ (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", { class: "sr-only" }, "Next", -1), W = /* @__PURE__ */ (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+], -1), W = ["aria-current"], X = ["disabled"], Y = /* @__PURE__ */ (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", { class: "sr-only" }, "Next", -1), Z = /* @__PURE__ */ (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
   class: "w-5 h-5",
   "aria-hidden": "true",
   xmlns: "http://www.w3.org/2000/svg",
@@ -40693,12 +40683,13 @@ const ee = /* @__PURE__ */ C(j, [["render", F]]), H = {
     d: "M8.25 4.5l7.5 7.5-7.5 7.5"
   })
 ], -1);
-function X(t, g, a, m, p, c) {
-  const o = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("RenderlessPagination");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(o, {
+function ee(t, d, a, u, f, m) {
+  const h = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("RenderlessPagination");
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(h, {
     data: a.data,
     limit: a.limit,
-    onPaginationChangePage: c.onPaginationChangePage
+    "keep-length": a.keepLength,
+    onPaginationChangePage: m.onPaginationChangePage
   }, {
     default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)((e) => [
       e.computed.total > e.computed.perPage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({ key: 0 }, t.$attrs, {
@@ -40710,33 +40701,33 @@ function X(t, g, a, m, p, c) {
           disabled: !e.computed.prevPageUrl
         }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toHandlers)(e.prevButtonEvents, !0)), [
           (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(t.$slots, "prev-nav", {}, () => [
-            G,
-            I
+            K,
+            Q
           ])
-        ], 16, q),
-        ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(!0), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(e.computed.pageRange, (n, d) => ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
+        ], 16, J),
+        ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(!0), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(e.computed.pageRange, (n, g) => ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
           class: ["relative inline-flex items-center border px-4 py-2 text-sm font-medium focus:z-20", [
             n == e.computed.currentPage ? a.activeClasses : a.itemClasses,
             n == e.computed.currentPage ? "z-30" : ""
           ]],
           "aria-current": e.computed.currentPage ? "page" : null,
-          key: d
-        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toHandlers)(e.pageButtonEvents(n), !0)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(n), 17, J))), 128)),
+          key: g
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toHandlers)(e.pageButtonEvents(n), !0)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(n), 17, W))), 128)),
         (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
           class: ["relative inline-flex items-center rounded-r-md border px-2 py-2 text-sm font-medium focus:z-20 disabled:opacity-50", a.itemClasses],
           disabled: !e.computed.nextPageUrl
         }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toHandlers)(e.nextButtonEvents, !0)), [
           (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(t.$slots, "next-nav", {}, () => [
-            Q,
-            W
+            Y,
+            Z
           ])
-        ], 16, K)
+        ], 16, X)
       ], 16)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("", !0)
     ]),
     _: 3
-  }, 8, ["data", "limit", "onPaginationChangePage"]);
+  }, 8, ["data", "limit", "keep-length", "onPaginationChangePage"]);
 }
-const te = /* @__PURE__ */ C(H, [["render", X]]);
+const ie = /* @__PURE__ */ w(I, [["render", ee]]);
 
 
 
@@ -68396,7 +68387,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /**
- * Vue 3 Carousel 0.2.12
+ * Vue 3 Carousel 0.2.16
  * (c) 2023
  * @license MIT
  */
@@ -68586,14 +68577,18 @@ function getSlidesToScroll({ config, currentSlide, slidesCount }) {
 }
 
 function getSlidesVNodes(vNode) {
-    var _a, _b, _c, _d;
-    // Return empty array if there's any node
     if (!vNode)
         return [];
-    // Check if the Slides components are added directly without v-for (#72)
-    if (((_a = vNode[0]) === null || _a === void 0 ? void 0 : _a.children) === "v-if" || ((_c = (_b = vNode[0]) === null || _b === void 0 ? void 0 : _b.type) === null || _c === void 0 ? void 0 : _c.name) === 'CarouselSlide')
-        return vNode.filter((node) => { var _a; return ((_a = node.type) === null || _a === void 0 ? void 0 : _a.name) === "CarouselSlide"; });
-    return ((_d = vNode[0]) === null || _d === void 0 ? void 0 : _d.children) || [];
+    return vNode.reduce((acc, node) => {
+        var _a;
+        if (node.type === vue__WEBPACK_IMPORTED_MODULE_0__.Fragment) {
+            return [...acc, ...getSlidesVNodes(node.children)];
+        }
+        if (((_a = node.type) === null || _a === void 0 ? void 0 : _a.name) === 'CarouselSlide') {
+            return [...acc, node];
+        }
+        return acc;
+    }, []);
 }
 
 function mapNumberToRange({ val, max, min = 0 }) {
@@ -68700,6 +68695,8 @@ var Carousel = (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
             bindConfigs(__defaultConfig);
         }
         function updateBreakpointsConfigs() {
+            if (!Object.keys(breakpoints.value).length)
+                return;
             const breakpointsArray = Object.keys(breakpoints.value)
                 .map((key) => Number(key))
                 .sort((a, b) => +b - +a);
@@ -68720,10 +68717,8 @@ var Carousel = (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
             Object.entries(newConfig).forEach(([key, val]) => (config[key] = val));
         }
         const handleWindowResize = debounce(() => {
-            if (Object.keys(breakpoints.value).length) {
-                updateBreakpointsConfigs();
-                updateSlidesData();
-            }
+            updateBreakpointsConfigs();
+            updateSlidesData();
             updateSlideWidth();
         }, 16);
         /**
@@ -68750,15 +68745,12 @@ var Carousel = (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
             }
         }
         (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(() => {
-            if (Object.keys(breakpoints.value).length) {
+            (0,vue__WEBPACK_IMPORTED_MODULE_0__.nextTick)(() => setTimeout(() => {
                 updateBreakpointsConfigs();
-            }
-            (0,vue__WEBPACK_IMPORTED_MODULE_0__.nextTick)(() => {
                 updateSlidesData();
                 updateSlideWidth();
-                createDragListener();
                 emit('init');
-            });
+            }, 16));
             initAutoplay();
             window.addEventListener('resize', handleWindowResize, { passive: true });
         });
@@ -68769,10 +68761,6 @@ var Carousel = (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
             if (autoplayTimer) {
                 clearInterval(autoplayTimer);
             }
-            /**
-             * use the same options as in onMounted
-             * https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/removeEventListener#Matching_event_listeners_for_removal
-             */
             window.removeEventListener('resize', handleWindowResize, {
                 passive: true,
             });
@@ -68792,33 +68780,29 @@ var Carousel = (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
             isHover.value = false;
         };
         function handleDragStart(event) {
-            if (['INPUT', 'TEXTAREA'].includes(event.target.tagName)) {
+            if (['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target.tagName)) {
                 return;
             }
             isTouch = event.type === 'touchstart';
-            if ((!isTouch && event.button !== 0) || isSliding.value) {
-                return;
-            }
             if (!isTouch) {
                 event.preventDefault();
+            }
+            if ((!isTouch && event.button !== 0) || isSliding.value) {
+                return;
             }
             startPosition.x = isTouch ? event.touches[0].clientX : event.clientX;
             startPosition.y = isTouch ? event.touches[0].clientY : event.clientY;
             document.addEventListener(isTouch ? 'touchmove' : 'mousemove', handleDragging, true);
             document.addEventListener(isTouch ? 'touchend' : 'mouseup', handleDragEnd, true);
         }
-        let handleDragging = () => { };
-        function createDragListener() {
-            var _a;
-            handleDragging = throttle((event) => {
-                endPosition.x = isTouch ? event.touches[0].clientX : event.clientX;
-                endPosition.y = isTouch ? event.touches[0].clientY : event.clientY;
-                const deltaX = endPosition.x - startPosition.x;
-                const deltaY = endPosition.y - startPosition.y;
-                dragged.y = deltaY;
-                dragged.x = deltaX;
-            }, (_a = config.throttle) !== null && _a !== void 0 ? _a : 16);
-        }
+        const handleDragging = throttle((event) => {
+            endPosition.x = isTouch ? event.touches[0].clientX : event.clientX;
+            endPosition.y = isTouch ? event.touches[0].clientY : event.clientY;
+            const deltaX = endPosition.x - startPosition.x;
+            const deltaY = endPosition.y - startPosition.y;
+            dragged.y = deltaY;
+            dragged.x = deltaX;
+        }, config.throttle);
         function handleDragEnd() {
             const direction = config.dir === 'rtl' ? -1 : 1;
             const tolerance = Math.sign(dragged.x) * 0.4;
@@ -69008,12 +68992,8 @@ var Carousel = (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
             const trackEl = (0,vue__WEBPACK_IMPORTED_MODULE_0__.h)('ol', {
                 class: 'carousel__track',
                 style: trackStyle.value,
-                onMousedownCapture: config.mouseDrag
-                    ? handleDragStart
-                    : null,
-                onTouchstartPassiveCapture: config.touchDrag
-                    ? handleDragStart
-                    : null,
+                onMousedownCapture: config.mouseDrag ? handleDragStart : null,
+                onTouchstartPassiveCapture: config.touchDrag ? handleDragStart : null,
             }, output);
             const viewPortEl = (0,vue__WEBPACK_IMPORTED_MODULE_0__.h)('div', { class: 'carousel__viewport' }, trackEl);
             return (0,vue__WEBPACK_IMPORTED_MODULE_0__.h)('section', {
@@ -69186,13 +69166,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ToastifyContainer": () => (/* binding */ toastify_container_default),
 /* harmony export */   "Zoom": () => (/* binding */ Zoom),
 /* harmony export */   "addExitAnimateToNode": () => (/* binding */ addExitAnimateToNode),
+/* harmony export */   "appendFromQueue": () => (/* binding */ appendFromQueue),
 /* harmony export */   "cacheRenderInstance": () => (/* binding */ cacheRenderInstance),
 /* harmony export */   "clearContainers": () => (/* binding */ clearContainers),
 /* harmony export */   "containerInstances": () => (/* binding */ containerInstances),
 /* harmony export */   "default": () => (/* binding */ src_default),
 /* harmony export */   "doAppend": () => (/* binding */ doAppend),
 /* harmony export */   "getAllToast": () => (/* binding */ getAllToast),
-/* harmony export */   "getContainerId": () => (/* binding */ getContainerId2),
 /* harmony export */   "getToast": () => (/* binding */ getToast),
 /* harmony export */   "globalOptions": () => (/* binding */ globalOptions),
 /* harmony export */   "queue": () => (/* binding */ queue),
@@ -69292,16 +69272,16 @@ var defaultToastOptions = __spreadProps(__spreadValues({}, defaultOptions), {
   type: TYPE.DEFAULT,
   icon: false
 });
-var Default;
-(function(Default2) {
+var Default = /* @__PURE__ */ function(Default2) {
   Default2[Default2["COLLAPSE_DURATION"] = 300] = "COLLAPSE_DURATION";
   Default2[Default2["DEBOUNCE_DURATION"] = 50] = "DEBOUNCE_DURATION";
   Default2["CSS_NAMESPACE"] = "Toastify";
-})(Default || (Default = {}));
-var SyntheticEvent;
-(function(SyntheticEvent2) {
+  return Default2;
+}({});
+var SyntheticEvent = /* @__PURE__ */ function(SyntheticEvent2) {
   SyntheticEvent2["ENTRANCE_ANIMATION_END"] = "d";
-})(SyntheticEvent || (SyntheticEvent = {}));
+  return SyntheticEvent2;
+}({});
 var Bounce = {
   enter: `${Default.CSS_NAMESPACE}--animate ${Default.CSS_NAMESPACE}__bounce-enter`,
   exit: `${Default.CSS_NAMESPACE}--animate ${Default.CSS_NAMESPACE}__bounce-exit`,
@@ -69344,6 +69324,64 @@ function getDefaultTransition(type) {
 
 // src/store/containerInstances.tsx
 
+
+// src/utils/render.ts
+function getContainerId(options) {
+  return options.containerId || String(options.position);
+}
+var UnmountTag = "will-unmount";
+function toastContainerInScreen() {
+  let position = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : POSITION.TOP_RIGHT;
+  return !!document.querySelector(`.${Default.CSS_NAMESPACE}__toast-container--${position}`);
+}
+function getToastPosClassName() {
+  let position = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : POSITION.TOP_RIGHT;
+  return `${Default.CSS_NAMESPACE}__toast-container--${position}`;
+}
+function getContainerClassName(position, className) {
+  let rtl = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : false;
+  const defaultClassName = [`${Default.CSS_NAMESPACE}__toast-container`, `${Default.CSS_NAMESPACE}__toast-container--${position}`, rtl ? `${Default.CSS_NAMESPACE}__toast-container--rtl` : null].filter(Boolean).join(" ");
+  return isFn(className) ? className({
+    position,
+    rtl,
+    defaultClassName
+  }) : `${defaultClassName} ${className || ""}`;
+}
+function generateRenderRoot(options) {
+  var _a;
+  const {
+    position,
+    containerClassName,
+    rtl = false,
+    style = {}
+  } = options;
+  const rootClass = Default.CSS_NAMESPACE;
+  const toastPosClassName = getToastPosClassName(position);
+  const root = document.querySelector(`.${rootClass}`);
+  const willRenderRoot = document.querySelector(`.${toastPosClassName}`);
+  const existRenderRoot = !!willRenderRoot && !((_a = willRenderRoot.className) == null ? void 0 : _a.includes(UnmountTag));
+  const container = root || document.createElement("div");
+  const renderRoot = document.createElement("div");
+  renderRoot.className = getContainerClassName(position, containerClassName, rtl);
+  renderRoot.dataset.testid = `${Default.CSS_NAMESPACE}__toast-container--${position}`;
+  renderRoot.id = getContainerId(options);
+  for (const name in style) {
+    if (Object.prototype.hasOwnProperty.call(style, name)) {
+      const val = style[name];
+      renderRoot.style[name] = val;
+    }
+  }
+  if (!root) {
+    container.className = Default.CSS_NAMESPACE;
+    document.body.appendChild(container);
+  }
+  if (!existRenderRoot) {
+    container.appendChild(renderRoot);
+  }
+  return renderRoot;
+}
+
+// src/store/containerInstances.tsx
 function unmountComponent(evt) {
   var _a, _b, _c;
   const containerId = typeof evt === "string" ? evt : ((_a = evt.currentTarget) == null ? void 0 : _a.id) || ((_b = evt.target) == null ? void 0 : _b.id);
@@ -69371,9 +69409,12 @@ function removeContainer(containerId) {
   const id = String(containerId);
   if (!containerInstances[id])
     return;
+  const target = document.getElementById(id);
+  if (target) {
+    target.classList.add(UnmountTag);
+  }
   if (withExitAnimation) {
     resolveNodesAnimation(containerId);
-    const target = document.getElementById(id);
     if (target) {
       target.addEventListener("animationend", unmountComponent, false);
     }
@@ -69412,71 +69453,22 @@ function resolveNodesAnimation(containerId) {
 
 // src/store/toastContainers.ts
 
-
-// src/utils/render.ts
-function toastContainerInScreen() {
-  let position = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : POSITION.TOP_RIGHT;
-  return !!document.querySelector(`.${Default.CSS_NAMESPACE}__toast-container--${position}`);
+function getContainerIdByToastId(id) {
+  const all = getAllToast();
+  const toast2 = all.find((v) => v.toastId === id);
+  return toast2 == null ? void 0 : toast2.containerId;
 }
-function getToastPosClassName() {
-  let position = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : POSITION.TOP_RIGHT;
-  return `${Default.CSS_NAMESPACE}__toast-container--${position}`;
+function getContainerById(containerId) {
+  return document.getElementById(containerId);
 }
-function getContainerClassName(position, className) {
-  let rtl = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : false;
-  const defaultClassName = [`${Default.CSS_NAMESPACE}__toast-container`, `${Default.CSS_NAMESPACE}__toast-container--${position}`, rtl ? `${Default.CSS_NAMESPACE}__toast-container--rtl` : null].filter(Boolean).join(" ");
-  return isFn(className) ? className({
-    position,
-    rtl,
-    defaultClassName
-  }) : `${defaultClassName} ${className || ""}`;
+function needWaitingForUnmount(options) {
+  const container = getContainerById(options.containerId);
+  return container && container.classList.contains(UnmountTag);
 }
-function getContainerId(options) {
-  return options.containerId || String(options.position);
-}
-function generateRenderRoot(options) {
-  const {
-    position,
-    containerClassName,
-    rtl = false,
-    style = {}
-  } = options;
-  const rootClass = Default.CSS_NAMESPACE;
-  const toastPosClassName = getToastPosClassName(position);
-  const existRoot = !!document.querySelector(`.${rootClass}`);
-  const existRenderRoot = !!document.querySelector(`.${toastPosClassName}`);
-  const container = document.querySelector(`.${rootClass}`) || document.createElement("div");
-  const renderRoot = document.createElement("div");
-  renderRoot.className = getContainerClassName(position, containerClassName, rtl);
-  renderRoot.dataset.testid = `${Default.CSS_NAMESPACE}__toast-container--${position}`;
-  renderRoot.id = getContainerId(options);
-  for (const name in style) {
-    if (Object.prototype.hasOwnProperty.call(style, name)) {
-      const val = style[name];
-      renderRoot.style[name] = val;
-    }
-  }
-  if (!existRoot) {
-    container.className = Default.CSS_NAMESPACE;
-    document.body.appendChild(container);
-  }
-  if (!existRenderRoot) {
-    container.appendChild(renderRoot);
-  }
-  return renderRoot;
-}
-
-// src/store/toastContainers.ts
 function getCallbackProps(opts) {
   var _a;
   const result = (0,vue__WEBPACK_IMPORTED_MODULE_0__.isVNode)(opts.content) ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.toRaw)(opts.content.props) : null;
   return result != null ? result : (0,vue__WEBPACK_IMPORTED_MODULE_0__.toRaw)((_a = opts.data) != null ? _a : {});
-}
-function appendFromQueue() {
-  if (queue.items.length > 0) {
-    const append = queue.items.shift();
-    doAppend(append == null ? void 0 : append.toastContent, append == null ? void 0 : append.toastProps);
-  }
 }
 function existQueueItem(containerId) {
   if (!containerId) {
@@ -69484,6 +69476,12 @@ function existQueueItem(containerId) {
   } else {
     const items = queue.items.filter((v) => v.containerId === containerId);
     return items.length > 0;
+  }
+}
+function appendFromQueue() {
+  if (queue.items.length > 0) {
+    const append = queue.items.shift();
+    doAppend(append == null ? void 0 : append.toastContent, append == null ? void 0 : append.toastProps);
   }
 }
 var toastContainers = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({});
@@ -69498,13 +69496,23 @@ function getToast(toastId) {
   const toasts = getAllToast();
   return toasts.find((v) => v.toastId === toastId);
 }
-function getContainerId2(id) {
-  const all = getAllToast();
-  const toast2 = all.find((v) => v.toastId === id);
-  return toast2 == null ? void 0 : toast2.containerId;
-}
 function doAppend(content) {
   let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+  if (needWaitingForUnmount(options)) {
+    const container = getContainerById(options.containerId);
+    if (container) {
+      container.addEventListener("animationend", resolveAppend.bind(null, content, options), false);
+    }
+  } else {
+    resolveAppend(content, options);
+  }
+}
+function resolveAppend(content) {
+  let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+  const container = getContainerById(options.containerId);
+  if (container) {
+    container.removeEventListener("animationend", resolveAppend.bind(null, content, options), false);
+  }
   const sameContainerToasts = toastContainers[options.containerId] || [];
   const hasSameContainer = sameContainerToasts.length > 0;
   if (!hasSameContainer && !toastContainerInScreen(options.position)) {
@@ -69557,7 +69565,7 @@ var ToastActions = {
    */
   remove(id) {
     if (id) {
-      const containerId = getContainerId2(id);
+      const containerId = getContainerIdByToastId(id);
       if (containerId) {
         const toasts = toastContainers[containerId];
         let item = toasts.find((v) => v.toastId === id);
@@ -69618,7 +69626,7 @@ var ToastActions = {
     if (node) {
       node.removeEventListener("animationend", ToastActions.dismissCallback, false);
       setTimeout(() => {
-        this.remove(toastId);
+        ToastActions.remove(toastId);
       });
     }
   },
@@ -69671,16 +69679,16 @@ function saveGlobalOptions() {
 function getGlobalOptions() {
   return globalOptions[`${Default.CSS_NAMESPACE}-default-options`] || defaultGlobalOptions;
 }
-function getSystemThem() {
-  return document.documentElement.className || "light";
+function getSystemTheme() {
+  return document.documentElement.classList.contains("dark") ? "dark" : "light";
 }
 
 // src/types.ts
-var AnimationStep;
-(function(AnimationStep2) {
+var AnimationStep = /* @__PURE__ */ function(AnimationStep2) {
   AnimationStep2[AnimationStep2["Enter"] = 0] = "Enter";
   AnimationStep2[AnimationStep2["Exit"] = 1] = "Exit";
-})(AnimationStep || (AnimationStep = {}));
+  return AnimationStep2;
+}({});
 
 // src/components/toastify-container/index.tsx
 
@@ -70381,8 +70389,19 @@ var toastify_container_default = ToastifyContainer;
 // src/core/toast.tsx
 
 var inThrottle = false;
+function getAllActiveToast() {
+  const result = [];
+  const items = getAllToast();
+  items.forEach((v) => {
+    const container = document.getElementById(v.containerId);
+    if (container && !container.classList.contains(UnmountTag)) {
+      result.push(v);
+    }
+  });
+  return result;
+}
 function watingForQueue(limit) {
-  const displayedCount = getAllToast().length;
+  const displayedCount = getAllActiveToast().length;
   const limitCount = limit != null ? limit : 0;
   return limitCount > 0 && displayedCount + queue.items.length >= limitCount;
 }
@@ -70400,9 +70419,7 @@ function openToast(content, type) {
   let options = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
   if (inThrottle)
     return;
-  options = mergeOptions(getGlobalOptions(), {
-    type
-  }, options);
+  options = mergeOptions(getGlobalOptions(), type, options);
   if (!options.toastId || typeof options.toastId !== "string" && typeof options.toastId !== "number") {
     options.toastId = generateToastId();
   }
@@ -70418,7 +70435,7 @@ function openToast(content, type) {
     options.progress = 1;
   }
   if (options.theme === "auto") {
-    options.theme = getSystemThem();
+    options.theme = getSystemTheme();
   }
   resolveQueue(options);
   if (!options.multiple) {
@@ -70436,11 +70453,19 @@ function openToast(content, type) {
   return options.toastId;
 }
 var toast = (content, options) => openToast(content, TYPE.DEFAULT, options);
-toast.info = (content, options) => openToast(content, TYPE.INFO, options);
-toast.error = (content, options) => openToast(content, TYPE.ERROR, options);
-toast.warning = (content, options) => openToast(content, TYPE.WARNING, options);
+toast.info = (content, options) => openToast(content, TYPE.DEFAULT, __spreadProps(__spreadValues({}, options), {
+  type: TYPE.INFO
+}));
+toast.error = (content, options) => openToast(content, TYPE.DEFAULT, __spreadProps(__spreadValues({}, options), {
+  type: TYPE.ERROR
+}));
+toast.warning = (content, options) => openToast(content, TYPE.DEFAULT, __spreadProps(__spreadValues({}, options), {
+  type: TYPE.WARNING
+}));
 toast.warn = toast.warning;
-toast.success = (content, options) => openToast(content, TYPE.SUCCESS, options);
+toast.success = (content, options) => openToast(content, TYPE.DEFAULT, __spreadProps(__spreadValues({}, options), {
+  type: TYPE.SUCCESS
+}));
 toast.loading = (content, options) => openToast(content, TYPE.DEFAULT, mergeOptions(options, {
   isLoading: true,
   autoClose: false,
@@ -70463,7 +70488,7 @@ toast.clearAll = (containerId, withExitAnimation) => {
 };
 toast.isActive = (toastId) => {
   let isToastActive = false;
-  const all = getAllToast();
+  const all = getAllActiveToast();
   isToastActive = all.findIndex((v) => v.toastId === toastId) > -1;
   return isToastActive;
 };
@@ -72089,103 +72114,22 @@ var index = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "BigNumber": () => (/* binding */ x),
-/* harmony export */   "Money": () => (/* binding */ oe),
-/* harmony export */   "Money3": () => (/* binding */ oe),
-/* harmony export */   "Money3Component": () => (/* binding */ oe),
-/* harmony export */   "Money3Directive": () => (/* binding */ P),
-/* harmony export */   "VMoney": () => (/* binding */ P),
-/* harmony export */   "VMoney3": () => (/* binding */ P),
-/* harmony export */   "default": () => (/* binding */ fe),
+/* harmony export */   "BigNumber": () => (/* binding */ p),
+/* harmony export */   "Money": () => (/* binding */ de),
+/* harmony export */   "Money3": () => (/* binding */ de),
+/* harmony export */   "Money3Component": () => (/* binding */ de),
+/* harmony export */   "Money3Directive": () => (/* binding */ q),
+/* harmony export */   "VMoney": () => (/* binding */ q),
+/* harmony export */   "VMoney3": () => (/* binding */ q),
+/* harmony export */   "default": () => (/* binding */ ge),
 /* harmony export */   "format": () => (/* binding */ k),
 /* harmony export */   "unformat": () => (/* binding */ S)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-var L = Object.defineProperty;
-var H = (t, e, n) => e in t ? L(t, e, { enumerable: !0, configurable: !0, writable: !0, value: n }) : t[e] = n;
-var w = (t, e, n) => (H(t, typeof e != "symbol" ? e + "" : e, n), n);
+var W = Object.defineProperty;
+var Z = (t, e, n) => e in t ? W(t, e, { enumerable: !0, configurable: !0, writable: !0, value: n }) : t[e] = n;
+var w = (t, e, n) => (Z(t, typeof e != "symbol" ? e + "" : e, n), n);
 
-const M = ["+", "-"], $ = ["decimal", "thousands", "prefix", "suffix"];
-function f(t) {
-  return Math.max(0, Math.min(t, 1e3));
-}
-function y(t, e) {
-  return t = t.padStart(e + 1, "0"), e === 0 ? t : `${t.slice(0, -e)}.${t.slice(-e)}`;
-}
-function V(t) {
-  return t = t ? t.toString() : "", t.replace(/\D+/g, "") || "0";
-}
-function ie(t, e) {
-  return t.replace(/(\d)(?=(?:\d{3})+\b)/gm, `$1${e}`);
-}
-function re(t, e, n) {
-  return e ? t + n + e : t;
-}
-function h(t, e) {
-  return M.includes(t) ? (console.warn(`v-money3 "${e}" property don't accept "${t}" as a value.`), !1) : /\d/g.test(t) ? (console.warn(`v-money3 "${e}" property don't accept "${t}" (any number) as a value.`), !1) : !0;
-}
-function ae(t) {
-  for (const e of $)
-    if (!h(t[e], e))
-      return !1;
-  return !0;
-}
-function N(t) {
-  for (const e of $) {
-    t[e] = t[e].replace(/\d+/g, "");
-    for (const n of M)
-      t[e] = t[e].replaceAll(n, "");
-  }
-  return t;
-}
-function F(t) {
-  const e = t.length, n = t.indexOf(".");
-  return e - (n + 1);
-}
-function C(t) {
-  return t.replace(/^(-?)0+(?!\.)(.+)/, "$1$2");
-}
-function I(t) {
-  return /^-?[\d]+$/g.test(t);
-}
-function O(t) {
-  return /^-?[\d]+(\.[\d]+)$/g.test(t);
-}
-function R(t, e, n) {
-  return e > t.length - 1 ? t : t.substring(0, e) + n + t.substring(e + 1);
-}
-function A(t, e) {
-  const n = e - F(t);
-  if (n >= 0)
-    return t;
-  let i = t.slice(0, n);
-  const a = t.slice(n);
-  if (i.charAt(i.length - 1) === "." && (i = i.slice(0, -1)), parseInt(a.charAt(0), 10) >= 5) {
-    for (let s = i.length - 1; s >= 0; s -= 1) {
-      const u = i.charAt(s);
-      if (u !== "." && u !== "-") {
-        const o = parseInt(u, 10) + 1;
-        if (o < 10)
-          return R(i, s, o);
-        i = R(i, s, "0");
-      }
-    }
-    return `1${i}`;
-  }
-  return i;
-}
-function se(t, e) {
-  const n = () => {
-    t.setSelectionRange(e, e);
-  };
-  t === document.activeElement && (n(), setTimeout(n, 1));
-}
-function D(t) {
-  return new Event(t, { bubbles: !0, cancelable: !1 });
-}
-function r({ debug: t = !1 }, ...e) {
-  t && console.log(...e);
-}
 const l = {
   debug: !1,
   masked: !1,
@@ -72203,9 +72147,90 @@ const l = {
   modelModifiers: {
     number: !1
   },
-  shouldRound: !0
-};
-class x {
+  shouldRound: !0,
+  focusOnRight: !1
+}, $ = ["+", "-"], V = ["decimal", "thousands", "prefix", "suffix"];
+function d(t) {
+  return Math.max(0, Math.min(t, 1e3));
+}
+function N(t, e) {
+  return t = t.padStart(e + 1, "0"), e === 0 ? t : `${t.slice(0, -e)}.${t.slice(-e)}`;
+}
+function F(t) {
+  return t = t ? t.toString() : "", t.replace(/\D+/g, "") || "0";
+}
+function se(t, e) {
+  return t.replace(/(\d)(?=(?:\d{3})+\b)/gm, `$1${e}`);
+}
+function ue(t, e, n) {
+  return e ? t + n + e : t;
+}
+function b(t, e) {
+  return $.includes(t) ? (console.warn(`v-money3 "${e}" property don't accept "${t}" as a value.`), !1) : /\d/g.test(t) ? (console.warn(`v-money3 "${e}" property don't accept "${t}" (any number) as a value.`), !1) : !0;
+}
+function le(t) {
+  for (const e of V)
+    if (!b(t[e], e))
+      return !1;
+  return !0;
+}
+function x(t) {
+  for (const e of V) {
+    t[e] = t[e].replace(/\d+/g, "");
+    for (const n of $)
+      t[e] = t[e].replaceAll(n, "");
+  }
+  return t;
+}
+function I(t) {
+  const e = t.length, n = t.indexOf(".");
+  return e - (n + 1);
+}
+function C(t) {
+  return t.replace(/^(-?)0+(?!\.)(.+)/, "$1$2");
+}
+function A(t) {
+  return /^-?[\d]+$/g.test(t);
+}
+function D(t) {
+  return /^-?[\d]+(\.[\d]+)$/g.test(t);
+}
+function O(t, e, n) {
+  return e > t.length - 1 ? t : t.substring(0, e) + n + t.substring(e + 1);
+}
+function P(t, e) {
+  const n = e - I(t);
+  if (n >= 0)
+    return t;
+  let i = t.slice(0, n);
+  const a = t.slice(n);
+  if (i.charAt(i.length - 1) === "." && (i = i.slice(0, -1)), parseInt(a.charAt(0), 10) >= 5) {
+    for (let s = i.length - 1; s >= 0; s -= 1) {
+      const u = i.charAt(s);
+      if (u !== "." && u !== "-") {
+        const o = parseInt(u, 10) + 1;
+        if (o < 10)
+          return O(i, s, o);
+        i = O(i, s, "0");
+      }
+    }
+    return `1${i}`;
+  }
+  return i;
+}
+function _(t, e) {
+  const n = () => {
+    t.setSelectionRange(e, e);
+  };
+  t === document.activeElement && (n(), setTimeout(n, 1));
+}
+function j(t) {
+  return new Event(t, { bubbles: !0, cancelable: !1 });
+}
+function r({ debug: t = !1 }, ...e) {
+  t && console.log(...e);
+}
+class p {
   constructor(e) {
     w(this, "number", 0n);
     w(this, "decimal", 0);
@@ -72223,7 +72248,7 @@ class x {
   toFixed(e = 0, n = !0) {
     let i = this.toString();
     const a = e - this.getDecimalPrecision();
-    return a > 0 ? (i.includes(".") || (i += "."), i.padEnd(i.length + a, "0")) : a < 0 ? n ? A(i, e) : i.slice(0, a) : i;
+    return a > 0 ? (i.includes(".") || (i += "."), i.padEnd(i.length + a, "0")) : a < 0 ? n ? P(i, e) : i.slice(0, a) : i;
   }
   toString() {
     let e = this.number.toString();
@@ -72246,16 +72271,16 @@ class x {
     return n === i;
   }
   setupString(e) {
-    if (e = C(e), I(e))
+    if (e = C(e), A(e))
       this.number = BigInt(e);
-    else if (O(e))
-      this.decimal = F(e), this.number = BigInt(e.replace(".", ""));
+    else if (D(e))
+      this.decimal = I(e), this.number = BigInt(e.replace(".", ""));
     else
       throw new Error(`BigNumber has received and invalid format for the constructor: ${e}`);
   }
   adjustComparisonNumbers(e) {
     let n;
-    e.constructor.name !== "BigNumber" ? n = new x(e) : n = e;
+    e.constructor.name !== "BigNumber" ? n = new p(e) : n = e;
     const i = this.getDecimalPrecision() - n.getDecimalPrecision();
     let a = this.getNumber(), s = n.getNumber();
     return i > 0 ? s = n.getNumber() * 10n ** BigInt(i) : i < 0 && (a = this.getNumber() * 10n ** BigInt(i * -1)), [a, s];
@@ -72265,62 +72290,65 @@ function k(t, e = l, n = "") {
   if (r(e, "utils format() - caller", n), r(e, "utils format() - input1", t), t == null)
     t = "";
   else if (typeof t == "number")
-    e.shouldRound ? t = t.toFixed(f(e.precision)) : t = t.toFixed(f(e.precision) + 1).slice(0, -1);
-  else if (e.modelModifiers && e.modelModifiers.number && I(t))
-    t = Number(t).toFixed(f(e.precision));
+    e.shouldRound ? t = t.toFixed(d(e.precision)) : t = t.toFixed(d(e.precision) + 1).slice(0, -1);
+  else if (e.modelModifiers && e.modelModifiers.number && A(t))
+    t = Number(t).toFixed(d(e.precision));
   else if (!e.disableNegative && t === "-")
     return t;
   r(e, "utils format() - input2", t);
   const i = e.disableNegative ? "" : t.indexOf("-") >= 0 ? "-" : "";
   let a = t.replace(e.prefix, "").replace(e.suffix, "");
-  r(e, "utils format() - filtered", a), !e.precision && e.thousands !== "." && O(a) && (a = A(a, 0), r(e, "utils format() - !opt.precision && isValidFloat()", a));
-  const s = V(a);
-  r(e, "utils format() - numbers", s), r(e, "utils format() - numbersToCurrency", i + y(s, e.precision));
-  const u = new x(i + y(s, e.precision));
+  r(e, "utils format() - filtered", a), !e.precision && e.thousands !== "." && D(a) && (a = P(a, 0), r(e, "utils format() - !opt.precision && isValidFloat()", a));
+  const s = F(a);
+  r(e, "utils format() - numbers", s), r(e, "utils format() - numbersToCurrency", i + N(s, e.precision));
+  const u = new p(i + N(s, e.precision));
   r(e, "utils format() - bigNumber1", u.toString()), e.max && u.biggerThan(e.max) && u.setNumber(e.max), e.min && u.lessThan(e.min) && u.setNumber(e.min);
-  const o = u.toFixed(f(e.precision), e.shouldRound);
-  if (r(e, "utils format() - bigNumber2", u.toFixed(f(e.precision))), /^0(\.0+)?$/g.test(o) && e.allowBlank)
+  const o = u.toFixed(d(e.precision), e.shouldRound);
+  if (r(e, "utils format() - bigNumber2", u.toFixed(d(e.precision))), /^0(\.0+)?$/g.test(o) && e.allowBlank)
     return "";
-  let [c, m] = o.split(".");
-  const p = m !== void 0 ? m.length : 0;
-  c = c.padStart(e.minimumNumberOfCharacters - p, "0"), c = ie(c, e.thousands);
-  const v = e.prefix + re(c, m, e.decimal) + e.suffix;
-  return r(e, "utils format() - output", v), v;
+  let [g, f] = o.split(".");
+  const h = f !== void 0 ? f.length : 0;
+  g = g.padStart(e.minimumNumberOfCharacters - h, "0"), g = se(g, e.thousands);
+  const y = e.prefix + ue(g, f, e.decimal) + e.suffix;
+  return r(e, "utils format() - output", y), y;
 }
 function S(t, e = l, n = "") {
   if (r(e, "utils unformat() - caller", n), r(e, "utils unformat() - input", t), !e.disableNegative && t === "-")
     return r(e, "utils unformat() - return netagive symbol", t), t;
   const i = e.disableNegative ? "" : t.indexOf("-") >= 0 ? "-" : "", a = t.replace(e.prefix, "").replace(e.suffix, "");
   r(e, "utils unformat() - filtered", a);
-  const s = V(a);
+  const s = F(a);
   r(e, "utils unformat() - numbers", s);
-  const u = new x(i + y(s, e.precision));
+  const u = new p(i + N(s, e.precision));
   r(e, "utils unformat() - bigNumber1", s.toString()), e.max && u.biggerThan(e.max) && u.setNumber(e.max), e.min && u.lessThan(e.min) && u.setNumber(e.min);
-  let o = u.toFixed(f(e.precision), e.shouldRound);
+  let o = u.toFixed(d(e.precision), e.shouldRound);
   return e.modelModifiers && e.modelModifiers.number && (o = parseFloat(o)), r(e, "utils unformat() - output", o), o;
 }
-const B = (t, e, n) => {
-  if (r(e, "directive setValue() - caller", n), !ae(e)) {
+const R = (t, e, n) => {
+  if (r(e, "directive setValue() - caller", n), !le(e)) {
     r(e, "directive setValue() - validateRestrictedOptions() return false. Stopping here...", t.value);
     return;
   }
   let i = t.value.length - (t.selectionEnd || 0);
-  t.value = k(t.value, e, n), i = Math.max(i, e.suffix.length), i = t.value.length - i, i = Math.max(i, e.prefix.length), se(t, i), t.dispatchEvent(D("change"));
+  t.value = k(t.value, e, n), i = Math.max(i, e.suffix.length), i = t.value.length - i, i = Math.max(i, e.prefix.length), _(t, i), t.dispatchEvent(j("change"));
 }, T = (t, e) => {
   const n = t.currentTarget, i = t.code === "Backspace" || t.code === "Delete", a = n.value.length - (n.selectionEnd || 0) === 0;
-  if (r(e, "directive onkeydown() - el.value", n.value), r(e, "directive onkeydown() - backspacePressed", i), r(e, "directive onkeydown() - isAtEndPosition", a), e.allowBlank && i && a && S(n.value, e, "directive onkeydown allowBlank") === 0 && (r(e, 'directive onkeydown() - set el.value = ""', n.value), n.value = "", n.dispatchEvent(D("change"))), r(e, "directive onkeydown() - e.key", t.key), t.key === "+") {
+  if (r(e, "directive onkeydown() - el.value", n.value), r(e, "directive onkeydown() - backspacePressed", i), r(e, "directive onkeydown() - isAtEndPosition", a), e.allowBlank && i && a && S(n.value, e, "directive onkeydown allowBlank") === 0 && (r(e, 'directive onkeydown() - set el.value = ""', n.value), n.value = "", n.dispatchEvent(j("change"))), r(e, "directive onkeydown() - e.key", t.key), t.key === "+") {
     r(e, "directive onkeydown() - unformat el.value", n.value);
     let s = S(n.value, e, "directive onkeydown +");
     typeof s == "string" && (s = parseFloat(s)), s < 0 && (n.value = String(s * -1));
   }
 }, E = (t, e) => {
   const n = t.currentTarget;
-  r(e, "directive oninput()", n.value), /^[1-9]$/.test(n.value) && (n.value = y(n.value, f(e.precision)), r(e, "directive oninput() - is 1-9", n.value)), B(n, e, "directive oninput");
-}, P = {
+  r(e, "directive oninput()", n.value), /^[1-9]$/.test(n.value) && (n.value = N(n.value, d(e.precision)), r(e, "directive oninput() - is 1-9", n.value)), R(n, e, "directive oninput");
+}, M = (t, e) => {
+  const n = t.currentTarget;
+  r(e, "directive onFocus()", n.value), e.focusOnRight && _(n, n.value.length - e.suffix.length);
+}, q = {
   mounted(t, e) {
     if (!e.value)
       return;
-    const n = N({ ...l, ...e.value });
+    const n = x({ ...l, ...e.value });
     if (r(n, "directive mounted() - opt", n), t.tagName.toLocaleUpperCase() !== "INPUT") {
       const i = t.getElementsByTagName("input");
       i.length !== 1 || (t = i[0]);
@@ -72329,29 +72357,33 @@ const B = (t, e, n) => {
       T(i, n);
     }, t.oninput = (i) => {
       E(i, n);
-    }, r(n, "directive mounted() - el.value", t.value), B(t, n, "directive mounted");
+    }, t.onfocus = (i) => {
+      M(i, n);
+    }, r(n, "directive mounted() - el.value", t.value), R(t, n, "directive mounted");
   },
   updated(t, e) {
     if (!e.value)
       return;
-    const n = N({ ...l, ...e.value });
+    const n = x({ ...l, ...e.value });
     t.onkeydown = (i) => {
       T(i, n);
     }, t.oninput = (i) => {
       E(i, n);
-    }, r(n, "directive updated() - el.value", t.value), r(n, "directive updated() - opt", n), B(t, n, "directive updated");
+    }, t.onfocus = (i) => {
+      M(i, n);
+    }, r(n, "directive updated() - el.value", t.value), r(n, "directive updated() - opt", n), R(t, n, "directive updated");
   },
   beforeUnmount(t) {
     t.onkeydown = null, t.oninput = null, t.onfocus = null;
   }
-}, ue = ["id", "value", "disabled"], le = {
+}, oe = ["id", "value", "disabled"], ce = {
   inheritAttrs: !1,
   name: "Money3",
   directives: {
-    money3: P
+    money3: q
   }
-}, oe = /* @__PURE__ */ (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
-  ...le,
+}, de = /* @__PURE__ */ (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
+  ...ce,
   props: {
     debug: {
       required: !1,
@@ -72387,28 +72419,28 @@ const B = (t, e, n) => {
       type: String,
       default: () => l.decimal,
       validator(t) {
-        return h(t, "decimal");
+        return b(t, "decimal");
       }
     },
     thousands: {
       type: String,
       default: () => l.thousands,
       validator(t) {
-        return h(t, "thousands");
+        return b(t, "thousands");
       }
     },
     prefix: {
       type: String,
       default: () => l.prefix,
       validator(t) {
-        return h(t, "prefix");
+        return b(t, "prefix");
       }
     },
     suffix: {
       type: String,
       default: () => l.suffix,
       validator(t) {
-        return h(t, "suffix");
+        return b(t, "suffix");
       }
     },
     disableNegative: {
@@ -72438,52 +72470,56 @@ const B = (t, e, n) => {
     shouldRound: {
       type: Boolean,
       default: () => l.shouldRound
+    },
+    focusOnRight: {
+      type: Boolean,
+      default: () => l.focusOnRight
     }
   },
   emits: ["update:model-value"],
   setup(t, { emit: e }) {
-    const n = t, { modelValue: i, modelModifiers: a, masked: s, precision: u, shouldRound: o } = (0,vue__WEBPACK_IMPORTED_MODULE_0__.toRefs)(n);
+    const n = t, { modelValue: i, modelModifiers: a, masked: s, precision: u, shouldRound: o, focusOnRight: g } = (0,vue__WEBPACK_IMPORTED_MODULE_0__.toRefs)(n);
     r(n, "component setup()", n);
-    let c = i.value;
-    (n.disableNegative || c !== "-") && a.value && a.value.number && (o.value ? c = Number(i.value).toFixed(f(u.value)) : c = Number(i.value).toFixed(f(u.value) + 1).slice(0, -1));
-    const m = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(k(c, n, "component setup"));
-    r(n, "component setup() - data.formattedValue", m.value), (0,vue__WEBPACK_IMPORTED_MODULE_0__.watch)(i, p);
-    function p(g) {
-      r(n, "component watch() -> value", g);
-      const d = k(
-        g,
-        N({ ...n }),
+    let f = i.value;
+    (n.disableNegative || f !== "-") && a.value && a.value.number && (o.value ? f = Number(i.value).toFixed(d(u.value)) : f = Number(i.value).toFixed(d(u.value) + 1).slice(0, -1));
+    const h = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(k(f, n, "component setup"));
+    r(n, "component setup() - data.formattedValue", h.value), (0,vue__WEBPACK_IMPORTED_MODULE_0__.watch)(i, y);
+    function y(m) {
+      r(n, "component watch() -> value", m);
+      const c = k(
+        m,
+        x({ ...n }),
         "component watch"
       );
-      d !== m.value && (r(n, "component watch() changed -> formatted", d), m.value = d);
+      c !== h.value && (r(n, "component watch() changed -> formatted", c), h.value = c);
     }
-    let v = null;
-    function _(g) {
-      let d = g.target.value;
-      r(n, "component change() -> evt.target.value", d), s.value && !a.value.number || (d = S(
-        d,
-        N({ ...n }),
+    let B = null;
+    function U(m) {
+      let c = m.target.value;
+      r(n, "component change() -> evt.target.value", c), s.value && !a.value.number || (c = S(
+        c,
+        x({ ...n }),
         "component change"
-      )), d !== v && (v = d, r(n, "component change() -> update:model-value", d), e("update:model-value", d));
+      )), c !== B && (B = c, r(n, "component change() -> update:model-value", c), e("update:model-value", c));
     }
-    const j = (0,vue__WEBPACK_IMPORTED_MODULE_0__.useAttrs)(), q = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => {
-      const g = {
-        ...j
+    const L = (0,vue__WEBPACK_IMPORTED_MODULE_0__.useAttrs)(), H = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => {
+      const m = {
+        ...L
       };
-      return delete g["onUpdate:modelValue"], g;
+      return delete m["onUpdate:modelValue"], m;
     });
-    return (g, d) => {
-      const U = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("money3");
+    return (m, c) => {
+      const K = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("money3");
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
         id: `${t.id}`
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.unref)(q), {
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.unref)(H), {
         type: "tel",
         class: "v-money3",
-        value: m.value,
+        value: h.value,
         disabled: n.disabled,
-        onChange: _
-      }), null, 16, ue)), [
-        [U, {
+        onChange: U
+      }), null, 16, oe)), [
+        [K, {
           precision: (0,vue__WEBPACK_IMPORTED_MODULE_0__.unref)(u),
           decimal: n.decimal,
           thousands: n.thousands,
@@ -72496,14 +72532,15 @@ const B = (t, e, n) => {
           minimumNumberOfCharacters: n.minimumNumberOfCharacters,
           debug: n.debug,
           modelModifiers: (0,vue__WEBPACK_IMPORTED_MODULE_0__.unref)(a),
-          shouldRound: (0,vue__WEBPACK_IMPORTED_MODULE_0__.unref)(o)
+          shouldRound: (0,vue__WEBPACK_IMPORTED_MODULE_0__.unref)(o),
+          focusOnRight: (0,vue__WEBPACK_IMPORTED_MODULE_0__.unref)(g)
         }]
       ]);
     };
   }
-}), fe = {
+}), ge = {
   install(t) {
-    t.component("money3", oe), t.directive("money3", P);
+    t.component("money3", de), t.directive("money3", q);
   }
 };
 
