@@ -28,6 +28,7 @@ class PaymentsTableSeeder extends Seeder
             [
                 'description' => 'Pagar com Mercado Pago',
                 'integration' => 'MercadoPago',
+                'route_base' => 'payment_integration.mercadopago',
                 'ismoney' => 0,
                 'status' => 1
             ],
