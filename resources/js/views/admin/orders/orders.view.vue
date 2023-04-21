@@ -65,9 +65,9 @@ export default {
     created() { },
     mounted() {
         this.getOrders()
-        Bus.$on('order.created', (order) => {
-            this.orders.data.unshift(order)
-        })
+        // Bus.$on('order.created', (order) => {
+        //     this.orders.data.unshift(order)
+        // })
     },
     data() {
         return {

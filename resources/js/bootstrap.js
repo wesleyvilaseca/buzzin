@@ -18,14 +18,17 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 import Echo from 'laravel-echo';
 import Socket from 'socket.io-client';
-
-
 // window.Pusher = require('pusher-js');
-window.io = Socket;
 
+const host = window.location.host;
+
+window.io = Socket;
 window.Echo = new Echo({
     broadcaster: 'socket.io',
-    host: `${window.location.host}:6001`,
+    host: `${host}:6001`,
 });
 
-require('./Echo');
+if (host === process.env.MIX_APP_URL.replace(/^https?:\/\//, '')) {
+    require('./Echo');
+}
+

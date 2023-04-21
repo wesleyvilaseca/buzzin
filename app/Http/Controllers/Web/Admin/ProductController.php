@@ -117,8 +117,6 @@ class ProductController extends Controller
 
         $product = $this->repository->create($data);
 
-        event(new ProductCreated($product));
-
         return Redirect::route('admin.products')->with('success', 'Produto criado com sucesso');
     }
 
@@ -150,8 +148,6 @@ class ProductController extends Controller
         }
 
         $product->update($data);
-
-        event(new ProductCreated($product));
         
         return Redirect::route('admin.products')->with('success', 'Produto editado com sucesso');
     }

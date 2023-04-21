@@ -20360,11 +20360,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   created: function created() {},
   mounted: function mounted() {
-    var _this = this;
     this.getOrders();
-    _bus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('order.created', function (order) {
-      _this.orders.data.unshift(order);
-    });
+    // Bus.$on('order.created', (order) => {
+    //     this.orders.data.unshift(order)
+    // })
   },
   data: function data() {
     return {
@@ -20400,7 +20399,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getOrders: function getOrders() {
-      var _this2 = this;
+      var _this = this;
       this.reset();
       this.loadingOrders = true;
       axios.get('/api/v1/my-orders', {
@@ -20409,11 +20408,11 @@ __webpack_require__.r(__webpack_exports__);
           date: this.dateFilter
         }
       }).then(function (response) {
-        return _this2.orders = response.data;
+        return _this.orders = response.data;
       })["catch"](function (error) {
         return alert('error');
       })["finally"](function () {
-        return _this2.loadingOrders = false;
+        return _this.loadingOrders = false;
       });
     },
     reset: function reset() {
@@ -27309,24 +27308,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _bus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bus */ "./resources/js/bus.js");
 /* harmony import */ var vue3_toastify__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue3-toastify */ "./node_modules/vue3-toastify/dist/esm/index.js");
+var _window, _window$Laravel;
 
 
 
 // get id tenant
-var tenantId = window.Laravel.tenantId;
-window.Echo.channel("buzzin_database_presence-order-created.".concat(tenantId)).listen('OrderCreated', function (e) {
-  _bus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('order.created', e.order);
+var tenantId = (_window = window) === null || _window === void 0 ? void 0 : (_window$Laravel = _window.Laravel) === null || _window$Laravel === void 0 ? void 0 : _window$Laravel.tenantId;
+window.Echo.channel("buzzin_database_private-order-created.".concat(tenantId)).listen('OrderCreated', function (e) {
+  // Bus.$emit('order.created', e.order)
   vue3_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.success("Novo pedido ".concat(e.order.identify), {
     autoClose: 9000
   });
 });
-window.Echo.channel("buzzin_database_presence-product-created.".concat(tenantId)).listen('ProductCreated', function (e) {
-  console.log(e);
-  // Bus.$emit('order.created', e.product);
-  vue3_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.success("Novo produto criado ".concat(e.product.title), {
-    autoClose: 9000
-  });
-});
+
+// window.Echo.channel(`buzzin_database_presence-product-created.${tenantId}`)
+// .listen('ProductCreated', (e) => {
+//     console.log(e);
+//     Bus.$emit('order.created', e.product);
+//     toast.success(`Novo produto criado ${e.product.title}`, { autoClose: 9000 });
+// })
 
 /***/ }),
 
@@ -27468,14 +27468,17 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 
 
-
 // window.Pusher = require('pusher-js');
+
+var host = window.location.host;
 window.io = (socket_io_client__WEBPACK_IMPORTED_MODULE_1___default());
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'socket.io',
-  host: "".concat(window.location.host, ":6001")
+  host: "".concat(host, ":6001")
 });
-__webpack_require__(/*! ./Echo */ "./resources/js/Echo.js");
+if (host === "http://buzzin.com".replace(/^https?:\/\//, '')) {
+  __webpack_require__(/*! ./Echo */ "./resources/js/Echo.js");
+}
 
 /***/ }),
 
