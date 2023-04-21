@@ -32,14 +32,22 @@
                                 @endphp
 
                                 @if ($tenantPayment && $tenantPayment->status == 1)
-                                    <form action="{{ route('payment.disable', [$tenantPayment->id]) }}" method="POST"
-                                        class="form form-inline">
-                                        @csrf
-                                        @method('PUT')
-                                        <button class="btn btn-sm btn-danger">
-                                            Desativar
-                                        </button>
-                                    </form>
+                                    <div class="d-flex flex-row">
+                                        <form action="{{ route('payment.disable', [$tenantPayment->id]) }}" method="POST"
+                                            class="form form-inline">
+                                            @csrf
+                                            @method('PUT')
+                                            <button class="btn btn-sm btn-danger">
+                                                Desativar
+                                            </button>
+                                        </form>
+    
+                                        @if($payment->route_base)
+                                            <a href="{{ route($payment->route_base, [$tenantPayment->id]) }}" class="btn btn-sm btn-warning ms-2">
+                                                <i class="fa-solid fa-gear"></i>
+                                            </a>
+                                        @endif
+                                    </div>
                                 @endif
 
                                 @if ($tenantPayment && $tenantPayment->status == 0)

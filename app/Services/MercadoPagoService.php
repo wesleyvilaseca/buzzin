@@ -290,4 +290,8 @@ class MercadoPagoService
             }
         }
     }
+
+    public function proccessPaymentCardIntegration(array $data) {
+        dd($data);
+    }
 }

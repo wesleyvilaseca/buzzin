@@ -25,7 +25,8 @@ const state = {
     },
     selectedPaymentMethod: {
         description: ""
-    }
+    },
+    step: 0
 };
 
 export default state;

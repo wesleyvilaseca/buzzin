@@ -52,18 +52,18 @@
             </div>
         </div>
 
-        <div class="">
+        <!-- <div class="">
             <div class="d-flex justify-content-center" v-if="canFinish">
                 <button type="button" class="btn load_more_btn" @click.prevent="changeCheckoutInfos()">Alterar endereço de
                     entrega?</button>
             </div>
 
-            <div class="mb-2" v-if="canFinish">
+            <div class="mb-2" v-if="'canFinish'">
                 <label for="exampleFormControlTextarea1" class="form-label">Deseja fazer algum comentário para o lojista?
                 </label>
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" v-model="comment"></textarea>
             </div>
-        </div>
+        </div> -->
 
         <div class="mt-4" v-if="!isInCheckout">
             <a href="" class="cart-finalizar" @click.prevent="openModalCheckout(true)">{{ textButton }}</a>
@@ -74,54 +74,28 @@
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button" :class="{ 'collapsed': step.stepZero }" type="button"
-                        data-bs-toggle="collapse" data-bs-target="#collapseOne" :aria-expanded="{ 'true': step.stepZero }"
-                        aria-controls="collapseOne"
-                        @click.prevent="setStep({ stepZero: true, one: false, two: false, three: false, four: false })">
+                    <button class="accordion-button" :class="[step == 0 ? 'collapsed' : '']" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#collapseOne" :aria-expanded="[step == 0 ? 'true' : '']"
+                        aria-controls="collapseOne" @click.prevent="setStep(0)">
                         Selecione o endereço de entrega
                     </button>
                 </h2>
-                <div id="collapseOne" class="accordion-collapse collapse" :class="{ 'show': step.stepZero }"
+                <div id="collapseOne" class="accordion-collapse collapse" :class="[step == 0 ? 'show' : '']"
                     aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                        <div class="d-flex justify-content-end">
-                            <button type="button" class="btn load_more_btn"
-                                @click.prevent="modalEndereco(true)">Adicionar</button>
-                        </div>
-
-                        <div v-if="address.data.length > 0">
-                            <div cla v-for="(item, index) in address.data" :key="index" @click.prevent="setAddress(item)"
-                                class="card mt-1" style="cursor: pointer;">
-                                <div class="card-body">
-                                    <div>
-                                        {{ item.address }}
-                                        <span v-if="item.number">
-                                            n: {{ item.number }}
-                                        </span>
-                                        {{ item.district }}
-                                    </div>
-                                    <!-- <small class="badge bg-success" v-if="item.status == 1">Endereço principal</small> -->
-                                    <p class="mb-1"> {{ item.complement }} {{ item.city }} - {{ item.state }}</p>
-                                    <small class="text-muted">{{ item.zip_code }}</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-2" v-else>
-                            <div class="alert alert-warning text-center"> Você não possuí endereços cadastrados </div>
-                        </div>
+                        <Address />
                     </div>
                 </div>
             </div>
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingTwo">
-                    <button class="accordion-button" :class="{ 'collapsed': step.one }" type="button"
-                        data-bs-toggle="collapse" data-bs-target="#collapseTwo" :aria-expanded="{ 'true': step.one }"
-                        aria-controls="collapseTwo" :disabled="selectedAddress.zip_code == ''"
-                        @click.prevent="setStep({ stepZero: false, one: true, two: false, three: false, four: false })">
+                    <button class="accordion-button" :class="[step == 1 ? 'collapsed' : '']" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#collapseTwo" :aria-expanded="[step == 1 ? 'true' : '']"
+                        aria-controls="collapseTwo" :disabled="selectedAddress.zip_code == ''" @click.prevent="setStep(1)">
                         Selecione a forma de entrega
                     </button>
                 </h2>
-                <div id="collapseTwo" class="accordion-collapse collapse" :class="{ 'show': step.one }"
+                <div id="collapseTwo" class="accordion-collapse collapse" :class="[step == 1 ? 'show' : '']"
                     aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <!-- aqui é a listagem das formas de entrega -->
@@ -162,13 +136,14 @@
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingThree">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseThree" aria-controls="collapseThree" :aria-expanded="{ 'true': step.two }"
+                        data-bs-target="#collapseThree" aria-controls="collapseThree"
+                        :aria-expanded="[step == 2 ? 'true' : '']"
                         :disabled="selectedAddress.zip_code == '' || selectedShippingMethod.price == ''"
-                        @click.prevent="setStep({ stepZero: false, one: false, two: true, three: false, four: false })">
+                        @click.prevent="setStep(2)">
                         Selecione a forma de pagamento
                     </button>
                 </h2>
-                <div id="collapseThree" class="accordion-collapse collapse" :class="{ 'show': step.two }"
+                <div id="collapseThree" class="accordion-collapse collapse" :class="[step == 2 ? 'show' : '']"
                     aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <template v-if="paymentMethods.data.length > 0">
@@ -213,13 +188,13 @@
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingFour">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseFour" aria-controls="collapseFour" :aria-expanded="{ 'true': step.three }"
-                        :disabled="selectedPaymentMethod.description == ''"
-                        @click.prevent="setStep({ stepZero: false, one: false, two: false, three: true, four: false })">
+                        data-bs-target="#collapseFour" aria-controls="collapseFour"
+                        :aria-expanded="[step == 3 ? 'true' : '']" :disabled="selectedPaymentMethod.description == ''"
+                        @click.prevent="setStep(3)">
                         Resumo do pedido
                     </button>
                 </h2>
-                <div id="collapseFour" class="accordion-collapse collapse" :class="{ 'show': step.three }"
+                <div id="collapseFour" class="accordion-collapse collapse" :class="[step == 3 ? 'show' : '']"
                     aria-labelledby="headingFour" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <table class="table">
@@ -322,110 +297,6 @@
         </template>
     </ModalComponent>
 
-    <ModalComponent v-show="isModalEnderecoVisible" title="Cadastrar novo endereço" @close="modalEndereco(false)">
-        <template v-slot:content>
-            <template v-if="company.isOpen == 'N'">
-                <div class="text-center">
-                    <div class="alert alert-warning">
-                        Nesse momento a loja está fechada
-                        <p>
-                            Entregas e retiradas serão feitas quando a loja estiver aberta
-                        </p>
-                    </div>
-                </div>
-            </template>
-
-            <div name="checkout-order" :heigth="350" v-if="company.clientCanBuy == 'Y'">
-                <!-- caso ele esteja na página de listagem de endereços -->
-                <div class="d-flex justify-content-end">
-                    <button type="button" class="btn calcel-button me-2"
-                        @click.prevent="modalEndereco(false)">Cancelar</button>
-                    <button type="button" class="btn load_more_btn" @click.prevent="salveAddress()" :disabled="loading">
-                        <span v-if="loading">Salvando...</span>
-                        <span v-else> Salvar</span>
-                    </button>
-                </div>
-
-                <form>
-                    <div class="form-group mt-2 col-md-4" v-if="me.hasIdDoc == 'N'">
-                        <label>Informe seu CPF:</label>
-                        <input type="text" v-model="formAddress.cpf" class="form-control form-control-sm" placeholder="CPF"
-                            v-mask="'###.###.###-##'">
-                        <div class="form-text text-danger" v-if="errors.cpf != ''">
-                            {{ errors.cpf[0] || "" }}
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group mt-2 col-md-4">
-                            <label>CEP:</label>
-                            <input type="text" v-model="formAddress.zip_code" class="form-control form-control-sm"
-                                placeholder="CEP:" @blur.prevent="buscacep()" v-mask="'#####-###'">
-                            <div class="form-text text-danger" v-if="errors.zip_code != ''">
-                                {{ errors.zip_code[0] || "" }}
-                            </div>
-                        </div>
-
-                        <div class="form-group mt-2 col-md-5">
-                            <label>Cidade: *</label>
-                            <input type="text" v-model="formAddress.city" class="form-control form-control-sm"
-                                placeholder="Cidade:" readonly>
-                            <div class="form-text text-danger" v-if="errors.city != ''">
-                                {{ errors.city[0] || "" }}
-                            </div>
-                        </div>
-
-                        <div class="form-group mt-2 col-md-2">
-
-                            <label>UF: *</label>
-                            <input type="text" v-model="formAddress.state" class="form-control form-control-sm"
-                                placeholder="UF:" readonly>
-                            <div class="form-text text-danger" v-if="errors.state != ''">
-                                {{ errors.state[0] || "" }}
-                            </div>
-                        </div>
-
-                        <div class="form-group mt-2 col-md-5">
-
-                            <label>Bairro: *</label>
-                            <input type="text" v-model="formAddress.district" class="form-control form-control-sm"
-                                placeholder="Bairro:" readonly>
-                            <div class="form-text text-danger" v-if="errors.district != ''">
-                                {{ errors.district[0] || "" }}
-                            </div>
-                        </div>
-
-                        <div class="form-group mt-2 col-md-5">
-                            <label>Endereço: *</label>
-                            <input type="text" v-model="formAddress.address" class="form-control form-control-sm"
-                                placeholder="Endereço:">
-                            <div class="form-text text-danger" vv-if="errors.address != ''">
-                                {{ errors.address[0] || "" }}
-                            </div>
-                        </div>
-
-                        <div class="form-group mt-2 col-md-2">
-                            <label>Numero:</label>
-                            <input type="text" v-model="formAddress.number" class="form-control form-control-sm">
-                            <div class="form-text text-danger" v-if="errors.number != ''">
-                                {{ errors.number[0] || "" }}
-                            </div>
-                        </div>
-
-                        <div class="form-group mt-2 col-md-12">
-                            <label>Complemento:</label>
-                            <input type="text" v-model="formAddress.complement" class="form-control form-control-sm"
-                                placeholder="Complemento:">
-                            <div class="form-text text-danger" v-if="errors.complement != ''">
-                                {{ errors.complement[0] || "" }}
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </template>
-    </ModalComponent>
-
     <ModalComponent v-show="isModalTrocoVisible" :modalSize="'modal-lg'" title="Troco"
         @close="setPaymentMethodSelected(paymentSelected)">
         <template v-slot:content>
@@ -500,6 +371,7 @@
   
 <script>
 import ModalComponent from "../../../../components/widgets/ModalComponent.vue";
+import Address from "./steps.checkout/address.vue";
 import { mapState, mapActions, mapMutations } from "vuex";
 import { toast } from 'vue3-toastify';
 import { Money3Component } from 'v-money3'
@@ -507,7 +379,8 @@ import { Money3Component } from 'v-money3'
 export default {
     components: {
         ModalComponent,
-        money3: Money3Component
+        money3: Money3Component,
+        Address
     },
     data() {
         return {
@@ -525,13 +398,6 @@ export default {
                 allowBlank: false,
                 minimumNumberOfCharacters: 0,
             },
-            step: {
-                stepZero: true,
-                one: false,
-                two: false,
-                three: false,
-                four: false,
-            },
             modalTitle: "Checkout",
             textButton: "Checkout",
             showBoxComment: false,
@@ -547,33 +413,14 @@ export default {
             loading: false,
             errorMessage: "",
             disabledCart: false,
-            canSaveAdrdess: false,
-            formAddress: {
-                cpf: "",
-                address: "",
-                zip_code: "",
-                state: "",
-                city: "",
-                district: "",
-                number: "",
-                complement: "",
-                id: ""
-            },
             errors: {
-                cpf: "",
-                address: "",
-                zip_code: "",
-                state: "",
-                city: "",
-                district: "",
-                number: "",
-                complement: "",
                 troco: ""
             },
         };
     },
     computed: {
         ...mapState({
+            step: (state) => state.cart.step,
             products: (state) => state.cart.products.data,
             total: (state) => state.cart.total,
             company: (state) => state.tenant.company,
@@ -602,7 +449,8 @@ export default {
             setInCheckout: "SET_IS_IN_CHECKOUT",
             setPaymentMethods: "SET_PAYMENT_METHODS",
             setSelectedPaymentMethod: "SET_SELECTED_PAYMENT_METHOD",
-            clearCart: "CLEAR_CART"
+            clearCart: "CLEAR_CART",
+            setStep: "SET_STEP"
         }),
         createOrder() {
             const params = {
@@ -628,31 +476,6 @@ export default {
                 })
         },
 
-        setAddress(item) {
-            this.loading = true;
-            this.setSelectedAddress(item);
-
-            //clear shipping methods
-            this.setShippingMethods({ data: [] })
-            this.setSelectedShippingMethod({ price: "" });
-
-            //clear payment methods
-            this.setSelectedPaymentMethod({ description: "" });
-            this.setPaymentMethods([]);
-
-            this.getShippingValue(item.zip_code)
-                .catch((error) => {
-                    if (error?.response?.data?.message) {
-                        this.errorMessage = error.response.data.message;
-                    }
-                })
-                .finally(() => {
-                    this.loading = false
-                });
-
-            this.setStep({ stepZero: false, one: true, two: false, three: false, four: false })
-        },
-
         setShippingSelected(item) {
             this.setSelectedShippingMethod(item);
             this.setShippingPriceToTotal(this.selectedShippingMethod?.price);
@@ -668,7 +491,7 @@ export default {
                         console.log(error)
                     })
                     .finally(() => this.loading = false)
-                this.setStep({ stepZero: false, one: false, two: true, three: false, four: false })
+                this.setStep(2)
             }
         },
 
@@ -687,8 +510,7 @@ export default {
                 }
 
                 if (this.precisaTroco) {
-                    console.log('aqui')
-                    this.setStep({ stepZero: false, one: false, two: true, three: false, four: false });
+                    this.setStep(2);
                     if (this.troco == null) {
                         this.errors.troco = ["Informa o valor para troco"];
                         this.openModalTroco(true);
@@ -713,7 +535,7 @@ export default {
 
             this.openModalTroco(false);
             this.setSelectedPaymentMethod(item);
-            this.setStep({ stepZero: false, one: false, two: false, three: true, four: false });
+            this.setStep(3);
 
         },
 
@@ -756,114 +578,9 @@ export default {
             this.isModalEnderecoVisible = true;
         },
 
-        salveAddress() {
-            this.reset();
-            this.validateForm();
-            if (!this.canSaveAddress) return;
-
-            this.loading = true;
-
-            this.saveNewAddress(this.formAddress)
-                .then((res) => {
-                    toast.success("Endereço salvo com sucesso", { autoClose: 300 });
-                    this.modalEndereco(false);
-                    this.resetForm()
-                })
-                .catch((error) => {
-                    const errorResponse = error.response;
-                    this.errors = Object.assign(this.errors, errorResponse.data.errors);
-                    toast.error(
-                        "Falha na operação",
-                        { autoClose: 5000 }
-                    );
-                })
-                .finally(() => {
-                    this.loading = false;
-                })
-        },
-
-        buscacep() {
-            if (this.formAddress.zip_code.length < 9) {
-                this.errors.zip_code = ["Informe um cep valido"];
-                return;
-            }
-
-            this.getCepViaCep(this.formAddress.zip_code)
-                .then((res) => {
-                    const { data } = res;
-                    this.formAddress.city = data?.localidade;
-                    this.formAddress.district = data?.bairro;
-                    this.formAddress.address = data?.logradouro;
-                    this.formAddress.state = data?.uf
-                    this.formAddress.complement = data?.complemento
-                })
-                .catch((error) => {
-                    toast.error("Informe um CEP válido", { autoClose: 300 });
-                })
-        },
-
-        validateForm() {
-            if (this.formAddress.zip_code.length < 9) {
-                this.canSaveAddress = false;
-                return this.errors.zip_code = ["Informe um cep valido"];
-            }
-            if (!this.formAddress.state) {
-                this.canSaveAddress = false;
-                return this.errors.state = ["O estado é um campo obrigatório"];
-            }
-            if (!this.formAddress.city) {
-                this.canSaveAddress = false;
-                return this.errors.city = ["A cidade campo obrigatório"];
-            }
-            if (!this.formAddress.district) {
-                this.canSaveAddress = false;
-                return this.errors.district = ["O bairro é um campo obrigatório"];
-            }
-            if (!this.formAddress.address) {
-                this.canSaveAddress = false
-                return this.errors.address = ["A rua é um campo obrigatório"];
-            }
-
-            if (!this.formAddress.complement) {
-                this.canSaveAddress = false
-                return this.errors.complement = ["O complemento campo obrigatório"];
-            }
-
-            if (this.me.hasIdDoc == 'N') {
-                if (!this.formAddress.cpf) {
-                    this.canSaveAddress = false
-                    return this.errors.cpf = ["O CPF é um campo obrigatório"];
-                }
-
-                if (this.formAddress.cpf?.length < 14) {
-                    this.canSaveAddress = false
-                    return this.errors.cpf = ["A quantida de caracteres informádo é inválido"];
-                }
-            }
-
-
-            this.canSaveAddress = true;
-        },
-
         reset() {
             this.errors = { cpf: "", address: "", zip_code: "", state: "", city: "", district: "", number: "", complement: "", troco: "" }
         },
-
-        resetForm() {
-            this.formAddress = { address: "", zip_code: "", state: "", city: "", district: "", number: "", complement: "" }
-        },
-
-        getShippingValue(cep) {
-            this.errorMessage = "";
-            const params = {
-                "cep": cep.replace("-", ""),
-                "cartPrice": this.total
-            }
-            return this.shippingValue(params)
-        },
-        setStep(obj) {
-            this.step = obj;
-        }
     },
     watch: {
         cartCep() {

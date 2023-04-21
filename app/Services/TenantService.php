@@ -247,7 +247,7 @@ class TenantService
                     ];
                 }
             } catch (Exception $e) {
-                return response()->json(['message' => 'Houve um erro na requisição, tente novamento'], 404);
+                return response()->json(['message' => 'Houve um erro na requisição, tente novamento', 'detail' => $e->getMessage()], 404);
             }
         }
 

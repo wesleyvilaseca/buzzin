@@ -99,8 +99,11 @@ const mutations = {
 
     SET_SELECTED_SHIPPING_METHOD(state, data) {
         state.selectedShippingMethod = data;
-    }
+    },
 
+    SET_STEP(state, step) {
+        state.step = step;
+    }
 };
 
 export default mutations;
