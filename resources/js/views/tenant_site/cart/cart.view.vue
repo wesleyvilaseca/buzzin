@@ -28,7 +28,7 @@
                     </div>
 
                     <template v-if="!isInCheckout">
-                        <div class="container" v-if="total">
+                        <div class="container" v-if="subtotal">
                             <div class="">
                                 <div class="div">
                                     <div class="row align-items-center" v-for="(product, index) in products" :key="index">
@@ -46,7 +46,7 @@
                                             <div class="d-flex py-4 justify-content-between align-items-center">
                                                 <div class="col-10 d-flex align-items-center p-0">
                                                     <h6>
-                                                        <strong>R$ {{ product.item.price }}
+                                                        <strong>{{ moneyMask(product.item.price) }}
                                                             <span class="text-muted">x</span></strong>
                                                     </h6>
                                                     <div class="quantity ml-4">
@@ -60,6 +60,9 @@
                                                 </div>
 
                                                 <div class="col-2 col-sm-2 col-md-2 text-right">
+                                                    <strong class="me-2">
+                                                        {{ moneyMask(product.item.price * product.qty) }}
+                                                    </strong>
                                                     <button type="button" class="btn btn-outline-danger btn-xs"
                                                         @click.prevent="deleteFromCart(product.item)">
                                                         <i class="fa fa-trash" aria-hidden="true"></i>
@@ -79,7 +82,7 @@
                             </div>
                         </div>
                     </template>
-                    <template v-if="total > 0">
+                    <template v-if="subtotal > 0">
                         <Checkout />
                     </template>
                 </div>
@@ -135,7 +138,7 @@ export default {
             selectedAddress: (state) => state.cart.selectedAddress,
             selectedShippingMethod: (state) => state.cart.selectedShippingMethod,
             isInCheckout: (state) => state.cart.isInCheckout,
-            total: (state) => state.cart.total,
+            subtotal: (state) => state.cart.subtotal,
         }),
     },
     mounted() { },
@@ -163,6 +166,17 @@ export default {
 
         load() {
         },
+
+        moneyMask(value) {
+            if (typeof value !== "number") {
+                return value;
+            }
+            var formatter = new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
+            return formatter.format(value);
+        }
     },
     watch: {
         selectedAddress() {

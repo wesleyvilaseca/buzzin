@@ -3,6 +3,7 @@ const state = {
         data: []
     },
     total: 0,
+    subtotal: 0,
     isInCheckout: false,
     selectedAddress: {
         address: "",
@@ -26,7 +27,10 @@ const state = {
     selectedPaymentMethod: {
         description: ""
     },
-    step: 0
+    step: 0,
+    troco: "",
+    precisa_troco: "undefined",
+    comment: ""
 };
 
 export default state;

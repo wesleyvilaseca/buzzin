@@ -70,11 +70,11 @@ const mutations = {
         state.products?.data?.map((itemCart, index) => {
             total += itemCart.qty * itemCart.item.price;
         });
-        state.total = total;
+        state.subtotal = total;
     },
 
     SET_SHIPPING_VALUE_TO_TOTAL_CART(state, value) {
-        state.total += parseFloat(value);
+        state.total = state.subtotal +  parseFloat(value);
     },
 
     SET_IS_IN_CHECKOUT(state, value) {
@@ -103,6 +103,18 @@ const mutations = {
 
     SET_STEP(state, step) {
         state.step = step;
+    },
+
+    SET_TROCO(state, troco) {
+        state.troco = troco;
+    },
+
+    SET_PRECISA_TROCO(state, precisa_troco) {
+        state.precisa_troco = precisa_troco;
+    },
+
+    SET_COMMENT(state, comment) {
+        state.comment = comment
     }
 };
 

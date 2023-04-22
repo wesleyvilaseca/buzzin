@@ -198,7 +198,7 @@ export default {
             company: (state) => state.tenant.company,
             me: (state) => state.auth.me,
             paleta: (state) => state.layout.paleta,
-            total: (state) => state.cart.total,
+            subtotal: (state) => state.cart.subtotal,
         }),
     },
     methods: {
@@ -279,7 +279,7 @@ export default {
             this.errorMessage = "";
             const params = {
                 "cep": cep.replace("-", ""),
-                "cartPrice": this.total
+                "cartPrice": this.subtotal
             }
             return this.shippingValue(params)
         },

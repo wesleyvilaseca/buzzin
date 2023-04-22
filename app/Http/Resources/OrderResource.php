@@ -24,7 +24,7 @@ class OrderResource extends JsonResource
             'date_br' => Carbon::make($this->created_at)->format('d/m/Y'),
             'company' => new TenantResource($this->tenant),
             'client' => $this->client_id ? new ClientResource($this->client) : '',
-            'client_doc' => $this->client->cpf,
+            'client_doc' => $this->client?->cpf,
             'client_mobile_phone' => @$this->client->mobile_phone,
             'table' => $this->table_id ? new TableResource($this->table) : '',
             'products' => OrderProductResource::collection($this->order_products),

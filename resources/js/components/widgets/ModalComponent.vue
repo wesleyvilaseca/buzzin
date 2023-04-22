@@ -1,5 +1,5 @@
 <template>
-    <transition name="modal-fade">
+    <div name="modal-fade">
         <div class="modalVue open" :id="`${id}`">
             <div class="bs-example-modal-center show">
                 <div class="modal-dialog modal-dialog-centered" :class="modalSize ? modalSize : 'modal-xl'" role="document">
@@ -26,12 +26,11 @@
                 </div>
             </div>
         </div>
-    </transition>
+    </div>
 </template>
   
 <script>
 export default {
-    // eslint-disable-next-line vue/multi-word-component-names
     name: 'Modal',
     props: {
         id: String,
