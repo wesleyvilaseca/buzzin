@@ -24,6 +24,6 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 // });
 
 Broadcast::channel('order-created.{tenantId}', function ($user, $tenantId) {
-    return $user->tenant_id === $tenantId;
-    // return true;
+    // return $user->tenant_id === $tenantId;
+    return true;
 });
