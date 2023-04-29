@@ -82,10 +82,11 @@
                 </div>
             </div>
 
-            <div class="accordion-item" v-if="step == 4 && selectedPaymentMethod.integration">
+            <div class="accordion-item" v-if="step == 4 && selectedPaymentMethod.integration"
+                @click.prevent="setStep(4)">
                 <h2 class="accordion-header" id="headingFive">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseFour" aria-controls="collapseFour"
+                        data-bs-target="#collapseFive" aria-controls="collapseFive"
                         :aria-expanded="[step == 4 ? 'true' : '']" :disabled="!selectedPaymentMethod.integration"
                         @click.prevent="setStep(4)">
                         Pagamento integração {{ selectedPaymentMethod.description }}
