@@ -91,9 +91,16 @@ export default {
     methods: {
         ...mapMutations({
             clearCart: "CLEAR_CART",
+            setStep: "SET_STEP",
         }),
         ...mapActions(["sendCheckout"]),
         createOrder() {
+            if(!this.selectedPaymentMethod.integration){
+                return this.defaultCreateOrder();
+            }
+            this.setStep(4);
+        },
+        defaultCreateOrder(){
             const params = {
                 address: this.selectedAddress,
                 products: this.products,

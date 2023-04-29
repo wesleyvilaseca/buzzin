@@ -81,6 +81,23 @@
                     </div>
                 </div>
             </div>
+
+            <div class="accordion-item" v-if="step == 4 && selectedPaymentMethod.integration">
+                <h2 class="accordion-header" id="headingFive">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseFour" aria-controls="collapseFour"
+                        :aria-expanded="[step == 4 ? 'true' : '']" :disabled="!selectedPaymentMethod.integration"
+                        @click.prevent="setStep(4)">
+                        Pagamento integração {{ selectedPaymentMethod.description }}
+                    </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" :class="[step == 4 ? 'show' : '']"
+                    aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <IntegrationPaymentStep />
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -143,6 +160,7 @@ import ShippingStepMethodsComponent from './steps.checkout/shippingMethod.vue';
 import ShippingValueCartComponent from './components/shippingValueCart.vue';
 import PaymentStepComponent from './steps.checkout/paymentMethod.vue';
 import ResumeOrderStepComponent from './steps.checkout/resumeOrder.vue';
+import IntegrationPaymentStep from "./steps.checkout/integrationPaymentStep.vue";
 import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
@@ -152,7 +170,8 @@ export default {
         ShippingStepMethodsComponent,
         ShippingValueCartComponent,
         PaymentStepComponent,
-        ResumeOrderStepComponent
+        ResumeOrderStepComponent,
+        IntegrationPaymentStep
     },
     data() {
         return {
