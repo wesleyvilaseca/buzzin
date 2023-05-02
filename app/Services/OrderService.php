@@ -99,7 +99,6 @@ class OrderService
             return $order;
         } catch (Exception $e) {
             DB::rollBack();
-            // dd($e->getMessage());
             return response()->json(['message' => 'Houve um erro na requisição, tente novamento', 'detail' => $e->getMessage()], 404);
         }
     }
