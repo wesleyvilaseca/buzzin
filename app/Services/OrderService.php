@@ -10,22 +10,28 @@ use App\Repositories\Contracts\TenantRepositoryInterface;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-use function Psy\debug;
-
 class OrderService
 {
     protected $orderRepository, $tenantRepository, $tableRepository, $productRepository;
+    private $orderPaymentMercadoPagoService;
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         TenantRepositoryInterface $tenantRepository,
         TableRepositoryInterface $tableRepository,
-        ProductRepositoryInterface $productRepository
+        ProductRepositoryInterface $productRepository,
+        OrderPaymentMercadoPagoService $orderPaymentMercadoPagoService
+
     ) {
         $this->orderRepository = $orderRepository;
         $this->tenantRepository = $tenantRepository;
         $this->tableRepository = $tableRepository;
         $this->productRepository = $productRepository;
+
+        /**
+         * integrations service
+         */
+        $this->orderPaymentMercadoPagoService = $orderPaymentMercadoPagoService;
     }
 
     public function ordersByClient()
@@ -46,12 +52,26 @@ class OrderService
         return $this->orderRepository->getOrderByIdentify($identify);
     }
 
+    private function validateParams(){
+
+    }
+
     public function createNewOrder(array $order)
     {
         DB::beginTransaction();
         try {
-            $clientAdress = $order['address'];
             $paymentMethod = $order['paymentMethod'];
+            $paymentMethod['data'] = decript($paymentMethod['data']);
+
+            if ($order['payment_integration_params']) {
+                if (!validaCPF($order['payment_integration_params']['cpf'])) {
+                    $errors['cpf'][] = 'O CPF informado é inválido';
+                    return response()->json((object) ["errors" => $errors], 400);
+                }
+                $paymentMethod['payment_integration_params'] = $order['payment_integration_params'];
+            }
+
+            $clientAdress = $order['address'];
             $shippingMethod = $order['shippingMethod'];
 
             $jsonData = [
@@ -90,14 +110,25 @@ class OrderService
                 $comment,
                 $clientId,
                 $tableId,
-                json_encode($jsonData)
+                json_encode($jsonData),
+                @$paymentMethod['integration']
+
             );
+
+            if ($paymentMethod['integration']) {
+                switch ($paymentMethod['integration']) {
+                    case 'MercadoPago':
+                        $this->orderPaymentMercadoPagoService->startPayment($order);
+                        break;
+                }
+            }
 
             $this->orderRepository->registerProductsOrder($order->id, $productsOrder);
 
             DB::commit();
             return $order;
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e) {
             DB::rollBack();
             return response()->json(['message' => 'Houve um erro na requisição, tente novamento', 'detail' => $e->getMessage()], 404);
         }

@@ -140,7 +140,6 @@ export default {
                 return this.errors.cpf = ["A quantida de caracteres informádo é inválido"];
             }
 
-
             this.canSaveAddress = true;
         },
 

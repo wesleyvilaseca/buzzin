@@ -9,7 +9,7 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['tenant_id', 'identify', 'client_id', 'table_id', 'total', 'status', 'comment', 'data'];
+    protected $fillable = ['tenant_id', 'identify', 'client_id', 'table_id', 'total', 'status', 'comment', 'data', 'integration'];
 
     /**
      * Options status
@@ -41,6 +41,10 @@ class Order extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class);
+    }
+
+    public function order_integration_transaction() {
+        return $this->hasOne(OrderIntegrationTransation::class, 'order_id', 'id');
     }
 
     public function order_products()

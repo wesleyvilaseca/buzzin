@@ -21,6 +21,7 @@ class TenantPaymentResource extends JsonResource
             'id' => $this->id,
             'description' => $this->payment->description,
             'integration' => $this->payment->integration,
+            'data' => cript(@$this->data),
             'tag' => Str::kebab($this->payment->description)
         ];
     }

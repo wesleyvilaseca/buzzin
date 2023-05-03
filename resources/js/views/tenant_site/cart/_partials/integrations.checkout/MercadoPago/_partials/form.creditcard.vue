@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        mercado pago
+       Cartão de crédito
     </div>
 </template>
 

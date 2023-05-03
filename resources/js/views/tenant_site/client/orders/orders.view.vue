@@ -15,10 +15,11 @@
                 <div class="my-table" v-for="(order, index) in orders">
                     <div class="text-center">{{ order.identify }}</div>
                     <div class="text-center">{{ order.date_br }}</div>
-                    <div class="text-center">R$ {{ order.total }} </div>
+                    <div class="text-center">{{ moneyMask(order.total) }} </div>
                     <div class="text-center">
                         <button type="button" class="btn detail-button me-2"
-                            @click.prevent="openDetails(order)">Detalhes</button>
+                            @click.prevent="openDetails(order)">Detalhes
+                        </button>
                     </div>
                 </div>
             </div>
@@ -129,6 +130,16 @@ export default {
             },
                 this.displayOrder = 'none'
         },
+        moneyMask(value) {
+            if (typeof value !== "number") {
+                return value;
+            }
+            var formatter = new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
+            return formatter.format(value);
+        }
     },
 
 }

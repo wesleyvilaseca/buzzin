@@ -82,8 +82,7 @@
                 </div>
             </div>
 
-            <div class="accordion-item" v-if="step == 4 && selectedPaymentMethod.integration"
-                @click.prevent="setStep(4)">
+            <div class="accordion-item" v-if="step == 4 && selectedPaymentMethod.integration" @click.prevent="setStep(4)">
                 <h2 class="accordion-header" id="headingFive">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseFive" aria-controls="collapseFive"
@@ -202,11 +201,7 @@ export default {
             selectedPaymentMethod: (state) => state.cart.selectedPaymentMethod,
             troco: (state) => state.cart.troco,
             precisa_troco: (state) => state.cart.precisa_troco,
-        }),
-
-        totalOrder: function () {
-            return this.total = this.total + this.selectedShippingMethod.price;
-        },
+        })
     },
     methods: {
         ...mapActions(["getClientAddress"]),

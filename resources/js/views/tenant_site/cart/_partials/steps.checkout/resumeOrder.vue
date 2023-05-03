@@ -57,7 +57,7 @@
         </tfoot>
     </table>
 
-    <div class="text-right mt-2">
+    <div class="text-end mt-2" v-if="showDefaultCreateOrderBtn">
         <button class="btn btn-success btn-sm" @click.prevent="createOrder()">Finalizar pedido</button>
     </div>
 </template>
@@ -67,7 +67,12 @@ import { mapState, mapActions, mapMutations } from "vuex";
 import { toast } from 'vue3-toastify';
 
 export default {
-    props: [],
+    props: {
+        showDefaultCreateOrderBtn: {
+            type: Boolean,
+            default: true
+        }
+    },
     components: {},
     data: () => ({}),
     computed: {

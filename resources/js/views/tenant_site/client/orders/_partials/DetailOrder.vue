@@ -31,12 +31,35 @@
                     </form>
                     <div class="card-header">
                         Data: {{ order.date_br }} <br>
-                        Status: {{ order.status_label }}
+                        Status pedido: <strong>{{ order.status_label }}</strong> <br />
+
+                        <template v-if="order.integration">
+                            Status pagamento: <strong>{{ order?.order_integration_transaction?.status }}</strong> <br />
+
+                            <span v-if="order?.payment_method.payment_integration_params?.payment_method_id == 'slip'">
+                                Imprimir boleto
+                                <a :href="order?.order_integration_transaction?.external_resource_url" target="_blank"
+                                    class="btn btn-warning btn-sm">
+                                    <i class="fa-solid fa-barcode"></i>
+                                </a>
+                            </span>
+                        </template>
                     </div>
 
                     <div class="row">
                         <div class="col-md-8">
                             <div class="card-body">
+                                <div class="mt-2">
+                                    <div class="mb-2">
+                                        <strong>Pagamento:</strong> {{ order?.payment_method?.description }}
+                                        <template v-if="order.integration">
+                                            <span
+                                                v-if="order.payment_method?.payment_integration_params?.payment_method_id == 'slip'">
+                                                - Boleto
+                                            </span>
+                                        </template>
+                                    </div>
+                                </div>
                                 <div class="table-responsive">
                                     <table class="table table-condensed">
                                         <thead>
@@ -61,28 +84,28 @@
 
                                         <tfoot>
                                             <tr>
-                                                <td colspan="4" align="right">
+                                                <td colspan="4">
                                                     <strong>Subtotal</strong>
                                                 </td>
-                                                <td> R$ {{ subtotal }}</td>
+                                                <td> {{ moneyMask(subtotal) }}</td>
                                             </tr>
 
                                             <tr>
-                                                <td colspan="4" align="right">
+                                                <td colspan="4">
                                                     <strong>
-                                                        {{ order?.shipping_method?.description }}
+                                                        {{ moneyMask(order?.shipping_method?.description) }}
                                                     </strong>
                                                 </td>
-                                                <td> R$ {{ order?.shipping_method?.price }}</td>
+                                                <td> {{ moneyMask(order?.shipping_method?.price) }}</td>
                                             </tr>
 
                                             <tr>
-                                                <td colspan="4" align="right">
+                                                <td colspan="4">
                                                     <strong>
                                                         Total
                                                     </strong>
                                                 </td>
-                                                <td> R$ {{ order.total }}</td>
+                                                <td> {{ moneyMask(order.total) }}</td>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -155,6 +178,16 @@ export default {
             //     .then(response => this.$emit('statusUpdated'))
             //     .catch(error => alert('error'))
             //     .finally(() => this.loading = false)
+        },
+        moneyMask(value) {
+            if (typeof value !== "number") {
+                return value;
+            }
+            var formatter = new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
+            return formatter.format(value);
         }
     },
     watch: {

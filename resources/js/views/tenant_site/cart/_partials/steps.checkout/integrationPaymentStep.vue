@@ -6,7 +6,7 @@
 
 <script>
 import { mapState } from "vuex";
-import MercadoPago from "../integrations.checkout/MercadoPago.vue";
+import MercadoPago from "../integrations.checkout/MercadoPago/MercadoPago.vue";
 
 export default {
     props: [],

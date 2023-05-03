@@ -29,7 +29,10 @@ class OrderClientResource extends JsonResource
             'evaluations' => EvaluationResource::collection($this->evaluations),
             'payment_method' => $this->paymentMethodOrder(),
             'shipping_method' =>  $this->shippingMethodOrder(),
-            'client_address' => $this->addressClientOrder()
+            'client_address' => $this->addressClientOrder(),
+            'integration' => $this->integration,
+            'order_integration_transaction' => $this->integration ? new OrderIntegrationTransactionResource($this->order_integration_transaction) : ''
+   
         ];
     }
 }
