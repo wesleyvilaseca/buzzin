@@ -1,19 +1,17 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\PaymentIntegration;
 
 use App\Models\Plan;
 use App\Models\Tenant;
 use App\Models\Transaction;
-use App\Repositories\Contracts\TableRepositoryInterface;
-use App\Repositories\Contracts\TenantRepositoryInterface;
-use Carbon\Carbon;
-use Exception;
-use GuzzleHttp\Client;
+use App\Services\TenantService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+use GuzzleHttp\Client;
 
-class MercadoPagoService
+class MercadoPagoAdminService
 {
     protected $httpClient;
     private $access_token;
@@ -34,6 +32,7 @@ class MercadoPagoService
             return response()->json(['message' => 'Operação não autorizada'], 401);
         }
 
+        DB::beginTransaction();
         try {
             $tenant = Auth::user()->tenant;
             $apiUrl = 'https://api.mercadopago.com/v1/payments';
@@ -69,11 +68,12 @@ class MercadoPagoService
                 'body' => json_encode($form)
             ]);
 
+            $response = json_decode($response->getBody()->getContents());
+
             $data = (object) [
                 'item' => $response->metadata->item
             ];
 
-            $response = json_decode($response->getBody()->getContents());
             Transaction::create([
                 'type_transaction' => 'subscription',
                 'data' => json_encode($data),
@@ -91,8 +91,10 @@ class MercadoPagoService
                 $this->tenantService->updateAssignatureRenew($response->id, $plan);
             }
 
+            DB::commit();
             return response()->json(['message' => 'Transação efetuada com sucesso', 'redirect' => route('admin.transactions')], 200);
         } catch (\GuzzleHttp\Exception\ClientException $e) {
+            DB::rollBack();
             return response()->json(['message' => 'Falha na transação, tente novamente', 'error' => $e->getResponse()->getBody()->getContents()], 401);
         }
     }
@@ -109,6 +111,7 @@ class MercadoPagoService
             return response()->json((object) ["errors" => $errors], 400);
         }
 
+        DB::beginTransaction();
         try {
             $tenant = Auth::user()->tenant;
             $apiUrl = 'https://api.mercadopago.com/v1/payments';
@@ -162,8 +165,10 @@ class MercadoPagoService
                 'external_resource_url' => $response->transaction_details->external_resource_url
             ]);
 
+            DB::commit();
             return response()->json(['message' => 'Boleto gerado com sucesso', 'redirect' => route('admin.transactions')], 200);
         } catch (\GuzzleHttp\Exception\ClientException $e) {
+            DB::rollBack();
             return response()->json(['message' => 'Falha na transação, tente novamente', 'error' => $e->getResponse()->getBody()->getContents()], 401);
         }
     }

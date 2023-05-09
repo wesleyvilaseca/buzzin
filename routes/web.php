@@ -1,37 +1,5 @@
 <?php
 
-use App\Http\Controllers\Web\Admin\ACL\PermissionController;
-use App\Http\Controllers\Web\Admin\ACL\PermissionProfileController;
-use App\Http\Controllers\Web\Admin\ACL\PermissionRoleController;
-use App\Http\Controllers\Web\Admin\ACL\PlanProfileController;
-use App\Http\Controllers\Web\Admin\ACL\ProfileController;
-use App\Http\Controllers\Web\Admin\ACL\RoleController;
-use App\Http\Controllers\Web\Admin\ACL\RoleUserController;
-use App\Http\Controllers\Web\Admin\CategoryController;
-use App\Http\Controllers\Web\Admin\CategoryProductController;
-use App\Http\Controllers\Web\Admin\ConfigurationController;
-use App\Http\Controllers\Web\Admin\DashboardController;
-use App\Http\Controllers\Web\Admin\DetailPlanController;
-use App\Http\Controllers\Web\Admin\OperationController;
-use App\Http\Controllers\Web\Admin\OrderController;
-use App\Http\Controllers\Web\Admin\TenantPaymentsController;
-use App\Http\Controllers\Web\Admin\PlanController;
-use App\Http\Controllers\Web\Admin\ProductController;
-use App\Http\Controllers\Web\Admin\SiteController;
-use App\Http\Controllers\Web\Admin\SiteExtensionsController;
-use App\Http\Controllers\Web\Admin\SiteLayoutController;
-use App\Http\Controllers\Web\Admin\SubscriptionController;
-use App\Http\Controllers\Web\Admin\TableController;
-use App\Http\Controllers\Web\Admin\TenantAccountController;
-use App\Http\Controllers\Web\Admin\TenantController;
-use App\Http\Controllers\Web\Admin\TenantShippingController;
-use App\Http\Controllers\Web\Admin\TransactionsController;
-use App\Http\Controllers\Web\Admin\UserController;
-use App\Http\Controllers\Web\Admin\ZonesGeolocationController;
-use App\Http\Controllers\Web\Auth\LoginController;
-use App\Http\Controllers\Web\Auth\RegisterController;
-use App\Http\Controllers\Web\Site\HomeController;
-use App\Http\Controllers\Web\Site\SubscriptionsController;
 use App\Http\Controllers\Web\TenantSite\AccountRecoverLoginController;
 use App\Http\Controllers\Web\TenantSite\CartController;
 use App\Http\Controllers\Web\TenantSite\CategoryController as TenantSiteCategoryController;
@@ -83,12 +51,16 @@ if ($domain !== $appDomain) {
 
             Route::get('/site-extensions', [TenantSiteTenantController::class, 'getSiteExtensions']);
 
+            /**
+             * as rotas abaixo passaram a ser usadas da api
+             */
+
             Route::group([
                 'middleware' => ['auth:sanctum']
             ], function () {
                 Route::get('/auth/me',                  [TenantSiteLoginController::class, 'me']);
-                Route::post('/auth/account-update',      [ClientController::class, 'updateAccount']);
-                Route::post('/auth/account-password',     [ClientController::class, 'updatePasswordAccount']);
+                Route::post('/auth/account-update',     [ClientController::class, 'updateAccount']);
+                Route::post('/auth/account-password',   [ClientController::class, 'updatePasswordAccount']);
 
                 Route::post('/auth/logout',             [TenantSiteLoginController::class, 'logout']);
 
@@ -96,9 +68,6 @@ if ($domain !== $appDomain) {
                 Route::post('/auth/newaddress',         [TenantSiteLoginController::class, 'saveNewAddress']);
                 Route::put('/auth/{id}/address',        [ClientController::class, 'updateAddress']);
                 Route::delete('/auth/{id}/address',     [ClientController::class, 'deleteAddress']);
-
-                Route::post('/checkout/order',          [CheckoutController::class, 'store']);
-                Route::get('/auth/my-orders',           [ClientController::class, 'getOrders']);
             });
         });
     });

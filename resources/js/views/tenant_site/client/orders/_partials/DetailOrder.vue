@@ -36,8 +36,8 @@
                         <template v-if="order.integration">
                             Status pagamento: <strong>{{ order?.order_integration_transaction?.status }}</strong> <br />
 
-                            <span v-if="order?.payment_method.payment_integration_params?.payment_method_id == 'slip'">
-                                Imprimir boleto
+                            <span v-if="order?.order_integration_transaction?.payment_type_id == 'ticket'">
+                                Imprimir boleto: 
                                 <a :href="order?.order_integration_transaction?.external_resource_url" target="_blank"
                                     class="btn btn-warning btn-sm">
                                     <i class="fa-solid fa-barcode"></i>
@@ -54,7 +54,7 @@
                                         <strong>Pagamento:</strong> {{ order?.payment_method?.description }}
                                         <template v-if="order.integration">
                                             <span
-                                                v-if="order.payment_method?.payment_integration_params?.payment_method_id == 'slip'">
+                                                v-if="order.order_integration_transaction?.payment_type_id == 'ticket'">
                                                 - Boleto
                                             </span>
                                         </template>

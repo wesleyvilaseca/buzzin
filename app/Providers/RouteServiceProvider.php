@@ -41,12 +41,12 @@ class RouteServiceProvider extends ServiceProvider
             Route::prefix('api')
                 ->middleware('api')
                 ->namespace($this->namespace)
-                ->group(base_path('routes/api.php'));
+                ->group(base_path('routes/api/v1/api.php'));
 
             Route::prefix('api')
                 ->middleware(['web', 'api'])
                 ->namespace($this->namespace)
-                ->group(base_path('routes/auth_api.php'));
+                ->group(base_path('routes/api/v1/internal-routes/auth_api.php'));
 
             Route::middleware('web')
                 ->namespace($this->namespace)
@@ -55,10 +55,6 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware(['web', 'api'])
                 ->namespace($this->namespace)
                 ->group(base_path('routes/site-extensions/site-extensions.php'));
-
-            Route::middleware(['web', 'api'])
-               ->namespace($this->namespace)
-               ->group(base_path('routes/payment-integrations/payment-integrations.php'));
 
             Route::middleware(['web', 'api'])
                 ->namespace($this->namespace)

@@ -47,7 +47,12 @@ const actions = {
         commit('SET_PRELOADER', true);
         commit('SET_TEXT_PRELOADER', 'Finalizando pedido...');
 
-        return axios.post('/app/checkout/order', params, {
+        const query_params = new URLSearchParams({
+            token_company: params.tenant_uuid,
+          }).toString();
+
+        const endpoint = `${process.env.MIX_APP_URL}/api/auth/v1/orders?${query_params}`
+        return axios.post(endpoint, params, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }

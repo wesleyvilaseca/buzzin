@@ -148,7 +148,9 @@ const actions = {
         const token = localStorage.getItem(TOKEN_NAME);
         if (!token) return;
 
-        return axios.get('/app/auth/my-orders', {
+        const endpoint = `${process.env.MIX_APP_URL}/api/auth/v1/my-orders`
+
+        return axios.get(endpoint, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }

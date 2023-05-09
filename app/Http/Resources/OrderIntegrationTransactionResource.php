@@ -20,7 +20,7 @@ class OrderIntegrationTransactionResource extends JsonResource
             'transaction_amount' => $this->transaction_amount,
             'barcode' => $this->barcode,
             'payment_method_id' => $this->payment_method_id,
-            'payment_type_id' => $this->payment_method_id,
+            'payment_type_id' => $this->payment_type_id,
             'external_resource_url' => $this->external_resource_url,
             'status' => __('mercadopago.' . $this->status),
             'status_detail' => __('mercadopago.' . $this->status_detail, [

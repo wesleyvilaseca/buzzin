@@ -20540,7 +20540,8 @@ __webpack_require__.r(__webpack_exports__);
         expirationMonth: "",
         expirationYear: ""
       },
-      showstallmants: false
+      showstallmants: false,
+      paymentMethodId: ""
     };
   },
   computed: {},
@@ -20553,13 +20554,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     setCardTokenAndPay: function setCardTokenAndPay(status, response) {
       var _this = this;
-      console.log(response);
       if (status == 200 || status == 201) {
         var _parcelas$value;
         var parcelas = document.getElementById('installments');
         axios.post('/api/v1/paycard', {
           token: response.id,
-          payment_method_id: document.getElementById('paymentMethodId').value,
+          payment_method_id: this.paymentMethodId,
           plan_id: this.plan.id,
           email: document.getElementById('email').value,
           installments: (_parcelas$value = parcelas === null || parcelas === void 0 ? void 0 : parcelas.value) !== null && _parcelas$value !== void 0 ? _parcelas$value : 1,
@@ -20585,7 +20585,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     setPaymentMethod: function setPaymentMethod(status, response) {
       if (status == 200) {
-        document.getElementById('paymentMethodId').value = response[0].id;
+        this.paymentMethodId = response[0].id;
         document.getElementById('secure_thumbnail').src = response[0].secure_thumbnail;
         // this.getIssuers(response[0].id);
       } else {
@@ -20610,7 +20610,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     getInstallments: function getInstallments() {
       window.Mercadopago.getInstallments({
-        "payment_method_id": document.getElementById('paymentMethodId').value,
+        "payment_method_id": this.paymentMethodId,
         "amount": parseFloat(document.getElementById('transactionAmount').value),
         "issuer_id": 25
       }, this.setInstallments);
@@ -20713,7 +20713,13 @@ __webpack_require__.r(__webpack_exports__);
           "bin": val.substring(0, 6)
         }, this.setPaymentMethod);
       }
-      if (val.length == 16) {
+      if (val.length == 16 && document.getElementById('paymentMethodId').value) {
+        this.getInstallments();
+      }
+    },
+    paymentMethodId: function paymentMethodId() {
+      var val = this.cardnumber.replace(/\s/g, '');
+      if (val.length == 16 && this.paymentMethodId) {
         this.getInstallments();
       }
     },
@@ -21481,6 +21487,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   components: {},
   data: function data() {
     return {
+      token_name: "buzzin",
       canSave: false,
       firstname: "",
       lastname: "",
@@ -21541,8 +21548,10 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       document.body.removeChild(script);
     }
   },
-  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(["sendCheckout"])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapMutations)({
-    clearCart: "CLEAR_CART"
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapMutations)({
+    clearCart: "CLEAR_CART",
+    setPreloader: "SET_PRELOADER",
+    setTextPreloader: "SET_TEXT_PRELOADER"
   })), {}, {
     pay: function pay() {
       var _this2 = this;
@@ -21567,7 +21576,18 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           cpf: this.cpf.replace(/[^a-zA-Z0-9]/g, '')
         }
       };
-      this.sendCheckout(params).then(function (res) {
+      var token = localStorage.getItem(this.token_name);
+      this.setPreloader(true);
+      this.setTextPreloader('Finalizando pedido...');
+      var query_params = new URLSearchParams({
+        token_company: this.company.uuid
+      }).toString();
+      var endpoint = "/api/auth/v1/mp-order?".concat(query_params);
+      return axios.post(endpoint, params, {
+        headers: {
+          'Authorization': "Bearer ".concat(token)
+        }
+      }).then(function (res) {
         vue3_toastify__WEBPACK_IMPORTED_MODULE_0__.toast.success("Pedido realizado com sucesso", {
           autoClose: 3000
         });
@@ -21581,6 +21601,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         vue3_toastify__WEBPACK_IMPORTED_MODULE_0__.toast.error("Falha ao gerar boleto, tente novamente", {
           autoClose: 5000
         });
+      })["finally"](function () {
+        _this2.setPreloader(false);
+        _this2.setTextPreloader('Carregando...');
       });
     },
     validateForm: function validateForm() {
@@ -22195,6 +22218,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     defaultCreateOrder: function defaultCreateOrder() {
       var _this = this;
       var params = {
+        tenant_uuid: this.company.uuid,
         address: this.selectedAddress,
         products: this.products,
         shippingMethod: this.selectedShippingMethod,
@@ -27558,7 +27582,7 @@ var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 var _hoisted_36 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1 /* HOISTED */);
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _$props$order, _$props$order$order_i, _$props$order2, _$props$order2$paymen, _$props$order3, _$props$order3$order_, _$props$order4, _$props$order4$paymen, _$props$order$payment, _$props$order$payment2, _$props$order5, _$props$order5$shippi, _$props$order6, _$props$order6$shippi, _$props$order7, _$props$order7$shippi, _$props$order$client_, _$props$order$client_2, _$props$order$client_3, _$props$order$client_4, _$props$order$client_5, _$props$order$client_6, _$props$order$client_7;
+  var _$props$order, _$props$order$order_i, _$props$order2, _$props$order2$order_, _$props$order3, _$props$order3$order_, _$props$order4, _$props$order4$paymen, _$props$order$order_i2, _$props$order5, _$props$order5$shippi, _$props$order6, _$props$order6$shippi, _$props$order7, _$props$order7$shippi, _$props$order$client_, _$props$order$client_2, _$props$order$client_3, _$props$order$client_4, _$props$order$client_5, _$props$order$client_6, _$props$order$client_7;
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     id: "exampleModalLive",
     "class": "modal fade show",
@@ -27585,13 +27609,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, ["prevent"]))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row\">\n                            <div class=\"col-md-7\">\n                                <label for=\"status\">Status:</label>\n                                <select name=\"status\" class=\"form-control form-control-sm\" v-model=\"status\">\n                                    <option value=\"open\">Aberto</option>\n                                    <option value=\"done\">Completo</option>\n                                    <option value=\"rejected\">Rejeitado</option>\n                                    <option value=\"working\">Andamento</option>\n                                    <option value=\"canceled\">Cancelado</option>\n                                    <option value=\"delivering\">Em transito</option>\n                                </select>\n                            </div>\n                            <div class=\"col-md-5\">\n                                <button type=\"submit\" class=\"btn btn-sm btn-info mt-4\" :disabled=\"loading\">\n                                    Atualizar Status\n                                </button>\n                            </div>\n                        </div> ")], 32 /* HYDRATE_EVENTS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Data: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.order.date_br) + " ", 1 /* TEXT */), _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Status pedido: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.order.status_label), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(), _hoisted_8, $props.order.integration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 0
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Status pagamento: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$props$order = $props.order) === null || _$props$order === void 0 ? void 0 : (_$props$order$order_i = _$props$order.order_integration_transaction) === null || _$props$order$order_i === void 0 ? void 0 : _$props$order$order_i.status), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(), _hoisted_9, ((_$props$order2 = $props.order) === null || _$props$order2 === void 0 ? void 0 : (_$props$order2$paymen = _$props$order2.payment_method.payment_integration_params) === null || _$props$order2$paymen === void 0 ? void 0 : _$props$order2$paymen.payment_method_id) == 'slip' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Imprimir boleto "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Status pagamento: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$props$order = $props.order) === null || _$props$order === void 0 ? void 0 : (_$props$order$order_i = _$props$order.order_integration_transaction) === null || _$props$order$order_i === void 0 ? void 0 : _$props$order$order_i.status), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(), _hoisted_9, ((_$props$order2 = $props.order) === null || _$props$order2 === void 0 ? void 0 : (_$props$order2$order_ = _$props$order2.order_integration_transaction) === null || _$props$order2$order_ === void 0 ? void 0 : _$props$order2$order_.payment_type_id) == 'ticket' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Imprimir boleto: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: (_$props$order3 = $props.order) === null || _$props$order3 === void 0 ? void 0 : (_$props$order3$order_ = _$props$order3.order_integration_transaction) === null || _$props$order3$order_ === void 0 ? void 0 : _$props$order3$order_.external_resource_url,
     target: "_blank",
     "class": "btn btn-warning btn-sm"
   }, _hoisted_13, 8 /* PROPS */, _hoisted_11)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64 /* STABLE_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$props$order4 = $props.order) === null || _$props$order4 === void 0 ? void 0 : (_$props$order4$paymen = _$props$order4.payment_method) === null || _$props$order4$paymen === void 0 ? void 0 : _$props$order4$paymen.description) + " ", 1 /* TEXT */), $props.order.integration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 0
-  }, [((_$props$order$payment = $props.order.payment_method) === null || _$props$order$payment === void 0 ? void 0 : (_$props$order$payment2 = _$props$order$payment.payment_integration_params) === null || _$props$order$payment2 === void 0 ? void 0 : _$props$order$payment2.payment_method_id) == 'slip' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_20, " - Boleto ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64 /* STABLE_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_22, [_hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.order.products, function (product, index) {
+  }, [((_$props$order$order_i2 = $props.order.order_integration_transaction) === null || _$props$order$order_i2 === void 0 ? void 0 : _$props$order$order_i2.payment_type_id) == 'ticket' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_20, " - Boleto ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64 /* STABLE_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_22, [_hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.order.products, function (product, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
       key: index
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -28651,7 +28675,8 @@ var actions = {
     var commit = _ref12.commit;
     var token = localStorage.getItem(TOKEN_NAME);
     if (!token) return;
-    return axios__WEBPACK_IMPORTED_MODULE_0___default().get('/app/auth/my-orders', {
+    var endpoint = "".concat("http://buzzin.com", "/api/auth/v1/my-orders");
+    return axios__WEBPACK_IMPORTED_MODULE_0___default().get(endpoint, {
       headers: {
         'Authorization': "Bearer ".concat(token)
       }
@@ -28816,7 +28841,11 @@ var actions = {
     var token = localStorage.getItem(TOKEN_NAME);
     commit('SET_PRELOADER', true);
     commit('SET_TEXT_PRELOADER', 'Finalizando pedido...');
-    return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/app/checkout/order', params, {
+    var query_params = new URLSearchParams({
+      token_company: params.tenant_uuid
+    }).toString();
+    var endpoint = "".concat("http://buzzin.com", "/api/auth/v1/orders?").concat(query_params);
+    return axios__WEBPACK_IMPORTED_MODULE_0___default().post(endpoint, params, {
       headers: {
         'Authorization': "Bearer ".concat(token)
       }

@@ -1,18 +1,14 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\PaymentIntegration;
 
-use App\Http\Resources\MercadoPagoTenantConfigResource;
 use App\Models\Order;
 use App\Models\OrderIntegrationTransation;
-use App\Models\Payment;
-use App\Models\TenantPayment;
+use App\Services\TenantService;
 use Error;
-use Exception;
-use Illuminate\Support\Facades\DB;
 use GuzzleHttp\Client;
 
-class OrderPaymentMercadoPagoService
+class MercadoPagoOrderPaymentService
 {
     private $tenantService;
     private $tenantConfigPayment;
@@ -32,15 +28,14 @@ class OrderPaymentMercadoPagoService
     {
         $this->order = $order;
         $this->order->data = json_decode($this->order->data);
-        $paymentConfig = $order->data->payment_method;
+        $paymentConfig = $this->order->data->payment_method;
 
         $this->tenantConfigPayment = json_decode($paymentConfig->data);
-        $this->paymentClientDetail = $paymentConfig->payment_integration_params;
+        $this->paymentClientDetail = $this->order->data->payment_integration_params;
 
         switch ($this->paymentClientDetail->payment_method_id) {
             case 'slip':
                 return $this->slip();
-                break;
 
             default:
                 # cridit
@@ -50,8 +45,6 @@ class OrderPaymentMercadoPagoService
 
     private function slip()
     {
-
-        DB::beginTransaction();
 
         try {
             $apiUrl = 'https://api.mercadopago.com/v1/payments';
@@ -92,7 +85,7 @@ class OrderPaymentMercadoPagoService
                 'itens' => $response->metadata->itens
             ];
 
-            OrderIntegrationTransation::create([
+           $res = OrderIntegrationTransation::create([
                 'order_id' => $this->order->id,
                 'data' => json_encode($data),
                 'transaction_id' => $response->id,
@@ -105,10 +98,10 @@ class OrderPaymentMercadoPagoService
                 'external_resource_url' => $response->transaction_details->external_resource_url
             ]);
 
-            DB::commit();
+            return $res;
+
         } catch (\GuzzleHttp\Exception\ClientException $e) {
-            DB::rollBack();
-            return $e->getResponse()->getBody()->getContents();
+            throw new Error($e->getResponse()->getBody()->getContents());
         }
     }
 

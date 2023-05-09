@@ -45,13 +45,14 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from "vuex";
+import { mapState, mapActions, mapMutations, commit } from "vuex";
 import { toast } from 'vue3-toastify';
 
 export default {
     props: [],
     components: {},
     data: () => ({
+        token_name: "buzzin",
         canSave: false,
         firstname: "",
         lastname: "",
@@ -95,15 +96,16 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["sendCheckout"]),
         ...mapMutations({
             clearCart: "CLEAR_CART",
+            setPreloader: "SET_PRELOADER",
+            setTextPreloader: "SET_TEXT_PRELOADER"
         }),
 
         pay() {
             this.reset();
             this.validateForm();
-            if(!this.canSave){
+            if (!this.canSave) {
                 return;
             }
 
@@ -123,7 +125,20 @@ export default {
                     cpf: this.cpf.replace(/[^a-zA-Z0-9]/g, '')
                 }
             }
-            this.sendCheckout(params)
+
+            const token = localStorage.getItem(this.token_name);
+
+            this.setPreloader(true);
+            this.setTextPreloader('Finalizando pedido...')
+
+            const query_params = new URLSearchParams({
+                token_company: this.company.uuid
+            }).toString();
+
+            const endpoint = `/api/auth/v1/mp-order?${query_params}`
+            return axios.post(endpoint, params, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
                 .then((res) => {
                     toast.success("Pedido realizado com sucesso", { autoClose: 3000 });
                     this.clearCart(this.company.uuid);
@@ -140,6 +155,10 @@ export default {
                         { autoClose: 5000 }
                     );
                 })
+                .finally(() => {
+                    this.setPreloader(false);
+                    this.setTextPreloader('Carregando...');
+                });
         },
 
         validateForm() {

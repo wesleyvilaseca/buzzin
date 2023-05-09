@@ -107,6 +107,7 @@ export default {
         },
         defaultCreateOrder(){
             const params = {
+                tenant_uuid: this.company.uuid,
                 address: this.selectedAddress,
                 products: this.products,
                 shippingMethod: this.selectedShippingMethod,

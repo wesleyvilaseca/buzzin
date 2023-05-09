@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Plan;
-use App\Services\MercadoPagoService;
+use App\Services\PaymentIntegration\MercadoPagoAdminService;
 use App\Services\TenantService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +15,7 @@ class SubscriptionController extends Controller
     private $tenantService;
     private $mercadoPagoService;
 
-    public function __construct(TenantService $tenantService, MercadoPagoService $mercadoPagoService)
+    public function __construct(TenantService $tenantService, MercadoPagoAdminService $mercadoPagoService)
     {
         $this->tenantService = $tenantService;
         $this->mercadoPagoService = $mercadoPagoService;

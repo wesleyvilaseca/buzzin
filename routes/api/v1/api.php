@@ -4,11 +4,11 @@ use App\Http\Controllers\Api\Auth\AuthClientController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\EvaluationController;
-use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\TablesController;
 use App\Http\Controllers\Api\TenantController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\Auth\OrderController;
+use App\Http\Controllers\Api\Auth\PaymentIntegration\MercadoPagoController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/register', [RegisterController::class, 'store']);
@@ -22,8 +22,13 @@ Route::group([
 
     Route::post('/auth/v1/orders/{identifyOrder}/evaluations', [EvaluationController::class, 'store']);
 
-    Route::get('/auth/v1/my-orders', [OrderController::class, 'myOrders']);
-    Route::post('/auth/v1/orders', [OrderController::class, 'store']);
+    Route::get('/auth/v1/my-orders',    [OrderController::class, 'myOrders']);
+    Route::post('/auth/v1/orders',      [OrderController::class, 'store']);
+    
+    /**
+     * integration payment routes
+     */
+    Route::post('/auth/v1/mp-order',     [MercadoPagoController::class, 'store']);
 });
 
 Route::group([
@@ -46,7 +51,3 @@ Route::group([
     Route::post('/orders', [OrderController::class, 'store']);
     Route::get('/orders/{identify}', [OrderController::class, 'show']);
 });
-
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });

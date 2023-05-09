@@ -88,7 +88,8 @@ export default {
                 expirationMonth: "",
                 expirationYear: ""
             },
-            showstallmants: false
+            showstallmants: false,
+            paymentMethodId: ""
         }
     },
     computed: {},
@@ -101,12 +102,11 @@ export default {
         },
 
         setCardTokenAndPay(status, response) {
-            console.log(response);
             if (status == 200 || status == 201) {
                 const parcelas = document.getElementById('installments');
                 axios.post('/api/v1/paycard', {
                     token: response.id,
-                    payment_method_id: document.getElementById('paymentMethodId').value,
+                    payment_method_id: this.paymentMethodId,
                     plan_id: this.plan.id,
                     email: document.getElementById('email').value,
                     installments: parcelas?.value ?? 1,
@@ -133,7 +133,7 @@ export default {
 
         setPaymentMethod(status, response) {
             if (status == 200) {
-                document.getElementById('paymentMethodId').value = response[0].id
+                this.paymentMethodId = response[0].id
                 document.getElementById('secure_thumbnail').src = response[0].secure_thumbnail
                 // this.getIssuers(response[0].id);
             } else {
@@ -164,7 +164,7 @@ export default {
 
         getInstallments() {
             window.Mercadopago.getInstallments({
-                "payment_method_id": document.getElementById('paymentMethodId').value,
+                "payment_method_id": this.paymentMethodId,
                 "amount": parseFloat(document.getElementById('transactionAmount').value),
                 "issuer_id": 25
             }, this.setInstallments);
@@ -263,9 +263,16 @@ export default {
                 }, this.setPaymentMethod);
             }
 
-            if (val.length == 16) {
+            if (val.length == 16 && document.getElementById('paymentMethodId').value) {
                 this.getInstallments()
             }
+        },
+
+        paymentMethodId() {
+            let val = this.cardnumber.replace(/\s/g, '');
+            if (val.length == 16 && this.paymentMethodId) {
+                this.getInstallments()
+            } 
         },
 
         expiration() {
