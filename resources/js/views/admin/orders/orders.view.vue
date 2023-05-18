@@ -29,8 +29,9 @@
                 <thead>
                     <tr>
                         <th>Número</th>
-                        <th>Status</th>
+                        <th>Status entrega</th>
                         <th>Data</th>
+                        <th>Detalhes</th>
                         <th width="270">Ações</th>
                     </tr>
                 </thead>
@@ -40,7 +41,15 @@
                         <td>{{ order.status_label }}</td>
                         <td>{{ order.date_br }}</td>
                         <td>
-                            <!-- <detail-order :order="order" :display="'none'"></detail-order> -->
+                            <template v-if="order.payment_method.integration">
+                                {{ order.payment_method.integration }} - {{ paymentTypeIntegration(order) }} <br />
+                               <b>Status: {{ order.order_integration_transaction.status }}</b> 
+                            </template>
+                            <template v-else>
+                                {{ order.payment_method.description }}
+                            </template>
+                        </td>
+                        <td>
                             <a href="#" @click.prevent="openDetails(order)" class="btn btn-info btn-sm"><i
                                     class="fa-solid fa-eye"></i></a>
                         </td>
@@ -101,7 +110,22 @@ export default {
             displayOrder: 'none',
         }
     },
+    computed: {
+     
+    },
     methods: {
+        paymentTypeIntegration(order) {
+            // console.log(order.order_integration_transaction)
+            if(order.payment_method.integration) {
+                switch (order.order_integration_transaction.payment_type_id) {
+                    case 'ticket':
+                        return 'Boleto'                
+                    default:
+                        return 'Cartão de crédito';
+                }
+            }
+        },
+
         getOrders() {
             this.reset()
             this.loadingOrders = true

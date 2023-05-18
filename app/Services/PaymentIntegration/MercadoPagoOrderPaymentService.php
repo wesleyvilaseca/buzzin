@@ -4,9 +4,13 @@ namespace App\Services\PaymentIntegration;
 
 use App\Models\Order;
 use App\Models\OrderIntegrationTransation;
+use App\Models\Payment;
+use App\Models\Tenant;
+use App\Models\TenantPayment;
 use App\Services\TenantService;
 use Error;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 
 class MercadoPagoOrderPaymentService
 {
@@ -17,6 +21,7 @@ class MercadoPagoOrderPaymentService
     protected $httpClient;
 
     public const INTEGRATION = 'MercadoPago';
+    public const APPROVED = 'approved';
 
     public function __construct(TenantService $tenantService)
     {
@@ -85,7 +90,7 @@ class MercadoPagoOrderPaymentService
                 'itens' => $response->metadata->itens
             ];
 
-           $res = OrderIntegrationTransation::create([
+            $res = OrderIntegrationTransation::create([
                 'order_id' => $this->order->id,
                 'data' => json_encode($data),
                 'transaction_id' => $response->id,
@@ -99,7 +104,6 @@ class MercadoPagoOrderPaymentService
             ]);
 
             return $res;
-
         } catch (\GuzzleHttp\Exception\ClientException $e) {
             throw new Error($e->getResponse()->getBody()->getContents());
         }
@@ -111,5 +115,68 @@ class MercadoPagoOrderPaymentService
 
     private function pix()
     {
+    }
+
+    public function mpNotify(array $data)
+    {
+        Log::info(['payment' => $data]);
+        $dataMp = $data['data'];
+        if (!$data['type'] && !$dataMp['id']) {
+            return response()->json(['message' => 'Operação não autorizada'], 403);
+        }
+
+        $transaction = OrderIntegrationTransation::where('transaction_id', $dataMp['id'])->first();
+
+        if (!$transaction) {
+            return response()->json(['message' => 'transação não localizada'], 401);
+        }
+
+        if ($data['type'] != 'payment') {
+            return response()->json(['message' => 'Operação não autorizada'], 401);
+        }
+
+        try {
+            //payment method;
+            $paymentMethodId = Payment::where('integration', self::INTEGRATION)->first()->id;
+            $config = TenantPayment::where([
+                'tenant_id' => $transaction->order->tenant->id,
+                'payment_id' => $paymentMethodId
+            ])->first();
+
+            $config->data = json_decode($config->data);
+
+            $apiUrl = 'https://api.mercadopago.com/v1/payments/' . $dataMp['id'];
+            $response = $this->httpClient->get($apiUrl, [
+                'headers' => [
+                    'Authorization' => "Bearer {$config->data->access_token}",
+                    'content-type' => 'application/json',
+                    'accept' => 'application/json'
+                ]
+            ]);
+
+            $response = json_decode($response->getBody()->getContents());
+
+            // $tenant = Tenant::where('uuid', $response->metadata->user_id)->first();
+
+            // $transaction = Transaction::where([
+            //     'transaction_id' => $response->id,
+            //     'tenant_id' => $tenant->id
+            // ])->first();
+
+            if (!$transaction) {
+                Log::info(['error_payment' => 'transação não localizada']);
+                return response()->json(['message' => 'transação não localizada'], 401);
+            }
+
+            $transaction->update([
+                'status' => $response->status,#'approved',
+                'status_detail' => $response->status_detail, #'accredited',
+            ]);
+
+            return response()->json(['message' => 'transação atualização com sucesso'], 200);
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            Log::info(['error_payment' => $e->getResponse()->getBody()->getContents()]);
+            return response()->json(['message' => 'Falha na requisição', 'error' => $e->getResponse()->getBody()->getContents()], 401);
+        }
     }
 }

@@ -50,4 +50,10 @@ Route::group([
 
     Route::post('/orders', [OrderController::class, 'store']);
     Route::get('/orders/{identify}', [OrderController::class, 'show']);
+
+     
+    /**
+     * integration payment routes
+     */
+    Route::post('/mp-notify-order',     [MercadoPagoController::class, 'mpNotify']);
 });

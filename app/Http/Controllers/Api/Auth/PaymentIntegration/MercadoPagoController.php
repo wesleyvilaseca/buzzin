@@ -15,8 +15,6 @@ use Exception;
 
 class MercadoPagoController extends Controller
 {
-    private $tenant;
-    private $client;
     private $orderService;
     private $mercadoPagoOrderPaymentService;
 
@@ -58,5 +56,9 @@ class MercadoPagoController extends Controller
             DB::rollBack();
             return response()->json(['message' => 'Houve um erro na requisição, tente novamento', 'detail' => $e->getMessage()], 404);
         }
+    }
+
+    public function mpNotify(Request $request) {
+        return $this->mercadoPagoOrderPaymentService->mpNotify($request->all());
     }
 }

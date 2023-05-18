@@ -13,25 +13,18 @@ use Illuminate\Support\Facades\DB;
 class OrderService
 {
     protected $orderRepository, $tenantRepository, $tableRepository, $productRepository;
-    // private $orderPaymentMercadoPagoService;
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         TenantRepositoryInterface $tenantRepository,
         TableRepositoryInterface $tableRepository,
         ProductRepositoryInterface $productRepository,
-        // OrderPaymentMercadoPagoService $orderPaymentMercadoPagoService
 
     ) {
         $this->orderRepository = $orderRepository;
         $this->tenantRepository = $tenantRepository;
         $this->tableRepository = $tableRepository;
         $this->productRepository = $productRepository;
-
-        /**
-         * integrations service
-         */
-        // $this->orderPaymentMercadoPagoService = $orderPaymentMercadoPagoService;
     }
 
     public function ordersByClient()
@@ -50,10 +43,6 @@ class OrderService
     public function getOrderByIdentify(string $identify)
     {
         return $this->orderRepository->getOrderByIdentify($identify);
-    }
-
-    private function validateParams(){
-
     }
 
     public function createNewOrder(array $order)
