@@ -47,7 +47,6 @@ class OrderService
 
     public function createNewOrder(array $order)
     {
-        DB::beginTransaction();
         try {
             $paymentMethod = $order['paymentMethod'];
             $paymentMethod['data'] = decript($paymentMethod['data']);
@@ -95,11 +94,9 @@ class OrderService
             );
 
             $this->orderRepository->registerProductsOrder($order->id, $productsOrder);
-            DB::commit();
             return $order;
         } 
         catch (Exception $e) {
-            DB::rollBack();
             return  $e->getMessage();
         }
     }

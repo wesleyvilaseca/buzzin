@@ -41,7 +41,7 @@
                 </select>
             </div> -->
 
-            <div class="form-group mt-2 col-md-12" v-if="showstallmants">
+            <div class="form-group mt-2 col-md-12" v-show="showstallmants">
                 <label class="mb-1">Parcelas:</label>
                 <select class="form-select form-select-sm" id="installments">
                 </select>

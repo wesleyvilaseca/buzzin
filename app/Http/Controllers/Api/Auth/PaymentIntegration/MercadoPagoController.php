@@ -46,12 +46,16 @@ class MercadoPagoController extends Controller
             )->first();
             
             $order = Order::find($res->id);
-            $res = $this->mercadoPagoOrderPaymentService->startPayment($order);
+            $res = $this->mercadoPagoOrderPaymentService->startPayment($order, $request->all());
+
+            if(!$res) {
+                throw new Error('error');
+            }
+
             broadcast(new OrderCreated($order));
             
-            return new OrderResource($order);
             DB::commit();
-            return $res;
+            return new OrderResource($order);
         } catch (Exception $e) {
             DB::rollBack();
             return response()->json(['message' => 'Houve um erro na requisição, tente novamento', 'detail' => $e->getMessage()], 404);

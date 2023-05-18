@@ -78,7 +78,7 @@ export default {
             company: (state) => state.tenant.company
         }),
         mpConfig() {
-            return JSON.parse(this.decode(this.selectedPaymentMethod.data));
+            return JSON.parse(this.selectedPaymentMethod.data);
         }
     },
     created() {

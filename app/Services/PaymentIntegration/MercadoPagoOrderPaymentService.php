@@ -29,23 +29,30 @@ class MercadoPagoOrderPaymentService
         $this->httpClient = new Client();
     }
 
-    public function startPayment(Order $order)
+    public function startPayment(Order $order, $data)
     {
         $this->order = $order;
-        $this->order->data = json_decode($this->order->data);
-        $paymentConfig = $this->order->data->payment_method;
+        $this->paymentClientDetail = $data['payment_integration_params'];
+        $this->setPaymentTenantConfig();
 
-        $this->tenantConfigPayment = json_decode($paymentConfig->data);
-        $this->paymentClientDetail = $this->order->data->payment_integration_params;
-
-        switch ($this->paymentClientDetail->payment_method_id) {
+        switch ($this->paymentClientDetail['payment_method_id']) {
             case 'slip':
                 return $this->slip();
 
             default:
-                # cridit
-                break;
+                if ($this->paymentClientDetail['token']) return $this->creditCard();
         }
+    }
+
+    private function setPaymentTenantConfig()
+    {
+        $paymentMethodId = Payment::where('integration', self::INTEGRATION)->first()->id;
+        $config = TenantPayment::where([
+            'tenant_id' => $this->order->tenant->id,
+            'payment_id' => $paymentMethodId
+        ])->first();
+
+        $this->tenantConfigPayment = json_decode($config->data);
     }
 
     private function slip()
@@ -60,12 +67,12 @@ class MercadoPagoOrderPaymentService
                 'description' => 'Compra online ' . $this->order->tenant->name,
                 'payment_method_id' => 'bolbradesco',
                 'payer' => (object) [
-                    'first_name' => $this->paymentClientDetail->first_name,
-                    'last_name' => $this->paymentClientDetail->last_name,
-                    'email' => $this->paymentClientDetail->email,
+                    'first_name' => $this->paymentClientDetail['first_name'],
+                    'last_name' => $this->paymentClientDetail['last_name'],
+                    'email' => $this->paymentClientDetail['email'],
                     'identification' => (object)[
                         "type" => 'CPF',
-                        "number" => $this->paymentClientDetail->cpf
+                        "number" => $this->paymentClientDetail['cpf']
                     ]
                 ],
                 'metadata' => (object) [
@@ -111,6 +118,64 @@ class MercadoPagoOrderPaymentService
 
     private function creditCard()
     {
+        $apiUrl = 'https://api.mercadopago.com/v1/payments';
+
+        try {
+
+            $form = [
+                'external_reference' => $this->order->client_id,
+                'transaction_amount' => (float) $this->order->total,
+                'payment_method_id' => $this->paymentClientDetail['payment_method_id'],
+                'token' => $this->paymentClientDetail['token'],
+                'description' => 'Compra online ' . $this->order->tenant->name,
+                'installments' => !empty($this->paymentClientDetail['installments']) ? (int) $this->paymentClientDetail['installments'] : 1,
+                'issuer_id' => 25,
+                'payer' => (object) [
+                    'email' => $this->paymentClientDetail['email'],
+                    'identification' => (object)[
+                        "type" => 'CPF',
+                        "number" => $this->paymentClientDetail['cpf']
+                    ]
+                ],
+                'metadata' => (object) [
+                    'user_id' => $this->order->client_id,
+                    'itens' => $this->order->products
+                ],
+                'notification_url' => env('MP_URL_NOTIFY_ORDER')
+            ];
+
+            $response = $this->httpClient->post($apiUrl, [
+                'headers' => [
+                    'Authorization' => "Bearer {$this->tenantConfigPayment->access_token}",
+                    'content-type' => 'application/json',
+                    'accept' => 'application/json'
+                ],
+                'body' => json_encode($form)
+            ]);
+
+            $response = json_decode($response->getBody()->getContents());
+
+            $data = (object) [
+                'itens' => $response->metadata->itens
+            ];
+
+            $res = OrderIntegrationTransation::create([
+                'order_id' => $this->order->id,
+                'data' => json_encode($data),
+                'transaction_id' => $response->id,
+                'transaction_amount' => $response->transaction_amount,
+                'last_four_digits' => $response->card->last_four_digits,
+                'payment_method_id' => $response->payment_method_id,
+                'payment_type_id' => $response->payment_type_id,
+                'status' => $response->status,
+                'status_detail' => $response->status_detail,
+                'external_resource_url' => $response->transaction_details->external_resource_url
+            ]);
+
+            return $res;
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            throw new Error($e->getResponse()->getBody()->getContents());
+        }
     }
 
     private function pix()
@@ -136,19 +201,13 @@ class MercadoPagoOrderPaymentService
         }
 
         try {
-            //payment method;
-            $paymentMethodId = Payment::where('integration', self::INTEGRATION)->first()->id;
-            $config = TenantPayment::where([
-                'tenant_id' => $transaction->order->tenant->id,
-                'payment_id' => $paymentMethodId
-            ])->first();
-
-            $config->data = json_decode($config->data);
+            $this->order = $transaction->order;
+            $this->setPaymentTenantConfig();
 
             $apiUrl = 'https://api.mercadopago.com/v1/payments/' . $dataMp['id'];
             $response = $this->httpClient->get($apiUrl, [
                 'headers' => [
-                    'Authorization' => "Bearer {$config->data->access_token}",
+                    'Authorization' => "Bearer {$this->tenantConfigPayment->access_token}",
                     'content-type' => 'application/json',
                     'accept' => 'application/json'
                 ]
@@ -169,7 +228,7 @@ class MercadoPagoOrderPaymentService
             }
 
             $transaction->update([
-                'status' => $response->status,#'approved',
+                'status' => $response->status, #'approved',
                 'status_detail' => $response->status_detail, #'accredited',
             ]);
 

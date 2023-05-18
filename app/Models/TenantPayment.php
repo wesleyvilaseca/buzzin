@@ -17,4 +17,11 @@ class TenantPayment extends Model
     {
         return $this->hasOne(Payment::class, 'id', 'payment_id');
     }
+
+    public function getDataPaymentIntegration()
+    {
+        $data = json_decode($this->data);
+        unset($data->access_token);
+        return json_encode($data);
+    }
 }
