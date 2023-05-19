@@ -154,7 +154,7 @@
 
                     @can('admsites')
                         <li class="{{ @$_sites ? 'ativo' : '' }}">
-                            <a href="#">
+                            <a href="{{ route('admin.sites') }}">
                                 <i class="fa-solid fa-building"></i>
                                 <span>Sites</span>
                             </a>

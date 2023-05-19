@@ -25,12 +25,14 @@ use App\Http\Controllers\Web\Admin\TableController;
 use App\Http\Controllers\Web\Admin\TenantAccountController;
 use App\Http\Controllers\Web\Admin\TenantController;
 use App\Http\Controllers\Web\Admin\TenantShippingController;
+use App\Http\Controllers\Web\Admin\TenantSiteAdministrationController;
 use App\Http\Controllers\Web\Admin\TransactionsController;
 use App\Http\Controllers\Web\Admin\UserController;
 use App\Http\Controllers\Web\Admin\ZonesGeolocationController;
 use App\Http\Controllers\Web\Auth\LoginController;
 use App\Http\Controllers\Web\Site\HomeController;
 use App\Http\Controllers\Web\Site\SubscriptionsController;
+use App\Models\TenantSites;
 use Illuminate\Support\Facades\Route;
 
 $domain = request()->getHttpHost();
@@ -308,6 +310,12 @@ Route::middleware(['auth'])->group(function () {
             Route::put('/extension-disable/{id}', [SiteExtensionsController::class, 'disable'])->name('admin.site_extension.disable');
             Route::put('/extension-enable/{id}',  [SiteExtensionsController::class, 'enable'])->name('admin.site_extension.enable');
 
+        });
+
+        Route::prefix('admin-sites')->group(function () {
+            Route::get('/',                 [TenantSiteAdministrationController::class, 'index'])->name('admin.sites');
+            Route::get('/{id}/edit',        [TenantSiteAdministrationController::class, 'edit'])->name('admin.sites.edit');
+            Route::put('/{id}/update',      [TenantSiteAdministrationController::class, 'update'])->name('admin.sites.update');
         });
 
         Route::prefix('admin-payment')->group(function () {

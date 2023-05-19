@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\Tenant;
+use App\Models\TenantSites;
 use App\Supports\Cripto\Cripto;
 use Closure;
 use Illuminate\Http\Request;
@@ -21,24 +22,20 @@ class ClientSiteAccess
      */
     public function handle(Request $request, Closure $next)
     {
-        // session()->forget('adminlogin');
-        // dd($request->session()->get('adminlogin'));
         $appdomain = env('APP_URL');
-        $subdomain = explode(".", request()->getHttpHost())[0];
-        $tenantExist = Tenant::where('url', $subdomain)->first();
+        // $subdomain = explode(".", request()->getHttpHost())[0];
+        $subdomain = request()->getHttpHost();
+        // $tenantExist = Tenant::where('url', $subdomain)->first();
+        $site = TenantSites::where('subdomain', $subdomain)->first();
 
-        if (!$tenantExist) {
-            return Redirect::to($appdomain);
-        }
-
-        $tenantExist->site = $tenantExist->site;
-
-        session()->put('tenant', $tenantExist);
-
-        $site = $tenantExist->site()->first();
         if (!$site) {
             return Redirect::to($appdomain);
         }
+
+        $tenant = $site->tenant;
+        $tenant->site = $site;
+
+        session()->put('tenant', $tenant);
 
         $isEnabladByAdmin = $site->status;
         switch ($isEnabladByAdmin) {
