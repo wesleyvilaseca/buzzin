@@ -1,34 +1,34 @@
 @extends('layouts.admin.dashboard')
 
 @section('content')
-    <div class="row">
+    <div class="row">        
         <div class="col-md-6 col-xl-4">
-            <div class="card mb-3 card-content bg-info">
-                <div class="card-content-wrapper text-white">
+            <div class="card mb-3 card-content">
+                <div class="card-content-wrapper text-dark">
                     <div class="card-content-left">
                         <div class="card-heading">Usuários</div>
                         {{-- <div class="card-subheading">para este mês</div> --}}
                     </div>
                     <div class="card-content-right">
-                        <div class="card-numbers text-white"><span>{{ $totalUsers }}</span></div>
+                        <div class="card-numbers text-dark"><span>{{ $totalUsers }}</span></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6 col-xl-4">
-            <div class="card mb-3 card-content bg-danger">
-                <div class="card-content-wrapper text-white">
-                    <div class="card-content-left">
-                        <div class="card-heading">Mesas</div>
-                        {{-- <div class="card-subheading">para este mês</div> --}}
-                    </div>
-                    <div class="card-content-right">
-                        <div class="card-numbers text-white"><span>{{ $totalTables }}</span></div>
-                    </div>
+        {{-- <div class="col-md-6 col-xl-4">
+        <div class="card mb-3 card-content bg-danger">
+            <div class="card-content-wrapper text-white">
+                <div class="card-content-left">
+                    <div class="card-heading">Mesas</div>
+                    <div class="card-subheading">para este mês</div>
+                </div>
+                <div class="card-content-right">
+                    <div class="card-numbers text-white"><span>{{ $totalTables }}</span></div>
                 </div>
             </div>
         </div>
+    </div> --}}
 
         <div class="col-md-6 col-xl-4">
             <div class="card mb-3 card-content bg-success">
@@ -138,4 +138,4 @@
             </div>
         @endadmin
     </div>
-@endsection
+@stop

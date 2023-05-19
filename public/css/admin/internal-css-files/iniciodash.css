@@ -51,7 +51,7 @@
     padding: 1rem;
     flex-direction: row !important;
     align-items: center;
-    z-index: -1 !important;
+    /* z-index: -1 !important; */
 }
 
 .card-content .card-content-wrapper {

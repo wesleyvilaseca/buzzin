@@ -1,11 +1,17 @@
-<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-dark">
+<nav class="navbar fixed-top navbar-expand-lg navbar-light top-nav">
     <div class="container-fluid">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-2">
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link"><i class="fas fa-user-circle me-2"></i>
                     {{ Auth::user()->name }}
                 </a>
-            </li>
+            </li> --}}
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fa-regular fa-circle-question me-2"></i>
+                    Suporte
+                </a>
+            </li> 
         </ul>
         <form action="{{ route('tenant.open') }}" method="POST" class="form form-inline">
             @csrf

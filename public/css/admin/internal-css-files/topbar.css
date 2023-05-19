@@ -1,4 +1,11 @@
+.top-nav{
+    background-color: #fafbfc;
+    box-shadow: 0 .46875rem 2.1875rem rgba(4,9,20,.03),0 .9375rem 1.40625rem rgba(4,9,20,.03),0 .25rem .53125rem rgba(4,9,20,.05),0 .125rem .1875rem rgba(4,9,20,.03);
+}
 
+.navbar-light .navbar-nav .nav-link {
+    color: #343a40 !important;
+}
 .navbar {
     z-index: 1 !important;
 }

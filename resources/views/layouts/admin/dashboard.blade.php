@@ -30,10 +30,10 @@
 </head>
 
 <body>
-    <div id="app">
+    <div id="app" class="">
         <div id="formloader"></div>
         <div id="side-menu" class="page-wrapper chiller-theme toggled">
-            <a id="show-sidebar" class="btn btn-sm btn-dark" style="cursor:pointer;">
+            <a id="show-sidebar" class="btn btn-sm" style="cursor:pointer; color: rgb(64, 64, 255);">
                 <i class="fas fa-bars"></i>
             </a>
 

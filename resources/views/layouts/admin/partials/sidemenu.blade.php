@@ -2,7 +2,7 @@
     <div class="sidebar-content">
         <div class="sidebar-brand text-center">
             <img src="" alt="">
-            <a href="#">BuzzIn!</a>
+            <a href="#">Buzz<span style="color: #4040ff;">In!</span></a>
             <div id="close-sidebar">
                 <i class="fas fa-times"></i>
             </div>
