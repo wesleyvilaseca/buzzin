@@ -26,6 +26,7 @@ use App\Http\Controllers\Web\Admin\TenantAccountController;
 use App\Http\Controllers\Web\Admin\TenantController;
 use App\Http\Controllers\Web\Admin\TenantShippingController;
 use App\Http\Controllers\Web\Admin\TenantSiteAdministrationController;
+use App\Http\Controllers\Web\Admin\TenantTicketsController;
 use App\Http\Controllers\Web\Admin\TransactionsController;
 use App\Http\Controllers\Web\Admin\UserController;
 use App\Http\Controllers\Web\Admin\ZonesGeolocationController;
@@ -351,6 +352,10 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('admin-configuration')->group(function () {
             Route::get('/',                 [ConfigurationController::class, 'index'])->name('admin.configuration');
+        });
+
+        Route::prefix('admin-tenant-tickets')->group(function () {
+            Route::get('/',         [TenantTicketsController::class, 'index'])->name('admin.tenant.tickets');
         });
     });
 });

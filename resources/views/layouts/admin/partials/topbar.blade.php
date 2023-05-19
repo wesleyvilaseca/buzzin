@@ -7,7 +7,7 @@
                 </a>
             </li> --}}
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('admin.tenant.tickets') }}">
                     <i class="fa-regular fa-circle-question me-2"></i>
                     Suporte
                 </a>
