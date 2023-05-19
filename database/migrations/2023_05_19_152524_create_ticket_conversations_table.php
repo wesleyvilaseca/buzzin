@@ -16,8 +16,11 @@ class CreateTicketConversationsTable extends Migration
         Schema::create('ticket_conversations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('ticket_id');
-            $table->text('msg')->nullable();
+            $table->text('message')->nullable();
+            $table->integer('visualised')->default(0)->nullable();
+            $table->integer('created_by_tenant')->commet('0 - no | 1 - yes')->nullable();
             $table->unsignedBigInteger('sender_user_id')->nullable();
+            $table->timestamps();
 
             $table->foreign('ticket_id')
                 ->references('id')

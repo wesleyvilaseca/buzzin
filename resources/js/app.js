@@ -19,6 +19,7 @@ import preloader from './components/common/PreloaderComponent.vue';
  */
 import ordersAdminView from './views/admin/orders/orders.view.vue';
 import subscriptionAdminView from './views/admin/subscriptions/subscriptions.view.vue';
+import supportTenantView from './views/admin/tickets/tenant/support.view.vue';
 
 
 /**
@@ -34,7 +35,6 @@ import checkoutSiteTenantView from './views/tenant_site/checkout/checkout.view.v
 import maintenceSiteTenantView from './views/tenant_site/maintence/maintence.view.vue';
 import ClientSiteTenantView from './views/tenant_site/client/index.view.vue';
 
-
 var app = createApp();
 
 /**
@@ -49,7 +49,7 @@ app.component('preloader-component', preloader);
  */
 app.component('orders-tenant', ordersAdminView);
 app.component('subscription-tenant', subscriptionAdminView);
-
+app.component('support-tenant', supportTenantView);
 
 /**
  * view components website
