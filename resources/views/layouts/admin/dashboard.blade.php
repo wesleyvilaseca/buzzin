@@ -122,6 +122,11 @@
         integrity="sha512-Rdk63VC+1UYzGSgd3u2iadi0joUrcwX0IWp2rTh6KXFoAmgOjRS99Vynz1lJPT8dLjvo6JZOqpAHJyfCEZ5KoA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <script src="https://cdn.tiny.cloud/1/957xh1332e4cnda4415vyfh0mmu9546pr8viekcnj5q0g1jd/tinymce/5.8.0-111/tinymce.min.js"
+        referrerpolicy="origin">
+    </script>
+        {{-- <script src="https://cdn.tiny.cloud/1/957xh1332e4cnda4415vyfh0mmu9546pr8viekcnj5q0g1jd/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script> --}}
+
     <script src="{{ asset('js/admin/sidebar/sidebar.js') }}"></script>
     <script src="{{ asset('js/helper.js') }}"></script>
 
