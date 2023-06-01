@@ -14,7 +14,7 @@ class ShippmentTableSeeder extends Seeder
      */
     public function run()
     {
-        Shipping::create(
+        Shipping::insert([
             [
                 'description' => 'Delivery',
                 'status' => 1
@@ -23,6 +23,6 @@ class ShippmentTableSeeder extends Seeder
                 'description' => 'Retirada',
                 'status' => 1
             ]
-        );
+        ]);
     }
 }

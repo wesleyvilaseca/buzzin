@@ -14,7 +14,7 @@ class SiteExtensionsTableSeeder extends Seeder
      */
     public function run()
     {
-        SiteExtensions::create(
+        SiteExtensions::insert([
             [
                 'description' => 'Modo catálogo',
                 'detail' => 'Essa funcionalidade desabilita a venda online de seu website, tornando o website em um catalogo online',
@@ -31,6 +31,6 @@ class SiteExtensionsTableSeeder extends Seeder
                 'free' => 1,
                 'status' => 1
             ]
-        );
+        ]);
     }
 }

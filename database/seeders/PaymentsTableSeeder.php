@@ -14,11 +14,11 @@ class PaymentsTableSeeder extends Seeder
      */
     public function run()
     {
-        Payment::create(
+        $payments = [
             [
-            'description' => 'Cartão de Crédido/Débito (na entrega)',
-            'ismoney' => 0,
-            'status' => 1
+                'description' => 'Cartão de Crédido/Débito (na entrega)',
+                'ismoney' => 0,
+                'status' => 1
             ],
             [
                 'description' => 'Pagar na Retirada',
@@ -37,6 +37,10 @@ class PaymentsTableSeeder extends Seeder
                 'ismoney' => 1,
                 'status' => 1
             ]
-    );
+        ];
+
+        collect($payments)->each(function ($payment) {
+            Payment::create($payment);
+        });
     }
 }

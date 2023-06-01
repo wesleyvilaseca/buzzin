@@ -14,7 +14,7 @@ class OperationDaysTableSeeder extends Seeder
      */
     public function run()
     {
-        OperationDay::create(
+        OperationDay::insert([
             [
                 'description' => 'Segunda-Feira',
             ],
@@ -36,6 +36,6 @@ class OperationDaysTableSeeder extends Seeder
             [
                 'description' => 'Domingo',
             ],
-        );
+        ]);
     }
 }
