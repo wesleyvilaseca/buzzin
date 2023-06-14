@@ -23,9 +23,7 @@ class ClientSiteAccess
     public function handle(Request $request, Closure $next)
     {
         $appdomain = env('APP_URL');
-        // $subdomain = explode(".", request()->getHttpHost())[0];
-        $subdomain = request()->getHttpHost();
-        // $tenantExist = Tenant::where('url', $subdomain)->first();
+        $subdomain = str_replace('www.', '',request()->getHttpHost());
         $site = TenantSites::where('subdomain', $subdomain)->first();
 
         if (!$site) {
