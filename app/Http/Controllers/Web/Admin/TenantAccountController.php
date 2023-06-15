@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Web\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Tenant;
 use App\Models\User;
+use App\Services\FileCloudService;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -15,10 +17,15 @@ use Illuminate\Support\Facades\Hash;
 class TenantAccountController extends Controller
 {
     private $tenant;
+    private $fileCloudService;
 
-    public function __construct(Tenant $tenant)
+    public function __construct(
+        Tenant $tenant,
+        FileCloudService $fileCloudService
+    )
     {
         $this->tenant = $tenant;
+        $this->fileCloudService = $fileCloudService;
         $this->middleware(['can:tenant_account']);
     }
 
@@ -109,11 +116,18 @@ class TenantAccountController extends Controller
         ]);
 
         if ($request->hasFile('image') && $request->image->isValid()) {
-            if (Storage::exists($tenant->logo)) {
-                Storage::delete($tenant->logo);
+            try {
+                $this->fileCloudService->destroyFile($tenant->logo);
+                $datafile = [
+                    'name' => 'image',
+                    'Mime-Type' => $request->file('image')->getmimeType(),
+                    'contents' => fopen($request->file('image')->getPathname(), 'r')
+                ];
+                $data['logo'] = $this->fileCloudService->storeFile($datafile, "public/tenants/{$tenant->uuid}/logo");
+            } catch (Exception $exception) {
+                return Redirect::back()->with('error', $exception->getMessage());
             }
-            $data['logo'] = $request->image->store("public/tenants/{$tenant->uuid}/logo");
-        }
+          }
 
         $res = $this->tenant->where('uuid', $tenant->uuid)->update($data);
         if (!$res) {

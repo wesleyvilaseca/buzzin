@@ -187,6 +187,10 @@ function celular($telefone)
     }
 }
 
+function getImage(string $url) :string {
+    return env('URL_API_FILES') . $url;
+}
+
 
 /**
  * list fontawesome 5

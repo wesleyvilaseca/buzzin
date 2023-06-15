@@ -10,18 +10,23 @@ use App\Models\StatusProductNoStock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use App\Services\FileCloudService;
+use Exception;
 
 class ProductController extends Controller
 {
     private $repository;
     private $statusStoque;
+    private $fileCloudService;
 
     public function __construct(
         Product $produtc,
-        StatusProductNoStock $statusStoque
+        StatusProductNoStock $statusStoque,
+        FileCloudService $fileCloudService
     ) {
         $this->repository = $produtc;
         $this->statusStoque = $statusStoque;
+        $this->fileCloudService = $fileCloudService;
 
         $this->middleware(['can:products']);
     }
@@ -112,8 +117,18 @@ class ProductController extends Controller
         if ($exist)
             return Redirect::back()->with('warning', 'Já existe um produto com esse nome');
 
-        if ($request->hasFile('image') && $request->image->isValid())
-            $data['image'] = $request->image->store("public/tenants/{$tenant->uuid}/products");
+        if ($request->hasFile('image') && $request->image->isValid()) {
+            try {
+                $datafile = [
+                    'name' => 'image',
+                    'Mime-Type' => $request->file('image')->getmimeType(),
+                    'contents' => fopen($request->file('image')->getPathname(), 'r')
+                ];
+                $data['image'] = $this->fileCloudService->storeFile($datafile, "public/tenants/{$tenant->uuid}/products");
+            } catch (Exception $exception) {
+                return Redirect::back()->with('error', $exception->getMessage());
+            }
+        }
 
         $product = $this->repository->create($data);
 
@@ -136,19 +151,25 @@ class ProductController extends Controller
 
         $data['min_for_sale'] = $data['min_for_sale'] == 0 ? 1 : tofloat($data['min_for_sale']);
 
-        // dd($data);
-
         $tenant = auth()->user()->tenant;
 
         if ($request->hasFile('image') && $request->image->isValid()) {
-            if (Storage::exists($product->image))
-                Storage::delete($product->image);
+             try {
+                $this->fileCloudService->destroyFile($product->image);
 
-            $data['image'] = $request->image->store("public/tenants/{$tenant->uuid}/products");
+                $datafile = [
+                    'name' => 'image',
+                    'Mime-Type' => $request->file('image')->getmimeType(),
+                    'contents' => fopen($request->file('image')->getPathname(), 'r')
+                ];
+                $data['image'] = $this->fileCloudService->storeFile($datafile, "public/tenants/{$tenant->uuid}/products");
+            } catch (Exception $exception) {
+                return Redirect::back()->with('error', $exception->getMessage());
+            }
         }
 
         $product->update($data);
-        
+
         return Redirect::route('admin.products')->with('success', 'Produto editado com sucesso');
     }
 
@@ -158,8 +179,7 @@ class ProductController extends Controller
         if (!$product)
             return Redirect::back()->with('error', 'Operação não autorizada');
 
-        if (Storage::exists($product->image))
-            Storage::delete($product->image);
+        $this->fileCloudService->destroyFile($product->image);
 
         $product->delete();
 

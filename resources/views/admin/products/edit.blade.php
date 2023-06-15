@@ -14,7 +14,7 @@
                 @method('PUT')
 
                 <div class="text-center">
-                    <img src="{{ Storage::url("{$product->image}") }}" alt="{{ $product->title }}" style="max-width: 90px;" />
+                    <img src="{{ getImage($product->image) }}" alt="{{ $product->title }}" style="max-width: 90px;" />
                 </div>
 
                 @include('admin.products._partials.form', ['product' => $product])

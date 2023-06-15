@@ -89,6 +89,9 @@ class TenantService
         $tenant->expires_at =  @$this->data['expires_at'];
         $tenant->subscription_active = @$this->data['subscription_active'];
         $tenant->subscription_id = @$this->data['subscription_id'];
+        if(@$this->data['logo']){
+            $tenant->logo = $this->data['logo'];
+        }
         $tenant = $tenant->update();
 
         if (!$tenant) {

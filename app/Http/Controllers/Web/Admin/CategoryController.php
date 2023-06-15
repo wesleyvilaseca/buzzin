@@ -5,20 +5,24 @@ namespace App\Http\Controllers\Web\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateCategory;
 use App\Models\Category;
+use App\Services\FileCloudService;
+use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
     private $repository;
+    private $fileCloudService;
 
     public function __construct(
-        Category $category
+        Category $category,
+        FileCloudService $fileCloudService
     ) {
         $this->repository = $category;
+        $this->fileCloudService = $fileCloudService;
         $this->middleware(['can:categories']);
     }
 
@@ -117,13 +121,22 @@ class CategoryController extends Controller
 
             $tenant = auth()->user()->tenant;
             if ($request->hasFile('image') && $request->image->isValid()) {
-                $image = $request->image->store("public/tenants/{$tenant->uuid}/category");
-                $data['image'] = $image;
+                try {
+                    $datafile = [
+                        'name' => 'image',
+                        'Mime-Type' => $request->file('image')->getmimeType(),
+                        'contents' => fopen($request->file('image')->getPathname(), 'r')
+                    ];
+                    $data['image'] = $this->fileCloudService->storeFile($datafile, "public/tenants/{$tenant->uuid}/category");
+                } catch (Exception $exception) {
+                    return Redirect::back()->with('error', $exception->getMessage());
+                }
             }
 
             $result = $this->repository->create($data);
 
             if (!$result) {
+
                 return Redirect::back()->with('warning', 'Erro na operação');
             }
             DB::commit();
@@ -149,11 +162,18 @@ class CategoryController extends Controller
         $data = $request->all();
         $tenant = auth()->user()->tenant;
         if ($request->hasFile('image') && $request->image->isValid()) {
-            if (Storage::exists($category->image)) {
-                Storage::delete($category->image);
-            }
+            try {
+                $this->fileCloudService->destroyFile($category->image);
 
-            $data['image'] = $request->image->store("public/tenants/{$tenant->uuid}/category");
+                $datafile = [
+                    'name' => 'image',
+                    'Mime-Type' => $request->file('image')->getmimeType(),
+                    'contents' => fopen($request->file('image')->getPathname(), 'r')
+                ];
+                $data['image'] = $this->fileCloudService->storeFile($datafile, "public/tenants/{$tenant->uuid}/category");
+            } catch (Exception $exception) {
+                return Redirect::back()->with('error', $exception->getMessage());
+            }
         }
 
         $result = $category->update($data);
@@ -168,16 +188,16 @@ class CategoryController extends Controller
     {
         $category = $this->repository->find($id);
 
-        if (!$category)
+        if (!$category) {
             return Redirect::back()->with('warning', 'Operação não autorizada');
-
-        if (Storage::exists($category->image)) {
-            Storage::delete($category->image);
         }
 
+        $this->fileCloudService->destroyFile($category->image);
+
         $result = $category->delete();
-        if (!$result)
+        if (!$result) {
             return Redirect::back()->with('warning', 'Erro na operação');
+        }
 
         return Redirect::route('admin.categories')->with('success', 'Categoria removido com sucesso');
     }

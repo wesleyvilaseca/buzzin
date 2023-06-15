@@ -15,7 +15,7 @@
                             @method('PUT')
                             <div class="container mb-2">
                                 <div class="text-center">
-                                    <img src="{{ @$tenant->logo ? Storage::url("{$tenant->logo}") : asset('images/no-image.png') }}"
+                                    <img src="{{ @$tenant->logo ? getImage($tenant->logo) : asset('images/no-image.png') }}"
                                         alt="{{ $tenant->name }}" style="max-width: 90px;" />
                                 </div>
 

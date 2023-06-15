@@ -30,7 +30,7 @@ class TenantResource extends JsonResource
             'city' => $this->city,
             'number' => $this->number,
             'email' => $this->email,
-            'logo' => $this->logo ? url("storage/" . str_replace("public/", "", $this->logo)) : null,
+            'logo' => $this->logo ? getImage($this->logo) : null,
             'site_data' => json_decode($this->site->data),
             'date_created' => Carbon::parse($this->created_at)->format('d/m/Y'),
             'isOpen' => $this->isOpen(),

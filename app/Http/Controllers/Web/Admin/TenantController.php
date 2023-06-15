@@ -8,6 +8,7 @@ use App\Http\Requests\StoreUpdateTenant;
 use App\Models\Plan;
 use App\Models\Tenant;
 use App\Models\User;
+use App\Services\FileCloudService;
 use App\Services\TenantService;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -23,15 +24,18 @@ class TenantController extends Controller
     private $repository;
     private $plans;
     private $superAdmin;
+    private $fileCloudService;
 
     public function __construct(
         Tenant $produtc,
         Plan $plans,
+        FileCloudService $fileCloudService,
     ) {
         $this->middleware(['can:tenants']);
 
         $this->repository = $produtc;
         $this->plans = $plans;
+        $this->fileCloudService = $fileCloudService;
 
         $this->middleware(function ($request, $next) {
             $this->superAdmin = Auth()->user()->isAdmin();
@@ -188,11 +192,17 @@ class TenantController extends Controller
             }
 
             if ($request->hasFile('logo') && $request->logo->isValid()) {
-                if (Storage::exists($tenant->logo)) {
-                    Storage::delete($tenant->logo);
+                try {
+                    $this->fileCloudService->destroyFile($tenant->logo);
+                    $datafile = [
+                        'name' => 'image',
+                        'Mime-Type' => $request->file('logo')->getmimeType(),
+                        'contents' => fopen($request->file('logo')->getPathname(), 'r')
+                    ];
+                    $data['logo'] = $this->fileCloudService->storeFile($datafile, "public/tenants/{$tenant->uuid}/logo");
+                } catch (Exception $exception) {
+                    return Redirect::back()->with('error', $exception->getMessage());
                 }
-    
-                $data['logo'] = $request->logo->store("public/tenants/{$tenant->uuid}/logo");
             }
 
             $tenant_service = app(TenantService::class);
@@ -217,10 +227,7 @@ class TenantController extends Controller
 
         DB::beginTransaction();
         try {
-
-            if (Storage::exists($tenant->image)) {
-                Storage::delete($tenant->image);
-            }
+            $this->fileCloudService->destroyFile($tenant->logo);
 
             $tenant_user = User::where('tenant_id', $tenant->id)->get();
             if ($tenant_user)  User::where('tenant_id', $tenant->id)->delete();

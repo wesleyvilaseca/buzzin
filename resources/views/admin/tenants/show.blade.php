@@ -11,7 +11,7 @@
         <div class="card-body">
             <ul>
                 <div class="text-center">
-                    <img src="{{ @$tenant->logo ? Storage::url("$tenant->logo") : asset('images/no-image.png') }}" alt="{{ $tenant->name }}" style="max-width: 90px;">
+                    <img src="{{ @$tenant->logo ? getImage($tenant->logo) : asset('images/no-image.png') }}" alt="{{ $tenant->name }}" style="max-width: 90px;">
                 </div>
                 <li>
                     <strong>Título: </strong> {{ $tenant->name }}
