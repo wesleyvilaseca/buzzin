@@ -3,7 +3,7 @@
         <template v-slot:content>
             <div class="container pt-4">
                 <div class="shopping-cart pb-3" style="border-radius: 10px;">
-                    <div class="card-header text-light">
+                    <div class="card-header text-light mb-3">
                         <a class="btn bnt-sm btn-comprando" href="/">
                             Continuar Comprando
                         </a>
