@@ -23798,6 +23798,10 @@ var __default__ = {
         snapAlign: 'center'
       },
       breakpoints: {
+        300: {
+          itemsToShow: 1.5,
+          snapAlign: 'center'
+        },
         700: {
           itemsToShow: 3.5,
           snapAlign: 'center'
