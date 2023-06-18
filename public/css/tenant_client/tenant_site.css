@@ -336,6 +336,7 @@ body {
   border-radius: 5rem;
   color: #000;
   transition: box-shadow .5s ease, background .7s ease, opacity .5s ease;
+  overflow-y: hidden;
 }
 
 .list-categories a:hover,
@@ -406,10 +407,6 @@ body {
 
   .list-categories {
     padding-top: 50px;
-  }
-  
-  .list-categories .carousel__slide {
-    border: 1px solid red;
   }
 
   .list-categories a {
