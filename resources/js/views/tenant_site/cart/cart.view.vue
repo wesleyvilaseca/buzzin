@@ -27,7 +27,7 @@
                         <div class="container" v-if="subtotal">
                             <div class="cart-detail-itens pt-3 pb-3">
                                 <div class="">
-                                    <div class="row align-items-center pb-3" v-for="(product, index) in products" :key="index">
+                                    <div class="row align-items-center pb-5" v-for="(product, index) in products" :key="index">
                                         <div class="col-3">
                                             <div class="img-circle">
                                                 <img class="img-responsive" :src="product.item.image" alt="prewiew"
