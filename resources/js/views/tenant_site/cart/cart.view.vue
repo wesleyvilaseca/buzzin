@@ -4,10 +4,6 @@
             <div class="container pt-4">
                 <div class="shopping-cart pb-3" style="border-radius: 10px;">
                     <div class="card-header text-light">
-                        <span>
-                            <i class="fa fa-shopping-cart me-2" aria-hidden="true"></i>
-                            Carrinho de Compras
-                        </span>
                         <a class="btn bnt-sm btn-comprando" href="/">
                             Continuar Comprando
                         </a>
@@ -29,22 +25,24 @@
 
                     <template v-if="!isInCheckout">
                         <div class="container" v-if="subtotal">
-                            <div class="">
-                                <div class="div">
-                                    <div class="row align-items-center" v-for="(product, index) in products" :key="index">
-                                        <div class="col-4 text-center">
+                            <div class="cart-detail-itens pt-3 pb-3">
+                                <div class="">
+                                    <div class="row align-items-center pb-3" v-for="(product, index) in products" :key="index">
+                                        <div class="col-3">
                                             <div class="img-circle">
                                                 <img class="img-responsive" :src="product.item.image" alt="prewiew"
                                                     width="120" height="80" />
                                             </div>
                                         </div>
-                                        <div class="col-8 text-left">
-                                            <h4 class="product-name">
-                                                <strong>{{ product.item.title }}</strong>
-                                            </h4>
-                                            <h5 class="h6">{{ product.item.description }}</h5>
-                                            <div class="d-flex py-4 justify-content-between align-items-center">
-                                                <div class="col-10 d-flex align-items-center p-0">
+                                        <div class="col-9 cart-product-detail">
+                                            <div class="product-description">
+                                                <h4 class="product-name">
+                                                    <strong>{{ product.item.title }}</strong>
+                                                </h4>
+                                                <h5 class="h6">{{ product.item.description }}</h5>
+                                            </div>
+                                            <div class="cart-description-detail">
+                                                <div class="col-md-9 d-flex align-items-center p-0">
                                                     <h6>
                                                         <strong>{{ moneyMask(product.item.price) }}
                                                             <span class="text-muted">x</span></strong>
@@ -59,14 +57,14 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-2 col-sm-2 col-md-2 text-right">
-                                                    <strong class="me-2">
+                                                <div class="col-md-3 me-3 mt-2" align="right">
+                                                    <strong class="me-2 total-by-product">
                                                         {{ moneyMask(product.item.price * product.qty) }}
                                                     </strong>
-                                                    <button type="button" class="btn btn-outline-danger btn-xs"
+                                                    <span class="text-danger"
                                                         @click.prevent="deleteFromCart(product.item)">
                                                         <i class="fa fa-trash" aria-hidden="true"></i>
-                                                    </button>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>

@@ -1,13 +1,11 @@
 <template>
     <div class="p-2" v-if="!isInCheckout">
-        <div class="d-flex justify-content-between">
-            <div class="cep">
-                <ShippingValueCartComponent />
-            </div>
-            <div class="text-right">
-                <div class="cart-price text-red">
-                    Preço Total: <b>{{ moneyMask(subtotal) }}</b>
-                </div>
+        <div class="cart-price text-red mb-3">
+              Total: <b>{{ moneyMask(subtotal) }}</b>
+        </div>
+        <div class="pb-3" style="display: flex; flex-direction: row: align-items: right; justify-content:right;">
+          <div class="cep" style="width:200px;">
+              <ShippingValueCartComponent />
             </div>
         </div>
 

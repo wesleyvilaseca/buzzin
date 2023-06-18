@@ -1,7 +1,7 @@
 <template>
     <header>
         <!-- Navigation -->
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-vuefood">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-vuefood pt-2">
             <div class="container">
                 <a href="/" class="navbar-brand" v-if="!maintence">
                     <span v-if="preloader" class="text-center">
@@ -26,14 +26,14 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="/app/cliente-area" class="nav-link mt-2 ms-5"
+                            <a href="/app/cliente-area" class="nav-link ms-5"
                                 v-if="me.name && me.name !== 'undefined'">Olá {{ me.name
                                 }}
                                 <span @click.prevent="exit()" class="text-danger ms-2">
                                     <i class="red-icon fa-solid fa-right-from-bracket"></i>
                                 </span>
                             </a>
-                            <a href="/app/login" class="nav-link mt-2 ms-5" v-else>
+                            <a href="/app/login" class="nav-link ms-5" v-else>
                                 Login
                             </a>
                         </li>

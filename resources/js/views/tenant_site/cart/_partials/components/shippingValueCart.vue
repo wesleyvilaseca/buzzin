@@ -1,9 +1,10 @@
 <template>
     <div class="form-group">
-        <input type="text" id="cep" class="form-control" v-model="cartCep" placeholder="Informe o CEP de entrega"
+        <label for="exampleInputEmail1" class="form-label">Calcular frete</label>
+        <input type="text" id="cep" class="form-control" v-model="cartCep" placeholder="Digite o CEP"
             v-mask="'#####-###'" v-if="!selectedAddress.zip_code" />
     </div>
-    <div class="d-flex justify-content-left" v-if="!selectedAddress.zip_code">
+    <div class="" v-if="!selectedAddress.zip_code">
         <div class="">
             <template v-if="loading">
                 <i class="fas fa-spinner fa-spin"></i> Buscando...
