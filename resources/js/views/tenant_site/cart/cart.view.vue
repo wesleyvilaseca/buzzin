@@ -34,7 +34,7 @@
                                                     width="120" height="80" />
                                             </div>
                                         </div>
-                                        <div class="col-9 cart-product-detail">
+                                        <div class="col-md-9 cart-product-detail">
                                             <div class="product-description">
                                                 <h4 class="product-name">
                                                     <strong>{{ product.item.title }}</strong>

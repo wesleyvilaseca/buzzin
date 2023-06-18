@@ -27704,7 +27704,7 @@ var _hoisted_13 = {
 };
 var _hoisted_14 = ["src"];
 var _hoisted_15 = {
-  "class": "col-9 cart-product-detail"
+  "class": "col-md-9 cart-product-detail"
 };
 var _hoisted_16 = {
   "class": "product-description"
