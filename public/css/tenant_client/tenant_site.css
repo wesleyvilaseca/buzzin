@@ -311,6 +311,10 @@ body {
 
 /* categories List */
 
+ol li.carousel__slide{
+  overflow-x: hidden;
+}
+
 .list-categories {
   display: flex !important;
   flex-direction: row;
@@ -336,7 +340,6 @@ body {
   border-radius: 5rem;
   color: #000;
   transition: box-shadow .5s ease, background .7s ease, opacity .5s ease;
-  overflow-y: hidden;
 }
 
 .list-categories a:hover,
