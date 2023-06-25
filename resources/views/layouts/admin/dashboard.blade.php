@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="sistemaphp">
 
-    {{-- <link rel="icon" href="{{URL_BASE}}assets/global/icons/icone.ico" type="image/x-icon"> --}}
-
+    <link rel="icon" href="{{ asset('images/favicon.png') }}">
+    
     <!--css sidebar-->
     <link href="{{ asset('css/admin/all.css') }}" rel="stylesheet">
 
