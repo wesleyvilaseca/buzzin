@@ -1,3 +1,7 @@
+@php
+    $whatsapp_link = 'https://api.whatsapp.com/send?phone=5591988203132&text=Ol%C3%A1%20venho%20do%20site%20buzzin%20e%20quero%20assinar%20o%20plano%20'
+@endphp
+
 <section id="pricing" class="py-20 m-h-screen" data-section="">
     <div class="c-container">
         <div class="w-content text-center mx-auto">
@@ -24,9 +28,6 @@
                                 <div class="card__price"><span class="price-currency mr-2">R$</span> <span
                                         class="price-value">{{ $plan->getPriceBrAttribute() }}</span> <span
                                         class="price-period">
-                                        {{-- <span class="px-1">/</span>
-                                        <span>
-                                        </span> --}}
                                     </span>
                                 </div>
                             </div>
@@ -42,7 +43,8 @@
                                     </p>
                                 @endforeach
                             </div>
-                            <div class="card__footer text-center my-4"><a href="{{ route('subscription', $plan->url)}}"
+                            <div class="card__footer text-center my-4"><a href="{{ env('DISABLE_AUTO_SIGN') ? $whatsapp_link . $plan->name : route('subscription', $plan->url)}}"
+                                {{ env('DISABLE_AUTO_SIGN') ? 'target="_blank"' : ''}}
                                     class="button button--filled button--primary">Assinar Agora Mesmo<svg
                                         class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">

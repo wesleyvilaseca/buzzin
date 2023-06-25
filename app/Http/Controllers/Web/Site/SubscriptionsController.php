@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\Redirect;
 
 class SubscriptionsController extends Controller
 {
+    public function __construct()
+    {
+        $disabled_online_sign = env('DISABLE_AUTO_SIGN');
+        if ($disabled_online_sign) {
+            $this->middleware(['can:subscription']);
+        }
+    }
+
     public function plan($url)
     {
         $plan = Plan::where('url', $url)->first();
