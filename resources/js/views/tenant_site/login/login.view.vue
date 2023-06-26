@@ -33,7 +33,7 @@
                                     <i class="fas fa-key"></i>
                                 </span>
                                 <input type="password" name="password" v-model="formData.password"
-                                    class="form-control input_pass" placeholder="Senha" />
+                                    class="form-control input_pass" placeholder="Senha" minlength="8" />
                             </div>
                             <div class="d-flex justify-content-center mt-3 login_container">
                                 <button type="button" name="button" class="btn login_btn" @click.prevent="auth()">

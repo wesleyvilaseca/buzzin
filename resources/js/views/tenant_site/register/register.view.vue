@@ -62,7 +62,7 @@
                                     <i class="fas fa-key"></i>
                                 </span>
                                 <input type="password" v-model="formData.password" name="password"
-                                    class="form-control input_pass" placeholder="Senha" />
+                                    class="form-control input_pass" placeholder="Senha" minlength="8" />
                             </div>
                             <div class="d-flex justify-content-center login_container">
                                 <button type="button" name="button" class="btn login_btn" :disabled="loading"
@@ -129,6 +129,7 @@ export default {
     },
     data: () => ({
         recaptcha: "",
+        canRegister: false,
         loading: false,
         formData: {
             name: "",
@@ -154,6 +155,8 @@ export default {
         ...mapActions(["register"]),
         registerClient() {
             this.reset();
+            this.validateForm();
+            if (!this.canRegister) return;
 
             if(this.recaptcha == 'N') {
                 return toast.error("Erro na validação do recaptcha", { autoClose: 4000 });
@@ -187,11 +190,63 @@ export default {
                     this.loading = false;
                 });
         },
+
+        validateForm() {
+            if (!this.formData.name) {
+                this.canRegister = false;
+                return this.errors.name = ["O nome é um campo obrigatório"];
+            }
+
+            if (this.formData.name.length < 3) {
+                this.canRegister = false;
+                return this.errors.name = ["Insira um nome válido"];
+            }
+
+            var name = this.formData.name;
+            name = name.split(" ");
+
+            if(name.length < 2) {
+                this.canRegister = false;
+                return this.errors.name = ["Informe nome e sobronome válido"];
+            }
+
+            if(name[0].length < 3 || name[1].length < 3) {
+                this.canRegister = false;
+                return this.errors.name = ["Informe nome e sobronome válido"];
+            }
+
+            if (!this.formData.mobile_phone) {
+                this.canRegister = false;
+                return this.errors.mobile_phone = ["O número de telefone é um campo obrigatório"];
+            }
+
+            if (this.formData.mobile_phone.length < 15) {
+                this.canRegister = false;
+                return this.errors.mobile_phone = ["O número de telefone está incompleto"];
+            }
+
+            if (!this.formData.email) {
+                this.canRegister = false;
+                return this.errors.email = ["O email é um campo obrigatório"];
+            }
+            if (!this.formData.password) {
+                this.canRegister = false;
+                return this.errors.password = ["A senha é um campo obrigatório"];
+            }
+
+            if (this.formData.password.length < 8) {
+                this.canRegister = false;
+                return this.errors.password = ["A senha deve ter pelo menos 8 caracteres"];
+            }
+
+
+            this.canRegister = true;
+        },
         reset() {
             if(!this.recaptcha){
                 this.recaptcha = document.getElementById('recaptcha').value;
             }
-            this.errors = { name: "", email: "", password: "" };
+            this.errors = { name: "", email: "", password: "",   mobile_phone: "" };
         },
     }
 }

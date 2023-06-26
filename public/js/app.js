@@ -24399,6 +24399,7 @@ var __default__ = {
   data: function data() {
     return {
       recaptcha: "",
+      canRegister: false,
       loading: false,
       formData: {
         name: "",
@@ -24427,6 +24428,8 @@ var __default__ = {
     registerClient: function registerClient() {
       var _this = this;
       this.reset();
+      this.validateForm();
+      if (!this.canRegister) return;
       if (this.recaptcha == 'N') {
         return vue3_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.error("Erro na validação do recaptcha", {
           autoClose: 4000
@@ -24457,6 +24460,47 @@ var __default__ = {
         _this.loading = false;
       });
     },
+    validateForm: function validateForm() {
+      if (!this.formData.name) {
+        this.canRegister = false;
+        return this.errors.name = ["O nome é um campo obrigatório"];
+      }
+      if (this.formData.name.length < 3) {
+        this.canRegister = false;
+        return this.errors.name = ["Insira um nome válido"];
+      }
+      var name = this.formData.name;
+      name = name.split(" ");
+      if (name.length < 2) {
+        this.canRegister = false;
+        return this.errors.name = ["Informe nome e sobronome válido"];
+      }
+      if (name[0].length < 3 || name[1].length < 3) {
+        this.canRegister = false;
+        return this.errors.name = ["Informe nome e sobronome válido"];
+      }
+      if (!this.formData.mobile_phone) {
+        this.canRegister = false;
+        return this.errors.mobile_phone = ["O número de telefone é um campo obrigatório"];
+      }
+      if (this.formData.mobile_phone.length < 15) {
+        this.canRegister = false;
+        return this.errors.mobile_phone = ["O número de telefone está incompleto"];
+      }
+      if (!this.formData.email) {
+        this.canRegister = false;
+        return this.errors.email = ["O email é um campo obrigatório"];
+      }
+      if (!this.formData.password) {
+        this.canRegister = false;
+        return this.errors.password = ["A senha é um campo obrigatório"];
+      }
+      if (this.formData.password.length < 8) {
+        this.canRegister = false;
+        return this.errors.password = ["A senha deve ter pelo menos 8 caracteres"];
+      }
+      this.canRegister = true;
+    },
     reset: function reset() {
       if (!this.recaptcha) {
         this.recaptcha = document.getElementById('recaptcha').value;
@@ -24464,7 +24508,8 @@ var __default__ = {
       this.errors = {
         name: "",
         email: "",
-        password: ""
+        password: "",
+        mobile_phone: ""
       };
     }
   })
@@ -28943,7 +28988,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return _ctx.formData.password = $event;
         }),
         "class": "form-control input_pass",
-        placeholder: "Senha"
+        placeholder: "Senha",
+        minlength: "8"
       }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.formData.password]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         name: "button",
@@ -29340,7 +29386,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }),
         name: "password",
         "class": "form-control input_pass",
-        placeholder: "Senha"
+        placeholder: "Senha",
+        minlength: "8"
       }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.formData.password]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         name: "button",
