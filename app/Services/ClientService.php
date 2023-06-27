@@ -35,6 +35,24 @@ class ClientService
             ], 422);
         }
 
+        $existEmail = Client::where('email', $data['email'])->first();
+        if($existEmail) {
+            return response()->json((object)[
+                'errors' => (object)[
+                    'email' => ['Email já possui cadastro']
+                ]
+            ], 422);
+        }
+
+        $existMobilePhone = Client::where('mobile_phone', $mobilePhoneIsValid)->first();
+        if($existMobilePhone) {
+            return response()->json((object)[
+                'errors' => (object)[
+                    'mobile_phone' => ['Telefone já possui cadastro']
+                ]
+            ], 422);
+        }
+
         $data['mobile_phone'] = $mobilePhoneIsValid;
         $client = $this->clientRepository->createNewClient($data);
         return new ClientResource($client);

@@ -5,7 +5,7 @@
             <ResumeOrderStepComponent :showDefaultCreateOrderBtn="false" />
         </div>
     </div>
-    
+
     <div class="row">
         <div class="col-md-6 col-sm-12">
             <div class="card">
@@ -141,11 +141,36 @@ export default {
             // }
         ]
     }),
-    computed: {},
-    mounted() { },
+    computed: {
+        ...mapState({
+            selectedPaymentMethod: (state) => state.cart.selectedPaymentMethod,
+        }),
+        mpConfig() {
+            return JSON.parse(this.selectedPaymentMethod.data);
+        }
+    },
+    created() {
+        if (!this.mpConfig.card) {
+            this.removeItemFromArray(1);
+        }
+
+        if(!this.mpConfig.slip){
+            this.removeItemFromArray(2);
+        }
+    },
     methods: {
         setSelectedPaymentMethod(method) {
             this.paymentIntegrationMethodSelected = method;
+        },
+
+        removeItemFromArray(id) {
+            var indiceDoObjeto = this.paymentsMethods.findIndex(function (obj) {
+                return obj.id === id;
+            });
+
+            if (indiceDoObjeto !== -1) {
+                this.paymentsMethods.splice(indiceDoObjeto, 1);
+            }
         }
     }
 }
