@@ -29950,7 +29950,7 @@ var actions = {
     var query_params = new URLSearchParams({
       token_company: params.tenant_uuid
     }).toString();
-    var endpoint = "".concat("http://buzzin.com", "/api/auth/v1/orders?").concat(query_params);
+    var endpoint = "".concat("https://buzzin.com.br", "/api/auth/v1/orders?").concat(query_params);
     return axios__WEBPACK_IMPORTED_MODULE_0___default().post(endpoint, params, {
       headers: {
         'Authorization': "Bearer ".concat(token)
