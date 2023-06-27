@@ -20229,7 +20229,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {},
   methods: {
     redirect: function redirect() {
-      return window.open("http://buzzin.com", '_blank');
+      return window.open("https://buzzin.com.br", '_blank');
     }
   }
 });
@@ -29615,7 +29615,7 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'socket.io',
   host: "".concat(host, ":6001")
 });
-if (host === "http://buzzin.com".replace(/^https?:\/\//, '')) {
+if (host === "https://buzzin.com.br".replace(/^https?:\/\//, '')) {
   __webpack_require__(/*! ./Echo */ "./resources/js/Echo.js");
 }
 
@@ -29781,7 +29781,7 @@ var actions = {
     var commit = _ref12.commit;
     var token = localStorage.getItem(TOKEN_NAME);
     if (!token) return;
-    var endpoint = "".concat("http://buzzin.com", "/api/auth/v1/my-orders");
+    var endpoint = "".concat("https://buzzin.com.br", "/api/auth/v1/my-orders");
     return axios__WEBPACK_IMPORTED_MODULE_0___default().get(endpoint, {
       headers: {
         'Authorization': "Bearer ".concat(token)
