@@ -20,8 +20,8 @@
 	"protocol": "https",
 	"socketio": {},
 	"secureOptions": 67108864,
-	"sslCertPath": "/etc/letsencrypt/live/buzzin.com.br/cert.pem",
-	"sslKeyPath": "/etc/letsencrypt/live/buzzin.com.br/privkey.pem",
+	"sslCertPath": ".certs/live/buzzin.com.br/cert.pem",
+	"sslKeyPath": ".certs/live/buzzin.com.br/privkey.pem",
 	"sslCertChainPath": "",
 	"sslPassphrase": "",
 	"subscribers": {
