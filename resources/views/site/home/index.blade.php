@@ -5,6 +5,8 @@
 
     @include('layouts.site._partials.what-is')
 
+    @include('layouts.site._partials.features-middle')
+
     @include('layouts.site._partials.features')
 
     @if (@isset($plans))

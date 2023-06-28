@@ -7,7 +7,7 @@
         <div class="w-content text-center mx-auto">
             <h2 class="text-3xl font-bold text-gray-800 mb-4">Plano que melhor se adapta a você</h2>
             <p class="text-gray-400 leading-relaxed">
-                Escolha o plano que melhor se encaixa as suas necessidades
+                Escolha o plano que melhor se encaixa as necessidades do seu negócio
             </p>
         </div>
         <div class="pricingTable mt-10">

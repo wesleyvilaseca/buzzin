@@ -11,7 +11,8 @@
                         href="#features" class="nav__link">Funcionalidades </a><a data-scroll href="#pricing"
                         class="nav__link">Preço</a>
                     <div>
-                        <a data-scroll href="#contact"
+                        <a data-scroll href="{{ env('WHATSAPP_LINK') }}"
+                            target="_blank"
                             class="nav__link button button--secondary button--border button--rounded ml-8">
                             Converse com a Gente
                         </a>
