@@ -3,7 +3,7 @@ import cript from "../../support/cript";
 
 const actions = {
     setPaleta({ commit }, params) {
-        const paleta = sessionStorage.getItem('paleta');
+        const paleta = localStorage.getItem('paleta');
         if (paleta) {
             commit('SET_PALETA', JSON.parse(cript.decript(paleta)));
         }
