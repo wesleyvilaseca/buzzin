@@ -65,9 +65,10 @@ const actions = {
             .then((res) => {
                 commit('SET_ME', res.data.data)
             })
-            .catch(erros => {
+            .catch(errors => {
                 localStorage.removeItem(TOKEN_NAME);
-                alert('operação não authorizada 1');
+                commit('LOGOUT');
+                console.log(errors);
             });
     },
 
