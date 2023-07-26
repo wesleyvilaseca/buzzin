@@ -21,21 +21,18 @@ class CepAbertoService
         $apiUrl = "https://www.cepaberto.com/api/v3/cep?cep={$cep}";
         $key = env('MIX_CEP_ABERTO');
 
-        $response = $this->httpClient->request('GET', $apiUrl, [
-            'headers' => [
-                'Authorization' => "Token token={$key}"
-            ]
-        ]);
+        try {
+            $response = $this->httpClient->request('GET', $apiUrl, [
+                'headers' => [
+                    'Authorization' => "Token token={$key}"
+                ]
+            ]);
 
-        if ($response->getStatusCode() !== 200 && $returnResponse) {
-            return response()->json(['message' => 'Houve um erro na requisição, tente novamento'], 404);
+            $res = $response->getBody()->getContents();
+            
+            return json_decode($res);
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            throw new Exception('Cep não localizado', $e->getResponse()->getBody()->getContents());
         }
-
-        if ($response->getStatusCode() !== 200 && !$returnResponse) {
-            throw new Exception('Cep não localizado', $response->getStatusCode());
-        }
-
-        $res = $response->getBody()->getContents();
-        return json_decode($res);
     }
 }
