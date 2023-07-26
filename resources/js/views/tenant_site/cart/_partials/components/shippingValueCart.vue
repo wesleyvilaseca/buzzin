@@ -2,7 +2,7 @@
     <div class="form-group">
         <label for="exampleInputEmail1" class="form-label">Calcular frete</label>
         <input type="text" id="cep" class="form-control" v-model="cartCep" placeholder="Digite o CEP"
-            v-mask="'#####-###'" v-if="!selectedAddress.zip_code" />
+            v-mask="'#####-###'" v-if="!selectedAddress.zip_code" maxlength="9" :disabled="loading" />
     </div>
     <div class="" v-if="!selectedAddress.zip_code">
         <div class="">
@@ -54,6 +54,7 @@ export default {
         return {
             errorMessage: "",
             cartCep: "",
+            sendingCep: "",
             loading: false,
         }
     },
@@ -79,6 +80,11 @@ export default {
     watch: {
         cartCep() {
             if (this.cartCep.length === 9) {
+               
+                if(this.sendingCep && this.sendingCep == this.cartCep) return;
+
+                this.sendingCep = this.cartCep;
+               
                 this.errorMessage = "";
                 this.loading = true;
                 this.getShippingValue(this.cartCep)
