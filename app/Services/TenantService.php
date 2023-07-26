@@ -89,7 +89,7 @@ class TenantService
         $tenant->expires_at =  @$this->data['expires_at'];
         $tenant->subscription_active = @$this->data['subscription_active'];
         $tenant->subscription_id = @$this->data['subscription_id'];
-        if(@$this->data['logo']){
+        if (@$this->data['logo']) {
             $tenant->logo = $this->data['logo'];
         }
         $tenant = $tenant->update();
@@ -211,47 +211,45 @@ class TenantService
 
                 $cepInfo = $this->cepAbertoService->getCep($data['cep']);
 
-                if(!$cepInfo->latitude || !$cepInfo->longitude) {
-                    return [];
-                }
+                if ($cepInfo->latitude && $cepInfo->longitude) {
+                    $coordinate = new Point($cepInfo->latitude, $cepInfo->longitude);
+                    $shape = TenantSiteZoneDelivery::whereRaw("ST_Within(POINT(?,?), coordinates)", [$coordinate->getLng(), $coordinate->getLat()])->first();
 
-                $coordinate = new Point($cepInfo->latitude, $cepInfo->longitude);
-                $shape = TenantSiteZoneDelivery::whereRaw("ST_Within(POINT(?,?), coordinates)", [$coordinate->getLng(), $coordinate->getLat()])->first();
+                    if ($shape && $shape->active == 1) {
+                        $getTimeUnd = function (int $val): string {
+                            switch ($val) {
+                                case 1:
+                                    return "minutos";
+                                case 2:
+                                    return "horas";
+                                case 3:
+                                    return "dias";
+                            }
+                        };
 
-                if ($shape && $shape->active == 1) {
-                    $getTimeUnd = function (int $val): string {
-                        switch ($val) {
-                            case 1:
-                                return "minutos";
-                            case 2:
-                                return "horas";
-                            case 3:
-                                return "dias";
-                        }
-                    };
+                        $getDeliveryPrice = function ($data, $cartPrice) {
+                            if (!$data->free_when) {
+                                return $data->price;
+                            }
 
-                    $getDeliveryPrice = function ($data, $cartPrice) {
-                        if (!$data->free_when) {
+                            if ($cartPrice >= $data->free_when) {
+                                return 0.00;
+                            }
+
                             return $data->price;
-                        }
+                        };
 
-                        if ($cartPrice >= $data->free_when) {
-                            return 0.00;
-                        }
-
-                        return $data->price;
-                    };
-
-                    $shippingMethods[] = (object) [
-                        'description' => $shippingMethod->description,
-                        'price' => $getDeliveryPrice($shape, $data['cartPrice']),
-                        'estimation' => (object)[
-                            "location" => $cepInfo->bairro,
-                            "time_ini" => $shape->delivery_time_ini,
-                            "time_end" => $shape->delivery_time_end,
-                            "time_unid" => $getTimeUnd($shape->time_type)
-                        ]
-                    ];
+                        $shippingMethods[] = (object) [
+                            'description' => $shippingMethod->description,
+                            'price' => $getDeliveryPrice($shape, $data['cartPrice']),
+                            'estimation' => (object)[
+                                "location" => $cepInfo->bairro,
+                                "time_ini" => $shape->delivery_time_ini,
+                                "time_end" => $shape->delivery_time_end,
+                                "time_unid" => $getTimeUnd($shape->time_type)
+                            ]
+                        ];
+                    }
                 }
             } catch (Exception $e) {
                 return response()->json(['message' => 'Houve um erro na requisição, tente novamento', 'detail' => $e->getMessage()], 404);
@@ -300,7 +298,8 @@ class TenantService
         return response()->json($data);
     }
 
-    public function updateAssignatureRenew($subscription_id, Plan $plan) {
+    public function updateAssignatureRenew($subscription_id, Plan $plan)
+    {
         if ($plan->url === 'plano-mensal') {
             $newExpiresDate = Carbon::now()->addMonths(1)->toDateString();
         }
@@ -312,20 +311,20 @@ class TenantService
         if ($plan->url === 'plano-semestral') {
             $newExpiresDate = Carbon::now()->addMonths(6)->toDateString();
         }
-        try{
+        try {
             Tenant::where('uuid', Auth::user()->tenant->uuid)->update([
                 'subscription_id' => $subscription_id,
                 'subscription' => Carbon::now()->toDateString(),
                 'expires_at' => $newExpiresDate,
                 'subscription_active' => 1
             ]);
-        }catch(Exception $e) {
+        } catch (Exception $e) {
             throw new Error($e->getMessage());
         }
-        
     }
 
-    public function getSiteExtensions(object $tenant) {
+    public function getSiteExtensions(object $tenant)
+    {
         $siteExtensions = TenantSiteExtensions::where(['tenant_id' => $tenant->id, 'status' => 1])->get();
         $siteExtensions = TenantSiteExtensionsResource::collection($siteExtensions);
         return response()->json($siteExtensions, 200);
