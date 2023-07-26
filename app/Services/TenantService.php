@@ -211,7 +211,7 @@ class TenantService
 
                 $cepInfo = $this->cepAbertoService->getCep($data['cep']);
 
-                if(!$cepInfo) {
+                if(!$cepInfo->latitude || !$cepInfo->longitude) {
                     return [];
                 }
 
