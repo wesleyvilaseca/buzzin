@@ -211,7 +211,7 @@ class TenantService
 
                 $cepInfo = $this->cepAbertoService->getCep($data['cep']);
 
-                if ($cepInfo->latitude && $cepInfo->longitude) {
+                if (@$cepInfo->latitude && @$cepInfo->longitude) {
                     $coordinate = new Point($cepInfo->latitude, $cepInfo->longitude);
                     $shape = TenantSiteZoneDelivery::whereRaw("ST_Within(POINT(?,?), coordinates)", [$coordinate->getLng(), $coordinate->getLat()])->first();
 
