@@ -52,7 +52,7 @@
 </style>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapMutations } from "vuex";
 import DetailOrder from './_partials/DetailOrder'
 
 export default {
@@ -92,9 +92,19 @@ export default {
     },
     created() { },
     mounted() {
+        this.setPreloader(true);
+        this.setTextPreloader('Carregando dados, aguarde...');
         this.getOrders()
+        .finally(() => {
+            this.setPreloader(false);
+        });
     },
     methods: {
+        ...mapMutations({
+            clearCart: "CLEAR_CART",
+            setPreloader: "SET_PRELOADER",
+            setTextPreloader: "SET_TEXT_PRELOADER"
+        }),
         ...mapActions([
             "getOrders"
         ]),
