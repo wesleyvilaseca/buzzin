@@ -31,7 +31,8 @@ const actions = {
     getSiteExtensions({ commit }, params) {
         const hasSession = sessionStorage.getItem('extensions');
         if (hasSession) {
-            commit('SET_EXTENSIONS', JSON.parse(cript.decript(hasSession)));
+            const extensions = JSON.parse(cript.decript(hasSession));
+            commit('SET_EXTENSIONS', extensions.data);
         }
 
         return axios.get('/app/site-extensions', { params })

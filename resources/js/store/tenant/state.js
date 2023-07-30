@@ -1,6 +1,12 @@
 const state = {
     company: "",
-    extensions: { }
+    extensions: {
+        data:[],
+        whatsapp: {
+            active: false,
+            data: {}
+        }
+    }
 }
 
 export default state;

@@ -1,5 +1,5 @@
 <template>
-    <span v-if="hasExtension">
+    <span v-if="active">
         <a :href="link" class="whatsappCart" target="_blank">
             <i class="fa-brands fa-whatsapp my-float"></i>
             {{ randomMessages }}
@@ -34,13 +34,12 @@ export default {
     components: {},
     computed: {
         ...mapState({
-            extensions: (state) => state.tenant.extensions,
-            company: (state) => state.tenant.company,
+            whatsAppData: (state) => state.tenant.extensions.whatsapp.data,
+            active: (state) => state.tenant.extensions.whatsapp.active,
         }),
 
         link() {
-            const number = this.extension?.data?.number.replace(/\D/g, '');
-            return `https://api.whatsapp.com/send?phone=55${number}&text=${this.randomMessages} - produto ${this.item.description} R$ ${this.item.price}`;
+            return `${this.whatsAppData.data.link}&text=${this.randomMessages} - produto ${this.item.description} R$ ${this.item.price}`
         },
 
         randomMessages() {
@@ -59,28 +58,9 @@ export default {
         ]
     }),
 
-    mounted() { },
+    mounted() {},
     created() { },
-    methods: {
-        checkHasExtension() {
-            this.hasExtension = this.extensions.data.some((item) => {
-                return item.tag == this.tag;
-            });
-
-            if (this.hasExtension) {
-                this.extension = this.extensions.data.find(({ tag }) => tag === this.tag);
-                // this.extension.data = JSON.parse(this.extension?.data);
-            }
-        },
-
-        setExtension() {
-
-        }
-    },
-    watch: {
-        'extensions.data': function (newVal, oldVal) {
-            if (newVal.length > 0) this.checkHasExtension()
-        },
-    }
+    methods: {},
+    watch: {}
 }
 </script>

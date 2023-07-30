@@ -1,4 +1,5 @@
 import cript from "../../support/cript";
+import { hasWhatsappExtension } from "../../support/whatsappExtension"
 
 const mutations = {
     SET_COMPANY(state, company) {
@@ -7,7 +8,15 @@ const mutations = {
     },
 
     SET_EXTENSIONS(state, extensions) {
-        state.extensions.data = extensions
+        var hasWhatsapp = hasWhatsappExtension(extensions);
+        
+        if(hasWhatsapp) {
+            state.extensions.whatsapp.active = true;
+            state.extensions.whatsapp.data = hasWhatsapp;
+        }
+
+        state.extensions.data = extensions;
+
         sessionStorage.setItem('extensions', cript.cript(JSON.stringify(state.extensions)));
     },
 }
