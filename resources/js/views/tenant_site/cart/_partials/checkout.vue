@@ -242,6 +242,8 @@ export default {
         me() {
             if(this.isModalVisible) {
                 this.isModalVisible = false;
+                this.setInCheckout(true);
+                this.getClientAddress();
             }
         }
     },
