@@ -238,6 +238,12 @@ export default {
             return formatter.format(value);
         }
     },
-    watch: {},
+    watch: {
+        me() {
+            if(this.isModalVisible) {
+                this.isModalVisible = false;
+            }
+        }
+    },
 };
 </script>
