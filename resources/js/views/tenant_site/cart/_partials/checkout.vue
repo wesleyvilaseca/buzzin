@@ -10,7 +10,7 @@
         </div>
 
         <div class="mt-4" v-if="!isInCheckout">
-            <a href="" class="cart-finalizar" @click.prevent="openModalCheckout(true)">{{ textButton }}</a>
+            <a href="" class="cart-finalizar" @click.prevent="openModalCheckout(true)" :disable="preloader">{{ textButton }}</a>
         </div>
     </div>
 
@@ -199,6 +199,7 @@ export default {
             selectedPaymentMethod: (state) => state.cart.selectedPaymentMethod,
             troco: (state) => state.cart.troco,
             precisa_troco: (state) => state.cart.precisa_troco,
+            preloader: (state) => state.preloader.preloader
         })
     },
     methods: {
