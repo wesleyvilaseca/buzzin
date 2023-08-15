@@ -6,7 +6,7 @@
         <div class="my-orders my-4">
             <div class="row">
                 <div class="col-md-7">
-                    <div class="card">
+                    <div class="card p-3">
                         <div class="form-group mt-2">
                             <label>Nome:</label>
                             <input type="text" v-model="form.name" class="form-control form-control-sm">
@@ -48,7 +48,7 @@
                 </div>
 
                 <div class="col-md-5">
-                    <div class="card">
+                    <div class="card p-3">
                         <div class="form-group mt-2">
                             <label>Nova senha:</label>
                             <input type="password" v-model="formPassword.new_password" class="form-control form-control-sm">

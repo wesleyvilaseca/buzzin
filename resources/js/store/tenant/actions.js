@@ -9,7 +9,6 @@ const actions = {
         const hasSession = sessionStorage.getItem('company');
         if (hasSession) {
             commit('SET_COMPANY', JSON.parse(cript.decript(hasSession)));
-            commit('SET_PRELOADER', false);
         }
 
         return axios.get('/app/tenant', { params })

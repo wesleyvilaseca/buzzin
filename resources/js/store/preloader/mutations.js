@@ -1,5 +1,6 @@
 export const mutations = {
     SET_PRELOADER(state, status) {
+        console.log(status)
         state.preloader = status
         state.textPreloader = 'Carregando...'
     },

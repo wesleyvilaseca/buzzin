@@ -66,7 +66,6 @@ const actions = {
 
     getMe({ commit }) {
         const token = localStorage.getItem(TOKEN_NAME);
-
         if (!token) return;
 
         commit('SET_PRELOADER', true);
@@ -83,7 +82,7 @@ const actions = {
                 commit('LOGOUT');
                 console.log(errors);
             })
-            .finally(() => commit('SET_PRELOADER', false));
+            // .finally(() => commit('SET_PRELOADER', false));
     },
 
     logout({ commit }) {
@@ -114,7 +113,7 @@ const actions = {
         const token = localStorage.getItem(TOKEN_NAME);
         if (!token) return;
 
-        commit('SET_PRELOADER', true);
+        // commit('SET_PRELOADER', true);
         return axios.get('/app/auth/address', {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -123,7 +122,7 @@ const actions = {
             .then((res) => {
                 commit('SET_ADDRESS', res.data);
             })
-            .finally(() => commit('SET_PRELOADER', false));
+            // .finally(() => commit('SET_PRELOADER', false));
     },
 
     saveNewAddress({ dispatch, commit }, params) {
@@ -177,6 +176,7 @@ const actions = {
         const token = localStorage.getItem(TOKEN_NAME);
         if (!token) return;
 
+        console.log('aqui')
         commit('SET_PRELOADER', true);
 
         const endpoint = `${process.env.MIX_APP_URL}/api/auth/v1/my-orders`

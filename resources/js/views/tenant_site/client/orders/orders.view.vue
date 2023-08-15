@@ -90,13 +90,9 @@ export default {
             orders: (state) => state.auth.orders.data
         })
     },
-    created() { },
     mounted() {
-        this.setPreloader(true);
-        this.setTextPreloader('Carregando dados, aguarde...');
         this.getOrders()
-        .finally(() => {
-            this.setPreloader(false);
+        .then(() => {
             let urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('identify')) {
                 const index = this.orders.findIndex(object => {return object.identify == urlParams.get('identify')});
