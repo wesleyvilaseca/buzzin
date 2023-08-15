@@ -97,6 +97,11 @@ export default {
         this.getOrders()
         .finally(() => {
             this.setPreloader(false);
+            let urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('identify')) {
+                const index = this.orders.findIndex(object => {return object.identify == urlParams.get('identify')});
+               this.openDetails(this.orders[index]);
+            }
         });
     },
     methods: {

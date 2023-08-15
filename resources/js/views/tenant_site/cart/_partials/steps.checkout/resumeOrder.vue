@@ -118,9 +118,10 @@ export default {
             }
             this.sendCheckout(params)
                 .then((res) => {
+                    const { data } = res.data;
                     toast.success("Pedido realizado com sucesso", { autoClose: 3000 });
                     this.clearCart(this.company.uuid);
-                    window.location.href = `http://${this.company.subdomain}/app/cliente-area`;
+                    window.location.href = `http://${this.company.subdomain}/app/cliente-area?identify=${data.identify}`;
                 })
                 .catch((error) => {
                     toast.error(

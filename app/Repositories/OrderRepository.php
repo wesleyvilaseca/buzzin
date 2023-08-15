@@ -78,6 +78,7 @@ class OrderRepository implements OrderRepositoryInterface
     {
         $orders = $this->entity
             ->where('client_id', $idClient)
+            ->orderBy('id', 'desc')
             ->paginate();
 
         return $orders;

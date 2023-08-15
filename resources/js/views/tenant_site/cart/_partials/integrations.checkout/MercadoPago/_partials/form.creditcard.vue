@@ -167,9 +167,10 @@ export default {
                     headers: { 'Authorization': `Bearer ${token}` }
                 })
                     .then((res) => {
+                        const { data } = res.data;
                         toast.success("Pedido realizado com sucesso", { autoClose: 3000 });
                         this.clearCart(this.company.uuid);
-                        window.location.href = `http://${this.company.subdomain}/app/cliente-area`;
+                        window.location.href = `http://${this.company.subdomain}/app/cliente-area?identify=${data.identify}`;
                     })
                     .catch((error) => {
                         if (error?.response) {

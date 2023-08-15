@@ -188,7 +188,6 @@ export default {
                     }
 
                     if (this.troco) {
-                        console.log(this.troco, this.total)
                         if (this.troco < this.total) {
                             this.errors.troco = ["O valor do troco não deve ser menor que o valor total do pedido"]
                             this.openModalTroco(true);
