@@ -17,6 +17,7 @@ class CreateTenantShippingsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('tenant_id');
             $table->unsignedBigInteger('shipping_id')->nullable();
+            $table->string('alias', 200)->nullable();
             $table->json('data')->nullable();
             $table->integer('status')->default(0)->comment("0 - disbled | 1 - enabled");
             $table->timestamps();

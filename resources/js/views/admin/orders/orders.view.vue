@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-md-3">
                         <label for="status">Status:</label>
-                        <select name="status" class="form-control" v-model="status" @change.prevent=" getOrders()">
+                        <select name="status" class="form-control" v-model="status" @change.prevent="getOrders()">
                             <option value="all">Todos</option>
                             <option value="open">Aberto</option>
                             <option value="done">Completo</option>
@@ -38,7 +38,8 @@
                 <tbody>
                     <tr v-for="(order, index) in orders.data" :key="index">
                         <td>{{ order.identify }}</td>
-                        <td>{{ order.status_label }}</td>
+                        <td v-if="order?.shipping_method?.description !== RETIRADA">{{ order.status_label }}</td>
+                        <td v-else> <span class="alert alert-warning p-1">Retirada</span></td>
                         <td>{{ order.date_br }}</td>
                         <td>
                             <template v-if="order.payment_method.integration">
@@ -80,6 +81,7 @@ export default {
     },
     data() {
         return {
+            RETIRADA: 'Retirada',
             orders: {
                 data: []
             },

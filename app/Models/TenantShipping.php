@@ -11,10 +11,10 @@ class TenantShipping extends Model
     use HasFactory;
     use TenantTrait;
 
-    protected $fillable = ['shipping_id', 'data', 'status'];
+    protected $fillable = ['shipping_id', 'alias', 'data', 'status'];
 
     public function shipping()
     {
-        return $this->hasMany(Shipping::class, 'shipping_id', 'id');
+        return $this->hasOne(Shipping::class, 'id', 'shipping_id');
     }
 }

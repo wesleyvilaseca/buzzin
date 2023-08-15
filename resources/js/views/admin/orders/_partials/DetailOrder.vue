@@ -93,17 +93,19 @@
                             </div>
                         </div>
                         <div class="col-md-5">
-                            <div class="card mt-2" v-if="order?.shipping_method?.description !== 'Retirada'">
-                                <div class="card-header">Dados de entrega</div>
+                            <div class="card mt-2">
+                                <div class="card-header">Dados do cliente</div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-5">
+                                        <div class="col-md-5" style="font-size:0.8rem">
                                             Cliente: {{ order.client?.name }} <br>
                                             Email: {{ order.client?.email }} <br>
                                             Celular: {{ order.client_mobile_phone }} <br>
                                             CPF: {{ order.client_doc }}
                                         </div>
-                                        <div class="col-md-7">
+                                        <div class="col-md-7" v-if="order?.shipping_method?.description !== RETIRADA"
+                                        style="font-size:0.8rem"
+                                        >
                                             Endereço: {{ order.client_address?.address }} - nº: {{
                                                 order.client_address?.number
                                             }}<br>
@@ -175,7 +177,8 @@ export default {
     data() {
         return {
             status: '',
-            loading: false
+            loading: false,
+            RETIRADA: 'Retirada'
         }
     },
     methods: {

@@ -17,11 +17,13 @@ class ShippmentTableSeeder extends Seeder
         Shipping::insert([
             [
                 'description' => 'Delivery',
-                'status' => 1
+                'status' => 1,
+                'alias' => 'delivery'
             ],
             [
                 'description' => 'Retirada',
-                'status' => 1
+                'status' => 1,
+                'alias' => 'getonstore'
             ]
         ]);
     }

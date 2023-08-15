@@ -21,6 +21,7 @@ class CreateShippingsTable extends Migration
             $table->string('route_base')->nullable();
             $table->json('data')->nullable();
             $table->string('integration')->nullable();
+            $table->string('alias', 200)->nullable();
             $table->integer('status')->default(0)->comment("0 - disableb | 1 - enabled");
             $table->timestamps();
         });

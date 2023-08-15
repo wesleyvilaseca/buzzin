@@ -59,6 +59,7 @@ class TenantShippingController extends Controller
 
         $res = $this->tenantShipping->create([
             'shipping_id' => $request->shipping_id,
+            'alias' => $shippingMethodExist->alias,
             'status' => 1
         ]);
 

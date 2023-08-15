@@ -27,6 +27,9 @@ class TenantService
     private $repository;
     private $cepAbertoService;
 
+    const ALIAS_GET_ON_STORE = 'getonstore';
+    const ALIAS_MAKE_DELIVERY = 'delivery';
+
     public function __construct(
         TenantRepositoryInterface $repository,
         CepAbertoService $cepAbertoService
@@ -195,20 +198,17 @@ class TenantService
 
         $shippingMethods = [];
 
-        $getOnStore = $tenantShipping->where('shipping_id', 2)->first();
+        $getOnStore = $tenantShipping->where('alias', self::ALIAS_GET_ON_STORE)->first();
         if ($getOnStore) {
-            $shippingMethod = Shipping::find($getOnStore->shipping_id);
             $shippingMethods[] = (object) [
-                'description' => $shippingMethod->description,
+                'description' => $getOnStore->shipping()->first()->description,
                 'price' => numberFormat(0.00)
             ];
         }
 
-        $makeDelivery = $tenantShipping->where('shipping_id', 1)->first();
+        $makeDelivery = $tenantShipping->where('alias', self::ALIAS_MAKE_DELIVERY)->first();
         if ($makeDelivery) {
             try {
-                $shippingMethod = Shipping::find($makeDelivery->shipping_id);
-
                 $cepInfo = $this->cepAbertoService->getCep($data['cep']);
 
                 if (@$cepInfo->latitude && @$cepInfo->longitude) {
@@ -240,7 +240,7 @@ class TenantService
                         };
 
                         $shippingMethods[] = (object) [
-                            'description' => $shippingMethod->description,
+                            'description' => $makeDelivery->shipping()->first()->description,
                             'price' => $getDeliveryPrice($shape, $data['cartPrice']),
                             'estimation' => (object)[
                                 "location" => $cepInfo->bairro,
