@@ -91,6 +91,7 @@ export default {
         })
     },
     mounted() {
+        this.setPreloader(true)
         this.getOrders()
         .then(() => {
             let urlParams = new URLSearchParams(window.location.search);
