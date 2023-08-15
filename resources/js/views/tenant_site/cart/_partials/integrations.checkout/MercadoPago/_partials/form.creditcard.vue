@@ -132,7 +132,6 @@ export default {
         setCardTokenAndPay(status, response) {
             if (status == 200 || status == 201) {
 
-                this.setPreloader(true);
                 this.setTextPreloader('Finalizando pedido...');
 
                 const parcelas = document.getElementById('installments');
@@ -184,7 +183,6 @@ export default {
                         );
                     })
                     .finally(() => {
-                        this.setPreloader(false);
                         this.setTextPreloader('Carregando...');
                     });
 

@@ -44,7 +44,6 @@ const actions = {
     sendCheckout({ commit }, params) {
         const token = localStorage.getItem(TOKEN_NAME);
 
-        commit('SET_PRELOADER', true);
         commit('SET_TEXT_PRELOADER', 'Finalizando pedido...');
 
         const query_params = new URLSearchParams({
@@ -58,7 +57,6 @@ const actions = {
             }
         })
             .finally(() => {
-                commit('SET_PRELOADER', false);
                 commit('SET_TEXT_PRELOADER', 'Carregando...');
             })
     },

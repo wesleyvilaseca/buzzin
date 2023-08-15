@@ -128,7 +128,6 @@ export default {
 
             const token = localStorage.getItem(this.token_name);
 
-            this.setPreloader(true);
             this.setTextPreloader('Finalizando pedido...')
 
             const query_params = new URLSearchParams({
@@ -157,7 +156,6 @@ export default {
                     );
                 })
                 .finally(() => {
-                    this.setPreloader(false);
                     this.setTextPreloader('Carregando...');
                 });
         },

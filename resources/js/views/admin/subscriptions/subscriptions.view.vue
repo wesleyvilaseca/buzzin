@@ -236,7 +236,6 @@ export default {
         }),
         getPlans() {
             this.reset()
-            this.loading(true);
             this.textLoading('Carregando planos');
 
             axios.get('/api/v1/plans', {})
@@ -245,9 +244,6 @@ export default {
                     this.listPlans.data = res.data;
                 })
                 .catch(error => alert('error'))
-                .finally(() => {
-                    this.loading(false)
-                })
         },
         reset() {
             this.plans = { data: [] }

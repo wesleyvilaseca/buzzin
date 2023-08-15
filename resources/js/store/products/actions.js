@@ -4,7 +4,6 @@ const actions = {
     getProducts({ commit }, params) {
         const { page } = params;
         if (page == "") {
-            commit('SET_PRELOADER', true);
             commit('SET_TEXT_PRELOADER', 'Carregando os produtos...');
         }
 
@@ -27,7 +26,6 @@ const actions = {
                     commit('SET_LOADMORE', false);
                 }
             })
-            .finally(() => commit('SET_PRELOADER', false));
     },
 }
 

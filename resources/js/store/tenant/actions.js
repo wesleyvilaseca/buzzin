@@ -3,7 +3,6 @@ import cript from "../../support/cript";
 
 const actions = {
     getTenant({ commit }, params) {
-        commit('SET_PRELOADER', true);
         commit('SET_TEXT_PRELOADER', 'Carregando os produtos...');
 
         const hasSession = sessionStorage.getItem('company');
@@ -22,9 +21,6 @@ const actions = {
                     commit('SET_PALETA', layout.paleta_cores_site)
                 }
             })
-            .finally(() => {
-                commit('SET_PRELOADER', false)
-            });
     },
 
     getSiteExtensions({ commit }, params) {

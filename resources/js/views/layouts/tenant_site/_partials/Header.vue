@@ -26,8 +26,8 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="/app/cliente-area" class="nav-link ms-5"
-                                v-if="me.name && me.name !== 'undefined'">Olá {{ me.name
+                            <a href="/app/cliente-area" class="nav-link ms-5" v-if="me.name && me.name !== 'undefined'">Olá
+                                {{ me.name
                                 }}
                                 <span @click.prevent="exit()" class="text-danger ms-2">
                                     <i class="red-icon fa-solid fa-right-from-bracket"></i>
@@ -75,6 +75,11 @@
 import { mapState, mapActions } from "vuex";
 
 export default {
+    data() {
+        return {
+            requested: false
+        }
+    },
     computed: {
         ...mapState({
             me: (state) => state.auth.me,
@@ -113,8 +118,13 @@ export default {
         company() {
             if (this.maintence) return;
 
-            this.getCart(this.company.uuid);
-            this.getSiteExtensions({uuid: this.company.uuid});
+            if (this.company.uuid && !this.requested) {
+                this.requested = true;
+                this.getCart(this.company.uuid);
+                this.getSiteExtensions({ uuid: this.company.uuid });
+            }
+
+
         }
     },
 };
