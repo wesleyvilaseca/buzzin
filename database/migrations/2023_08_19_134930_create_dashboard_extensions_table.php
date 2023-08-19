@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Payments extends Migration
+class CreateDashboardExtensionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class Payments extends Migration
      */
     public function up()
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('dashboard_extensions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('description')->nullable();
             $table->text('detail')->nullable();
@@ -22,8 +22,8 @@ class Payments extends Migration
             $table->string('alias', 200)->nullable();
             $table->json('data')->nullable();
             $table->string('integration')->nullable();
-            $table->integer('ismoney')->nullable();
             $table->integer('status')->default(0)->comment("0 - disableb | 1 - enabled");
+            $table->integer('free')->default(1)->comment("0 - notfree | 1 - free");
             $table->timestamps();
         });
     }
@@ -35,6 +35,6 @@ class Payments extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('dashboard_extensions');
     }
 }

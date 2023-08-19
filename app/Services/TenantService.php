@@ -198,7 +198,6 @@ class TenantService
         }
 
         $shippingMethods = [];
-
         $getOnStore = $tenantShipping->where('alias', self::ALIAS_GET_ON_STORE)->first();
         if ($getOnStore) {
             $shippingMethods[] = (object) [
@@ -209,15 +208,10 @@ class TenantService
 
         $makeDelivery = $tenantShipping->where('alias', self::ALIAS_MAKE_DELIVERY)->first();
         if ($makeDelivery) {
-            // try {
-                $deliveryShipping = $this->zoneDeliveryService->getShippingDeliveryDetailByCep($data, $makeDelivery);
-                if ($deliveryShipping) {
-                    $shippingMethods[] = $deliveryShipping;
-                }
-                
-            // } catch (Exception $e) {
-                // return response()->json(['message' => 'Houve um erro na requisição, tente novamento', 'detail' => $e->getMessage()], 404);
-            // }
+            $deliveryShipping = $this->zoneDeliveryService->getShippingDeliveryDetailByCep($data, $makeDelivery);
+            if ($deliveryShipping) {
+                $shippingMethods[] = $deliveryShipping;
+            }
         }
 
         return response()->json($shippingMethods, 200);

@@ -187,7 +187,11 @@ function celular($telefone)
     }
 }
 
-function getImage(string $url) :string {
+function getImage(string $url = null) :string {
+    if (!$url) {
+        return env('URL_API_FILES') . '/storage/public/default/no-image.png';
+    }
+
     return env('URL_API_FILES') . $url;
 }
 

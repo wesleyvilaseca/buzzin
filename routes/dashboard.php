@@ -11,6 +11,7 @@ use App\Http\Controllers\Web\Admin\CategoryController;
 use App\Http\Controllers\Web\Admin\CategoryProductController;
 use App\Http\Controllers\Web\Admin\ConfigurationController;
 use App\Http\Controllers\Web\Admin\DashboardController;
+use App\Http\Controllers\Web\Admin\DashBoardExtensionsController;
 use App\Http\Controllers\Web\Admin\DetailPlanController;
 use App\Http\Controllers\Web\Admin\OperationController;
 use App\Http\Controllers\Web\Admin\OrderController;
@@ -342,6 +343,13 @@ Route::middleware(['auth'])->group(function () {
 
             Route::post('/{id}/detail',      [OperationController::class, 'detailStore'])->name('operation.store');
             Route::post('/{id}/delete',      [OperationController::class, 'detailDelete'])->name('operation.delete');
+        });
+
+        Route::prefix('admin-dashboard-extension')->group(function () {
+            Route::get('/',                         [DashBoardExtensionsController::class, 'index'])->name('admin.dashboad_extensions');
+            Route::post('/extension-active',        [DashBoardExtensionsController::class, 'active'])->name('admin.dashboard_extension.active');
+            Route::put('/extension-disable/{id}',   [DashBoardExtensionsController::class, 'disable'])->name('admin.dashboard_extension.disable');
+            Route::put('/extension-enable/{id}',    [DashBoardExtensionsController::class, 'enable'])->name('admin.dashboard_extension.enable');
         });
 
         Route::prefix('admin-myaccount')->group(function () {

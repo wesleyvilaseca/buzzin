@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\StoreOrder;
 use App\Http\Resources\OrderClientResource;
 use App\Http\Resources\OrderResource;
+use App\Services\NotifyService;
 use App\Services\OrderService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -15,10 +16,14 @@ use Exception;
 class OrderController extends Controller
 {
     protected $orderService;
+    protected $notifyService;
 
-    public function __construct(OrderService $orderService)
-    {
+    public function __construct(
+        OrderService $orderService,
+        NotifyService $notifyService
+    ) {
         $this->orderService = $orderService;
+        $this->notifyService = $notifyService;
     }
 
 
@@ -28,6 +33,7 @@ class OrderController extends Controller
         try {
             $order = $this->orderService->createNewOrder($request->all());
             broadcast(new OrderCreated($order));
+            $this->notifyService->notifyNewOrder($order);
             DB::commit();
             return new OrderResource($order);
         } catch (Exception $e) {

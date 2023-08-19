@@ -11,7 +11,7 @@ class TenantPayment extends Model
     use HasFactory;
     use TenantTrait;
 
-    protected $fillable = ['payment_id', 'data', 'status'];
+    protected $fillable = ['payment_id', 'data', 'alias','status'];
 
     public function payment()
     {

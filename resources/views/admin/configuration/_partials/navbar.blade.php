@@ -39,6 +39,16 @@
 
                 @can('tenant_account')
                     <li class="nav-item">
+                        <a class="nav-link  {{ @$_dashboardextensions ? 'activated' : '' }}" aria-current="page"
+                            style="a:hover: #fff" href="{{ route('admin.dashboad_extensions') }}">
+                            <i class="fa-solid fa-puzzle-piece"></i>
+                            Extensões
+                        </a>
+                    </li>
+                @endcan
+
+                @can('tenant_account')
+                    <li class="nav-item">
                         <a class="nav-link  {{ @$_myaccount ? 'activated' : '' }}" aria-current="page" style="a:hover: #fff"
                             href="{{ route('admin.myaccount') }}">
                             <i class="fa-solid fa-user"></i>
@@ -47,16 +57,6 @@
                     </li>
                 @endcan
 
-
-                @can('tenant_account')
-                    <li class="nav-item">
-                        <a class="nav-link  {{ @$_myaccount ? 'plugins' : '' }}" aria-current="page" style="a:hover: #fff"
-                            href="#" onclick="return alert('Página em construção')">
-                            <i class="fa-solid fa-plug"></i>
-                            Plugins
-                        </a>
-                    </li>
-                @endcan
                 {{-- <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">

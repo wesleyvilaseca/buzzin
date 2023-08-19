@@ -33,7 +33,7 @@
                         <a class="nav-link  {{ @$_siteextensions ? 'activated' : '' }}" aria-current="page"
                             style="a:hover: #fff" href="{{ route('admin.site.extensions') }}">
                             <i class="fa-solid fa-puzzle-piece"></i>
-                            Extenções
+                            Extensões
                         </a>
                     </li>
                 @endcan

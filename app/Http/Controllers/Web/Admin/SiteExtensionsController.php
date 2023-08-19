@@ -24,8 +24,8 @@ class SiteExtensionsController extends Controller
     public function index()
     {
         $site = $this->repository->first();
-        $data['title']              = 'Site - Extenções';
-        $data['toptitle']           = 'Site - Extenções';
+        $data['title']              = 'Site - Extensões';
+        $data['toptitle']           = 'Site - Extensões';
         $data['_sitearea']          = true;
         $data['_siteextensions']    = true;
         $data['site']               = $site;
@@ -70,7 +70,8 @@ class SiteExtensionsController extends Controller
         }
 
         $res = SiteTenantExtensions::create([
-            'site_extension_id' => $request->extension_id,
+            'site_extension_id' => $extensionExist->id,
+            'alias' => $extensionExist->alias,
             'status' => 1
         ]);
 

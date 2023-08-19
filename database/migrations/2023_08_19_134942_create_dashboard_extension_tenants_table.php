@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTenantPaymentsTable extends Migration
+class CreateDashboardExtensionTenantsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateTenantPaymentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tenant_payments', function (Blueprint $table) {
+        Schema::create('dashboard_extension_tenants', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('tenant_id');
-            $table->unsignedBigInteger('payment_id')->nullable();
+            $table->unsignedBigInteger('dashboard_extension_id')->nullable();
             $table->string('alias', 200)->nullable();
             $table->json('data')->nullable();
             $table->integer('status')->default(0)->comment("0 - disbled | 1 - enabled");
@@ -26,9 +26,9 @@ class CreateTenantPaymentsTable extends Migration
                 ->references('id')
                 ->on('tenants');
 
-            $table->foreign('payment_id')
+            $table->foreign('dashboard_extension_id')
                 ->references('id')
-                ->on('payments');
+                ->on('dashboard_extensions');
         });
     }
 
@@ -39,6 +39,6 @@ class CreateTenantPaymentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tenant_payments');
+        Schema::dropIfExists('dashboard_extension_tenants');
     }
 }

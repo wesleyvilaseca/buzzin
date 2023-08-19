@@ -113,7 +113,7 @@
                                 </td>
                             </tr>
                         @empty
-                            <p class="text-center">Não há extenções para listar</p>
+                            <p class="text-center">Não há extensões para listar</p>
                         @endforelse
                     </tbody>
                 </table>

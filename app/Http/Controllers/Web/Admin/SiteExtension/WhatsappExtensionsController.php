@@ -55,7 +55,7 @@ class WhatsappExtensionsController extends Controller
         $data['linkWebSite'] = @$data['site'] ? $siteLink($data['site']) : null;
 
         $data['breadcrumb_config'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
-        $data['breadcrumb_config'][]       = ['route' => route('admin.site.extensions'), 'title' => 'Site - Extenções'];
+        $data['breadcrumb_config'][]       = ['route' => route('admin.site.extensions'), 'title' => 'Site - Extensões'];
         $data['breadcrumb_config'][]       = ['route' => '#', 'title' => 'Configurações da extenção whatsapp', 'active' => true];
         $data['extension'] = $extension;
 

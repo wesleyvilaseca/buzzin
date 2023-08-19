@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Order;
 use App\Models\OrderShipping;
 use App\Repositories\Contracts\OrderRepositoryInterface;
 use App\Repositories\Contracts\ProductRepositoryInterface;
@@ -13,18 +14,21 @@ use Illuminate\Support\Facades\DB;
 class OrderService
 {
     protected $orderRepository, $tenantRepository, $tableRepository, $productRepository;
+    protected $whatssappNewOrderNotifyService;
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         TenantRepositoryInterface $tenantRepository,
         TableRepositoryInterface $tableRepository,
         ProductRepositoryInterface $productRepository,
+        WhatssappNewOrderNotifyService $whatssappNewOrderNotifyService
 
     ) {
         $this->orderRepository = $orderRepository;
         $this->tenantRepository = $tenantRepository;
         $this->tableRepository = $tableRepository;
         $this->productRepository = $productRepository;
+        $this->whatssappNewOrderNotifyService = $whatssappNewOrderNotifyService;
     }
 
     public function ordersByClient()

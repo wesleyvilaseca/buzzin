@@ -16,7 +16,7 @@ class CreateSiteExtensionsTable extends Migration
         Schema::create('site_extensions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('description')->nullable();
-            $table->string('detail')->nullable();
+            $table->text('detail')->nullable();
             $table->string('image')->nullable();
             $table->string('route_base')->nullable();
             $table->string('integration')->nullable();
