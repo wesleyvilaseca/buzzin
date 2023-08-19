@@ -8,6 +8,7 @@ use App\Models\Plan;
 use App\Models\Shipping;
 use App\Models\SiteTenantExtensions;
 use App\Models\Tenant;
+use App\Models\TenantShipping;
 use App\Models\TenantSiteExtensions;
 use App\Models\TenantSiteZoneDelivery;
 use App\Models\User;
@@ -25,17 +26,17 @@ class TenantService
 {
     private $plan, $data = [];
     private $repository;
-    private $cepAbertoService;
+    private $zoneDeliveryService;
 
     const ALIAS_GET_ON_STORE = 'getonstore';
     const ALIAS_MAKE_DELIVERY = 'delivery';
 
     public function __construct(
         TenantRepositoryInterface $repository,
-        CepAbertoService $cepAbertoService
+        ZoneShippingDeliveryService $zoneDeliveryService
     ) {
         $this->repository = $repository;
-        $this->cepAbertoService = $cepAbertoService;
+        $this->zoneDeliveryService = $zoneDeliveryService;
     }
 
     public function getAllTenants(int $per_page)
@@ -208,52 +209,15 @@ class TenantService
 
         $makeDelivery = $tenantShipping->where('alias', self::ALIAS_MAKE_DELIVERY)->first();
         if ($makeDelivery) {
-            try {
-                $cepInfo = $this->cepAbertoService->getCep($data['cep']);
-
-                if (@$cepInfo->latitude && @$cepInfo->longitude) {
-                    $coordinate = new Point($cepInfo->latitude, $cepInfo->longitude);
-                    $shape = TenantSiteZoneDelivery::whereRaw("ST_Within(POINT(?,?), coordinates)", [$coordinate->getLng(), $coordinate->getLat()])->first();
-
-                    if ($shape && $shape->active == 1) {
-                        $getTimeUnd = function (int $val): string {
-                            switch ($val) {
-                                case 1:
-                                    return "minutos";
-                                case 2:
-                                    return "horas";
-                                case 3:
-                                    return "dias";
-                            }
-                        };
-
-                        $getDeliveryPrice = function ($data, $cartPrice) {
-                            if (!$data->free_when) {
-                                return $data->price;
-                            }
-
-                            if ($cartPrice >= $data->free_when) {
-                                return 0.00;
-                            }
-
-                            return $data->price;
-                        };
-
-                        $shippingMethods[] = (object) [
-                            'description' => $makeDelivery->shipping()->first()->description,
-                            'price' => $getDeliveryPrice($shape, $data['cartPrice']),
-                            'estimation' => (object)[
-                                "location" => $cepInfo->bairro,
-                                "time_ini" => $shape->delivery_time_ini,
-                                "time_end" => $shape->delivery_time_end,
-                                "time_unid" => $getTimeUnd($shape->time_type)
-                            ]
-                        ];
-                    }
+            // try {
+                $deliveryShipping = $this->zoneDeliveryService->getShippingDeliveryDetailByCep($data, $makeDelivery);
+                if ($deliveryShipping) {
+                    $shippingMethods[] = $deliveryShipping;
                 }
-            } catch (Exception $e) {
-                return response()->json(['message' => 'Houve um erro na requisição, tente novamento', 'detail' => $e->getMessage()], 404);
-            }
+                
+            // } catch (Exception $e) {
+                // return response()->json(['message' => 'Houve um erro na requisição, tente novamento', 'detail' => $e->getMessage()], 404);
+            // }
         }
 
         return response()->json($shippingMethods, 200);
