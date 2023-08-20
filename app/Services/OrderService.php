@@ -119,7 +119,7 @@ class OrderService
         $selectedShippingMethod = $order['shippingMethod'];
 
         $data = [];
-        $data['cep'] = str_replace("-", "", $order['address']['zip_code']   );
+        $data['cep'] = str_replace("-", "", $order['address']['zip_code']);
         $data['cartPrice'] = $order['cartPrice'];
 
         $tenantShipping = $tenant->tenantShipping()->where([
@@ -139,6 +139,15 @@ class OrderService
                     return  $e->getMessage();
                 }
                 break;
+
+            case Shipping::ALIAS_GET_ON_STORE:
+                return   (object) [
+                    'description' => $tenantShipping->shipping()->first()->description,
+                    'price' => numberFormat(0.00),
+                    'alias' => $tenantShipping->shipping()->first()->alias
+                ];
+            default:
+                throw new Error('Metodo de entrega não existente');
         }
     }
 

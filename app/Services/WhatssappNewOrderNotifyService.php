@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Resources\OrderResource;
 use App\Models\DashboardExtensionTenant;
+use App\Models\Shipping;
 use Error;
 use GuzzleHttp\Client;
 
@@ -86,10 +87,14 @@ class WhatssappNewOrderNotifyService
             $subtotal += $product->qty * $product->price;
         }
 
-        $msg .= "Subtotal: {$subtotal}\n";
+        $msg .= "Subtotal: {$subtotal}\n";  
 
         $msg .= "Forma de entrega: {$this->order->shipping_method->description}\n";
-        $msg .= "Valor da entrega: {$this->order->shipping_method->price}\n";
+        
+        if ($this->order->shipping_method->alias !== Shipping::ALIAS_GET_ON_STORE) {
+            $msg .= "Valor da entrega: {$this->order->shipping_method->price}\n";
+        }
+
         $msg .= "Total: {$this->order->total}\n\n\n";
         $msg .= "--------------\n";
 

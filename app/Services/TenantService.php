@@ -228,18 +228,14 @@ class TenantService
             return response()->json(['message' => 'Não há metodos de pagamento disponível'], 404);
         }
 
-        $selectedShippingMethod = Str::kebab($selectedShippingMethod['description']);
-
-        if ($selectedShippingMethod == 'retirada') {
+        if ($selectedShippingMethod['alias'] == Shipping::ALIAS_GET_ON_STORE) {
             foreach ($tenantPayments as $key => $paymentMethod) {
                 $paymentMethodDescription = Str::kebab($paymentMethod->payment->description);
                 if ($paymentMethodDescription !== 'pagar-na-retirada') {
                     unset($tenantPayments[$key]);
                 }
             }
-        }
-
-        if ($selectedShippingMethod == 'delivery') {
+        } else {
             foreach ($tenantPayments as $key => $paymentMethod) {
                 $paymentMethodDescription = Str::kebab($paymentMethod->payment->description);
                 if ($paymentMethodDescription == 'pagar-na-retirada') {
