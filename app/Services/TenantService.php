@@ -28,9 +28,6 @@ class TenantService
     private $repository;
     private $zoneDeliveryService;
 
-    const ALIAS_GET_ON_STORE = 'getonstore';
-    const ALIAS_MAKE_DELIVERY = 'delivery';
-
     public function __construct(
         TenantRepositoryInterface $repository,
         ZoneShippingDeliveryService $zoneDeliveryService
@@ -198,15 +195,16 @@ class TenantService
         }
 
         $shippingMethods = [];
-        $getOnStore = $tenantShipping->where('alias', self::ALIAS_GET_ON_STORE)->first();
+        $getOnStore = $tenantShipping->where('alias', Shipping::ALIAS_GET_ON_STORE)->first();
         if ($getOnStore) {
             $shippingMethods[] = (object) [
                 'description' => $getOnStore->shipping()->first()->description,
-                'price' => numberFormat(0.00)
+                'price' => numberFormat(0.00),
+                'alias' => $getOnStore->shipping()->first()->alias
             ];
         }
 
-        $makeDelivery = $tenantShipping->where('alias', self::ALIAS_MAKE_DELIVERY)->first();
+        $makeDelivery = $tenantShipping->where('alias', Shipping::ALIAS_MAKE_DELIVERY)->first();
         if ($makeDelivery) {
             $deliveryShipping = $this->zoneDeliveryService->getShippingDeliveryDetailByCep($data, $makeDelivery);
             if ($deliveryShipping) {

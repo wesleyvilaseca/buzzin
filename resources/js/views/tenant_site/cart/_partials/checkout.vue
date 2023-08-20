@@ -1,16 +1,17 @@
 <template>
     <div class="p-2" v-if="!isInCheckout">
         <div class="cart-price text-red mb-3">
-              Total: <b>{{ moneyMask(subtotal) }}</b>
+            Total: <b>{{ moneyMask(subtotal) }}</b>
         </div>
         <div class="pb-3" style="display: flex; flex-direction: row: align-items: right; justify-content:right;">
-          <div class="cep" style="width:200px;">
-              <ShippingValueCartComponent />
+            <div class="cep" style="width:200px;">
+                <ShippingValueCartComponent />
             </div>
         </div>
 
         <div class="mt-4" v-if="!isInCheckout">
-            <a href="" class="cart-finalizar" @click.prevent="openModalCheckout(true)" :disable="preloader">{{ textButton }}</a>
+            <a href="" class="cart-finalizar" @click.prevent="openModalCheckout(true)" :disable="preloader">{{ textButton
+            }}</a>
         </div>
     </div>
 
@@ -48,10 +49,10 @@
             </div>
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingThree">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseThree" aria-controls="collapseThree"
+                    <button class="accordion-button" :class="[step == 2 ? 'collapsed' : '']" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-controls="collapseThree"
                         :aria-expanded="[step == 2 ? 'true' : '']"
-                        :disabled="selectedAddress.zip_code == '' || selectedShippingMethod.price == ''"
+                        :disabled="selectedAddress.zip_code == '' || selectedShippingMethod.price == undefined"
                         @click.prevent="setStep(2)">
                         Selecione a forma de pagamento
                     </button>
@@ -65,7 +66,9 @@
             </div>
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingFour">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    <button class="accordion-button" 
+                        :class="[step == 3 ? 'collapsed' : '']"
+                        type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseFour" aria-controls="collapseFour"
                         :aria-expanded="[step == 3 ? 'true' : '']" :disabled="selectedPaymentMethod.description == ''"
                         @click.prevent="setStep(3)">
@@ -82,7 +85,9 @@
 
             <div class="accordion-item" v-if="step == 4 && selectedPaymentMethod.integration" @click.prevent="setStep(4)">
                 <h2 class="accordion-header" id="headingFive">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    <button class="accordion-button" 
+                        :class="[step == 4 ? 'collapsed' : '']"
+                        type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseFive" aria-controls="collapseFive"
                         :aria-expanded="[step == 4 ? 'true' : '']" :disabled="!selectedPaymentMethod.integration"
                         @click.prevent="setStep(4)">
@@ -238,9 +243,12 @@ export default {
             return formatter.format(value);
         }
     },
+    created() {
+        this.setStep(0);
+    },
     watch: {
         me() {
-            if(this.isModalVisible) {
+            if (this.isModalVisible) {
                 this.isModalVisible = false;
                 this.setInCheckout(true);
                 this.getClientAddress();

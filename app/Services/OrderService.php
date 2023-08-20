@@ -4,10 +4,12 @@ namespace App\Services;
 
 use App\Models\Order;
 use App\Models\OrderShipping;
+use App\Models\Shipping;
 use App\Repositories\Contracts\OrderRepositoryInterface;
 use App\Repositories\Contracts\ProductRepositoryInterface;
 use App\Repositories\Contracts\TableRepositoryInterface;
 use App\Repositories\Contracts\TenantRepositoryInterface;
+use Error;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -15,13 +17,18 @@ class OrderService
 {
     protected $orderRepository, $tenantRepository, $tableRepository, $productRepository;
     protected $whatssappNewOrderNotifyService;
+    protected $tenantService;
+    protected $zoneDeliveryService;
+    private $tenant;
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         TenantRepositoryInterface $tenantRepository,
         TableRepositoryInterface $tableRepository,
         ProductRepositoryInterface $productRepository,
-        WhatssappNewOrderNotifyService $whatssappNewOrderNotifyService
+        WhatssappNewOrderNotifyService $whatssappNewOrderNotifyService,
+        TenantService $tenantService,
+        ZoneShippingDeliveryService $zoneDeliveryService
 
     ) {
         $this->orderRepository = $orderRepository;
@@ -29,6 +36,8 @@ class OrderService
         $this->tableRepository = $tableRepository;
         $this->productRepository = $productRepository;
         $this->whatssappNewOrderNotifyService = $whatssappNewOrderNotifyService;
+        $this->tenantService = $tenantService;
+        $this->zoneDeliveryService = $zoneDeliveryService;
     }
 
     public function ordersByClient()
@@ -52,21 +61,17 @@ class OrderService
     public function createNewOrder(array $order)
     {
         try {
+            $this->tenant = $this->getTenantByOrder($order['token_company']);
             $paymentMethod = $order['paymentMethod'];
             $paymentMethod['data'] = decript($paymentMethod['data']);
 
-            $clientAdress = $order['address'];
-            $shippingMethod = $order['shippingMethod'];
-
-            $jsonData = [
-                'client_address' => $clientAdress,
-                'payment_method' => $paymentMethod,
-                'shipping_method' => $shippingMethod
-            ];
-
             $productsOrder = $this->getProductsByOrder($order['products'] ?? []);
             $identify = $this->getIdentifyOrder();
-            $total = $this->getTotalOrder($productsOrder) + tofloat($shippingMethod['price']);
+            $order['cartPrice'] = $this->getTotalOrder($productsOrder);
+
+            $shippingMethod = $this->getShippingMethod($order);
+
+            $total = $order['cartPrice'] + tofloat($shippingMethod->price);
 
             if ($paymentMethod['tag'] == "pagar-em-dinheiro") {
                 if ($order['precisaTroco'] == 'Y') {
@@ -81,10 +86,14 @@ class OrderService
             }
 
             $status = 'open';
-            $tenantId = $this->getTenantIdByOrder($order['token_company']);
+            $tenantId = $this->tenant->id;
             $comment = isset($order['comment']) ? $order['comment'] : '';
             $clientId = $this->getClientIdByOrder();
             $tableId = $this->getTableIdByOrder($order['table'] ?? '');
+
+            $jsonData['client_address'] = $order['address'];
+            $jsonData['payment_method'] = $paymentMethod;
+            $jsonData['shipping_method'] = $shippingMethod;
 
             $order = $this->orderRepository->createNewOrder(
                 $identify,
@@ -99,9 +108,37 @@ class OrderService
 
             $this->orderRepository->registerProductsOrder($order->id, $productsOrder);
             return $order;
-        } 
-        catch (Exception $e) {
+        } catch (Exception $e) {
             return  $e->getMessage();
+        }
+    }
+
+    private function getShippingMethod(array $order)
+    {
+        $tenant = $this->tenant;
+        $selectedShippingMethod = $order['shippingMethod'];
+
+        $data = [];
+        $data['cep'] = str_replace("-", "", $order['address']['zip_code']   );
+        $data['cartPrice'] = $order['cartPrice'];
+
+        $tenantShipping = $tenant->tenantShipping()->where([
+            'status' => 1,
+            'alias' => $selectedShippingMethod['alias']
+        ])->first();
+
+        if (!$tenantShipping) {
+            throw new Error('Metodo de entrega não localizado');
+        }
+
+        switch ($selectedShippingMethod['alias']) {
+            case Shipping::ALIAS_MAKE_DELIVERY:
+                try {
+                    return $this->zoneDeliveryService->getShippingDeliveryDetailByCep($data, $tenantShipping);
+                } catch (Exception $e) {
+                    return  $e->getMessage();
+                }
+                break;
         }
     }
 
@@ -154,11 +191,9 @@ class OrderService
         return tofloat($total);
     }
 
-    private function getTenantIdByOrder(string $uuid)
+    private function getTenantByOrder(string $uuid): object
     {
-        $tenant = $this->tenantRepository->getTenantByUuid($uuid);
-
-        return $tenant->id;
+        return $this->tenantRepository->getTenantByUuid($uuid);
     }
 
     private function getTableIdByOrder(string $uuid = '')

@@ -60,6 +60,7 @@ class ZoneShippingDeliveryService
             return (object) [
                 'description' => $tenantShipping->shipping()->first()->description,
                 'price' => $getDeliveryPrice($shape, $data['cartPrice']),
+                'alias' => $tenantShipping->shipping()->first()->alias,
                 'estimation' => (object)[
                     "location" => $cepInfo->bairro,
                     "time_ini" => $shape->delivery_time_ini,
