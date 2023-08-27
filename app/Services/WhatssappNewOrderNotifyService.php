@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Http\Resources\OrderResource;
 use App\Models\DashboardExtensionTenant;
 use App\Models\Shipping;
-use Error;
 use GuzzleHttp\Client;
 
 class WhatssappNewOrderNotifyService
@@ -87,10 +86,10 @@ class WhatssappNewOrderNotifyService
             $subtotal += $product->qty * $product->price;
         }
 
-        $msg .= "Subtotal: {$subtotal}\n";  
+        $msg .= "Subtotal: {$subtotal}\n";
 
         $msg .= "Forma de entrega: {$this->order->shipping_method->description}\n";
-        
+
         if ($this->order->shipping_method->alias !== Shipping::ALIAS_GET_ON_STORE) {
             $msg .= "Valor da entrega: {$this->order->shipping_method->price}\n";
         }
@@ -108,7 +107,7 @@ class WhatssappNewOrderNotifyService
         $msg .= "Dados do cliente\n";
         $msg .= "Cliente: {$this->order->client->name}\n";
         $msg .= "Email: {$this->order->client->email}\n";
-        $msg .= "Celular: ". decript($this->order->client->mobile_phone) . "\n";
+        $msg .= "Celular: " . decript($this->order->client->mobile_phone) . "\n";
 
         if ($this->order?->shipping_method?->description !== 'Retirada') {
             $msg .= "Endereço: {$this->order->client_address->address}, nº: {$this->order?->client_address?->number} \n";
@@ -129,10 +128,15 @@ class WhatssappNewOrderNotifyService
         ])->first();
 
         if (!$hasExtension) {
-            $this->hasExtencion = false;
+            return $this->hasExtencion = false;
         }
 
         $this->dataNotifyNewOrder = json_decode($hasExtension->data);
+
+        if (!$this->dataNotifyNewOrder?->token) {
+            return $this->hasExtencion = false;
+        }
+        
         $this->hasExtencion = true;
     }
 }

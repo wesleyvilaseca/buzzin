@@ -27,5 +27,7 @@
 @endsection
 
 @section('content')
+    @component('components.widget.warning-site-recaptcha')
+    @endcomponent
     <passord-reset-tenant-view token="{{ $token }}" email="{{ $email }}"></passord-reset-tenant-view>
 @stop

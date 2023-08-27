@@ -27,5 +27,7 @@
 @endsection
 
 @section('content')
+    @component('components.widget.warning-site-recaptcha')
+    @endcomponent
     <register-tenant-view></register-tenant-view>
 @stop

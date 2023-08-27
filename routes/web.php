@@ -11,6 +11,7 @@ use App\Http\Controllers\Web\TenantSite\RegisterController as TenantSiteRegister
 use App\Http\Controllers\Web\TenantSite\TenantController as TenantSiteTenantController;
 use App\Http\Controllers\Web\TenantSite\HomeController as ClientSiteHomeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Web\TenantSite\ReCaptchaV3Controller;
 
 /**
  * site routes
@@ -20,6 +21,8 @@ $domain = request()->getHttpHost();
 $appDomain = str_replace(['http://', 'https://'], "", env('APP_URL'));
 
 if ($domain !== $appDomain) {
+    Route::get('/recaptcha-validate',             [ReCaptchaV3Controller::class, 'validateV3']);
+
     Route::middleware(['check.site.client'])->group(function () {
         Route::any('/',         [ClientSiteHomeController::class, 'index']);
         Route::prefix('app')->group(function () {

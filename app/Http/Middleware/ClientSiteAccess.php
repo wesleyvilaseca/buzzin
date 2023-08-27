@@ -2,13 +2,15 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Tenant;
 use App\Models\TenantSites;
 use App\Supports\Cripto\Cripto;
+use Biscolab\ReCaptcha\ReCaptchaBuilder;
+use Biscolab\ReCaptcha\ReCaptchaServiceProvider;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Env;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Str;
 
 class ClientSiteAccess
 {
@@ -23,11 +25,42 @@ class ClientSiteAccess
     public function handle(Request $request, Closure $next)
     {
         $appdomain = env('APP_URL');
-        $subdomain = str_replace('www.', '',request()->getHttpHost());
-        $site = TenantSites::where('subdomain', $subdomain)->first();
+        $host = str_replace('www.', '', request()->getHttpHost());
+        $isDomain = true;
+
+        if (Str::contains($host, str_replace(['http://', 'https://'], '', $appdomain))) {
+            $isDomain = false;
+        }
+
+        if ($isDomain) {
+            $site = TenantSites::where([
+                'domain' => $host,
+                'status_domain' => 1
+            ])->first();
+        } else {
+            $site = TenantSites::where([
+                'subdomain' => $host,
+            ])->first();
+        }
 
         if (!$site) {
             return Redirect::to($appdomain);
+        }
+
+        $site->isDomain = $isDomain;
+        $site->hasRecaptcha = false;
+        if ($isDomain) {
+            $hasRecaptcha = @$site->recaptcha_key && @$site->recaptcha_secret_key;
+
+            if ($hasRecaptcha) {
+
+                config([
+                    'recaptcha.api_site_key' => $site->recaptcha_key,
+                    'recaptcha.api_secret_key' => $site->recaptcha_secret_key,
+                ]);
+            }
+
+            $site->hasRecaptcha = $hasRecaptcha;
         }
 
         $tenant = $site->tenant;

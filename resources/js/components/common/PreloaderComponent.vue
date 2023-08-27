@@ -9,7 +9,8 @@
 import { mapState, mapMutations } from "vuex";
 export default {
     data: () => ({
-        counter: 0
+        counter: 0,
+        loading:false
     }),
     computed: {
         ...mapState({
@@ -22,26 +23,30 @@ export default {
             setPreloader: "SET_PRELOADER",
             setTextPreloader: "SET_TEXT_PRELOADER"
         }),
+
+        stop() {
+            console.log('aqiu')
+        }
     },
     mounted() {
+        const that = this;
         window.axios.interceptors.request.use((config) => {
-            this.counter++;
-            this.setPreloader(true);
+            that.counter++;
+            that.setPreloader(true)
             return config
         }, function (error) {
-
-            this.setPreloader(false);
+            that.setPreloader(false)
             return Promise.reject(error)
         })
 
         window.axios.interceptors.response.use((response) => {
-            this.counter--;
-            if (this.counter == 0) {
-                this.setPreloader(false);
+            that.counter--;
+            if (that.counter == 0) {
+                that.setPreloader(false)
             }
             return response
         }, function (error) {
-            this.setPreloader(false);
+           that.setPreloader(false)
             return Promise.reject(error)
         })
     },

@@ -60,12 +60,29 @@ class SiteController extends Controller
     public function enable(Request $request)
     {
         $exist = $this->repository->first();
-        if ($exist) return Redirect::route('admin.site')->with('warning', 'A empresa já possui um site cadastrado');
+        if ($exist) {
+            return Redirect::route('admin.site')->with('warning', 'A empresa já possui um site cadastrado');
+        }
+
+        if (@$request->domain) {
+            if ($request->domain == env('APP_URL')) {
+                return Redirect::route('admin.site')->with('error', 'Operação não autorizada'); 
+            }
+
+            $res = $this->repository->where([
+                "domain" => $request->domain,
+                "status_domain" => 1
+            ])->first();
+
+            if ($res) {
+                return Redirect::route('admin.site')->with('warning', 'Já existe um site com esse dominio registrado e ativo');
+            }
+        }
 
         $tenant = Tenant::find(Auth::user()->tenant_id);
 
         $data = [
-            'domain' => null,
+            'domain' => @$request->domain ?? null,
             'subdomain' => str_replace('-', '', $tenant->url) . '.' . request()->getHttpHost(),
             'maintence' => 1,
             'status' => 0

@@ -11,5 +11,5 @@ class Site extends Model
     use TenantTrait;
     use HasFactory;
 
-    protected $fillable = ['domain', 'subdomain', 'data', 'maintence', 'status'];
+    protected $fillable = ['domain', 'subdomain', 'data', 'maintence', 'status', 'status_domain'];
 }

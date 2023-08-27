@@ -62,7 +62,8 @@ return [
      * @since v3.2.0
      *
      */
-    'default_validation_route'     => 'biscolab-recaptcha/validate',
+    // 'default_validation_route'     => 'biscolab-recaptcha/validate',
+    'default_validation_route'     => 'recaptcha-validate',
 
     /**
      *

@@ -291,6 +291,12 @@ ul.cloud a:hover::before {
     border-color: #212529 !important;
 }
 
+.tutorial-image img {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    max-width: 80%;
+}
+
 @media (prefers-reduced-motion) {
     ul.cloud * {
         transition: none !important;
