@@ -11,11 +11,14 @@ class Tenant extends Model
 {
     use HasFactory;
 
+    const PF = 'F';
+    const PJ = 'J'; 
+
     protected $fillable = [
         'cnpj', 'plan_id', 'name', 'uid', 'url', 'email', 'logo',
         'address', 'zip_code', 'state', 'city', 'district', 'number',
         'active', 'subscription', 'expires_at', 'subscription_id', 'subscription_active', 'subscription_suspended',
-        'order_when_closed', 'open', 'mobile_phone', 'data'
+        'order_when_closed', 'open', 'mobile_phone', 'data', 'type'
     ];
 
 

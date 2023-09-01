@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateTenant;
 use App\Models\Plan;
 use App\Services\TenantService;
+use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -53,9 +54,11 @@ class SubscriptionsController extends Controller
 
             DB::commit();
             return redirect()->route('login')->with('success', 'Registro efetuado com sucesso');
-        } catch (ModelNotFoundException $exception) {
+        } catch (Exception $e) {
             DB::rollback();
-            return Redirect::route('admin.tenants')->with('error', 'Houve na operação, tente mais tarde');
+            return Redirect::back()
+                ->with('error', $e->getMessage())
+                ->withInput($request->except('password'));
         }
     }
 }
