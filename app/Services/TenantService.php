@@ -122,14 +122,35 @@ class TenantService
             throw new Exception('Já existe um cadastro com as credênciais informadas');
         }
 
+        if($this->data['type'] == Tenant::PF) {
+            if(! validaCPF($this->data['cnpj'])) {
+                throw new Exception('Informe um CPF válido.');
+            }
+        }
+
+        if($this->data['type'] == Tenant::PJ) {
+            if(! validaCNPJ($this->data['cnpj'])) {
+                throw new Exception('Informe um CNPJ válido.');
+            }
+        }
+
         $cnpj_is_valid = validaCNPJ($this->data['cnpj']);
-        if (!$cnpj_is_valid) {
-            throw new Exception('O CNPJ informado é inválido');
+        if (! $cnpj_is_valid) {
+            throw new Exception('O CNPJ informado é inválido.');
         }
 
         $exist = User::where('email', $this->data['email'])->first();
         if ($exist) {
-            throw new Exception('Já existe um cadastro com as credênciais informadas');
+            throw new Exception('Já existe um cadastro com as credênciais informadas.');
+        }
+
+        $name = explode(" ", $this->data['name']);
+        if(sizeof($name) < 2) {
+            throw new Exception('Informe o nome e sobrenome');
+        }else {
+            if(strlen($name[0]) < 3) {
+                throw new Exception('O Nome deve ter pelo menos 3 caracteres.');
+            }
         }
     }
 
