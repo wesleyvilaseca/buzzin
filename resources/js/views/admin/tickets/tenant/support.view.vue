@@ -180,13 +180,14 @@ export default {
             this.modal = 'block';
         },
         showModalConversation(state, id = null) {
-            if (!state) {
-                this.conversationId = "";
-                this.modalConvesation = 'none';
-                return;
-            }
-            this.conversationId = id;
-            this.modalConvesation = 'block';
+            // if (!state) {
+            //     this.conversationId = "";
+            //     this.modalConvesation = 'none';
+            //     return;
+            // }
+            // this.conversationId = id;
+            // this.modalConvesation = 'block';
+            window.location.href = `/admin-tenant-tickets/${id}/ticket`;
         },
         newSuport() {
             this.validateForm();

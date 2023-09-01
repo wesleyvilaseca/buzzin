@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TicketResource;
 use App\Http\Resources\TicketsResource;
 use App\Models\TenantSites;
 use App\Models\Ticket;
@@ -62,7 +63,7 @@ class TenantTicketsController extends Controller
             TicketConversation::create([
                 'ticket_id' => $res->id,
                 'message' => $request->message,
-                'sender_user_id' => Auth::user()->id,
+                'user_id' => Auth::user()->id,
                 'created_by_tenant' => 1,
             ]);
             DB::commit();
@@ -70,5 +71,35 @@ class TenantTicketsController extends Controller
             DB::rollBack();
             return response()->json(['message' => 'Houve um erro na requisição, tente novamento', 'detail' => $e->getMessage()], 400);
         }
+    }
+
+    /**
+     * para usar na api
+     */
+    public function show($id)
+    {
+        $ticket = Ticket::find($id);
+        if (!$ticket) {
+            return redirect()->back()->with('error', 'operação não autorizada');
+        }
+
+        $data['title']              = 'Detalhes do ticket';
+        $data['toptitle']           = 'Detalhes do ticket';
+        $data['ticketid']           = $id;
+
+        return view('admin.tenant-tickets.conversation', $data);
+    }
+
+    public function getTicket($id)
+    {
+
+        $ticket = Ticket::find($id);
+        if (! $ticket) {
+            return response()->json(['msg' => "not found"], 404);
+        }
+
+        $conversation = TicketConversation::where('ticket_id', $ticket->id)->get();
+
+        return TicketResource::collection($conversation);
     }
 }

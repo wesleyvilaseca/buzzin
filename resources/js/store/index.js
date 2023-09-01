@@ -8,6 +8,7 @@ import cart from './cart';
 import layout from './layout';
 import maintence from './maintence';
 import auth from './auth';
+import ticket from './ticket';
 
 export default createStore({
     modules: {
@@ -19,6 +20,7 @@ export default createStore({
         cart,
         layout,
         maintence,
-        auth
+        auth,
+        ticket
     }
 })

@@ -364,6 +364,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('admin-tenant-tickets')->group(function () {
             Route::get('/',         [TenantTicketsController::class, 'index'])->name('admin.tenant.tickets');
+            Route::get('/{id}/ticket',     [TenantTicketsController::class, 'show'])->name('admin.tenant.tickets.show');
         });
     });
 });

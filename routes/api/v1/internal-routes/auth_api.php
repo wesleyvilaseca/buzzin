@@ -18,7 +18,8 @@ Route::group([
      * tickets routes
      */
     Route::get('/my-tickets',   [TenantTicketsController::class, 'getAll'])->middleware(['auth']);
-    Route::post('/new-ticket',    [TenantTicketsController::class, 'store'])->middleware(['auth']);
+    Route::get('/{id}/ticket',  [TenantTicketsController::class, 'getTicket'])->middleware(['auth']);
+    Route::post('/new-ticket',  [TenantTicketsController::class, 'store'])->middleware(['auth']);
 
     /**
      * admis-subscription
