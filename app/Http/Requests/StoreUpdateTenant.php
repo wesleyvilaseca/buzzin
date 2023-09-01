@@ -28,11 +28,11 @@ class StoreUpdateTenant extends FormRequest
             'name'  => ['required', 'string', 'max:255'],
             // 'tenant_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
-            // 'address' => ['required', 'string', 'max:255'],
-            // 'zip_code' => ['required', 'string', 'max:10'],
-            // 'state' => ['required', 'string', 'max:10'],
-            // 'city' => ['required', 'string', 'max:45'],
-            // 'district' => ['required', 'string', 'max:45'],
+            'address' => ['required', 'string', 'max:255'],
+            'zip_code' => ['required', 'string', 'max:10'],
+            'state' => ['required', 'string', 'max:10'],
+            'city' => ['required', 'string', 'max:45'],
+            'district' => ['required', 'string', 'max:45'],
             // 'password' => ['required', 'string', 'min:8']
         ];
     }
