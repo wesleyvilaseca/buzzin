@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\TablesController;
 use App\Http\Controllers\Api\TenantController;
 use App\Http\Controllers\Api\Auth\OrderController;
 use App\Http\Controllers\Api\Auth\PaymentIntegration\MercadoPagoController;
+use App\Http\Controllers\Api\FindCepController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/register', [RegisterController::class, 'store']);
@@ -35,6 +36,8 @@ Route::group([
     'prefix' => 'v1',
     'namespace' => 'Api'
 ], function () {
+    Route::get('/getcep/{cep}', [FindCepController::class, 'getCep']);
+
     Route::get('/tenants', [TenantController::class, 'index']);
     Route::get('/tenants/{uuid}', [TenantController::class, 'show']);
     Route::get('/tenants-by-flag/{flag}', [TenantController::class, 'showByFlag']);
