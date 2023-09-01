@@ -90,9 +90,17 @@ class TenantService
         $tenant->expires_at =  @$this->data['expires_at'];
         $tenant->subscription_active = @$this->data['subscription_active'];
         $tenant->subscription_id = @$this->data['subscription_id'];
+        $tenant->address =  @$this->data['address'];
+        $tenant->zip_code = @$this->data['zip_code'];
+        $tenant->state =  @$this->data['state'];
+        $tenant->city =  @$this->data['city'];
+        $tenant->district =  @$this->data['district'];
+        $tenant->number =  @$this->data['number'];
+
         if (@$this->data['logo']) {
             $tenant->logo = $this->data['logo'];
         }
+
         $tenant = $tenant->update();
 
         if (!$tenant) {
@@ -122,20 +130,20 @@ class TenantService
             throw new Exception('Já existe um cadastro com as credênciais informadas');
         }
 
-        if($this->data['type'] == Tenant::PF) {
-            if(! validaCPF($this->data['cnpj'])) {
+        if ($this->data['type'] == Tenant::PF) {
+            if (!validaCPF($this->data['cnpj'])) {
                 throw new Exception('Informe um CPF válido.');
             }
         }
 
-        if($this->data['type'] == Tenant::PJ) {
-            if(! validaCNPJ($this->data['cnpj'])) {
+        if ($this->data['type'] == Tenant::PJ) {
+            if (!validaCNPJ($this->data['cnpj'])) {
                 throw new Exception('Informe um CNPJ válido.');
             }
         }
 
         $cnpj_is_valid = validaCNPJ($this->data['cnpj']);
-        if (! $cnpj_is_valid) {
+        if (!$cnpj_is_valid) {
             throw new Exception('O CNPJ informado é inválido.');
         }
 
@@ -145,10 +153,10 @@ class TenantService
         }
 
         $name = explode(" ", $this->data['name']);
-        if(sizeof($name) < 2) {
+        if (sizeof($name) < 2) {
             throw new Exception('Informe o nome e sobrenome');
-        }else {
-            if(strlen($name[0]) < 3) {
+        } else {
+            if (strlen($name[0]) < 3) {
                 throw new Exception('O Nome deve ter pelo menos 3 caracteres.');
             }
         }
@@ -163,6 +171,12 @@ class TenantService
                 'cnpj' => @$data['cnpj'],
                 'name' => @$data['tenant_name'],
                 'email' => @$data['email'],
+                'address' => @$data['address'],
+                'zip_code' => @$data['zip_code'],
+                'state' => @$data['state'],
+                'city' => @$data['city'],
+                'district' => @$data['district'],
+                'number' => @$data['number'],
                 'subscription' => !empty($data['subscription']) ? $data['subscription'] : now(),
                 'expires_at' => !empty($data['expires_at']) ? $data['expires_at'] : now()->addDay(7),
                 'subscription_active' =>  1
