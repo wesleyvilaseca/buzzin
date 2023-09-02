@@ -14,6 +14,10 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     use UserACLTrait;
+    
+    const IS_INTERNAL = 'Y';
+    const NOT_INTERNAL = 'N';
+
 
     /**
      * The attributes that are mass assignable.

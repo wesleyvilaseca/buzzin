@@ -53,7 +53,7 @@ trait UserACLTrait
 
     public function hasPermission(string $permissionName): bool
     {
-        if(!$this->internal) {
+        if($this->internal == User::NOT_INTERNAL) {
             return in_array($permissionName, $this->permissions());
         }
 
