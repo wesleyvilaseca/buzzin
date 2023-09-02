@@ -34,7 +34,7 @@ class TenantTicketsController extends Controller
 
     public function getAll()
     {
-        $data = $this->repository->where('tenant_id', Auth::user()->tenant_id)->get();
+        $data = $this->repository->where('tenant_id', Auth::user()->tenant_id)->latest()->get();
         return response()->json(TicketsResource::collection($data));
     }
 

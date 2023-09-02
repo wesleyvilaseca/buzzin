@@ -28,6 +28,7 @@ use App\Http\Controllers\Web\Admin\TenantController;
 use App\Http\Controllers\Web\Admin\TenantShippingController;
 use App\Http\Controllers\Web\Admin\TenantSiteAdministrationController;
 use App\Http\Controllers\Web\Admin\TenantTicketsController;
+use App\Http\Controllers\Web\Admin\TicketsController;
 use App\Http\Controllers\Web\Admin\TransactionsController;
 use App\Http\Controllers\Web\Admin\UserController;
 use App\Http\Controllers\Web\Admin\ZonesGeolocationController;
@@ -365,6 +366,11 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('admin-tenant-tickets')->group(function () {
             Route::get('/',         [TenantTicketsController::class, 'index'])->name('admin.tenant.tickets');
             Route::get('/{id}/ticket',     [TenantTicketsController::class, 'show'])->name('admin.tenant.tickets.show');
+        });
+
+        Route::prefix('admin-tickets')->group(function () {
+            Route::get('/',         [TicketsController::class, 'index'])->name('admin.tickets');
+            Route::get('/{id}/ticket',     [TicketsController::class, 'show'])->name('admin.tickets.show');
         });
     });
 });

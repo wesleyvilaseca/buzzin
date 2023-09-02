@@ -5,6 +5,7 @@ use App\Http\Controllers\Web\Admin\SubscriptionController;
 use App\Http\Controllers\Web\Admin\TransactionNotificationController;
 use App\Http\Controllers\Web\Admin\PaymentIntegration\MercadoPagoIntegrationController;
 use App\Http\Controllers\Web\Admin\TenantTicketsController;
+use App\Http\Controllers\Web\Admin\TicketsController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -20,6 +21,9 @@ Route::group([
     Route::get('/my-tickets',   [TenantTicketsController::class, 'getAll'])->middleware(['auth']);
     Route::get('/{id}/ticket',  [TenantTicketsController::class, 'getTicket'])->middleware(['auth']);
     Route::post('/new-ticket',  [TenantTicketsController::class, 'store'])->middleware(['auth']);
+
+    Route::get('/tickets',              [TicketsController::class, 'getAllSupport'])->middleware(['auth']);
+    Route::get('/{id}/ticket-support',  [TicketsController::class, 'getTicket'])->middleware(['auth']);
 
     /**
      * admis-subscription

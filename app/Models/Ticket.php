@@ -15,4 +15,9 @@ class Ticket extends Model
     {
         return $this->belongsTo(Tenant::class, 'tenant_id', 'id');
     }
+
+    public function attendant()
+    {
+        return $this->belongsTo(User::class, 'attendance_user_id', 'id');
+    }
 }

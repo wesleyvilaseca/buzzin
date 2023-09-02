@@ -8,6 +8,13 @@ const actions = {
             })
     },
 
+    getTicketSupport({ commit }, id) {
+        return axios.get(`/api/v1/${id}/ticket-support`)
+            .then(res => {
+                commit('SET_TICKET', res.data)
+            })
+    },
+
 }
 
 export default actions;

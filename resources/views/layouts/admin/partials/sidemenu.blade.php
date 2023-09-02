@@ -18,8 +18,8 @@
                     </li>
 
                     @can('support')
-                        <li class="">
-                            <a href="#">
+                        <li class="{{ @$ticket_support ? 'ativo' : '' }}">
+                            <a href="{{ route('admin.tickets') }}">
                                 <i class="fa-brands fa-font-awesome"></i>
                                 <span>Suporte</span>
                             </a>
