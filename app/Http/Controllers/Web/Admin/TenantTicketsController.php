@@ -94,11 +94,23 @@ class TenantTicketsController extends Controller
     {
 
         $ticket = Ticket::find($id);
-        if (! $ticket) {
+        if (!$ticket) {
             return response()->json(['msg' => "not found"], 404);
         }
 
         $conversation = TicketConversation::where('ticket_id', $ticket->id)->get();
+
+        $hasNoVisualizedMessage = $conversation
+            ->where('user_id', "!=", Auth::user()->id)
+            ->where('visualised', '=', 0)->all();
+
+        if (sizeof($hasNoVisualizedMessage) > 0) {
+            TicketConversation::where([
+                ['ticket_id', '=', $ticket->id],
+                ['user_id', '!=', Auth::user()->id]
+            ])
+                ->update(['visualised' => 1]);
+        }
 
         return TicketResource::collection($conversation);
     }

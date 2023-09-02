@@ -1,8 +1,8 @@
 <template>
     <section class="chatbox">
-        <section class="chat-window pt-2" v-for="(msg, index) in conversation.data" :key="index">
-            <template v-if="msg.created_by_tenant">
-                <article class="msg-container msg-self" id="msg-0">
+        <section class="chat-window pt-2">
+            <template v-for="(msg, index) in conversation.data" :key="index">
+                <article class="msg-container msg-remote" id="msg-0" v-if="msg.created_by_tenant">
                     <div class="msg-box">
                         <div class="flr">
                             <div class="messages">
@@ -17,9 +17,7 @@
                             src="//gravatar.com/avatar/56234674574535734573000000000001?d=retro" />
                     </div>
                 </article>
-            </template>
-            <template v-else>
-                <article class="msg-container msg-remote" id="msg-0">
+                <article class="msg-container msg-self" id="msg-0" v-else>
                     <div class="msg-box">
                         <img class="user-img" id="user-0"
                             src="//gravatar.com/avatar/00034587632094500000000000000000?d=retro" />
@@ -32,7 +30,6 @@
                         </div>
                     </div>
                 </article>
-
             </template>
         </section>
         <form class="chat-input" onsubmit="return false;">
@@ -78,12 +75,12 @@ export default {
         }),
     },
     mounted() {
-        this.getTicket(this.ticketid).then(() => {
+        this.getTicketSupport(this.ticketid).then(() => {
             console.log(this.conversation)
         })
     },
     methods: {
-        ...mapActions(["getTicket"]),
+        ...mapActions(["getTicketSupport"]),
     }
 }
 </script>

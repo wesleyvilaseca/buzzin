@@ -8,6 +8,7 @@ use App\Http\Resources\TicketsResource;
 use App\Models\Ticket;
 use App\Models\TicketConversation;
 use Illuminate\Support\Facades\Auth;
+
 class TicketsController extends Controller
 {
     private $repository;
@@ -58,6 +59,12 @@ class TicketsController extends Controller
             return redirect()->back()->with('error', 'operação não autorizada');
         }
 
+        if (!$ticket->attendance_user_id) {
+            $ticket->attendance_user_id = Auth::user()->id;
+            $ticket->status = 1;
+            $ticket->update();
+        }
+
         $data['title']              = 'Detalhes do ticket';
         $data['toptitle']           = 'Detalhes do ticket';
         $data['ticketid']           = $id;
@@ -75,6 +82,18 @@ class TicketsController extends Controller
         }
 
         $conversation = TicketConversation::where('ticket_id', $ticket->id)->get();
+
+        $hasNoVisualizedMessage = $conversation
+            ->where('user_id', "!=", Auth::user()->id)
+            ->where('visualised', '=', 0)->all();
+
+        if (sizeof($hasNoVisualizedMessage) > 0) {
+            TicketConversation::where([
+                ['ticket_id', '=', $ticket->id],
+                ['user_id', '!=', Auth::user()->id]
+            ])
+                ->update(['visualised' => 1]);
+        }
 
         return TicketResource::collection($conversation);
     }

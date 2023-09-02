@@ -80,7 +80,10 @@ export default {
             axios.get('/api/v1/tickets')
                 .then(response => this.tickets = response.data)
                 .catch(error => alert('error'))
-        }
+        },
+        showModalConversation(state, id = null) {
+            window.location.href = `/admin-tickets/${id}/ticket`;
+        },
     }
 }
 </script>
