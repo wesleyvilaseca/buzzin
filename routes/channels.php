@@ -18,12 +18,14 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-// Broadcast::channel('product-created.{tenantId}', function ($user, $tenantId) {
-//         // return $user->tenant_id === $tenantId;
-//         return true;
-// });
-
 Broadcast::channel('order-created.{tenantId}', function ($user, $tenantId) {
     return $user->tenant_id == $tenantId;
-    // return true;
+});
+
+Broadcast::channel('message-ticket-support-created.{userId}', function ($user, $userId) {
+    return $user->id == $userId;
+});
+
+Broadcast::channel('message-ticket-tenant-created.{userId}', function ($user, $userId) {
+    return $user->id == $userId;
 });
