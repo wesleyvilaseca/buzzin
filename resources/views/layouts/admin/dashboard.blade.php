@@ -28,6 +28,7 @@
         let w = window.innerWidth;
         window.Laravel = {!! json_encode([
             'tenantId' => auth()->check() ? auth()->user()->tenant_id : '',
+            'user_id' => auth()->check() ? auth()->user()->id : '',
         ]) !!}
     </script>
 </head>

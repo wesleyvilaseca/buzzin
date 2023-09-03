@@ -6,12 +6,15 @@
                     {{ Auth::user()->name }}
                 </a>
             </li> --}}
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin.tenant.tickets') }}">
-                    <i class="fa-regular fa-circle-question me-2"></i>
-                    Suporte
-                </a>
-            </li> 
+            @if (Auth::user()->internal == 'N')
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.tenant.tickets') }}">
+                        <i class="fa-regular fa-circle-question me-2"></i>
+                        Suporte
+                    </a>
+                </li>
+            @endif
+
         </ul>
         <form action="{{ route('tenant.open') }}" method="POST" class="form form-inline">
             @csrf
@@ -20,8 +23,8 @@
                 <div class="form-group mt-2" align="center">
                     <button type="submit"
                         class="btn btn-sm btn-{{ Request::session()->get('open') == 'N' ? 'success' : 'danger' }}">
-                        @if ( Auth::user()->tenant->open == 'N')
-                        <i class="fa-sharp fa-solid fa-door-open"></i> Abrir
+                        @if (Auth::user()->tenant->open == 'N')
+                            <i class="fa-sharp fa-solid fa-door-open"></i> Abrir
                         @else
                             <i class="fa-sharp fa-solid fa-door-closed"></i> Fechar
                         @endif

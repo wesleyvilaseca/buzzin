@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\Admin;
 
+use App\Events\MessageTicketTenantCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TicketResource;
 use App\Http\Resources\TicketsResource;
@@ -35,6 +36,19 @@ class TenantTicketsController extends Controller
     public function getAll()
     {
         $data = $this->repository->where('tenant_id', Auth::user()->tenant_id)->latest()->get();
+        return response()->json(TicketsResource::collection($data));
+    }
+
+    public function getAllByTenant()
+    {
+        $data = $this->repository
+            ->where([
+                'status' => 1,
+                'tenant_id' => Auth::user()->tenant_id
+            ])
+            ->latest()
+            ->paginate(15);
+
         return response()->json(TicketsResource::collection($data));
     }
 
@@ -113,5 +127,41 @@ class TenantTicketsController extends Controller
         }
 
         return TicketResource::collection($conversation);
+    }
+
+    public function sendMessage(Request $request)
+    {
+
+        $validate = Validator::make($request->all(), [
+            'ticket_id' => ['required'],
+            'message' => ['required'],
+            'attendance_user_id' => ['required']
+        ]);
+
+        if ($validate->fails()) {
+            return response()->json((object) ["errors" => $validate->errors()], 400);
+        }
+
+        DB::beginTransaction();
+        try {
+            $ticket = Ticket::find($request->ticket_id);
+            if (!$ticket) {
+                return response()->json(['msg' => "not found"], 404);
+            }
+
+            $conversation = TicketConversation::create([
+                'ticket_id' => $request->ticket_id,
+                'message' => $request->message,
+                'created_by_tenant' => 1,
+                'user_id' => Auth::user()->id
+            ]);
+
+            broadcast(new MessageTicketTenantCreated($conversation, $request->attendance_user_id));
+            DB::commit();
+            return new TicketResource($conversation);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Houve um erro na requisição, tente novamento', 'detail' => $e->getMessage()], 404);
+        }
     }
 }

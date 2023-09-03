@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers\Web\Admin;
 
+use App\Events\MessageTicketSupportCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TicketResource;
 use App\Http\Resources\TicketsResource;
 use App\Models\Ticket;
 use App\Models\TicketConversation;
+use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class TicketsController extends Controller
 {
@@ -34,6 +39,7 @@ class TicketsController extends Controller
         $data = $this->repository
             ->where('status', 0)
             ->orWhere('attendance_user_id', Auth::user()->id)
+            ->latest()
             ->paginate(15);
 
         return response()->json(TicketsResource::collection($data));
@@ -44,6 +50,7 @@ class TicketsController extends Controller
         $data = $this->repository
             ->where('status', 1)
             ->where('attendance_user_id', Auth::user()->id)
+            ->latest()
             ->paginate(15);
 
         return response()->json(TicketsResource::collection($data));
@@ -96,5 +103,41 @@ class TicketsController extends Controller
         }
 
         return TicketResource::collection($conversation);
+    }
+
+    public function sendMessage(Request $request, $id)
+    {
+
+        $validate = Validator::make($request->all() , [
+            'ticket_id' => ['required'],
+            'message' => ['required'],
+            'tenant_user_id' => ['required']
+        ]);
+
+        if ($validate->fails()) {
+            return response()->json((object) ["errors" => $validate->errors()], 400);
+        }
+
+        DB::beginTransaction();
+        try {
+            $ticket = Ticket::find($request->ticket_id);
+            if (!$ticket) {
+                return response()->json(['msg' => "not found"], 404);
+            }
+    
+            $conversation = TicketConversation::create([
+                'ticket_id' => $request->ticket_id,
+                'message' => $request->message,
+                'created_by_tenant' => 0,
+                'user_id' => Auth::user()->id
+            ]);
+
+            broadcast(new MessageTicketSupportCreated($conversation, $request->tenant_user_id));
+            DB::commit();
+            return new TicketResource($conversation);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Houve um erro na requisição, tente novamento', 'detail' => $e->getMessage()], 404);
+        }
     }
 }
