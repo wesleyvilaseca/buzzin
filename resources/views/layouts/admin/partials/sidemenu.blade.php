@@ -94,7 +94,9 @@
                             <a href="{{ route('orders.index') }}">
                                 <i class="fa-solid fa-cart-shopping position-relative">
                                     @php
-                                        $orders = Auth::user()->tenant->order->where('status', 'open')->count();
+                                        $orders = Auth::user()
+                                            ->tenant->order->where('status', 'open')
+                                            ->count();
                                     @endphp
                                     @if ($orders > 0)
                                         <span
@@ -108,12 +110,14 @@
                         </li>
                     @endcan
 
-                    <li class="{{ @$transactions ? 'ativo' : '' }}">
-                        <a href="{{ route('admin.transactions') }}">
-                            <i class="fa-solid fa-money-bill"></i>
-                            <span>Minhas transações</span>
-                        </a>
-                    </li>
+                    @if (Auth::user()->internal == 'N')
+                        <li class="{{ @$transactions ? 'ativo' : '' }}">
+                            <a href="{{ route('admin.transactions') }}">
+                                <i class="fa-solid fa-money-bill"></i>
+                                <span>Minhas transações</span>
+                            </a>
+                        </li>
+                    @endif
 
                     @can('tenants')
                         <li class="{{ @$ten ? 'ativo' : '' }}">

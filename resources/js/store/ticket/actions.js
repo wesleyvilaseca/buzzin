@@ -41,6 +41,14 @@ const actions = {
             .then((res) => {
                 commit('SET_NEW_MESSAGE_TICKET', res.data.data)
             })
+    },
+
+    closeTicketByTenant({ commit }, params) {
+        return axios.put(`/api/v1/${params.ticket_id}/ticket`, params, {});
+    },
+
+    closeTicketBySupport({ commit }, params) {
+        return axios.put(`/api/v1/${params.ticket_id}/ticket-support`, params, {});
     }
 
 }

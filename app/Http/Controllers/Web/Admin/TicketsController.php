@@ -73,8 +73,7 @@ class TicketsController extends Controller
         }
 
         $data['title']              = 'Detalhes do ticket';
-        $data['toptitle']           = 'Detalhes do ticket';
-        $data['ticketid']           = $id;
+        $data['ticket']           = $ticket;
         $data['ticket_support']     = true;
 
         return view('admin.tickets.conversation', $data);
@@ -105,10 +104,32 @@ class TicketsController extends Controller
         return TicketResource::collection($conversation);
     }
 
+    public function closeTicket(Request $request, $id)
+    {
+        $ticket = Ticket::find($id);
+        if (!$ticket) {
+            return response()->json(['msg' => "not found"], 404);
+        }
+
+        $ticket->status = Ticket::STATUS_CLOSE_BY_SUPPORT;
+        $res = $ticket->update();
+
+        if (!$res) {
+            return response()->json(['error' => 'erro na operação', 402]);
+        }
+
+        $lastConverSation = TicketConversation::where('ticket_id', $ticket->id)->latest()->first();
+        $lastConverSation->message = 'Ticket encessado pelo atendente';
+
+        broadcast(new MessageTicketSupportCreated($lastConverSation, $request->attendance_user_id));
+
+        return response()->json($res);
+    }
+
     public function sendMessage(Request $request, $id)
     {
 
-        $validate = Validator::make($request->all() , [
+        $validate = Validator::make($request->all(), [
             'ticket_id' => ['required'],
             'message' => ['required'],
             'tenant_user_id' => ['required']
@@ -124,7 +145,7 @@ class TicketsController extends Controller
             if (!$ticket) {
                 return response()->json(['msg' => "not found"], 404);
             }
-    
+
             $conversation = TicketConversation::create([
                 'ticket_id' => $request->ticket_id,
                 'message' => $request->message,

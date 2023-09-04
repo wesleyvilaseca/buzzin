@@ -21,21 +21,23 @@ function is_base64($s)
     return (bool) preg_match('/^[a-zA-Z0-9\/\r\n+]*={0,2}$/', $s);
 }
 
-function cript($value, $aces = 10) {
+function cript($value, $aces = 10)
+{
     $count = 0;
-    while(true) {
-        if($count == $aces) break;
+    while (true) {
+        if ($count == $aces) break;
         $value = base64_encode($value);
         $count++;
     }
     return strrev($value);
 }
 
-function decript($value, $aces = 10) {
+function decript($value, $aces = 10)
+{
     $value = strrev($value);
     $count = 0;
-    while(true) {
-        if($count == $aces) break;
+    while (true) {
+        if ($count == $aces) break;
         $value = base64_decode($value);
         $count++;
     }
@@ -187,7 +189,8 @@ function celular($telefone)
     }
 }
 
-function getImage(string $url = null, $isAdmFile = false) :string {
+function getImage(string $url = null, $isAdmFile = false): string
+{
     if (!$url) {
         return env('URL_API_FILES') . '/storage/public/default/no-image.png';
     }
@@ -1198,4 +1201,18 @@ function fa_icons()
         'fab fa-youtube' => 'youtube',
         'fab fa-youtube-square' => 'youtube-square',
     );
+}
+
+function maskCpfCnpj($val, $mask)
+{
+    $maskared = '';
+    $k = 0;
+    for ($i = 0; $i <= strlen($mask) - 1; $i++) {
+        if ($mask[$i] == '#') {
+            if (isset($val[$k])) $maskared .= $val[$k++];
+        } else {
+            if (isset($mask[$i])) $maskared .= $mask[$i];
+        }
+    }
+    return $maskared;
 }

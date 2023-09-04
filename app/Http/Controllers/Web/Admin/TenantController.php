@@ -211,7 +211,7 @@ class TenantController extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
-            return Redirect::route('admin.tenants')->with('warning', $e->getMessage());
+            return Redirect::back()->with('warning', $e->getMessage());
         }
 
         return Redirect::route('admin.tenants')->with('success', 'Empresa editado com sucesso');

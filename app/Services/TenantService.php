@@ -82,7 +82,18 @@ class TenantService
         $this->plan = $plan;
         $this->data = $data;
         $tenant = $this->getTenantById($id);
+        
+        if ($this->data['type'] == Tenant::PF) {
+            if (!validaCPF($this->data['cnpj'])) {
+                throw new Exception('Informe um CPF válido.');
+            }
+        }
 
+        if ($this->data['type'] == Tenant::PJ) {
+            if (!validaCNPJ($this->data['cnpj'])) {
+                throw new Exception('Informe um CNPJ válido.');
+            }
+        }
         $tenant->plan_id = $this->plan->id;
         $tenant->cnpj = @$this->data['cnpj'];
         $tenant->name = @$this->data['tenant_name'];

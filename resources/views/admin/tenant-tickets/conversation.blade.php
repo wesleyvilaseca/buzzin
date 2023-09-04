@@ -3,8 +3,18 @@
 @section('scripts-header')
 
     <style>
+        .top-chat {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+            background: #2f323b;
+            padding: 5px;
+        }
+
         .chatbox {
-            height: 80vh;
+            height: 72vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;

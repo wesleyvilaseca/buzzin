@@ -24,7 +24,8 @@ class TicketResource extends JsonResource
             'created_by_tenant' => $this->created_by_tenant,
             'user_id' => $this->user_id,
             'user_name' => $this->user->name,
-            'created_at' => Carbon::make($this->created_at)->format('Y-m-d h:i:s')
+            'status' => $this->ticket->status,
+            'created_at' => Carbon::make($this->created_at)->format('d-m-Y h:i:s')
         ];
     }
 }

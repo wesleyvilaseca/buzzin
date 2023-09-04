@@ -43,7 +43,6 @@ class TenantTicketsController extends Controller
     {
         $data = $this->repository
             ->where([
-                'status' => 1,
                 'tenant_id' => Auth::user()->tenant_id
             ])
             ->latest()
@@ -100,6 +99,8 @@ class TenantTicketsController extends Controller
         $data['title']              = 'Detalhes do ticket';
         $data['toptitle']           = 'Detalhes do ticket';
         $data['ticketid']           = $id;
+        $data['breadcrumb'][]       = ['route' => route('admin.tenant.tickets'), 'title' => 'Meus tickets'];
+        $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Ticket', 'active' => true];
 
         return view('admin.tenant-tickets.conversation', $data);
     }
@@ -127,6 +128,27 @@ class TenantTicketsController extends Controller
         }
 
         return TicketResource::collection($conversation);
+    }
+
+    public function closeTicket(Request $request, $id) {
+        $ticket = Ticket::find($id);
+        if (!$ticket) {
+            return response()->json(['msg' => "not found"], 404);
+        }
+
+        $ticket->status = Ticket::STATUS_CLOSE_BY_TENANT;
+        $res = $ticket->update();
+
+        if(! $res) {
+            return response()->json(['error' => 'erro na operação', 402]);
+        }
+
+        $lastConverSation = TicketConversation::where('ticket_id', $ticket->id)->latest()->first();
+        $lastConverSation->message = 'Ticket encessado pelo cliente';
+        
+        broadcast(new MessageTicketTenantCreated($lastConverSation, $request->attendance_user_id));
+
+        return response()->json($res);
     }
 
     public function sendMessage(Request $request)

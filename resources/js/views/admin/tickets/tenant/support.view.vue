@@ -64,14 +64,14 @@
                         </thead>
                         <tbody>
                             <template v-for="(ticket, index) in my_tickets.data" :key="index" v-if="my_tickets.data.length > 0">
-                                <tr v-if="ticket.status == 2">
+                                <tr v-if="ticket.status == 3 || ticket.status == 4">
                                     <td>{{ ticket.description }}</td>
                                     <td>
-                                        <template v-if="ticket.status == 0">
-                                            <span class="alert alert-warning p-1"> Em aberto</span>
+                                        <template v-if="ticket.status == 3">
+                                            <span class="alert alert-warning p-1"> Encerrado pelo usuário</span>
                                         </template>
-                                        <template v-if="ticket.status == 1">
-                                            <span class="alert alert-info p-1"> Em atendimento</span>
+                                        <template v-if="ticket.status == 4">
+                                            <span class="alert alert-info p-1"> Encerrado pelo atendente</span>
                                         </template>
                                     </td>
                                     <td>{{ ticket.created_at }}</td>
@@ -200,7 +200,9 @@ export default {
     },
     mounted() {
         this.getAll();
-        this.getTicketsByTenant();
+        this.getTicketsByTenant().then(() => {
+            console.log(this.my_tickets)
+        })
     },
     methods: {
         ...mapActions(["getTicketsByTenant"]),

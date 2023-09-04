@@ -24,11 +24,13 @@ Route::group([
     Route::get('/{id}/ticket',  [TenantTicketsController::class, 'getTicket'])->middleware(['auth']);
     Route::post('/{id}/ticket', [TenantTicketsController::class, 'sendMessage'])->middleware(['auth']);
     Route::get('/tickets-by-tenant', [TenantTicketsController::class, 'getAllByTenant'])->middleware(['auth']);
+    Route::put('/{id}/ticket', [TenantTicketsController::class, 'closeTicket'])->middleware(['auth']);
 
     Route::get('/tickets',              [TicketsController::class, 'getAllSupport'])->middleware(['auth']);
     Route::get('/{id}/ticket-support',  [TicketsController::class, 'getTicket'])->middleware(['auth']);
     Route::get('/tickets-by-attendant', [TicketsController::class, 'getAllByattendant'])->middleware(['auth']);
     Route::post('/{id}/ticket-support', [TicketsController::class, 'sendMessage'])->middleware(['auth']);
+    Route::put('/{id}/ticket-support', [TicketsController::class, 'closeTicket'])->middleware(['auth']);
 
     /**
      * admis-subscription
