@@ -21,7 +21,6 @@ class CreateUserNotifiesTable extends Migration
             $table->json('data')->nullable();
             $table->integer('type')->nullable();
             $table->integer('visualized')->default(0)->comment("0 - not visualized | 1 - vizualized");
-            $table->dateTime('last_seen')->nullable();
             $table->timestamps();
 
             $table->foreign('tenant_id')
