@@ -176,6 +176,7 @@
                     CNPJ: {{ maskCpfCnpj($ticket->tenant->cnpj, $ticket->tenant->type == 'F' ? '###.###.###-##' : '##.###.###/####-##');  }} <br>
                     Nome Empresa: {{ $ticket->tenant->name }} <br>
                     EmpresaId: {{ $ticket->tenant->id }} <br>
+                    Identificação do ticket: {{ $ticket->uuid }}
                 </div>
             </div>
         </div>

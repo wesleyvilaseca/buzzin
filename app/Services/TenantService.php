@@ -20,6 +20,7 @@ use Error;
 use Exception;
 use Grimzy\LaravelMysqlSpatial\Types\Point;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class TenantService
@@ -82,7 +83,7 @@ class TenantService
         $this->plan = $plan;
         $this->data = $data;
         $tenant = $this->getTenantById($id);
-        
+
         if ($this->data['type'] == Tenant::PF) {
             if (!validaCPF($this->data['cnpj'])) {
                 throw new Exception('Informe um CPF válido.');
@@ -326,5 +327,14 @@ class TenantService
         $siteExtensions = TenantSiteExtensions::where(['tenant_id' => $tenant->id, 'status' => 1])->get();
         $siteExtensions = TenantSiteExtensionsResource::collection($siteExtensions);
         return response()->json($siteExtensions, 200);
+    }
+
+    public function tenantUserIsOnline($user_id)
+    {
+        if(Cache::has('user-is-online-' . $user_id)) {
+            return true;
+        }
+
+        return false;
     }
 }

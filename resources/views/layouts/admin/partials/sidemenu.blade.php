@@ -20,7 +20,19 @@
                     @can('support')
                         <li class="{{ @$ticket_support ? 'ativo' : '' }}">
                             <a href="{{ route('admin.tickets') }}">
-                                <i class="fa-brands fa-font-awesome"></i>
+                                <i class="fa-brands fa-font-awesome position-relative">
+                                    @php
+                                        $tickets = DB::table('tickets')
+                                            ->where('status', 0)
+                                            ->count();
+                                    @endphp
+                                    @if ($tickets > 0)
+                                        <span
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger mt-0 ms-0">
+                                            {{ $tickets }}
+                                        </span>
+                                    @endif
+                                </i>
                                 <span>Suporte</span>
                             </a>
                         </li>
@@ -127,16 +139,6 @@
                             </a>
                         </li>
                     @endcan
-
-
-                    {{-- @can('tenant_payment')
-                        <li class="{{ @$_payment ? 'ativo' : '' }}">
-                            <a href="{{ route('admin.payments') }}">
-                                <i class="fa-solid fa-money-bill"></i>
-                                <span>Formas de pagamento</span>
-                            </a>
-                        </li>
-                    @endcan --}}
 
                     @can('config')
                         <li class="{{ @$_configuration ? 'ativo' : '' }}">

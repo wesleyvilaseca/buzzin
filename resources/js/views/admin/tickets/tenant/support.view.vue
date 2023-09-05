@@ -30,7 +30,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <template v-for="(ticket, index) in tickets" :key="index" v-if="tickets.length > 0">
+                            <template v-for="(ticket, index) in my_tickets.data" :key="index"
+                                v-if="my_tickets.data.length > 0">
                                 <tr v-if="ticket.status == 0 || ticket.status == 1">
                                     <td>{{ ticket.description }}</td>
                                     <td>
@@ -44,7 +45,16 @@
                                     <td>{{ ticket.created_at }}</td>
                                     <td>
                                         <a href="#" @click.prevent="showModalConversation(true, ticket.id)"
-                                            class="btn btn-info btn-sm"><i class="fa-solid fa-eye"></i></a>
+                                            class="btn btn-info btn-sm">
+                                            <i class="fa-solid fa-eye position-relative">
+                                                <span
+                                                    class="ms-2 position-absolute start-100 translate-middle badge rounded-pill bg-danger"
+                                                    v-if="ticket.not_visualized_message > 0"
+                                                    >
+                                                    {{ ticket.not_visualized_message }}
+                                                </span>
+                                            </i>
+                                        </a>
                                     </td>
                                 </tr>
                             </template>
@@ -63,7 +73,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <template v-for="(ticket, index) in my_tickets.data" :key="index" v-if="my_tickets.data.length > 0">
+                            <template v-for="(ticket, index) in my_tickets.data" :key="index"
+                                v-if="my_tickets.data.length > 0">
                                 <tr v-if="ticket.status == 3 || ticket.status == 4">
                                     <td>{{ ticket.description }}</td>
                                     <td>
@@ -197,12 +208,17 @@ export default {
         ...mapState({
             my_tickets: (state) => state.ticket.my_tickets
         }),
+        hasNotVizualizedMessages() {
+            const objetoEncontrado = this.my_tickets?.data?.find(objeto => objeto.not_visualized_message > 0);
+            if (objetoEncontrado) {
+                return true;
+            }
+
+            return false;
+        }
     },
     mounted() {
-        this.getAll();
-        this.getTicketsByTenant().then(() => {
-            console.log(this.my_tickets)
-        })
+        this.getTicketsByTenant();
     },
     methods: {
         ...mapActions(["getTicketsByTenant"]),
@@ -250,18 +266,13 @@ export default {
 
             this.canStoreTicket = true;
         },
-        getAll() {
-            axios.get('/api/v1/my-tickets')
-                .then(response => this.tickets = response.data)
-                .catch(error => alert('error'))
-        },
         reset() {
             this.canStoreTicket = false;
             this.errors = { ticket_type_id: "", description: "", message: "" }
         },
         resetForm() {
             this.form = { ticket_type_id: "", description: "", message: "" }
-        }
+        },
     }
 }
 </script>

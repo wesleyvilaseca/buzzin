@@ -26,4 +26,9 @@ class Ticket extends Model
     {
         return $this->belongsTo(User::class, 'attendance_user_id', 'id');
     }
+
+    public function conversation() 
+    {
+        return $this->hasMany(TicketConversation::class, 'ticket_id', 'id');
+    }
 }

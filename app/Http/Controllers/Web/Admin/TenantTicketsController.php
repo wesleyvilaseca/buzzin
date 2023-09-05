@@ -9,6 +9,7 @@ use App\Http\Resources\TicketsResource;
 use App\Models\TenantSites;
 use App\Models\Ticket;
 use App\Models\TicketConversation;
+use App\Services\NotifyService;
 use Exception;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
@@ -19,10 +20,12 @@ use Illuminate\Support\Facades\DB;
 class TenantTicketsController extends Controller
 {
     private $repository;
+    private $notifyService;
 
-    public function __construct(Ticket $repository)
+    public function __construct(Ticket $repository, NotifyService $notifyService)
     {
         $this->repository = $repository;
+        $this->notifyService = $notifyService;
     }
 
     public function index()
@@ -30,13 +33,9 @@ class TenantTicketsController extends Controller
         $data['title']              = 'Suporte';
         $data['toptitle']           = 'Suporte';
 
-        return view('admin.tenant-tickets.index', $data);
-    }
+        $this->notifyService->ticketNotifyVisualized();
 
-    public function getAll()
-    {
-        $data = $this->repository->where('tenant_id', Auth::user()->tenant_id)->latest()->get();
-        return response()->json(TicketsResource::collection($data));
+        return view('admin.tenant-tickets.index', $data);
     }
 
     public function getAllByTenant()
@@ -117,14 +116,14 @@ class TenantTicketsController extends Controller
 
         $hasNoVisualizedMessage = $conversation
             ->where('user_id', "!=", Auth::user()->id)
-            ->where('visualised', '=', 0)->all();
+            ->where('visualized', '=', 0)->all();
 
         if (sizeof($hasNoVisualizedMessage) > 0) {
             TicketConversation::where([
                 ['ticket_id', '=', $ticket->id],
                 ['user_id', '!=', Auth::user()->id]
             ])
-                ->update(['visualised' => 1]);
+                ->update(['visualized' => 1]);
         }
 
         return TicketResource::collection($conversation);
@@ -177,6 +176,12 @@ class TenantTicketsController extends Controller
                 'created_by_tenant' => 1,
                 'user_id' => Auth::user()->id
             ]);
+
+            TicketConversation::where([
+                ['ticket_id', '=', $ticket->id],
+                ['user_id', '!=', Auth::user()->id]
+            ])
+            ->update(['visualized' => 1]);
 
             broadcast(new MessageTicketTenantCreated($conversation, $request->attendance_user_id));
             DB::commit();
