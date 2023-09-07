@@ -86,7 +86,7 @@
                         Na área de criação de modelos de mensagem, click em "Criar modelo"
                     </p>
                     <div class="tutorial-image" align="center">
-                        <img src="{{ getImage('como-criar-template-meta/meta-template-1.png', true) }}" alt="">
+                        <img src="{{ getFileLink('como-criar-template-meta/meta-template-1.png', true) }}" alt="">
                     </div>
 
                     <h4 class="pt-2">
@@ -109,7 +109,7 @@
                         </b>
 
                     <div class="tutorial-image" align="center">
-                        <img src="{{ getImage('como-criar-template-meta/meta-template-2.png', true) }}" alt="">
+                        <img src="{{ getFileLink('como-criar-template-meta/meta-template-2.png', true) }}" alt="">
                     </div>
 
                     <h4 class="pt-2">
@@ -122,11 +122,11 @@
                         Na tela seguinte, o cabeçalho deve ser uma <b>mídia</b> do <b>tipo documento</b>, pois, é nesse
                         documento que será mostrado os detalhes da venda e os dados do cliente. No exemplo do conteudo
                         utilize
-                        <a href=" {{ getImage('como-criar-template-meta/saída.pdf', true) }}" target="_blank">esse
+                        <a href=" {{ getFileLink('como-criar-template-meta/saída.pdf', true) }}" target="_blank">esse
                             modelo</a>
                     </p>
                     <div class="tutorial-image" align="center">
-                        <img src="{{ getImage('como-criar-template-meta/meta-template-3.png', true) }}" alt="">
+                        <img src="{{ getFileLink('como-criar-template-meta/meta-template-3.png', true) }}" alt="">
                     </div>
 
                     <h5 class="pt-5 ps-2">
@@ -140,7 +140,7 @@
                             value="Olá {{ 1 }}, uma venda acaba de ser finalizada! As informações de entrega estão no documento em anexo :)">
                     </div>
                     <div class="tutorial-image" align="center">
-                        <img src="{{ getImage('como-criar-template-meta/meta-template-4.png', true) }}" alt="">
+                        <img src="{{ getFileLink('como-criar-template-meta/meta-template-4.png', true) }}" alt="">
                     </div>
 
                     <h5 class="pt-5 ps-2">
@@ -163,7 +163,7 @@
                     </div>
 
                     <div class="tutorial-image" align="center">
-                        <img src="{{ getImage('como-criar-template-meta/meta-template-5.png', true) }}" alt="">
+                        <img src="{{ getFileLink('como-criar-template-meta/meta-template-5.png', true) }}" alt="">
                     </div>
 
                     <p class="pt-5 ps-5">

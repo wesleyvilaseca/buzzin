@@ -33,7 +33,7 @@
                     @foreach ($tenants as $tenant)
                         <tr>
                             <td>
-                                <img src="{{ $tenant->logo ? getImage($tenant->logo) : asset('images/no-image.png') }}" alt="{{ $tenant->name }}"
+                                <img src="{{ $tenant->logo ? getFileLink($tenant->logo) : asset('images/no-image.png') }}" alt="{{ $tenant->name }}"
                                     style="max-width: 90px;">
                             </td>
                             <td>{{ $tenant->name }}</td>

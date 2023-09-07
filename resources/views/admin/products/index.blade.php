@@ -33,7 +33,7 @@
                     @foreach ($products as $product)
                         <tr>
                             <td>
-                                <img src="{{ getImage($product->image) }}" alt="{{ $product->title }}"
+                                <img src="{{ getFileLink($product->image) }}" alt="{{ $product->title }}"
                                     style="max-width: 90px;">
                             </td>
                             <td>{{ $product->title }}</td>

@@ -14,7 +14,7 @@
                 @method('PUT')
 
                 <div class="text-center">
-                    <img src="{{ @$tenant->logo ? getImage($tenant->logo) : asset('images/no-image.png') }}" alt="{{ $tenant->name }}" style="max-width: 90px;" />
+                    <img src="{{ @$tenant->logo ? getFileLink($tenant->logo) : asset('images/no-image.png') }}" alt="{{ $tenant->name }}" style="max-width: 90px;" />
                 </div>
 
                 @include('admin.tenants._partials.form', ['tenant' => $tenant])

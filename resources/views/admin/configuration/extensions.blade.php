@@ -28,7 +28,7 @@
                             </td>
                             <td class="text-center">
 
-                                <img src="{{ getImage($extension->image) }}" alt="{{ $extension->title }}"
+                                <img src="{{ getFileLink($extension->image) }}" alt="{{ $extension->title }}"
                                     style="max-width: 90px; cursor:pointer;" data-bs-toggle="modal"
                                     data-bs-target="#{{ Str::slug($extension->description) . 'modal' }}" />
 
@@ -44,7 +44,7 @@
                                                     aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <img src="{{ getImage($extension->image) }}"
+                                                <img src="{{ getFileLink($extension->image) }}"
                                                     alt="{{ $extension->title }}" data-bs-toggle="modal"
                                                     data-bs-target="#{{ $extension->id . 'modal' }}"
                                                     style="max-width:100%;" />

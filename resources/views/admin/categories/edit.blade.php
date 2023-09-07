@@ -15,7 +15,7 @@
                 @method('PUT')
 
                 <div class="text-center">
-                    <img src="{{ @$category->image ? getImage($category->image) : asset('images/no-image.png') }}"
+                    <img src="{{ @$category->image ? getFileLink($category->image) : asset('images/no-image.png') }}"
                         alt="{{ $category->name }}" style="max-width: 90px;" />
                 </div>
 
