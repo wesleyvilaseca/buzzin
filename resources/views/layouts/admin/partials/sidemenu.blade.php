@@ -161,7 +161,19 @@
                     @can('admsites')
                         <li class="{{ @$_sites ? 'ativo' : '' }}">
                             <a href="{{ route('admin.sites') }}">
-                                <i class="fa-solid fa-building"></i>
+                                <i class="fa-solid fa-building position-absolute">
+                                    @php
+                                        $sites = DB::table('sites')
+                                            ->where('status', 0)
+                                            ->count();
+                                    @endphp
+                                    @if ($sites > 0)
+                                        <span
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger mt-0 ms-0">
+                                            {{ $sites }}
+                                        </span>
+                                    @endif
+                                </i>
                                 <span>Sites</span>
                             </a>
                         </li>
