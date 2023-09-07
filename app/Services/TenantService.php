@@ -154,11 +154,6 @@ class TenantService
             }
         }
 
-        $cnpj_is_valid = validaCNPJ($this->data['cnpj']);
-        if (!$cnpj_is_valid) {
-            throw new Exception('O CNPJ informado é inválido.');
-        }
-
         $exist = User::where('email', $this->data['email'])->first();
         if ($exist) {
             throw new Exception('Já existe um cadastro com as credênciais informadas.');
