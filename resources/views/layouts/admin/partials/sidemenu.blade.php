@@ -161,7 +161,7 @@
                     @can('admsites')
                         <li class="{{ @$_sites ? 'ativo' : '' }}">
                             <a href="{{ route('admin.sites') }}">
-                                <i class="fa-solid fa-building position-absolute">
+                                <i class="fa-solid fa-building position-relative">
                                     @php
                                         $sites = DB::table('sites')
                                             ->where('status', 0)
