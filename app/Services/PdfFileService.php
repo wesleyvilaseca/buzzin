@@ -36,6 +36,8 @@ class PdfFileService
             File::delete($pdfFilePath);
 
             return $res;
-        } catch (Exception $e) {}
+        } catch (Exception $e) {
+            // throw new Exception ($e->getMessage());
+        }
     }
 }   
