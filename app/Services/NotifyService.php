@@ -13,30 +13,19 @@ use Illuminate\Support\Facades\Mail;
 
 class NotifyService
 {
-    protected $whatssappNewOrderNotifyService;
-    protected $orderService;
 
-    public function __construct(
-        OrderService $orderService,
-        WhatssappNewOrderNotifyService $whatssappNewOrderNotifyService
-    ) {
-        $this->orderService = $orderService;
-        $this->whatssappNewOrderNotifyService = $whatssappNewOrderNotifyService;
+    public function __construct()
+    {
     }
 
-    public function notifyNewOrder(object $order)
+    public function ticketNotifyVisualized()
     {
-        $this->whatssappNewOrderNotifyService->newOrderNotify($order);
-    }
-
-    public function ticketNotifyVisualized() 
-    {
-       UserNotify::where([
+        UserNotify::where([
             'user_id' => Auth::user()->id,
             'type' => UserNotify::TICKET_TYPE,
             'visualized' => UserNotify::NOT_VISUALIZED
         ])
-        ->update(['visualized' => UserNotify::VISUALIZED]);
+            ->update(['visualized' => UserNotify::VISUALIZED]);
     }
 
     public function ticketNofify(TicketConversation $ticketConversation, $user_id)
@@ -46,9 +35,9 @@ class NotifyService
             'type' => UserNotify::TICKET_TYPE,
             'vizualized' => UserNotify::NOT_VISUALIZED
         ])
-        ->first();
+            ->first();
 
-        if($hasNotifyNotVisualized) {
+        if ($hasNotifyNotVisualized) {
             return;
         }
 
