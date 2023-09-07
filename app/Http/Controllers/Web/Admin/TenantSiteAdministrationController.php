@@ -23,7 +23,7 @@ class TenantSiteAdministrationController extends Controller
         $data['toptitle']           = 'Adminstração de sites';
         $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
         $data['breadcrumb'][]       = ['route' => '#', 'title' => 'Administração de sites', 'active' => true];
-        $data['sites']              = $this->repository->paginate();
+        $data['sites']              = $this->repository->latest()->paginate(8);
         $data['_sites']             = true;
 
         return view('admin.sites.index', $data);
