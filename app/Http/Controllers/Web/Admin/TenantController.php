@@ -206,9 +206,9 @@ class TenantController extends Controller
             }
 
             $tenant_service = app(TenantService::class);
-            $tenant_service->updateTenant($plan, $data, $id);
+            $tenant_service->updateTenant($plan, $data, $tenant->id);
 
-            event(new TenantCreated(Auth::user()));
+            event(new TenantCreated(User::where('email', $data['email'])->first()));
 
             DB::commit();
         } catch (Exception $e) {
