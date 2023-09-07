@@ -58,17 +58,25 @@ class Order extends Model
     }
 
     public function addressClientOrder() {
-        $data = json_decode($this->data);
-        return $data->client_address;
+        return $this->data?->client_address;
     }
 
     public function paymentMethodOrder() {
-        $data = json_decode($this->data);
-        return $data->payment_method;
+        return $this->data?->payment_method;
     }
 
     public function shippingMethodOrder() {
-        $data = json_decode($this->data);
-        return $data->shipping_method;
+        return $this->data?->shipping_method;
+    }
+
+    /**
+     * Define an accessor to cast the 'data' column to an object.
+     *
+     * @param  string  $value
+     * @return mixed
+     */
+    public function getDataAttribute($value)
+    {
+        return json_decode($value);
     }
 }
