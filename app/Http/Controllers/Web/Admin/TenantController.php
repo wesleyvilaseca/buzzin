@@ -208,6 +208,8 @@ class TenantController extends Controller
             $tenant_service = app(TenantService::class);
             $tenant_service->updateTenant($plan, $data, $id);
 
+            event(new TenantCreated(Auth::user()));
+
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
