@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Resources\OrderResource;
 use App\Models\DashboardExtensionTenant;
+use App\Models\Order;
 use App\Models\Shipping;
 use GuzzleHttp\Client;
 
@@ -22,13 +23,13 @@ class WhatssappNewOrderNotifyService
         $this->checkHasExtension();
     }
 
-    public function newOrderNotify($order)
+    public function newOrderNotify(Order $order)
     {
         if (!$this->hasExtencion) {
             return;
         }
 
-        $this->order = json_decode((new OrderResource($order))->toJson());
+        $this->order = $order;
         $this->getMsgNotify();
 
         try {
@@ -37,10 +38,33 @@ class WhatssappNewOrderNotifyService
                 "messaging_product" => "whatsapp",
                 "recipient_type" => "individual",
                 "to" => "55" . celular($this->dataNotifyNewOrder->number),
-                "type" => "text",
-                "text" => (object) [
-                    "preview_url" => false,
-                    "body" => $this->msg
+                "type" => "template",
+                "template" => (object) [
+                    "language" => (object) ["code" => "pt_BR"],
+                    "name" => $this->dataNotifyNewOrder->template,
+                    "components" => [
+                        (object)[
+                            "type" => "header",
+                            "parameters" => [
+                                (object) [
+                                    "type" => "document",
+                                    "document" => (object) [
+                                        "link" => getFileLink($this->order->data->pdfFileDetailsOrder),
+                                        "filename" => 'venda ' . $this->order->identify
+                                    ]
+                                ]
+                            ]
+                        ],
+                        (object) [
+                            "type" => "body",
+                            "parameters" => [
+                                (object) [
+                                    "type" => "text",
+                                    "text" => $this->order->tenant->name
+                                ]
+                            ]
+                        ]
+                    ]
                 ]
             ];
 
@@ -60,64 +84,7 @@ class WhatssappNewOrderNotifyService
 
     private function getMsgNotify()
     {
-        $paymentTypeIntegration = function ($order) {
-            if ($order->payment_method->integration) {
-                switch ($order->order_integration_transaction->payment_type_id) {
-                    case 'ticket':
-                        return 'Boleto';
-                    default:
-                        return 'Cartão de crédito';
-                }
-            }
-        };
-
-        $msg = "Buzzin - Uma nova venda foi finalizada\n";
-        $msg .= "Identificação do pedido: {$this->order->identify}\n";
-        $msg .= "O(s) produto(s) da venda\n";
-        $subtotal = 0;
-
-        foreach ($this->order->products as $key => $product) {
-            $msg .= "Produto: " . $product->title . "\n";
-            $msg .= "Quantidate: " . $product->qty . "\n";
-            $msg .= "Valor do produto: " . $product->price . "\n";
-            $msg .= "Total: " . $product->qty * $product->price . "\n";
-            $msg .= "---------\n\n";
-
-            $subtotal += $product->qty * $product->price;
-        }
-
-        $msg .= "Subtotal: {$subtotal}\n";
-
-        $msg .= "Forma de entrega: {$this->order->shipping_method->description}\n";
-
-        if ($this->order->shipping_method->alias !== Shipping::ALIAS_GET_ON_STORE) {
-            $msg .= "Valor da entrega: {$this->order->shipping_method->price}\n";
-        }
-
-        $msg .= "Total: {$this->order->total}\n\n\n";
-        $msg .= "--------------\n";
-
-        if ($this->order->payment_method?->integration) {
-            $msg .= "Forma de pagamento: {$this->order->payment_method->integration} - {$paymentTypeIntegration($this->order)}\n";
-            $msg .= "Status: {$this->order->order_integration_transaction->status}\n";
-        } else {
-            $msg .= "Forma de pagamento: {$this->order->payment_method->description}\n";
-        }
-
-        $msg .= "Dados do cliente\n";
-        $msg .= "Cliente: {$this->order->client->name}\n";
-        $msg .= "Email: {$this->order->client->email}\n";
-        $msg .= "Celular: " . decript($this->order->client->mobile_phone) . "\n";
-
-        if ($this->order?->shipping_method?->description !== 'Retirada') {
-            $msg .= "Endereço: {$this->order->client_address->address}, nº: {$this->order?->client_address?->number} \n";
-            $msg .= "Complemento: {$this->order->client_address->complement}\n";
-            $msg .= "Bairro: {$this->order->client_address->district}\n";
-            $msg .= "CEP: {$this->order->client_address->zip_code}\n";
-            $msg .= $this->order->client_address->city . " - " .  $this->order->client_address->state;
-        }
-
-        $this->msg = $msg;
+        $this->msg = 'oi';
     }
 
     private function checkHasExtension()
@@ -136,7 +103,7 @@ class WhatssappNewOrderNotifyService
         if (!$this->dataNotifyNewOrder?->token) {
             return $this->hasExtencion = false;
         }
-        
+
         $this->hasExtencion = true;
     }
 }
