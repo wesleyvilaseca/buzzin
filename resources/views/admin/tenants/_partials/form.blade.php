@@ -37,8 +37,8 @@
 </div>
 
 <div class="form-group mt-2">
-    <label>* CNPJ:</label>
-    <input type="text" name="cnpj" class="form-control form-control-sm" placeholder="CNPJ:"
+    <label id="label-type">* CNPJ:</label>
+    <input type="text" name="cnpj" id="cnpj" class="form-control form-control-sm" placeholder="00.000.000/0000-00"
         value="{{ $tenant->cnpj ?? old('cnpj') }}">
 </div>
 
