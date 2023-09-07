@@ -20,6 +20,7 @@ class OrderService
     protected $tenantService;
     protected $zoneDeliveryService;
     private $tenant;
+    protected $pdfFileService;
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,
@@ -28,7 +29,8 @@ class OrderService
         ProductRepositoryInterface $productRepository,
         WhatssappNewOrderNotifyService $whatssappNewOrderNotifyService,
         TenantService $tenantService,
-        ZoneShippingDeliveryService $zoneDeliveryService
+        ZoneShippingDeliveryService $zoneDeliveryService,
+        PdfFileService $pdfFileService
 
     ) {
         $this->orderRepository = $orderRepository;
@@ -38,6 +40,7 @@ class OrderService
         $this->whatssappNewOrderNotifyService = $whatssappNewOrderNotifyService;
         $this->tenantService = $tenantService;
         $this->zoneDeliveryService = $zoneDeliveryService;
+        $this->pdfFileService = $pdfFileService;
     }
 
     public function ordersByClient()
@@ -105,8 +108,17 @@ class OrderService
                 $tableId,
                 json_encode($jsonData),
             );
-
             $this->orderRepository->registerProductsOrder($order->id, $productsOrder);
+
+            $pdfFileDetailsOrder = $this->pdfFileService->makePdfOrderDetail($order);
+            if ($pdfFileDetailsOrder) {
+                Order::where('id', $order->id)
+                    ->update([
+                        'data' => DB::raw("JSON_INSERT(data, '$.pdfFileDetailsOrder', '$pdfFileDetailsOrder')")
+                    ]);
+            }
+            $order = $this->getOrderByIdentify($order->identify);
+            
             return $order;
         } catch (Exception $e) {
             return  $e->getMessage();
