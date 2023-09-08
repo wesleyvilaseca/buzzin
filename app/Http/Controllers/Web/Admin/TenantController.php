@@ -140,6 +140,18 @@ class TenantController extends Controller
             $tenant_service = app(TenantService::class);
             $user = $tenant_service->make($plan, $request->all());
 
+            if ($request->hasFile('logo') && $request->logo->isValid()) {
+                $tenant = Tenant::where('email', $user->email)->first();
+                $datafile = [
+                    'name' => 'image',
+                    'Mime-Type' => $request->file('logo')->getmimeType(),
+                    'contents' => fopen($request->file('logo')->getPathname(), 'r')
+                ];
+                $logo = $this->fileCloudService->storeFile($datafile, "public/tenants/{$tenant->uuid}/logo");
+                $tenant->logo = $logo;
+                $tenant->update();
+            }
+
             event(new TenantCreated($user));
 
             DB::commit();
