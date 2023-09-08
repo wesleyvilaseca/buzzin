@@ -29,7 +29,7 @@
 <div class="form-group mt-2">
     <label>Tipo da empresa:</label>
     <select name="type" id="type" class="form-control form-control-sm" required>
-        <option value="J" @if (isset($tenant) && $tenant->active == 'J') selected @endif required>Pessoa jurídica
+        <option value="J" @if (isset($tenant) && $tenant->type == 'J') selected @endif required>Pessoa jurídica
         </option>
         <option value="F" @if (isset($tenant) && $tenant->type == 'F') selected @endif required>Pessoa física
         </option>

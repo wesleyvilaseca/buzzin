@@ -11,5 +11,13 @@ class Site extends Model
     use TenantTrait;
     use HasFactory;
 
+    const STATUS_DOMAIN_APROVED = 1;
+    const STATUS_DOMAIN_WAITING_APROVE = 0;
+    const IN_MAINTENCE = 1;
+    const NOT_MAINTENCE = 0;
+    const STATUS_WAITING = 0;
+    const STATUS_APROVED = 1;
+    const STATUS_DISABLED = 2;
+
     protected $fillable = ['domain', 'subdomain', 'data', 'maintence', 'status', 'status_domain'];
 }
