@@ -29,17 +29,17 @@
 <div class="form-group mt-2">
     <label>Tipo da empresa:</label>
     <select name="type" id="type" class="form-control form-control-sm" required>
-        <option value="J" @if (isset($tenant) && $tenant->type == 'J') selected @endif required>Pessoa jurídica
+        <option value="J" {{ @$tenant->type == 'J' ? 'selected' : '' }}>Pessoa jurídica
         </option>
-        <option value="F" @if (isset($tenant) && $tenant->type == 'F') selected @endif required>Pessoa física
+        <option value="F" {{ @$tenant->type == 'F' ? 'selected' : '' }}>Pessoa física
         </option>
     </select>
 </div>
 
 <div class="form-group mt-2">
     <label id="label-type">* CNPJ:</label>
-    <input type="text" name="cnpj" id="cnpj" class="form-control form-control-sm" placeholder="00.000.000/0000-00"
-        value="{{ $tenant->cnpj ?? old('cnpj') }}">
+    <input type="text" name="cnpj" id="cnpj" class="form-control form-control-sm"
+        placeholder="00.000.000/0000-00" value="{{ $tenant->cnpj ?? old('cnpj') }}">
 </div>
 
 <div class="form-group mt-2">
@@ -67,25 +67,25 @@
     <div class="form-group mt-2 col-md-3">
         <label>CEP: </label>
         <input type="text" id="zip_code" name="zip_code" class="form-control form-control-sm" placeholder="CEP:"
-            onblur="buscacep(value)" value="{{  @$tenant->zip_code ?? old('zip_code') }}" required>
+            onblur="buscacep(value)" value="{{ @$tenant->zip_code ?? old('zip_code') }}" required>
     </div>
 
     <div class="form-group mt-2 col-md-3">
         <label>Bairro:</label>
         <input type="text" id="district" name="district" class="form-control form-control-sm" placeholder="Bairro:"
-            value="{{  @$tenant->district ?? old('district') }}" readonly required>
+            value="{{ @$tenant->district ?? old('district') }}" readonly required>
     </div>
 
     <div class="form-group mt-2 col-md-3">
         <label>Cidade:</label>
         <input type="text" id="city" name="city" class="form-control form-control-sm" placeholder="Cidade:"
-            value="{{  @$tenant->city ?? old('city') }}" readonly required>
+            value="{{ @$tenant->city ?? old('city') }}" readonly required>
     </div>
 
     <div class="form-group mt-2 col-md-3">
         <label>UF:</label>
         <input type="text" id="state" name="state" class="form-control form-control-sm" placeholder="UF:"
-            value="{{  @$tenant->state ?? old('state') }}" readonly required>
+            value="{{ @$tenant->state ?? old('state') }}" readonly required>
     </div>
 </div>
 
@@ -93,13 +93,13 @@
     <div class="form-group mt-2 col-md-6">
         <label>Endereço:</label>
         <input type="text" id="address" name="address" class="form-control form-control-sm" placeholder="Endereço:"
-            value="{{  @$tenant->address ?? old('address') }}" required>
+            value="{{ @$tenant->address ?? old('address') }}" required>
     </div>
 
     <div class="form-group mt-2 col-md-2 ">
         <label>Numero:</label>
         <input type="text" name="number" id="number" class="form-control form-control-sm" placeholder="Numero:"
-            value="{{  @$tenant->number ?? old('number') }}">
+            value="{{ @$tenant->number ?? old('number') }}">
     </div>
 </div>
 
@@ -145,27 +145,38 @@
 @section('js')
     <script type="text/javascript">
         var zip_code = "";
+        var tenant_type = '{{ @$tenant->type }}';
+
+
 
         jQuery(function($) {
             $('#zip_code').mask("00000-000");
-            $('#cnpj').mask("00.000.000/0000-00");
+            
+            if (tenant_type) {
+                setType(tenant_type);
+            } else {
+                $('#cnpj').mask("00.000.000/0000-00");
+            }
 
             $("#type").on("change", function() {
                 const TYPE = $(this).val();
-
-                if (TYPE == 'J') {
-                    $('#label-type').text('CNPJ:')
-                    $('#cnpj').attr("placeholder", "00.000.000/0000-00");
-                    return $('#cnpj').mask("00.000.000/0000-00");
-                }
-
-                if (TYPE == 'F') {
-                    $('#label-type').text('CPF:')
-                    $('#cnpj').attr("placeholder", "000.000.000-00");
-                    return $('#cnpj').mask("000.000.000-00");
-                }
+                setType(TYPE);
             });
         });
+
+        function setType(TYPE) {
+            if (TYPE == 'J') {
+                $('#label-type').text('CNPJ:')
+                $('#cnpj').attr("placeholder", "00.000.000/0000-00");
+                return $('#cnpj').mask("00.000.000/0000-00");
+            }
+
+            if (TYPE == 'F') {
+                $('#label-type').text('CPF:')
+                $('#cnpj').attr("placeholder", "000.000.000-00");
+                return $('#cnpj').mask("000.000.000-00");
+            }
+        }
 
         function buscacep(cep) {
             if (cep.length == 9) {

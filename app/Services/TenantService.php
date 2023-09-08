@@ -108,6 +108,7 @@ class TenantService
         $tenant->city =  @$this->data['city'];
         $tenant->district =  @$this->data['district'];
         $tenant->number =  @$this->data['number'];
+        $tenant->type = @$this->data['type'];
 
         if (@$this->data['logo']) {
             $tenant->logo = $this->data['logo'];
