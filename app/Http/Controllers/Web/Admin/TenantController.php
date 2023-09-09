@@ -233,29 +233,32 @@ class TenantController extends Controller
 
     public function destroy($id)
     {
-        if (!$this->superAdmin) return Redirect::back()->with('error', 'Operação não autorizada');
-
+        if (!$this->superAdmin) {
+            return Redirect::back()->with('error', 'Operação não autorizada');
+        }
+        
         $tenant = $this->repository->find($id);
 
-        if (!$tenant) return Redirect::back()->with('error', 'Operação não autorizada');
+        if (!$tenant) {
+            return Redirect::back()->with('error', 'Operação não autorizada');
+        }
 
         DB::beginTransaction();
         try {
             $this->fileCloudService->destroyFile($tenant->logo);
 
             $tenant_user = User::where('tenant_id', $tenant->id)->get();
-            if ($tenant_user)  User::where('tenant_id', $tenant->id)->delete();
+            if ($tenant_user) {
+                User::where('tenant_id', $tenant->id)->delete();
+            }
 
             $this->repository->where('id', $tenant->id)->delete();
             DB::commit();
             return Redirect::route('admin.tenants')->with('success', 'Empresa apagada com sucesso');
-        } catch (ModelNotFoundException $exception) {
+        } catch (ModelNotFoundException $e) {
             DB::rollback();
-            return Redirect::route('admin.tenants')->with('error', 'Houve um erro ao apagar a empresa');
+            return Redirect::route('admin.tenants')->with('error', 'Houve um erro ao apagar a empresa, Error:' . $e->getMessage());
         }
-
-        $tenant->delete();
-        return Redirect::route('admin.tenants')->with('success', 'Empresa removido com sucesso');
     }
 
     public function orderWhenClosed(Request $request)
