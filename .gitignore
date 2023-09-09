@@ -15,5 +15,10 @@ yarn-error.log
 /.idea
 /.vscode
 /.certs
-/.sites-avaliable
+/.sites-avaliable/*
 laravel-echo-server.json
+
+!.sites-avaliable/buzzin.com.br.conf
+!.sites-avaliable/buzzin.com.conf
+!.sites-avaliable/default.buzzin.com.br.conf
+!.sites-avaliable/default.buzzin.com.conf
