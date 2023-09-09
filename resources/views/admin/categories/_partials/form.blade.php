@@ -1,7 +1,3 @@
-<style>
-
-</style>
-
 <div class="form-group mt-2">
     <label>Nome:</label>
     <input type="text" name="name" class="form-control form-control-sm" placeholder="Nome:"

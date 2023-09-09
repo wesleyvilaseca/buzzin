@@ -27,8 +27,10 @@
                                 {{ $role->name }}
                             </td>
                             <td style="width=10px;">
-                                <a href="{{ route('users.role.detach', [$user->id, $role->id]) }}"
-                                    class="btn btn-sm btn-danger">DESVINCULAR</a>
+                                @if (Auth::user()->email !== Auth::user()->tenant->email && $role->name = 'Administrador')
+                                    <a href="{{ route('users.role.detach', [$user->id, $role->id]) }}"
+                                        class="btn btn-sm btn-danger">DESVINCULAR</a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

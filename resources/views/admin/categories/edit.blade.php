@@ -15,8 +15,8 @@
                 @method('PUT')
 
                 <div class="text-center">
-                    <img src="{{ @$category->image ? getFileLink($category->image) : asset('images/no-image.png') }}"
-                        alt="{{ $category->name }}" style="max-width: 90px;" />
+                    <img src="{{ getFileLink($category->image) }}"
+                        alt="{{ @$category->name }}" style="max-width: 90px;" />
                 </div>
 
                 @include('admin.categories._partials.form', ['category' => $category])

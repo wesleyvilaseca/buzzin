@@ -13,8 +13,7 @@
                 @csrf
 
                 <div class="text-center">
-                    <img src="{{ @$category->image ? Storage::url("{$category->image}") : asset('images/no-image.png') }}"
-                        alt="{{ @$category->name }}" style="max-width: 90px;" />
+                    <img src="{{ getFileLink() }}" alt="" style="max-width: 90px;" />
                 </div>
 
                 @include('admin.categories._partials.form')
