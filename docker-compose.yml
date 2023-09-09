@@ -8,10 +8,11 @@ services:
     volumes: 
       - ./:/var/www/html
       - ./.certs/:/etc/letsencrypt
-      - ./.sites-avaliable/:/apache2/sites-available
+      - ./.sites-avaliable/:/etc/apache2/sites-available
     ports:
       - 80:80
       - 443:443
+    entrypoint: ./run-after-build.sh
     networks:
       - app-network
     depends_on:

@@ -15,4 +15,5 @@ yarn-error.log
 /.idea
 /.vscode
 /.certs
+/.sites-avaliable
 laravel-echo-server.json
