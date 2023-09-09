@@ -9,7 +9,11 @@ class Role extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description'];
+    const INTERNAL = 'Y';
+    const NOT_INTERNAL = 'N';
+    const CLIENT_MASTER_ROLE = 'Administrador';
+
+    protected $fillable = ['name', 'description', 'internal'];
 
     /**
      * Get Permissions

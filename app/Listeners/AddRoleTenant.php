@@ -33,7 +33,7 @@ class AddRoleTenant
             return;
         }
 
-        $user->roles()->attach($role);
+        $user->roles()->sync($role);
 
         return 1;
     }

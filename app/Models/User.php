@@ -14,10 +14,9 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     use UserACLTrait;
-    
+
     const IS_INTERNAL = 'Y';
     const NOT_INTERNAL = 'N';
-
 
     /**
      * The attributes that are mass assignable.
@@ -92,8 +91,15 @@ class User extends Authenticatable
             ->where(function ($queryFilter) use ($filter) {
                 if ($filter)
                     $queryFilter->where('roles.name', 'LIKE', "%{$filter}%");
-            })
-            ->paginate();
+            });
+
+        if (!Auth()->user()->isAdmin()) {
+            $roles->where([
+                ['internal', '=', Role::NOT_INTERNAL]
+            ]);
+        }
+
+        $roles = $roles->paginate();
 
         return $roles;
     }

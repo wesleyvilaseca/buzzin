@@ -51,13 +51,6 @@ class RoleUserController extends Controller
     {
         $roles = $this->user->rolesAvailable($request->filter);
 
-        if(!$this->superAdmin){
-            foreach ($roles as $key => $role) {
-                if ($role->internal) {
-                    unset($roles[$key]);
-                }
-            }
-        }
 
         $data['title']              = 'Editar permissões do usuário ' . $this->user->name;
         $data['toptitle']           = 'Editar permissões do usuário ' . $this->user->name;
