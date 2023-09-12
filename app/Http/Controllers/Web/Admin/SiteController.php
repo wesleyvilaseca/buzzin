@@ -25,35 +25,12 @@ class SiteController extends Controller
     public function index()
     {
         $site = $this->repository->first();
+
         $data['title']              = 'Site';
         $data['toptitle']           = 'Meu site';
         $data['_sitearea']          = true;
         $data['_site']              = true;
-
-        if (@isset($site->data)) {
-            $site->data = json_decode($site->data);
-        }
-
         $data['site']               = $site;
-
-        $siteLink = function ($site) {
-            $linkSite = '';
-            $isInMaintence = $site->maintence == 1 ? true : false;
-            if (!$isInMaintence) {
-                $linkSite = $site->subdomain;
-                return $linkSite;
-            }
-            $params = (object)[
-                'domain' => $site->subdomain
-            ];
-
-            $encript = Cripto::encrypt($params, true);
-            $linkSite = $site->subdomain . '?params=' . $encript;
-            return $linkSite;
-        };
-
-        $data['linkWebSite'] = @$site ? $siteLink($site) : null;
-
         return view('admin.site.index', $data);
     }
 

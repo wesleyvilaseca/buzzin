@@ -20,4 +20,15 @@ class Site extends Model
     const STATUS_DISABLED = 2;
 
     protected $fillable = ['domain', 'subdomain', 'data', 'maintence', 'status', 'status_domain'];
+
+    /**
+     * Define an accessor to cast the 'data' column to an object.
+     *
+     * @param  string  $value
+     * @return mixed
+     */
+    public function getDataAttribute($value)
+    {
+        return json_decode($value);
+    }
 }

@@ -9,7 +9,8 @@ const state = {
     },
     orders: {
         data: []
-    }
+    },
+    TOKEN_NAME: 'buzzin'
 };
 
 export default state;

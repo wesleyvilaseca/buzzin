@@ -153,7 +153,7 @@ export default {
             this.login(params)
                 .then((res) => {
                     toast.success("Login realizado com sucesso", { autoClose: 3000 });
-                    window.location.href = `http://${this.company.subdomain}`;
+                    return window.location.href = `http://${this.company.domain}`;
                 })
                 .catch((error) => {
                     const errorResponse = error.response;

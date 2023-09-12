@@ -34,26 +34,7 @@ class WhatsappExtensionsController extends Controller
         $data['toptitle']           = 'Configurações da extenção whatsapp';
         $data['_sitearea']          = true;
         $data['_siteextensions']    = true;
-        $data['site']               = $this->site->first();;
-
-        $siteLink = function ($site) {
-            $linkSite = '';
-            $isInMaintence = $site->maintence == 1 ? true : false;
-            if (!$isInMaintence) {
-                $linkSite = $site->subdomain;
-                return $linkSite;
-            }
-            $params = (object)[
-                'domain' => $site->subdomain
-            ];
-
-            $encript = Cripto::encrypt($params, true);
-            $linkSite = $site->subdomain . '?params=' . $encript;
-            return $linkSite;
-        };
-
-        $data['linkWebSite'] = @$data['site'] ? $siteLink($data['site']) : null;
-
+        $data['site']               = $this->site->first();
         $data['breadcrumb_config'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
         $data['breadcrumb_config'][]       = ['route' => route('admin.site.extensions'), 'title' => 'Site - Extensões'];
         $data['breadcrumb_config'][]       = ['route' => '#', 'title' => 'Configurações da extenção whatsapp', 'active' => true];

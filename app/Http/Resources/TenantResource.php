@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Site;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
@@ -21,8 +22,7 @@ class TenantResource extends JsonResource
             'uuid' => $this->uuid,
             'flag' => $this->url,
             'contact' => $this->email,
-            'domain' => @$this->site->domain,
-            'subdomain' => @$this->site->subdomain,
+            'domain' =>  @$this->site->status_domain == Site::STATUS_APROVED ? $this->site->domain : $this->site->subdomain,
             'address' => $this->address,
             'zip_code' => $this->zip_code,
             'state' => $this->state,

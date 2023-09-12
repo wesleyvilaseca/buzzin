@@ -29,24 +29,6 @@ class SiteExtensionsController extends Controller
         $data['_sitearea']          = true;
         $data['_siteextensions']    = true;
         $data['site']               = $site;
-
-        $siteLink = function ($site) {
-            $linkSite = '';
-            $isInMaintence = $site->maintence == 1 ? true : false;
-            if (!$isInMaintence) {
-                $linkSite = $site->subdomain;
-                return $linkSite;
-            }
-            $params = (object)[
-                'domain' => $site->subdomain
-            ];
-
-            $encript = Cripto::encrypt($params, true);
-            $linkSite = $site->subdomain . '?params=' . $encript;
-            return $linkSite;
-        };
-
-        $data['linkWebSite'] = @$site ? $siteLink($site) : null;
         $data['extensions'] = SiteExtensions::where('status', 1)->paginate();
         $data['tenantExtensions'] = SiteTenantExtensions::get();
 

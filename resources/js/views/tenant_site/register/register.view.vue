@@ -166,7 +166,7 @@ export default {
             this.register(this.formData)
                 .then((res) => {
                     toast.success("Cadastro realizado com sucesso", { autoClose: 3000 });
-                    window.location.href = `http://${this.company.subdomain}/app/login`;
+                    window.location.href = `http://${this.company.domain}/app/login`;
                 })
                 .catch((error) => {
                     const errorResponse = error.response;

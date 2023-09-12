@@ -133,7 +133,7 @@ export default {
             this.resetPassword(params)
                 .then((res) => {
                     toast.success("Conta recuperada com sucesso.", { autoClose: 5000 });
-                    setTimeout(() => window.location.href = `http://${this.company.subdomain}/app/login`, 4000);
+                    setTimeout(() => window.location.href = `http://${this.company.domain}/app/login`, 4000);
                 })
                 .catch((error) => {
                     const errorResponse = error.response;

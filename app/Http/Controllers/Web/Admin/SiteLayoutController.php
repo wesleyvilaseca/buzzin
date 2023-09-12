@@ -28,31 +28,7 @@ class SiteLayoutController extends Controller
         $data['toptitle']           = 'Site - Layout';
         $data['_sitearea']              = true;
         $data['_sitelayout']        = true;
-
-        if (@isset($site->data)) {
-            $site->data = json_decode($site->data);
-        }
-
         $data['site']               = $site;
-
-        $siteLink = function ($site) {
-            $linkSite = '';
-            $isInMaintence = $site->maintence == 1 ? true : false;
-            if (!$isInMaintence) {
-                $linkSite = $site->subdomain;
-                return $linkSite;
-            }
-            $params = (object)[
-                'domain' => $site->subdomain
-            ];
-
-            $encript = Cripto::encrypt($params, true);
-            $linkSite = $site->subdomain . '?params=' . $encript;
-            return $linkSite;
-        };
-
-        $data['linkWebSite'] = @$site ? $siteLink($site) : null;
-
         return view('admin.site.layout', $data);
     }
 

@@ -103,7 +103,7 @@ export default {
         exit() {
             this.logout()
                 .then(() => {
-                    window.location.href = `http://${this.company.subdomain}`;
+                    window.location.href = `http://${this.company.domain}`;
                 })
         },
     },

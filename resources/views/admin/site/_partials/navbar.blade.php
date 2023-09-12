@@ -39,7 +39,7 @@
                 @endcan
             </ul>
             <form class="d-flex">
-                <a href="http://{{ $linkWebSite }}" target="_blank" class="btn btn-sm btn-info text-white">
+                <a href="http://{{ \App\Supports\Helper\Utils::getSiteTenantLink() }}" target="_blank" class="btn btn-sm btn-info text-white">
                     <i class="fa-solid fa-eye"></i>
                     WebSite
                 </a>

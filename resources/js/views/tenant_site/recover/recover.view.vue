@@ -115,7 +115,7 @@ export default {
             this.recover(params)
                 .then((res) => {
                     toast.success("Foi enviado um email com os dados de recuperação de sua conta, verifique seu email.", { autoClose: 5000 });
-                    setTimeout(() =>  window.location.href = `http://${this.company.subdomain}/app/login`, 4000);
+                    setTimeout(() =>  window.location.href = `http://${this.company.domain}/app/login`, 4000);
                 })
                 .catch((error) => {
                     const errorResponse = error.response;
