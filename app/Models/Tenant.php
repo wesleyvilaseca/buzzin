@@ -131,7 +131,7 @@ class Tenant extends Model
 
     public function getSocial()
     {
-        $data = json_decode($this->data);
+        $data = $this->data;
         $item['facebook'] = @$data?->social?->facebook;
         $item['instagram'] = @$data?->social?->instagram;
         $item['youtube'] = @$data?->social?->youtube;
@@ -140,7 +140,18 @@ class Tenant extends Model
 
     public function getAboutUs()
     {
-        $data = json_decode($this->data);
+        $data = $this->data;
         return @$data?->about_us;
+    }
+
+    /**
+     * Define an accessor to cast the 'data' column to an object.
+     *
+     * @param  string  $value
+     * @return mixed
+     */
+    public function getDataAttribute($value)
+    {
+        return json_decode($value);
     }
 }

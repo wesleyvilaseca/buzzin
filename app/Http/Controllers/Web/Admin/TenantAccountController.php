@@ -32,7 +32,6 @@ class TenantAccountController extends Controller
     public function index()
     {
         $tenant = $this->tenant->find(Auth::user()->tenant_id);
-        $tenant->data = json_decode($tenant->data);
 
         $data['title']              = 'Minha conta';
         $data['_configuration']     = true;
