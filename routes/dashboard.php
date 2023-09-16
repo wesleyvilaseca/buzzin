@@ -197,9 +197,6 @@ Route::middleware(['auth'])->group(function () {
         Route::any('/search',            [TenantController::class, 'search'])->name('tenant.search');
         Route::get('/{id}',             [TenantController::class, 'show'])->name('tenant.show');
         Route::delete('/{id}',          [TenantController::class, 'destroy'])->name('tenant.destroy');
-
-        Route::post('/order-when-closed',   [TenantController::class, 'orderWhenClosed'])->name('tenant.order_when_closed');
-        Route::post('/open-place',          [TenantController::class, 'open'])->name('tenant.open');
     });
 
     Route::middleware(['check.subscrition.tenant'])->group(function () {
@@ -357,6 +354,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/',                 [TenantAccountController::class, 'index'])->name('admin.myaccount');
             Route::put('/update-password',  [TenantAccountController::class, 'updatePassword'])->name('update.passwordaccount');
             Route::put('/update-data',      [TenantAccountController::class, 'updateData'])->name('update.dataaccount');
+            Route::post('/order-when-closed',   [TenantAccountController::class, 'orderWhenClosed'])->name('tenant.order_when_closed');
+            Route::post('/open-place',          [TenantAccountController::class, 'open'])->name('tenant.open');
         });
 
         Route::prefix('admin-configuration')->group(function () {

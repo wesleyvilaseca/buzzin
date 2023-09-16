@@ -260,44 +260,4 @@ class TenantController extends Controller
             return Redirect::route('admin.tenants')->with('error', 'Houve um erro ao apagar a empresa, Error:' . $e->getMessage());
         }
     }
-
-    public function orderWhenClosed(Request $request)
-    {
-        $validate = Validator::make($request->all(), [
-            'order_when_closed'      => ['required', 'integer'],
-        ]);
-
-        if ($validate->fails()) {
-            return Redirect::back()->with('error', $validate->errors());
-        }
-
-        $res = $this->repository
-            ->where('id', Auth::user()->tenant_id)
-            ->update(['order_when_closed' => $request->order_when_closed]);
-        if (!$res) {
-            return Redirect::back()->with('warning', 'Erro na operação');
-        }
-
-        return Redirect::back()->with('success', 'Operação realizada com sucesso');
-    }
-
-    public function open(Request $request)
-    {
-        $validate = Validator::make($request->all(), [
-            'open'      => ['required'],
-        ]);
-
-        if ($validate->fails()) {
-            return Redirect::back()->with('error', $validate->errors());
-        }
-
-        $res = $this->repository
-            ->where('id', Auth::user()->tenant_id)
-            ->update(['open' => $request->open]);
-        if (!$res) {
-            return Redirect::back()->with('warning', 'Erro na operação');
-        }
-
-        return Redirect::back()->with('success', 'Operação realizada com sucesso');
-    }
 }
