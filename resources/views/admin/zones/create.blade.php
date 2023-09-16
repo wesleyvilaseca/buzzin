@@ -386,6 +386,18 @@
             });
         }
 
+         // Carregue a API do Google Maps somente após a página ser carregada completamente
+         window.onload = function() {
+            var script = document.createElement('script');
+            script.src = "https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key={{ env('GOOGLE_MAPS_KEY') }}&callback=initMap";
+            script.async = true;
+            script.defer = true;
+            script.onload = function() {
+                initMap();
+            };
+            document.body.appendChild(script);
+        };
+
         // function deleteShape() {
         //     if (selectedShape) {
         //         selectedShape.setMap(null);
@@ -404,7 +416,7 @@
         // }
     </script>
 
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key={{ env('GOOGLE_MAPS_KEY') }}&callback=initMap">
-    </script>
+    {{-- <script async defer
+        src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key={{ env('GOOGLE_MAPS_KEY') }}&v=2&callback=initMap">
+    </script> --}}
 @stop
