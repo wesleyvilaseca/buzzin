@@ -49,7 +49,7 @@ class SiteLayoutController extends Controller
             'links_hover' => $request->links_hover
         ];
 
-        $data = json_decode($site->data);
+        $data = $site->data;
         $layout = (array) @$data?->layout;
 
         if ($layout) {
