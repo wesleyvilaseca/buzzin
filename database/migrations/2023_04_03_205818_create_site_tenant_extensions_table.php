@@ -18,6 +18,7 @@ class CreateSiteTenantExtensionsTable extends Migration
             $table->unsignedBigInteger('tenant_id');
             $table->unsignedBigInteger('site_extension_id')->nullable();
             $table->json('data')->nullable();
+            $table->string('alias', 200)->nullable();
             $table->integer('status')->default(0)->comment("0 - disbled | 1 - enabled");
             $table->timestamps();
 
