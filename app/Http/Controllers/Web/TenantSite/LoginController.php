@@ -10,6 +10,7 @@ use App\Services\ClientAddressService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Inertia\Inertia;
 
 class LoginController extends Controller
 {
@@ -28,7 +29,9 @@ class LoginController extends Controller
     public function index()
     {
         $data['title']      = 'Login - ' . $this->tenant->url;
-        return view('tenant_site.login.index', $data);
+        Inertia::setRootView('layouts.tenant_site.site');
+        return Inertia::render('tenant_site/login/login.view.vue', $data);
+        // return view('tenant_site.login.index', $data);
     }
 
     public function auth(Request $request)

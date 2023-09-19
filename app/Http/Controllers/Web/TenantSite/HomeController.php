@@ -8,6 +8,7 @@ use App\Models\Site;
 use App\Models\Tenant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class HomeController extends Controller
 {
@@ -24,7 +25,9 @@ class HomeController extends Controller
     public function index()
     {
         $data['title']      = 'Home - ' . $this->tenant->url;
-        return view('tenant_site.home.index', $data);
+        Inertia::setRootView('layouts.tenant_site.site');
+        return Inertia::render('tenant_site/home/home.view.vue', $data);
+        // return view('tenant_site.home.index', $data);
     }
 
     public function inMaintence()

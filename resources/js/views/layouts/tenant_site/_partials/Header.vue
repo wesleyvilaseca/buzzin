@@ -3,39 +3,39 @@
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-vuefood pt-2">
             <div class="container">
-                <a href="/" class="navbar-brand" v-if="!maintence">
+                <Link href="/" class="navbar-brand" v-if="!maintence">
                     <span v-if="preloader" class="text-center">
                         <img src="../../../../assets/imgs/preloader.gif" alt="Carregando..." style="max-width: 35px;" />
                     </span>
                     <span v-else>
                         <img :src="company.logo" alt="BuzzIn" class="logo" />
                     </span>
-                </a>
+                </Link>
 
-                <a href="/" class="navbar-brand" v-else>
+                <Link href="/" class="navbar-brand" v-else>
                     <img src="../../../../assets/imgs/404.png" alt="Em manutenção" style="max-width: 35px;" />
-                </a>
+                </Link>
 
                 <div v-if="!maintence">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item nav-cart">
-                            <a href="/app/cart" class="nav-link btn-nav">
+                            <Link href="/app/cart" class="nav-link btn-nav">
                                 <i class="white-icon fa-solid fa-cart-shopping"></i>
                                 <span class="ms-1 white-icon"> {{ productsCart.length }}</span>
-                            </a>
+                            </Link>
                         </li>
 
                         <li class="nav-item">
-                            <a href="/app/cliente-area" class="nav-link ms-5" v-if="me.name && me.name !== 'undefined'">Olá
+                            <Link href="/app/cliente-area" class="nav-link ms-5" v-if="me.name && me.name !== 'undefined'">Olá
                                 {{ me.name
                                 }}
                                 <span @click.prevent="exit()" class="text-danger ms-2">
                                     <i class="red-icon fa-solid fa-right-from-bracket"></i>
                                 </span>
-                            </a>
-                            <a href="/app/login" class="nav-link ms-5" v-else>
+                            </Link>
+                            <Link href="/app/login" class="nav-link ms-5" v-else>
                                 Login
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                 </div>
