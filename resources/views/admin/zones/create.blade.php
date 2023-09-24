@@ -6,6 +6,15 @@
             height: 500px;
             width: 100%;
         }
+
+        .pac-container {
+            z-index: 1051 !important;
+        }
+
+        .modal {
+            z-index: 1050;
+            /* Ou um valor maior se necessário */
+        }
     </style>
 @stop
 @section('content')
@@ -103,7 +112,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="form-group mt-2">
-                        <label>Pesquise pelo bairro</label>
+                        <label>Pesquise a localização</label>
                         <input type="text" id="autocomplete" name="autocomplete"
                             value="{{ @$zone->autocomplete ?? old('autocomplete') }}"
                             class="form-control form-control-sm" />
@@ -131,7 +140,6 @@
                     <div class="card-footer">
                         <div class="maps">
                             <button class="btn btn-sm btn-success me-1" id="save-button">Salvar</button>
-                            {{-- <button class="btn btn-sm btn-primary" id="edit-button">Edit Shape</button> --}}
                             <button class="btn btn-sm btn-danger" id="delete-button">Limpar seleção</button>
                         </div>
                     </div>
@@ -142,7 +150,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-lg modal-dialog-end">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Imagem de exemplo</h5>
@@ -150,10 +158,10 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group mt-2">
-                        <label>* Selecione?
+                        <label>Selecione
                             <i class="fa-solid fa-circle-info text-primary" data-bs-toggle="tooltip"
                                 data-bs-placement="top"
-                                title="No modo teste, a 'public key' e o 'access token' devem ser o de teste"></i>
+                                title="Selecione uma região de entrega já criada para a comparação"></i>
                         </label>
                         <select name="sandbox" class="form-control form-control-sm" id="shapeCompare"
                             onchange="compareShape()">
@@ -162,6 +170,18 @@
                                 <option value="{{ $z->id }}">{{ $z->name }}</option>
                             @endforeach
                         </select>
+                    </div>
+
+                    <hr>
+
+                    <div class="form-group mt-2">
+                        <label>
+                            Pesquise pela localização
+                            <i class="fa-solid fa-circle-info text-primary" data-bs-toggle="tooltip"
+                                data-bs-placement="top" title="Pesquise a localização no google">
+                            </i>
+                        </label>
+                        <input type="text" id="autocomplete_compare" class="form-control form-control-sm" />
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -253,6 +273,7 @@
                 setShapeOnMap();
             }
             startAutoComplete();
+            startAutoCompleteCompare();
         }
 
         function startAutoComplete() {
@@ -263,7 +284,6 @@
                 var place = autocomplete.getPlace();
 
                 if (place.geometry) {
-
                     map.setCenter({
                         lat: place.geometry['location'].lat(),
                         lng: place.geometry['location'].lng()
@@ -271,37 +291,71 @@
 
                     deleteSelectedShape();
 
-
-                    var polygonCoords = [];
                     var bounds = place.geometry.viewport;
                     var ne = bounds.getNorthEast();
                     var sw = bounds.getSouthWest();
-
-                    polygonCoords.push({
-                        lat: ne.lat(),
-                        lng: ne.lng()
-                    });
-                    polygonCoords.push({
-                        lat: ne.lat(),
-                        lng: sw.lng()
-                    });
-                    polygonCoords.push({
-                        lat: sw.lat(),
-                        lng: sw.lng()
-                    });
-                    polygonCoords.push({
-                        lat: sw.lat(),
-                        lng: ne.lng()
-                    });
-
-                    // Feche o polígono
-                    polygonCoords.push({
-                        lat: ne.lat(),
-                        lng: ne.lng()
-                    });
-
+                    var polygonCoords = [{
+                            lat: ne.lat(),
+                            lng: ne.lng()
+                        },
+                        {
+                            lat: ne.lat(),
+                            lng: sw.lng()
+                        },
+                        {
+                            lat: sw.lat(),
+                            lng: sw.lng()
+                        },
+                        {
+                            lat: sw.lat(),
+                            lng: ne.lng()
+                        }
+                    ];
                     edit_coordinate = polygonCoords;
                     setShapeOnMap()
+                }
+            })
+        }
+
+        function startAutoCompleteCompare() {
+            var input = document.getElementById('autocomplete_compare');
+            var autocomplete = new google.maps.places.Autocomplete(input);
+
+            autocomplete.addListener('place_changed', function() {
+                var place = autocomplete.getPlace();
+
+                if (place.geometry) {
+                    map.setCenter({
+                        lat: place.geometry['location'].lat(),
+                        lng: place.geometry['location'].lng()
+                    });
+
+                    var bounds = place.geometry.viewport;
+                    var ne = bounds.getNorthEast();
+                    var sw = bounds.getSouthWest();
+                    var polygonCoords = [{
+                            lat: ne.lat(),
+                            lng: ne.lng()
+                        },
+                        {
+                            lat: ne.lat(),
+                            lng: sw.lng()
+                        },
+                        {
+                            lat: sw.lat(),
+                            lng: sw.lng()
+                        },
+                        {
+                            lat: sw.lat(),
+                            lng: ne.lng()
+                        }
+                    ];
+                    setCompareShapesOnMap({
+                        id: Helper.prototype.slugfy(input.value),
+                        coordenadas: polygonCoords
+                    });
+                    $("#exampleModal").modal("hide");
+                    $("#autocomplete_compare").val("");
                 }
             })
         }
@@ -363,8 +417,8 @@
                 selectedCompareShapeId = data.id;
                 selectedCompareShape = this;
             });
+            clearSelection();
         }
-
 
         function deleteSelectedShape(compare_shape_id = false) {
             if (selectedShape) {
@@ -477,6 +531,7 @@
                 success: function(data) {
                     setCompareShapesOnMap(data);
                     $("#exampleModal").modal("hide");
+                    $("#shapeCompare").val(null);
                 }
             });
 
