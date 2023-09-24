@@ -209,6 +209,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/create',      [ZonesGeolocationController::class, 'store'])->name('zone.geolocation.store');
             Route::get('/{id}/edit',    [ZonesGeolocationController::class, 'edit'])->name('zone.geolocation.edit');
             Route::put('/{id}/edit',    [ZonesGeolocationController::class, 'update'])->name('zone.geolocation.update');
+            Route::get('/{id}/show',             [ZonesGeolocationController::class, 'show'])->name('admin.zones.show');
+            Route::delete('/{id}/destroy',             [ZonesGeolocationController::class, 'destroy'])->name('zone.destroy');
 
             /**
              * permissions x profile

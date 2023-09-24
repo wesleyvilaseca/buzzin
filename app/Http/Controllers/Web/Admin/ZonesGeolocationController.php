@@ -9,17 +9,21 @@ use Grimzy\LaravelMysqlSpatial\Types\LineString;
 use Grimzy\LaravelMysqlSpatial\Types\Point;
 use Grimzy\LaravelMysqlSpatial\Types\Polygon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
-class ZonesGeolocationController extends Controller {
+class ZonesGeolocationController extends Controller
+{
     private $repository;
 
-    public function __construct(Zone $repository) {
+    public function __construct(Zone $repository)
+    {
         $this->middleware(['can:zones', 'can:geolocation_zones']);
 
         $this->repository = $repository;
     }
 
-    public function index() {
+    public function index()
+    {
         $data['title']              = 'Zonas de entregas';
         $data['toptitle']           = 'Zonas de entregas por geolocalização';
         $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
@@ -31,7 +35,8 @@ class ZonesGeolocationController extends Controller {
         return view('admin.zones.index', $data);
     }
 
-    public function create() {
+    public function create()
+    {
         $title = 'Nova zona de entrega';
         $data['title']              = $title;
         $data['toptitle']           = $title;
@@ -50,7 +55,8 @@ class ZonesGeolocationController extends Controller {
     }
 
 
-    public function edit($id) {
+    public function edit($id)
+    {
         $zone = $this->repository->find($id);
         if (!$zone) {
             return redirect()->back()->with('error', 'Operação não autorizada');
@@ -74,16 +80,34 @@ class ZonesGeolocationController extends Controller {
         return view('admin.zones.create', $data);
     }
 
-    public function search(Request $request) {
+    public function search(Request $request)
+    {
     }
 
 
-    public function show($id) {
+    public function show($id)
+    {
+        $zone = $this->repository->find($id);
+        if (!$zone) {
+            return redirect()->back()->with('error', 'Operação não autorizada');
+        }
+        $zone->data = json_decode($zone->data);
+        $data['title']              = 'Detalhes zona ' . $zone->name;;
+        $data['toptitle']           = $data['title'];
+        $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
+        $data['breadcrumb'][]       = ['route' => route('admin.zones.geolocation'), 'title' => 'Zonas de entrega por geolocalização'];
+        $data['breadcrumb'][]       = ['route' => '#', 'title' => $data['title'], 'active' => true];
+        $data['zone']               = $zone;
+        $data['_zone']              = true;
+        $data['geo']                = true;
+
+        return view('admin.zones.show', $data);
     }
 
-    public function store(StoreUpdateZones $request) {
+    public function store(StoreUpdateZones $request)
+    {
 
-        if($request->delivery_time_end <= $request->delivery_time_ini){
+        if ($request->delivery_time_end <= $request->delivery_time_ini) {
             return response()->json(['error' => true, 'message' => 'O tempo de entra final não pode ser menor que o tempo inicial'], 400);
         }
 
@@ -111,7 +135,8 @@ class ZonesGeolocationController extends Controller {
         return response()->json(['message' => 'Coordenada salva com sucesso'], 200);
     }
 
-    public function update(StoreUpdateZones $request, $id) {
+    public function update(StoreUpdateZones $request, $id)
+    {
         $zone = $this->repository->find($id);
         if (!$zone) {
             return response()->json(['message' => 'Operação não autorizada'], 400);
@@ -133,7 +158,8 @@ class ZonesGeolocationController extends Controller {
         return response()->json(['message' => 'Coordenada salva com sucesso'], 200);
     }
 
-    private function makePolygon($val) {
+    private function makePolygon($val)
+    {
         $coordinates = $val;
 
         $polygon = [];
@@ -150,7 +176,8 @@ class ZonesGeolocationController extends Controller {
         return $coordinates;
     }
 
-    public function checkCoordinate(Request $request) {
+    public function checkCoordinate(Request $request)
+    {
         $coordinate = new Point($request->input('latitude'), $request->input('longitude'));
         $shape = $this->repository->whereRaw("ST_Within(POINT(?,?), coordinates)", [$coordinate->getLng(), $coordinate->getLat()])->first();
         if ($shape) {
@@ -160,10 +187,20 @@ class ZonesGeolocationController extends Controller {
         }
     }
 
-    public function destroy($id) {
+    public function destroy($id)
+    {
+        $zone = $this->repository->find($id);
+        if (!$zone) {
+            return Redirect::back()->with('error', 'Operação não autorizada');
+        }
+
+        $zone->delete();
+
+        return Redirect::route('admin.zones.geolocation')->with('success', 'Operação realizada sucesso');
     }
 
-    public function getShape($id) {
+    public function getShape($id)
+    {
         $zone = $this->repository->find($id);
         foreach ($zone->coordinates[0] as $coords) {
             $polygonCoords[] = (object)   ['lat' => $coords->getLat(), 'lng' => $coords->getLng()];
@@ -171,5 +208,4 @@ class ZonesGeolocationController extends Controller {
 
         return (object) ['id' => $id, 'coordenadas' => $polygonCoords];
     }
-
 }

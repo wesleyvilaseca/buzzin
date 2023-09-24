@@ -1,7 +1,11 @@
 @extends('layouts.admin.dashboard')
 
 @section('scripts-header')
-
+    <style>
+        .dropdown-toggle::after {
+            content: none;
+        }
+    </style>
 @stop
 @section('content')
     <div class="mb-2" align="right">
@@ -38,12 +42,25 @@
                                 {{ $zone->name }}
                             </td>
                             <td style="width=10px;">
-                                <a href="{{ route('zone.geolocation.edit', [$zone->id]) }}" class="btn btn-sm btn-info me-1">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </a>
-                                <a href="#" class="btn btn-sm btn-warning me-1">
-                                    <i class="fa-solid fa-eye"></i>
-                                </a>
+                                <div class="btn-group">
+                                    <a type="button" class="btn btn-light btn-sm dropdown-toggle" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item"
+                                                href="{{ route('zone.geolocation.edit', [$zone->id]) }}">
+                                                <i class="fa-solid fa-pen-to-square"></i> Editar
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('admin.zones.show', [$zone->id]) }}">
+                                                <i class="fa-solid fa-eye"></i> Visualizar
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </td>
                         </tr>
                     @empty
