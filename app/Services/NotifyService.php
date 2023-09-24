@@ -33,7 +33,7 @@ class NotifyService
         $hasNotifyNotVisualized = UserNotify::where([
             'user_id' => $user_id,
             'type' => UserNotify::TICKET_TYPE,
-            'vizualized' => UserNotify::NOT_VISUALIZED
+            'visualized' => UserNotify::NOT_VISUALIZED
         ])
             ->first();
 

@@ -68,16 +68,11 @@
 </template>
 
 <script>
-
-import Bus from '../../../bus'
 import DetailOrder from './_partials/DetailOrder'
 export default {
     created() { },
     mounted() {
-        this.getOrders()
-        // Bus.$on('order.created', (order) => {
-        //     this.orders.data.unshift(order)
-        // })
+        this.getOrders();
     },
     data() {
         return {

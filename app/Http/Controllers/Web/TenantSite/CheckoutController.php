@@ -7,6 +7,7 @@ use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Exception;
+use Inertia\Inertia;
 
 class CheckoutController extends Controller
 {
@@ -26,7 +27,8 @@ class CheckoutController extends Controller
     public function index()
     {
         $data['title']      = 'Checkout - ' . $this->tenant->url;
-        return view('tenant_site.checkout.index', $data);
+        Inertia::setRootView('layouts.tenant_site.site');
+        return Inertia::render('tenant_site/cart/_partials/checkout.view.vue', $data);
     }
 
     /**

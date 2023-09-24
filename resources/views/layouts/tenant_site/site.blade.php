@@ -29,8 +29,6 @@
     <script src="{{ mix('js/inertia.js') }}" defer></script>
 
     @yield('scripts-header')
-
-    <title>{{ @$title ? $title : 'BuzzIn!' }}</title>
     @inertiaHead
 </head>
 

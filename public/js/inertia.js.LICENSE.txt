@@ -8,12 +8,6 @@
  * @license  MIT
  */
 
-/*!
- * vuex v4.1.0
- * (c) 2022 Evan You
- * @license MIT
- */
-
 /*! https://mths.be/utf8js v2.1.2 by @mathias */
 
 /*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */

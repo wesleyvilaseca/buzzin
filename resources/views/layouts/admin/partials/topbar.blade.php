@@ -55,11 +55,10 @@
                 </div>
             </form>
         @else
-            <li class="nav-item">
-                <a class="nav-link"><i class="fas fa-user-circle me-2" style="padding-bottom: 12.5px"></i>
-                    {{ Auth::user()->name }}
-                </a>
-            </li>
+            <a class="nav-link">
+                <i class="fas fa-user-circle me-2" style="padding-bottom: 12.5px"></i>
+                {{ explode(' ', Auth::user()->name)[0] }}
+            </a>
         @endif
     </div>
 </nav>

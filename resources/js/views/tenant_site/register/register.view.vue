@@ -78,9 +78,9 @@
                     <div class="mt-4">
                         <div class="d-flex justify-content-center links">
                             Já tem conta?
-                            <a href="/app/login" class="ml-2">
+                            <Link href="/app/login" class="ml-2">
                                 Login
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>

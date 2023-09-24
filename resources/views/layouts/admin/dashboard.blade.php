@@ -132,8 +132,8 @@
     </script>
         {{-- <script src="https://cdn.tiny.cloud/1/957xh1332e4cnda4415vyfh0mmu9546pr8viekcnj5q0g1jd/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script> --}}
 
-    <script src="{{ asset('js/admin/sidebar/sidebar.js') }}"></script>
-    <script src="{{ asset('js/helper.js') }}"></script>
+    <script src="{{ asset('admin-js-files/sidebar.js') }}"></script>
+    <script src="{{ asset('admin-js-files/helper.js') }}"></script>
 
     @yield('js')
     @yield('components-js')

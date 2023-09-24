@@ -4,7 +4,6 @@ const mutations = {
     },
 
     SET_MY_TICKETS(state, tickets) {
-        console.log(tickets)
         state.my_tickets = tickets;
     },
 

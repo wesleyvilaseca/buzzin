@@ -31,7 +31,7 @@ class TenantResource extends JsonResource
             'number' => $this->number,
             'email' => $this->email,
             'logo' => $this->logo ? getFileLink($this->logo) : null,
-            'site_data' => json_decode($this->site->data),
+            'site_data' => json_decode($this->site->data, true),
             'date_created' => Carbon::parse($this->created_at)->format('d/m/Y'),
             'isOpen' => $this->isOpen(),
             'orderWhenClose' => $this->order_when_closed ? 'Y' : 'N',

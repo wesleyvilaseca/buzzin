@@ -29,9 +29,8 @@ class LoginController extends Controller
     public function index()
     {
         $data['title']      = 'Login - ' . $this->tenant->url;
-        Inertia::setRootView('layouts.tenant_site.site');
+        Inertia::setRootView('tenant_site.login.index');
         return Inertia::render('tenant_site/login/login.view.vue', $data);
-        // return view('tenant_site.login.index', $data);
     }
 
     public function auth(Request $request)

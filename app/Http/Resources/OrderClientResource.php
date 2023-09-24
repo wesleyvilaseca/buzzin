@@ -22,7 +22,7 @@ class OrderClientResource extends JsonResource
             'status_label' => $this->statusOptions[$this->status],
             'date' => Carbon::make($this->created_at)->format('Y-m-d'),
             'date_br' => Carbon::make($this->created_at)->format('d/m/Y'),
-            'company' => new TenantResource($this->tenant),
+            'company' => $this->tenant->name,
             'client' => $this->client_id ? new ClientResource($this->client) : '',
             'table' => $this->table_id ? new TableResource($this->table) : '',
             'products' => OrderProductResource::collection($this->order_products),

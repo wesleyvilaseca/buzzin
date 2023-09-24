@@ -48,18 +48,18 @@
                     <div class="mt-4">
                         <div class="d-flex justify-content-center links">
                             Não tem uma conta?
-                            <a href="/app/register" class="ml-2">
+                            <Link href="/app/register" class="ml-2">
                                 Cadastre-se!
-                            </a>
+                            </Link>
                         </div>
                     </div>
 
                      <div class="mt-4">
                         <div class="d-flex justify-content-center links">
                             Esqueceu a senha?
-                            <a href="/app/recuperar-acesso" class="ml-2">
+                            <Link href="/app/recuperar-acesso" class="ml-2">
                                 Recuperar a conta
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>
