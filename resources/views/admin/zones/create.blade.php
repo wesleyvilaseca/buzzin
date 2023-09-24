@@ -315,7 +315,7 @@
         function clearSelection() {
             if (selectedShape) {
                 selectedShape.setEditable(false);
-                selectedShape = null;
+                // selectedShape = null;
             }
         }
 
