@@ -6,6 +6,7 @@ use App\Http\Controllers\Web\Admin\TransactionNotificationController;
 use App\Http\Controllers\Web\Admin\PaymentIntegration\MercadoPagoIntegrationController;
 use App\Http\Controllers\Web\Admin\TenantTicketsController;
 use App\Http\Controllers\Web\Admin\TicketsController;
+use App\Http\Controllers\Web\Admin\ZonesGeolocationController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -40,6 +41,8 @@ Route::group([
     Route::post('/payslip',     [SubscriptionController::class, 'payslip'])->middleware(['auth']);
     Route::post('/pix',         [SubscriptionController::class, 'pix'])->middleware(['auth']);
     Route::post('/mp-notify',   [TransactionNotificationController::class, 'mpNotify']);
+    Route::get('/getshape/{id}', [ZonesGeolocationController::class, 'getShape']);
+
 
     /**
      * payment integration config

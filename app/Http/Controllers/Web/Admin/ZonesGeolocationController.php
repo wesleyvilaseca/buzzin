@@ -39,6 +39,7 @@ class ZonesGeolocationController extends Controller {
         $data['breadcrumb'][]       = ['route' => route('admin.zones.geolocation'), 'title' => 'Zonas de entrega por geolocalização', 'active' => true];
         $data['breadcrumb'][]       = ['route' => '#', 'title' => $title, 'active' => true];
         $data['_zone']               = true;
+        $data['zones'] = $this->repository->get();
         $data['geo'] = true;
         $data['is_edit'] = 'N';
         $data['method'] = 'POST';
@@ -64,12 +65,12 @@ class ZonesGeolocationController extends Controller {
         $data['breadcrumb'][]       = ['route' => route('admin.zones.geolocation'), 'title' => 'Zonas de entrega por geolocalização'];
         $data['breadcrumb'][]       = ['route' => '#', 'title' => $title, 'active' => true];
         $data['zone'] = $zone;
+        $data['zones'] = $this->repository->get();
         $data['_zone'] = true;
         $data['geo'] = true;
         $data['is_edit'] = 'S';
         $data['method'] = 'PUT';
 
-        $polygonCoords = [];
         foreach ($zone->coordinates[0] as $coords) {
             $polygonCoords[] = (object)   ['lat' => $coords->getLat(), 'lng' => $coords->getLng()];
         }
@@ -166,4 +167,14 @@ class ZonesGeolocationController extends Controller {
 
     public function destroy($id) {
     }
+
+    public function getShape($id) {
+        $zone = $this->repository->find($id);
+        foreach ($zone->coordinates[0] as $coords) {
+            $polygonCoords[] = (object)   ['lat' => $coords->getLat(), 'lng' => $coords->getLng()];
+        }
+
+        return (object) ['id' => $id, 'coordenadas' => $polygonCoords];
+    }
+
 }

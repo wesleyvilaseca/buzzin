@@ -110,7 +110,20 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="card-title">Desenhe a zona de entrega</div>
+                    <div class="title">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="card-title">Desenhe a zona de entrega</div>
+                            </div>
+                            <div class="col-6" align="right">
+                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal">
+                                    Comparar zona
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                     <hr>
                     <div class="body">
                         <div id="map"></div>
@@ -122,6 +135,37 @@
                             <button class="btn btn-sm btn-danger" id="delete-button">Limpar seleção</button>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Imagem de exemplo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group mt-2">
+                        <label>* Selecione?
+                            <i class="fa-solid fa-circle-info text-primary" data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                                title="No modo teste, a 'public key' e o 'access token' devem ser o de teste"></i>
+                        </label>
+                        <select name="sandbox" class="form-control form-control-sm" id="shapeCompare"
+                            onchange="compareShape()">
+                            <option selected> Selecione uma opção</option>
+                            @foreach ($zones as $z)
+                                <option value="{{ $z->id }}">{{ $z->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>
@@ -143,31 +187,10 @@
         var drawingManager;
         var selectedShape;
         var shapeExists = false;
-
-        // document.getElementById('lat').addEventListener('change', function() {
-        //     lat = this.value;
-        //     if (document.getElementById('lng').value) {
-        //         lng = document.getElementById('lng').value;
-        //     }
-
-        //     map.setCenter({
-        //         lat: parseFloat(lat),
-        //         lng: parseFloat(lng)
-        //     });
-        // });
-
-        // document.getElementById('lng').addEventListener('change', function() {
-        //     if (document.getElementById('lat').value) {
-        //         lat = document.getElementById('lat').value;
-        //     }
-
-        //     lng = this.value;
-
-        //     map.setCenter({
-        //         lat: parseFloat(lat),
-        //         lng: parseFloat(lng)
-        //     });
-        // });
+        var shapesComparing = [];
+        var coompareShapeEdit;
+        var selectedCompareShape;
+        var selectedCompareShapeId;
 
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
@@ -227,9 +250,8 @@
                 ];
                 edit_coordinate = polygonCoords;
                 shapeExists = true;
-                setShapeFromDb();
+                setShapeOnMap();
             }
-            // document.getElementById('edit-button').addEventListener('click', editShape);
             startAutoComplete();
         }
 
@@ -240,38 +262,63 @@
             autocomplete.addListener('place_changed', function() {
                 var place = autocomplete.getPlace();
 
-                map.setCenter({
-                    lat: place.geometry['location'].lat(),
-                    lng: place.geometry['location'].lng()
-                });
+                if (place.geometry) {
+
+                    map.setCenter({
+                        lat: place.geometry['location'].lat(),
+                        lng: place.geometry['location'].lng()
+                    });
+
+                    deleteSelectedShape();
+
+
+                    var polygonCoords = [];
+                    var bounds = place.geometry.viewport;
+                    var ne = bounds.getNorthEast();
+                    var sw = bounds.getSouthWest();
+
+                    polygonCoords.push({
+                        lat: ne.lat(),
+                        lng: ne.lng()
+                    });
+                    polygonCoords.push({
+                        lat: ne.lat(),
+                        lng: sw.lng()
+                    });
+                    polygonCoords.push({
+                        lat: sw.lat(),
+                        lng: sw.lng()
+                    });
+                    polygonCoords.push({
+                        lat: sw.lat(),
+                        lng: ne.lng()
+                    });
+
+                    // Feche o polígono
+                    polygonCoords.push({
+                        lat: ne.lat(),
+                        lng: ne.lng()
+                    });
+
+                    edit_coordinate = polygonCoords;
+                    setShapeOnMap()
+                }
             })
         }
 
-        function setShapeFromDb() {
-            disabledDrawing()
-            var polygon = new google.maps.Polygon({
-                paths: edit_coordinate,
-                strokeColor: '#FF0000',
-                strokeOpacity: 0.8,
-                strokeWeight: 2,
-                fillColor: '#FF0000',
-                fillOpacity: 0.35
-            });
-
+        function setShapeOnMap() {
+            disabledDrawing();
+            var polygon = makePolygon(edit_coordinate);
             polygon.setMap(map);
-
             setSelection(polygon);
 
-            // Adicionando o listener de eventos "dragend" ao shape
             google.maps.event.addListener(polygon, 'dragend', function() {
                 selectedShape = this;
             });
 
-            // Adicionando o listener de eventos "click" ao shape
             google.maps.event.addListener(polygon, 'click', function() {
                 setSelection(this);
             });
-
         }
 
         function disabledDrawing() {
@@ -297,7 +344,29 @@
             }
         }
 
-        function deleteSelectedShape() {
+        function setCompareShapesOnMap(data) {
+            const objetoEncontrado = shapesComparing.find(objeto => objeto.id === data.id);
+            if (objetoEncontrado) {
+                return;
+            }
+
+            shapesComparing.push(data);
+            var compare = makePolygon(data.coordenadas, '#198754');
+
+            compare.setMap(map);
+            google.maps.event.addListener(compare, 'dragend', function() {
+                selectedCompareShapeId = data.id;
+                selectedCompareShape = this;
+            });
+
+            google.maps.event.addListener(compare, 'click', function() {
+                selectedCompareShapeId = data.id;
+                selectedCompareShape = this;
+            });
+        }
+
+
+        function deleteSelectedShape(compare_shape_id = false) {
             if (selectedShape) {
                 selectedShape.setMap(null);
                 shapeExists = false;
@@ -305,6 +374,13 @@
                     drawingControlOptions: {
                         drawingModes: ['polygon']
                     }
+                });
+            }
+
+            if (selectedCompareShape) {
+                selectedCompareShape.setMap(null);
+                shapesComparing = shapesComparing.filter(function(objeto) {
+                    return objeto.id !== selectedCompareShapeId;
                 });
             }
         }
@@ -386,10 +462,43 @@
             });
         }
 
-         // Carregue a API do Google Maps somente após a página ser carregada completamente
-         window.onload = function() {
+        function compareShape() {
+            var id = $("#shapeCompare").val();
+            if (!id) {
+                return;
+            }
+
+            $.ajax({
+                url: `/api/v1/getshape/${id}`,
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                data: null,
+                success: function(data) {
+                    setCompareShapesOnMap(data);
+                    $("#exampleModal").modal("hide");
+                }
+            });
+
+        }
+
+        function makePolygon(coordenadas, color = '#FF0000') {
+            return new google.maps.Polygon({
+                paths: coordenadas,
+                strokeColor: color,
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: color,
+                fillOpacity: 0.35,
+                editable: false
+            });
+        }
+
+        // Carregue a API do Google Maps somente após a página ser carregada completamente
+        window.onload = function() {
             var script = document.createElement('script');
-            script.src = "https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key={{ env('GOOGLE_MAPS_KEY') }}&callback=initMap";
+            script.src =
+                "https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key={{ env('GOOGLE_MAPS_KEY') }}&callback=initMap";
             script.async = true;
             script.defer = true;
             script.onload = function() {
@@ -397,26 +506,5 @@
             };
             document.body.appendChild(script);
         };
-
-        // function deleteShape() {
-        //     if (selectedShape) {
-        //         selectedShape.setMap(null);
-        //         // Envie os dados para o back-end via AJAX
-        //         $.ajax({
-        //             type: 'DELETE',
-        //             url: '/delete-shape/' + selectedShape.id,
-        //             success: function(data) {
-        //                 console.log('Shape deleted successfully');
-        //             },
-        //             error: function(error) {
-        //                 console.log('Error deleting shape: ' + error);
-        //             }
-        //         });
-        //     }
-        // }
     </script>
-
-    {{-- <script async defer
-        src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key={{ env('GOOGLE_MAPS_KEY') }}&v=2&callback=initMap">
-    </script> --}}
 @stop
