@@ -63,5 +63,21 @@ Helper.prototype = {
             currency: 'BRL'
         });
         return formatter.format(value);
-    }
+    },
+
+    slugfy: (string) => {
+        // Remove espaços em branco no início e no final da string
+        string = string.trim().toLowerCase();
+      
+        // Substitui espaços por hífens
+        string = string.replace(/\s+/g, '-');
+      
+        // Remove caracteres especiais usando uma expressão regular
+        string = string.replace(/[^a-z0-9-]/g, '');
+      
+        // Remove múltiplos hífens consecutivos
+        string = string.replace(/-+/g, '-');
+      
+        return string;
+      }
 }
