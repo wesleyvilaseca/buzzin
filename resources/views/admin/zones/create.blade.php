@@ -330,11 +330,13 @@
 
             compare.setMap(map);
             google.maps.event.addListener(compare, 'dragend', function() {
+                clearSelection();
                 selectedCompareShapeId = data.id;
                 selectedCompareShape = this;
             });
 
             google.maps.event.addListener(compare, 'click', function() {
+                clearSelection();
                 selectedCompareShapeId = data.id;
                 selectedCompareShape = this;
             });
