@@ -7,6 +7,7 @@ use App\Http\Resources\CategoryResource;
 use App\Models\Plan;
 use App\Services\CategoryService;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CartController extends Controller
 {
@@ -23,7 +24,8 @@ class CartController extends Controller
     public function index()
     {
         $data['title']      = 'Carrinho de compras - ' . $this->tenant->url;
-        return view('tenant_site.cart.index', $data);
+        Inertia::setRootView('layouts.tenant_site.site');
+        return Inertia::render('tenant_site/cart/cart.view.vue', $data);
     }
 
 }

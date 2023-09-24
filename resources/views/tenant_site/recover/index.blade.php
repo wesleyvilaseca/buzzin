@@ -29,5 +29,4 @@
 @section('content')
     @component('components.widget.warning-site-recaptcha')
     @endcomponent
-    <recover-tenant-view></recover-tenant-view>
 @stop

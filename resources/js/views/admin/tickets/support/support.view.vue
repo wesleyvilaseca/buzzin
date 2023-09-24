@@ -125,7 +125,9 @@ export default {
         getAll() {
             axios.get('/api/v1/tickets')
                 .then(response => this.tickets = response.data)
-                .catch(error => alert('error'))
+                .catch((error) =>{
+                    console.log(error)
+                })
         },
         showModalConversation(state, id = null) {
             window.location.href = `/admin-tickets/${id}/ticket`;

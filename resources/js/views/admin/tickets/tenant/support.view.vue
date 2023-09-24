@@ -242,9 +242,11 @@ export default {
                 .then(response => {
                     this.showModal(false);
                     this.resetForm();
-                    this.getAll();
+                    this.getTicketsByTenant();
                 })
-                .catch(error => alert('error'))
+                .catch((error) => {
+                    console.log(error)
+                })
                 .finally(() => this.loading = false)
         },
         validateForm() {

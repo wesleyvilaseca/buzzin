@@ -10,6 +10,7 @@ use App\Services\ClientService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Inertia\Inertia;
 
 class AccountRecoverLoginController extends Controller
 {
@@ -28,7 +29,8 @@ class AccountRecoverLoginController extends Controller
     public function index()
     {
         $data['title']      = 'Recuperar acesso - ' . $this->tenant->url;
-        return view('tenant_site.recover.index', $data);
+        Inertia::setRootView('tenant_site.recover.index');
+        return Inertia::render('tenant_site/recover/recover.view.vue', $data);
     }
 
     public function pagePasswordReset(Request $request, $token)
@@ -36,7 +38,8 @@ class AccountRecoverLoginController extends Controller
         $data['title']      = 'Nova senha';
         $data['token']      = $token;
         $data['email']      = $request->get("email");
-        return view('tenant_site.password_reset.index', $data);
+        Inertia::setRootView('tenant_site.password_reset.index');
+        return Inertia::render('tenant_site/password_reset/password_reset.view.vue', $data);
     }
 
     public function sendRecover(Request $request)

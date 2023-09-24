@@ -8,6 +8,7 @@ use App\Services\ClientAddressService;
 use App\Services\ClientService;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ClientController extends Controller
 {
@@ -31,7 +32,8 @@ class ClientController extends Controller
     public function index()
     {
         $data['title']      = 'Área do cliente - ' . $this->tenant->url;
-        return view('tenant_site.client.index', $data);
+        Inertia::setRootView('layouts.tenant_site.site');
+        return Inertia::render('tenant_site/client/index.view.vue', $data);
     }
 
     public function getOrders(Request $request)
@@ -40,19 +42,23 @@ class ClientController extends Controller
         return OrderClientResource::collection($orders);
     }
 
-    public function updateAddress(Request $request, $id) {
+    public function updateAddress(Request $request, $id)
+    {
         return $this->clientAddressService->updateAddress($request->all(), $id);
     }
 
-    public function deleteAddress(Request $request, $id) {
+    public function deleteAddress(Request $request, $id)
+    {
         return $this->clientAddressService->deleteAddress($id);
     }
 
-    public function updateAccount(Request $request) {
+    public function updateAccount(Request $request)
+    {
         return $this->clientService->update($request->all());
     }
 
-    public function updatePasswordAccount(Request $request) {
+    public function updatePasswordAccount(Request $request)
+    {
         return $this->clientService->updatePasswordAccount($request->all());
     }
 }

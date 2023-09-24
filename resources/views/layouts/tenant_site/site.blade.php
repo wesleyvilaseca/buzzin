@@ -26,14 +26,14 @@
     <!--jquery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <script src="{{ mix('js/app.js') }}" defer></script>
+    <script src="{{ mix('js/inertia.js') }}" defer></script>
 
     @yield('scripts-header')
-
-    <title>{{ @$title ? $title : 'BuzzIn!' }}</title>
+    @inertiaHead
 </head>
 
 <body>
+    @inertia
     <div id="app">
         <main class="main main--footerFixed bg-gray-100">
             @if (@isset($breadcrumb))

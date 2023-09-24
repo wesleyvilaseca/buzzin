@@ -10,6 +10,7 @@ use App\Models\Plan;
 use App\Services\CategoryService;
 use App\Services\ClientService;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class RegisterController extends Controller
 {
@@ -31,7 +32,8 @@ class RegisterController extends Controller
     public function index()
     {
         $data['title']      = 'Registro - ' . $this->tenant->url;
-        return view('tenant_site.register.index', $data);
+        Inertia::setRootView('tenant_site.register.index');
+        return Inertia::render('tenant_site/register/register.view.vue', $data);
     }
 
     public function store(StoreClient $request)
