@@ -38,12 +38,12 @@ class ZonesGeolocationController extends Controller {
         $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
         $data['breadcrumb'][]       = ['route' => route('admin.zones.geolocation'), 'title' => 'Zonas de entrega por geolocalização', 'active' => true];
         $data['breadcrumb'][]       = ['route' => '#', 'title' => $title, 'active' => true];
-        $data['_zone']               = true;
-        $data['zones'] = $this->repository->get();
-        $data['geo'] = true;
-        $data['is_edit'] = 'N';
-        $data['method'] = 'POST';
-        $data['routeAction'] = route('zone.geolocation.store');
+        $data['_zone']              = true;
+        $data['zones']              = $this->repository->select(['id', 'name'])->get();
+        $data['geo']                = true;
+        $data['is_edit']            = 'N';
+        $data['method']             = 'POST';
+        $data['routeAction']        = route('zone.geolocation.store');
 
 
         return view('admin.zones.create', $data);
@@ -57,23 +57,18 @@ class ZonesGeolocationController extends Controller {
         }
 
         $zone->data = json_decode($zone->data);
-
         $title = 'Editar zona ' . $zone->name;
         $data['title']              = $title;
         $data['toptitle']           = $title;
         $data['breadcrumb'][]       = ['route' => route('admin.dashboard'), 'title' => 'Dashboard'];
         $data['breadcrumb'][]       = ['route' => route('admin.zones.geolocation'), 'title' => 'Zonas de entrega por geolocalização'];
         $data['breadcrumb'][]       = ['route' => '#', 'title' => $title, 'active' => true];
-        $data['zone'] = $zone;
-        $data['zones'] = $this->repository->get();
-        $data['_zone'] = true;
-        $data['geo'] = true;
-        $data['is_edit'] = 'S';
-        $data['method'] = 'PUT';
-
-        foreach ($zone->coordinates[0] as $coords) {
-            $polygonCoords[] = (object)   ['lat' => $coords->getLat(), 'lng' => $coords->getLng()];
-        }
+        $data['zone']               = $zone;
+        $data['zones']              = $this->repository->select(['id', 'name'])->get();
+        $data['_zone']              = true;
+        $data['geo']                = true;
+        $data['is_edit']            = 'S';
+        $data['method']             = 'PUT';
         $data['routeAction'] = route('zone.geolocation.update', [$zone->id]);
 
         return view('admin.zones.create', $data);
