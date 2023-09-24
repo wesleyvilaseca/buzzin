@@ -49,16 +49,16 @@
                         <div class="d-flex justify-content-center links">
                             Não tem uma conta?
                             <Link href="/app/register" class="ml-2">
-                                Cadastre-se!
+                            Cadastre-se!
                             </Link>
                         </div>
                     </div>
 
-                     <div class="mt-4">
+                    <div class="mt-4">
                         <div class="d-flex justify-content-center links">
                             Esqueceu a senha?
                             <Link href="/app/recuperar-acesso" class="ml-2">
-                                Recuperar a conta
+                            Recuperar a conta
                             </Link>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
 
 <style scoped>
 .login_btn {
-    background: v-bind("paleta.btn_color")  !important;
+    background: v-bind("paleta.btn_color") !important;
     color: white !important;
     border-radius: 50px;
 }
@@ -122,7 +122,8 @@ export default {
     computed: {
         ...mapState({
             company: (state) => state.tenant.company,
-            paleta: (state) => state.layout.paleta
+            paleta: (state) => state.layout.paleta,
+            token_name: (state) => state.auth.TOKEN_NAME
 
         }),
         deviceName() {
@@ -135,13 +136,13 @@ export default {
         },
     },
     mounted() { },
-    created() {},
+    created() { },
     methods: {
         ...mapActions(["login"]),
         auth() {
             this.reset();
 
-            if(this.recaptcha == 'N') {
+            if (this.recaptcha == 'N') {
                 return toast.error("Erro na validação do recaptcha", { autoClose: 4000 });
             }
 
@@ -151,7 +152,7 @@ export default {
                 ...this.formData,
             };
             this.login(params)
-                .then((res) => {
+                .then(() => {
                     toast.success("Login realizado com sucesso", { autoClose: 3000 });
                     return window.location.href = `http://${this.company.domain}`;
                 })
@@ -170,7 +171,7 @@ export default {
                 });
         },
         reset() {
-            if(!this.recaptcha){
+            if (!this.recaptcha) {
                 this.recaptcha = document.getElementById('recaptcha').value;
             }
             this.errors = { email: "", password: "" };

@@ -436,6 +436,9 @@ var __default__ = {
     },
     paleta: function paleta(state) {
       return state.layout.paleta;
+    },
+    token_name: function token_name(state) {
+      return state.auth.TOKEN_NAME;
     }
   })), {}, {
     deviceName: function deviceName() {
@@ -457,7 +460,7 @@ var __default__ = {
       var params = _objectSpread({
         device_name: this.deviceName
       }, this.formData);
-      this.login(params).then(function (res) {
+      this.login(params).then(function () {
         vue3_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.success("Login realizado com sucesso", {
           autoClose: 3000
         });
@@ -1296,7 +1299,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.login_btn[data-v-35408962] {\n    background: var(--35408962-paleta\\.btn_color)  !important;\n    color: white !important;\n    border-radius: 50px;\n}\n.login_btn[data-v-35408962]:hover {\n    background: var(--35408962-paleta\\.btn_color_hover) !important;\n}\n.input-group-text[data-v-35408962] {\n    background: var(--35408962-paleta\\.links) !important;\n    color: white !important;\n    border-color: var(--35408962-paleta\\.links);\n    border-radius: 0.25rem 0 0 0.25rem !important;\n}\n.input-group[data-v-35408962]:focus {\n    border-color: var(--35408962-paleta\\.links);\n    box-shadow: none;\n    outline: 0;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.login_btn[data-v-35408962] {\n    background: var(--35408962-paleta\\.btn_color) !important;\n    color: white !important;\n    border-radius: 50px;\n}\n.login_btn[data-v-35408962]:hover {\n    background: var(--35408962-paleta\\.btn_color_hover) !important;\n}\n.input-group-text[data-v-35408962] {\n    background: var(--35408962-paleta\\.links) !important;\n    color: white !important;\n    border-color: var(--35408962-paleta\\.links);\n    border-radius: 0.25rem 0 0 0.25rem !important;\n}\n.input-group[data-v-35408962]:focus {\n    border-color: var(--35408962-paleta\\.links);\n    box-shadow: none;\n    outline: 0;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
