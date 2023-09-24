@@ -75,7 +75,7 @@
         <div class="modal-dialog modal-lg modal-dialog-end">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Imagem de exemplo</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Selecio a zona para comparação</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -330,20 +330,26 @@
 
             compare.setMap(map);
             google.maps.event.addListener(compare, 'dragend', function() {
-                clearSelection();
                 selectedCompareShapeId = data.id;
                 selectedCompareShape = this;
             });
 
             google.maps.event.addListener(compare, 'click', function() {
-                clearSelection();
                 selectedCompareShapeId = data.id;
                 selectedCompareShape = this;
             });
-            clearSelection();
         }
 
-        function deleteSelectedShape(compare_shape_id = false) {
+        function deleteSelectedShape() {
+            if (selectedCompareShape) {
+                selectedCompareShape.setMap(null);
+                selectedCompareShape = null;
+                shapesComparing = shapesComparing.filter(function(objeto) {
+                    return objeto.id !== selectedCompareShapeId;
+                });
+                return;
+            }
+            
             if (selectedShape) {
                 selectedShape.setMap(null);
                 shapeExists = false;
@@ -351,13 +357,6 @@
                     drawingControlOptions: {
                         drawingModes: ['polygon']
                     }
-                });
-            }
-
-            if (selectedCompareShape) {
-                selectedCompareShape.setMap(null);
-                shapesComparing = shapesComparing.filter(function(objeto) {
-                    return objeto.id !== selectedCompareShapeId;
                 });
             }
         }
