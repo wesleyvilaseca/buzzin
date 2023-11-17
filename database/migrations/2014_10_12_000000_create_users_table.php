@@ -23,8 +23,8 @@ class CreateUsersTable extends Migration
             $table->enum('super_admin', ['Y', 'N'])->default('N');
             $table->enum('internal', ['Y', 'N'])->default('N');
             $table->rememberToken();
+            $table->timestamp('last_seen')->nullable();
             $table->timestamps();
-
             $table->foreign('tenant_id')
                 ->references('id')
                 ->on('tenants');

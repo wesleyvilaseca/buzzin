@@ -4,6 +4,8 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+      args:
+        - TARGETPLATFORM=linux/amd64
     container_name: buzzin-app
     volumes: 
       - ./:/var/www/html
@@ -19,7 +21,8 @@ services:
       - redis
 
   db:
-    image: mysql:5.7.22
+    image: mysql:5.7.34
+    platform: linux/amd64
     container_name: buzzin-db
     restart: always
     ports:
@@ -36,6 +39,7 @@ services:
 
   redis:
       image: redis:latest
+      platform: linux/amd64
       command: redis-server --appendonly yes --replica-read-only no
       ports:
           - "6379:6379"
@@ -46,6 +50,8 @@ services:
       build:
         context: .
         dockerfile: ./Dockerfile
+        args:
+        - TARGETPLATFORM=linux/amd64
       restart: always
       command: "php artisan queue:work"
       volumes:
