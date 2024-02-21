@@ -43,7 +43,8 @@ services:
       command: redis-server --appendonly yes --replica-read-only no
       ports:
           - "6379:6379"
-      volumes: "./.docker/redis:/data"
+      volumes: 
+        - "./.docker/redis:/data"
       networks:
           - app-network
       deploy:
