@@ -12,7 +12,7 @@
                 </span>
                 </Link>
 
-                <Link :href="route('home.tenant.site')" class="navbar-brand" v-else>
+                <Link :href="route('app.home')" class="navbar-brand" v-else>
                 <img src="../../../../assets/imgs/404.png" alt="Em manutenção" style="max-width: 35px;" />
                 </Link>
 

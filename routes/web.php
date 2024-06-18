@@ -25,7 +25,7 @@ $appDomain = str_replace(['http://', 'https://'], "", env('APP_URL'));
 $url = explode('/', str_replace(['http://', 'https://'], "", Request::url()));
 
 
-Utils::getSite($domain, isset($url[1]) ? $url[1] : null, false);
+Utils::getSite($domain, isset($url[1]) ? $url[1] : null);
 $isTenantSiteDomainOrSubDomain = Cache::get('tenant-site-' . $domain);
 $isDefaultPrefixDomain =  Cache::get(isset($url[1]) ? 'tenant-site-' . $url[1] : null);
 

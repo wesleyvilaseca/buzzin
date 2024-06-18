@@ -68,7 +68,7 @@ class Utils
         return Cache::get('tenant-' . session()->get('tenant_key'));
     }
 
-    public static function getSite($host, $url = null)
+    public static function getSite($host, $url = null, $redirectOnMaintence = false)
     {
         $appdomain = env('APP_URL');
         $isDomain = true;
@@ -76,7 +76,7 @@ class Utils
             $isDomain = false;
         }
 
-        $site = Cache::get($isDomain ? 'tenant-site-' . $host : 'tenant-site-' . $url);
+        $site = null;#Cache::get($isDomain ? 'tenant-site-' . $host : 'tenant-site-' . $url);
 
         if(!$site) {
             if ($isDomain) {
@@ -139,14 +139,16 @@ class Utils
             }
         }
 
-        $isInMaintence = $site->maintence;
-        if ($isInMaintence == Site::IN_MAINTENCE) {
-            $userAdmin = User::where('email', $tenant->email)->first();
-            if(!Cache::has('user-is-online-' . $userAdmin->id)) {
-                return redirect()->route('inicio');
-            }else {
-                Cache::put('user-is-online-' . $userAdmin->id, true, Carbon::now()->addMinutes(5));
+        if($redirectOnMaintence) {
+            $isInMaintence = $site->maintence;
+            if ($isInMaintence == Site::IN_MAINTENCE) {
+                $userAdmin = User::where('email', $tenant->email)->first();
+                if(!Cache::has('user-is-online-' . $userAdmin->id)) {
+                    return redirect()->route('tenant.maintence');
+                }else {
+                    Cache::put('user-is-online-' . $userAdmin->id, true, Carbon::now()->addMinutes(5));
+                }
             }
-        }
+        }  
     }
 }

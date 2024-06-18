@@ -29,7 +29,7 @@ class ClientSiteAccess
         $host = str_replace('www.', '', request()->getHttpHost());
         $url = explode('/', str_replace(['http://', 'https://'], "", request()->url()));
 
-        $notEnableSite = Utils::getSite($host, isset($url[1]) ? $url[1] : null);
+        $notEnableSite = Utils::getSite($host, isset($url[1]) ? $url[1] : null, true);
         if($notEnableSite) {
             return $notEnableSite;
         }
