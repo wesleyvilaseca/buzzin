@@ -68,8 +68,6 @@ if ($isDefaultPrefixDomain || $isTenantSiteDomainOrSubDomain) {
 }
 
 Route::prefix('app')->group(function () {
-
-    Route::get('/cart',         [CartController::class, 'index'])->name('cart');
     
     Route::post('/login',        [TenantSiteLoginController::class, 'auth'])->name('app.login.auth');
 
