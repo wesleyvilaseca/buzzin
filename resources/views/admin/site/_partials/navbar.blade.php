@@ -38,11 +38,18 @@
                     </li>
                 @endcan
             </ul>
-            <form class="d-flex">
-                <a href="http://{{ \App\Supports\Helper\Utils::getSiteTenantLink() }}" target="_blank" class="btn btn-sm btn-info text-white">
+            <form class="d-flex mb-1" style="margin-left: 5px;">
+                <a href="http://{{ \App\Supports\Helper\Utils::getSiteTenantLink() }}" target="_blank" class="btn btn-sm btn-outline-warning">
                     <i class="fa-solid fa-eye"></i>
                     WebSite
                 </a>
+            </form>
+            <form class="d-flex mb-1" method="POST" action="{{ route('admin.site.clearcache') }}" style="margin-left: 5px;">
+                @csrf
+                <button class="btn btn-sm btn-danger text-white" type="submit">
+                    <i class="fa-solid fa-eraser"></i>
+                    Limpar cache
+                </button>
             </form>
         </div>
     </div>

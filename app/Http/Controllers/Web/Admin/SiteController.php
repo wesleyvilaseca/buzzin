@@ -7,6 +7,7 @@ use App\Models\Site;
 use App\Models\Tenant;
 use App\Supports\Cripto\Cripto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -92,5 +93,14 @@ class SiteController extends Controller
         }
 
         return Redirect::route('admin.site')->with('success', 'Operação realizada com sucesso');
+    }
+
+    public function clearCache(Request $request) {
+        try {
+            Artisan::call('cache:clear');
+            return Redirect::route('admin.site')->with('success', 'Cache apagado com sucesso');
+        } catch (\Exception $e) {
+            return Redirect::route('admin.site')->with('warning', 'Erro ao limpar o cache, tente outra vez');
+        }
     }
 }
