@@ -17,3 +17,4 @@ yarn-error.log
 /.certs
 /.sites-avaliable/*
 laravel-echo-server.json
+laravel-echo-server.lock
