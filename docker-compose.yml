@@ -50,7 +50,7 @@ services:
       resources:
         limits:
           cpus: "1"
-          memory: 250M
+          memory: 200M
         reservations:
           cpus: "0.1"
           memory: 20M
@@ -74,7 +74,7 @@ services:
         resources:
           limits:
             cpus: "1"
-            memory: 250M
+            memory: 200M
           reservations:
             cpus: "0.1"
             memory: 20m
