@@ -3,7 +3,7 @@
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-vuefood pt-2">
             <div class="container">
-                <Link href="/" class="navbar-brand" v-if="!maintence">
+                <Link :href="route('app.home')" class="navbar-brand" v-if="!maintence">
                 <span v-if="preloader" class="text-center">
                     <img src="../../../../assets/imgs/preloader.gif" alt="Carregando..." style="max-width: 35px;" />
                 </span>
@@ -12,21 +12,21 @@
                 </span>
                 </Link>
 
-                <Link href="/" class="navbar-brand" v-else>
+                <Link :href="route('home.tenant.site')" class="navbar-brand" v-else>
                 <img src="../../../../assets/imgs/404.png" alt="Em manutenção" style="max-width: 35px;" />
                 </Link>
 
                 <div v-if="!maintence">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item nav-cart">
-                            <Link href="/app/cart" class="nav-link btn-nav">
+                            <Link :href="route('app.cart')" class="nav-link btn-nav">
                             <i class="white-icon fa-solid fa-cart-shopping"></i>
                             <span class="ms-1 white-icon"> {{ productsCart.length }}</span>
                             </Link>
                         </li>
 
                         <li class="nav-item">
-                            <Link href="/app/cliente-area" class="nav-link ms-5" v-if="me.name && me.name !== 'undefined'">
+                            <Link :href="route('app.cliente.area')" class="nav-link ms-5" v-if="me.name && me.name !== 'undefined'">
                             Olá
                             {{ me.name
                             }}
@@ -34,7 +34,7 @@
                                 <i class="red-icon fa-solid fa-right-from-bracket"></i>
                             </span>
                             </Link>
-                            <Link href="/app/login" class="nav-link ms-5" v-else>
+                            <Link :href="route('app.login')" class="nav-link ms-5" v-else>
                             Login
                             </Link>
                         </li>
@@ -92,7 +92,7 @@ export default {
             preloader: (state) => state.preloader.preloader,
             maintence: (state) => state.maintence.maintence,
             paleta: (state) => state.layout.paleta
-        }),
+        })
     },
     methods: {
         ...mapActions([
@@ -107,7 +107,7 @@ export default {
         exit() {
             this.logout()
                 .then(() => {
-                    window.location.href = `http://${this.company.domain}`;
+                    window.location.href = route('app.home');
                 })
         },
     },

@@ -48,7 +48,7 @@
                     <div class="mt-4">
                         <div class="d-flex justify-content-center links">
                             Não tem uma conta?
-                            <Link href="/app/register" class="ml-2">
+                            <Link :href="route('app.register')" class="ml-2">
                             Cadastre-se!
                             </Link>
                         </div>
@@ -57,7 +57,7 @@
                     <div class="mt-4">
                         <div class="d-flex justify-content-center links">
                             Esqueceu a senha?
-                            <Link href="/app/recuperar-acesso" class="ml-2">
+                            <Link :href="route('app.recover')" class="ml-2">
                             Recuperar a conta
                             </Link>
                         </div>

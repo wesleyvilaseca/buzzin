@@ -7,6 +7,7 @@ import Vue3Toasity from 'vue3-toastify';
 import VueTheMask from 'vue-the-mask';
 import 'vue3-toastify/dist/index.css';
 import { InertiaProgress } from '@inertiajs/progress';
+import { route } from 'ziggy-js';
 
 InertiaProgress.init({
     progress: {
@@ -21,6 +22,7 @@ createInertiaApp({
     resolve: name => import(`./views/${name}`),
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
+            .mixin({ methods: { route } })
             .use(plugin)
             .use(store)
             .use(Vue3Toasity, { autoClose: 3000 })

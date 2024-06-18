@@ -303,6 +303,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/',                 [SiteController::class, 'index'])->name('admin.site');
             Route::post('/',                [SiteController::class, 'enable'])->name('admin.site.enable');
             Route::post('/maintence',       [SiteController::class, 'maintence'])->name('admin.site.maintence');
+            Route::post('/clear-cache',     [SiteController::class, 'clearCache'])->name('admin.site.clearcache');
 
             Route::get('/layout',               [SiteLayoutController::class, 'index'])->name('admin.site.layout');
             Route::post('/layout-update',       [SiteLayoutController::class, 'storeUpdateLayout'])->name('admin.site.layout_update');
@@ -311,6 +312,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/extension-active',    [SiteExtensionsController::class, 'active'])->name('admin.site_extension.active');
             Route::put('/extension-disable/{id}', [SiteExtensionsController::class, 'disable'])->name('admin.site_extension.disable');
             Route::put('/extension-enable/{id}',  [SiteExtensionsController::class, 'enable'])->name('admin.site_extension.enable');
+
+            
 
         });
 

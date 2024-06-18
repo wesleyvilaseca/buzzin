@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web\TenantSite;
 
 use App\Http\Controllers\Controller;
 use App\Services\OrderService;
+use App\Supports\Helper\Utils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Exception;
@@ -19,7 +20,7 @@ class CheckoutController extends Controller
     {
         $this->orderService = $orderService;
         $this->middleware(function ($request, $next) {
-            $this->tenant = session()->get('tenant');
+            $this->tenant = Utils::getCachedTenant();
             return $next($request);
         });
     }

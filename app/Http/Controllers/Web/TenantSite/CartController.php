@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
 use App\Models\Plan;
 use App\Services\CategoryService;
+use App\Supports\Helper\Utils;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -16,7 +17,7 @@ class CartController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            $this->tenant = session()->get('tenant');
+            $this->tenant = Utils::getCachedTenant();
             return $next($request);
         });
     }

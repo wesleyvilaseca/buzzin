@@ -27,7 +27,9 @@ class ClientSiteAccess
     public function handle(Request $request, Closure $next)
     {
         $host = str_replace('www.', '', request()->getHttpHost());
-        $notEnableSite = Utils::getSite($host);
+        $url = explode('/', str_replace(['http://', 'https://'], "", request()->url()));
+
+        $notEnableSite = Utils::getSite($host, isset($url[1]) ? $url[1] : null);
         if($notEnableSite) {
             return $notEnableSite;
         }

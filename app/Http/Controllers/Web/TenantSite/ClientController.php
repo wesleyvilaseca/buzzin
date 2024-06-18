@@ -7,6 +7,7 @@ use App\Http\Resources\OrderClientResource;
 use App\Services\ClientAddressService;
 use App\Services\ClientService;
 use App\Services\OrderService;
+use App\Supports\Helper\Utils;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -24,7 +25,7 @@ class ClientController extends Controller
         $this->clientService = $clientService;
 
         $this->middleware(function ($request, $next) {
-            $this->tenant = session()->get('tenant');
+            $this->tenant = Utils::getCachedTenant();
             return $next($request);
         });
     }
