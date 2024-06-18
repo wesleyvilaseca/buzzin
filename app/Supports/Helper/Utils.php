@@ -76,13 +76,13 @@ class Utils
             $isDomain = false;
         }
 
-        $site = null;#Cache::get($isDomain ? 'tenant-site-' . $host : 'tenant-site-' . $url);
+        $site = Cache::get($isDomain ? 'tenant-site-' . $host : 'tenant-site-' . $url);
 
         if(!$site) {
             if ($isDomain) {
                 $site = TenantSites::where([
                     'domain' => $host,
-                    'status_domain' => Site::STATUS_APROVED
+                    // 'status_domain' => Site::STATUS_APROVED
                 ])->first();
                 Cache::put('tenant-site-' . $host, $site, Carbon::now()->addDay());
             } else {
@@ -125,20 +125,6 @@ class Utils
         Cache::put('tenant-' . $tenant->uuid, $tenant,  Carbon::now()->addDay());
         session()->put('tenant_key', $tenant->uuid);
 
-        if ($isDomain) {
-            $isEnabladByAdmin = $site->status;
-            switch ($isEnabladByAdmin) {
-                case Site::STATUS_WAITING:
-                    //is not enabled
-                    return Redirect::to($appdomain);
-                    break;
-                case Site::STATUS_DISABLED:
-                    //is block by adm
-                    return dd('in maintence');
-                    break;
-            }
-        }
-
         if($redirectOnMaintence) {
             $isInMaintence = $site->maintence;
             if ($isInMaintence == Site::IN_MAINTENCE) {
@@ -149,6 +135,20 @@ class Utils
                     Cache::put('user-is-online-' . $userAdmin->id, true, Carbon::now()->addMinutes(5));
                 }
             }
-        }  
+        }
+
+        if ($isDomain) {
+            $isEnabladByAdmin = $site->status;
+            switch ($isEnabladByAdmin) {
+                case Site::STATUS_WAITING:
+                    //is not enabled
+                    return Redirect::to($appdomain);
+                    break;
+                case Site::STATUS_DISABLED:
+                    //is block by adm
+                    return redirect()->route('tenant.maintence');
+                    break;
+            }
+        }
     }
 }
