@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 use App\Models\Plan;
 use App\Services\ProductService;
+use App\Supports\Helper\Utils;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -17,7 +18,7 @@ class ProductController extends Controller
     {
         $this->productService = $productService;
         $this->middleware(function ($request, $next) {
-            $this->tenant = session()->get('tenant');
+            $this->tenant = Utils::getCachedTenant();
             return $next($request);
         });
     }

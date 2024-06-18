@@ -9,6 +9,7 @@ use App\Http\Resources\ClientResource;
 use App\Models\Plan;
 use App\Services\CategoryService;
 use App\Services\ClientService;
+use App\Supports\Helper\Utils;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -24,7 +25,7 @@ class RegisterController extends Controller
         $this->clientService = $clientService;
 
         $this->middleware(function ($request, $next) {
-            $this->tenant = session()->get('tenant');
+            $this->tenant = Utils::getCachedTenant();
             return $next($request);
         });
     }

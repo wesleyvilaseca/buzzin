@@ -60,9 +60,10 @@ class SiteController extends Controller
 
         $data = [
             'domain' => @$request->domain ?? null,
-            'subdomain' => str_replace('-', '', $tenant->url) . '.' . request()->getHttpHost(),
-            'maintence' => 1,
-            'status' => 0
+            // 'subdomain' => str_replace('-', '', $tenant->url) . '.' . request()->getHttpHost(),
+            'subdomain' => @$request->actice_subdomain ?? null,
+            'url' => $tenant->url,
+            'maintence' => Site::IN_MAINTENCE
         ];
 
         $res = $this->repository->create($data);

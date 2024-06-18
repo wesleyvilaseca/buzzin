@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Web\TenantSite;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CategoryResource;
 use App\Http\Resources\TenantResource;
-use App\Models\Plan;
 use App\Services\CategoryService;
 use App\Services\TenantService;
+use App\Supports\Helper\Utils;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class TenantController extends Controller
 {
@@ -20,16 +21,22 @@ class TenantController extends Controller
     {
         $this->categoryService = $tenant;
         $this->tenantService = $tenantService;
-
         $this->middleware(function ($request, $next) {
-            $this->tenant = session()->get('tenant');
+            $this->tenant = Utils::getCachedTenant();
             return $next($request);
         });
     }
 
     public function getTenant(Request $request)
     {
-        return new TenantResource($this->tenant);
+        $tenantResorce = Cache::get('tenant-resource-' . $this->tenant->uuid);
+        if($tenantResorce) {
+            return $tenantResorce;
+        }
+
+        $tenantResorce =  new TenantResource($this->tenant);
+        Cache::put('tenant-resource-' . $this->tenant->uuid, $tenantResorce, Carbon::now()->addDay());
+        return $tenantResorce;
     }
 
     public function getDeliveryPrice(Request $request)

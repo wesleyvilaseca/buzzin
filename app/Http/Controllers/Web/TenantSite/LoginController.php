@@ -7,6 +7,7 @@ use App\Http\Requests\StoreUpdateClientAddress;
 use App\Http\Resources\ClientResource;
 use App\Models\Client;
 use App\Services\ClientAddressService;
+use App\Supports\Helper\Utils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -21,7 +22,7 @@ class LoginController extends Controller
     {
         $this->clientAddressService = $clientAddressService;
         $this->middleware(function ($request, $next) {
-            $this->tenant = session()->get('tenant');
+            $this->tenant = Utils::getCachedTenant();
             return $next($request);
         });
     }

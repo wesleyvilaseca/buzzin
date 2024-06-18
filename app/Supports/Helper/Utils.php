@@ -21,19 +21,43 @@ class Utils
 
         $tenant = Auth::user()->tenant;
         $site = $tenant->site->first();
-        if (!$site || ($site->status !== Site::STATUS_APROVED)) {
+        if (!$site) {
             return null;
         }
 
-        $hasDomain = $site->status_domain == Site::STATUS_DOMAIN_APROVED;
-        if ($hasDomain) {
-            return $site->domain;
-        }
+        /**
+         * aqui no admin, sempre vou direcionar para a URL
+         */
+        // $hasSubdomain = $site->subdomain && $site->status == Site::STATUS_APROVED;
 
-        return $site->subdomain;
+        // $hasDomain = $site->domain && $site->status_domain == Site::STATUS_DOMAIN_APROVED;
+        // if ($hasDomain) {
+        //     return $site->domain;
+        // }
+
+        // return $site->subdomain;
+
+        return request()->getHttpHost() . '/' . $site->url;
     }
 
-    public static function getSite($host)
+    public static function getCachedTenant() {
+
+        // $domain = request()->getHttpHost();
+        // $url = explode('/', str_replace(['http://', 'https://'], "", request()->url()));
+
+        // $isTenantSiteDomainOrSubDomain = Cache::get('tenant-site-' . $domain);
+        // $isDefaultPrefixDomain =  Cache::get(isset($url[1]) ? 'tenant-site-' . $url[1] : null);
+
+        // if ($isTenantSiteDomainOrSubDomain) {
+        //     return Cache::get('tenant-' . $isTenantSiteDomainOrSubDomain->tenant->uuid);
+        // } else {
+        //     return Cache::get('tenant-' . $isDefaultPrefixDomain->tenant->uuid);
+        // }
+
+        return Cache::get('tenant-' . session()->get('tenant_key'));
+    }
+
+    public static function getSite($host, $url = null)
     {
         $appdomain = env('APP_URL');
         $isDomain = true;
@@ -41,15 +65,28 @@ class Utils
             $isDomain = false;
         }
 
-        if ($isDomain) {
-            $site = TenantSites::where([
-                'domain' => $host,
-                'status_domain' => Site::STATUS_APROVED
-            ])->first();
-        } else {
-            $site = TenantSites::where([
-                'subdomain' => $host,
-            ])->first();
+        $site = Cache::get($isDomain ? 'tenant-site-' . $host : 'tenant-site-' . $url);
+
+        if(!$site) {
+            if ($isDomain) {
+                $site = TenantSites::where([
+                    'domain' => $host,
+                    'status_domain' => Site::STATUS_APROVED
+                ])->first();
+                Cache::put('tenant-site-' . $host, $site, Carbon::now()->addDay());
+            } else {
+                $site = TenantSites::where([
+                    'subdomain' => $host,
+                ])->first();
+    
+                Cache::put('tenant-site-' . $host, $site, Carbon::now()->addDay());
+                if (!$site && $url) {
+                    $site = TenantSites::where([
+                        'url' => $url,
+                    ])->first();
+                    Cache::put('tenant-site-' . $url, $site, Carbon::now()->addDay());
+                }
+            }
         }
 
         if (!$site) {
@@ -74,25 +111,28 @@ class Utils
         $tenant = $site->tenant;
         $tenant->site = $site;
 
-        session()->put('tenant', $tenant);
+        Cache::put('tenant-' . $tenant->uuid, $tenant,  Carbon::now()->addDay());
+        session()->put('tenant_key', $tenant->uuid);
 
-        $isEnabladByAdmin = $site->status;
-        switch ($isEnabladByAdmin) {
-            case Site::STATUS_WAITING:
-                //is not enabled
-                return Redirect::to($appdomain);
-                break;
-            case Site::STATUS_DISABLED:
-                //is block by adm
-                return dd('in maintence');
-                break;
+        if ($isDomain) {
+            $isEnabladByAdmin = $site->status;
+            switch ($isEnabladByAdmin) {
+                case Site::STATUS_WAITING:
+                    //is not enabled
+                    return Redirect::to($appdomain);
+                    break;
+                case Site::STATUS_DISABLED:
+                    //is block by adm
+                    return dd('in maintence');
+                    break;
+            }
         }
 
         $isInMaintence = $site->maintence;
         if ($isInMaintence == Site::IN_MAINTENCE) {
             $userAdmin = User::where('email', $tenant->email)->first();
             if(!Cache::has('user-is-online-' . $userAdmin->id)) {
-                return Redirect::route('tenant.maintence');
+                return redirect()->route('inicio');
             }else {
                 Cache::put('user-is-online-' . $userAdmin->id, true, Carbon::now()->addMinutes(5));
             }

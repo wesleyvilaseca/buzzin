@@ -6,7 +6,7 @@
 
 @section('content')
 
-    @if (@isset($site) && ($site->status == 1 || $site->status == 2))
+    @if (@isset($site))
         @include('admin.site._partials.navbar')
 
         <div class="card">

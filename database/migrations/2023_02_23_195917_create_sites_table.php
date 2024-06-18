@@ -18,6 +18,7 @@ class CreateSitesTable extends Migration
             $table->unsignedBigInteger('tenant_id');
             $table->string('domain')->nullable();
             $table->string('subdomain')->nullable();
+            $table->string('url')->nullable();
             $table->json('data')->nullable();
             $table->integer('maintence')->default(1)->comment("0 - desabled maintence | 1 - enabled maintence");
             $table->integer('status_domain')->default(0)->comment("0 - waiting aprove | 1 - aproved and implanted | 2 - disabled per adm");

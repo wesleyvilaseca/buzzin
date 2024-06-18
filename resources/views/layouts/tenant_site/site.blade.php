@@ -33,6 +33,7 @@
 </head>
 
 <body>
+    @routes
     @inertia
     <div id="app">
         <main class="main main--footerFixed bg-gray-100">

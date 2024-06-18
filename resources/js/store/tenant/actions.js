@@ -8,7 +8,7 @@ const actions = {
         const hasSession = sessionStorage.getItem('company');
         if (hasSession) {
             commit('SET_COMPANY', JSON.parse(cript.decript(hasSession)));
-        }
+        }   
 
         return axios.get('/app/tenant', { params })
             .then(res => {
