@@ -138,13 +138,13 @@ class Utils
         }
 
         if ($isDomain) {
-            $isEnabladByAdmin = $site->status;
+            $isEnabladByAdmin = $site->status_domain;
             switch ($isEnabladByAdmin) {
-                case Site::STATUS_WAITING:
+                case Site::STATUS_DOMAIN_WAITING_APROVE:
                     //is not enabled
                     return Redirect::to($appdomain);
                     break;
-                case Site::STATUS_DISABLED:
+                case Site::STATUS_DOMAIN_DISABLED:
                     //is block by adm
                     return redirect()->route('tenant.maintence');
                     break;
