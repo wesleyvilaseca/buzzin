@@ -30,10 +30,10 @@
 
     @yield('scripts-header')
     @inertiaHead
+    @routes
 </head>
 
 <body>
-    @routes
     @inertia
     <div id="app">
         <main class="main main--footerFixed bg-gray-100">
