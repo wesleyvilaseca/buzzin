@@ -61,8 +61,8 @@ class SiteController extends Controller
 
         $data = [
             'domain' => @$request->domain ?? null,
-            // 'subdomain' => str_replace('-', '', $tenant->url) . '.' . request()->getHttpHost(),
-            'subdomain' => @$request->actice_subdomain ?? null,
+            'subdomain' => @$request->actice_subdomain ? str_replace('-', '', $tenant->url) . '.' . request()->getHttpHost() : null,
+            'status' => @$request->actice_subdomain ? Site::STATUS_WAITING : null,
             'url' => $tenant->url,
             'maintence' => Site::IN_MAINTENCE
         ];
