@@ -22,7 +22,8 @@
                     <tr>
                         <th>Empresa</th>
                         <th>Subdominio</th>
-                        <th>Status</th>
+                        <th>Dominio</th>
+                        <th>Endereço padrão</th>
                         <th>Em manutenção?</th>
                         <th width="270">Ações</th>
                     </tr>
@@ -34,9 +35,56 @@
                                 {{ $site->tenant->name }}
                             </td>
                             <td>
-                                {{ $site->subdomain }}
+                                {{ @$site->subdomain }} </br>
+                                @if($site->status === 0)
+                                    <span class="alert alert-warning p-1">
+                                        Aguardando aprovação e publicação do subdominio
+                                    </span>
+                                @endif
+
+                                @if($site->status === 1)
+                                    <span class="alert alert-success p-1">
+                                        Subdominio publicado
+                                    </span>
+                                @endif
+
+                                @if($site->status === 2)
+                                    <span class="alert alert-danger p-1">
+                                        Desabilitado
+                                    </span>
+                                @endif
                             </td>
                             <td>
+                                {{ @$site->domain }}
+                                @if($site->status_domain === 0)
+                                    <span class="alert alert-warning p-1">
+                                        Aguardando aprovação e publicação do dominio
+                                    </span>
+                                @endif
+
+                                @if($site->status_domain === 1)
+                                    <span class="alert alert-success p-1">
+                                        Dominio publicado
+                                    </span>
+                                @endif
+
+                                @if($site->status_domain === 2)
+                                    <span class="alert alert-danger p-1">
+                                        Desabilitado
+                                    </span>
+                                @endif
+                            </td>
+                            <td>
+                                {{ env('APP_URL') . '/' . $site->url }}
+                            </td>
+                            <td>
+                               
+
+                                @if($site->status_domain === 0)
+                                    <span class="alert alert-warning p-1">
+                                        Aguardando aprovação e publicação do dominio
+                                    </span>
+                                @endif
                                 @switch($site->status)
                                     @case(0)
                                         <span class="alert alert-warning p-1">

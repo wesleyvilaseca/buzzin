@@ -21,8 +21,8 @@ class CreateSitesTable extends Migration
             $table->string('url')->nullable();
             $table->json('data')->nullable();
             $table->integer('maintence')->default(1)->comment("0 - desabled maintence | 1 - enabled maintence");
-            $table->integer('status_domain')->default(0)->comment("0 - waiting aprove | 1 - aproved and implanted | 2 - disabled per adm");
-            $table->integer('status')->default(0)->comment("0 - waiting aprove | 1 - aproved and implanted | 2 - disabled per adm");
+            $table->integer('status_domain')->nullable()->comment("0 - waiting aprove | 1 - aproved and implanted | 2 - disabled per adm");
+            $table->integer('status')->nullable()->comment("0 - waiting aprove | 1 - aproved and implanted | 2 - disabled per adm");
             $table->string('recaptcha_key', 300)->nullable();
             $table->string('recaptcha_secret_key', 300)->nullable();
             $table->timestamps();

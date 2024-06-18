@@ -164,7 +164,7 @@
                                 <i class="fa-solid fa-building position-relative">
                                     @php
                                         $sites = DB::table('sites')
-                                            ->where('status', 0)
+                                            ->where(['status' => 0, 'status_domain' => 0])
                                             ->count();
                                     @endphp
                                     @if ($sites > 0)
