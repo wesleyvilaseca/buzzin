@@ -35,23 +35,27 @@
                                 {{ $site->tenant->name }}
                             </td>
                             <td>
-                                {{ @$site->subdomain }} 
-                                @if($site->status === 0)
-                                    <span class="alert alert-warning p-1">
-                                        Aguardando aprovação e publicação
-                                    </span>
-                                @endif
+                                @if(@$site->subdomain)
+                                    {{ @$site->subdomain }} 
+                                    @if($site->status === 0)
+                                        <span class="alert alert-warning p-1">
+                                            Aguardando aprovação e publicação
+                                        </span>
+                                    @endif
 
-                                @if($site->status === 1)
-                                    <span class="alert alert-success p-1">
-                                        publicado
-                                    </span>
-                                @endif
+                                    @if($site->status === 1)
+                                        <span class="alert alert-success p-1">
+                                            publicado
+                                        </span>
+                                    @endif
 
-                                @if($site->status === 2)
-                                    <span class="alert alert-danger p-1">
-                                        desabilitado
-                                    </span>
+                                    @if($site->status === 2)
+                                        <span class="alert alert-danger p-1">
+                                            desabilitado
+                                        </span>
+                                    @endif
+                                @else
+                                    Sem subdomínio
                                 @endif
                             </td>
                             <td>
