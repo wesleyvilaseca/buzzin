@@ -21,8 +21,18 @@ class Utils
 
         $tenant = Auth::user()->tenant;
         $site = $tenant->site->first();
+
         if (!$site) {
             return null;
+        }
+        //has domain and is implements
+        if ($site->status_domain == Site::STATUS_DOMAIN_APROVED) {
+            return $site->domain;
+        }
+
+        //status subdoamin and check if is aproved
+        if ($site->status == Site::STATUS_APROVED) {
+            return $site->subdomain;
         }
 
         /**
@@ -37,6 +47,7 @@ class Utils
 
         // return $site->subdomain;
 
+        //default route tenant site
         return request()->getHttpHost() . '/' . $site->url;
     }
 
