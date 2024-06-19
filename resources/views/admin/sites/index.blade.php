@@ -38,20 +38,20 @@
                                 @if(@$site->subdomain)
                                     {{ @$site->subdomain }} 
                                     @if($site->status === 0)
-                                        <span class="alert alert-warning p-1">
-                                            Aguardando aprovação e publicação
+                                        <span class="badge alert-warning p-1">
+                                            <i class="fa-solid fa-hourglass-start"></i>
                                         </span>
                                     @endif
 
                                     @if($site->status === 1)
-                                        <span class="alert alert-success p-1">
-                                            publicado
+                                        <span class="badge alert-success p-1">
+                                            <i class="fa-solid fa-check"></i>
                                         </span>
                                     @endif
 
                                     @if($site->status === 2)
-                                        <span class="alert alert-danger p-1">
-                                            desabilitado
+                                        <span class="badge alert-danger p-1">
+                                            <i class="fa-solid fa-ban"></i>
                                         </span>
                                     @endif
                                 @else
@@ -62,20 +62,20 @@
                                 @if(@$site->domain)
                                     {{ @$site->domain }}
                                     @if($site->status_domain === 0)
-                                        <span class="alert alert-warning p-1">
-                                            Aguardando aprovação e publicação do dominio
+                                        <span class="badge alert-warning p-1">
+                                            <i class="fa-solid fa-hourglass-start"></i>
                                         </span>
                                     @endif
 
                                     @if($site->status_domain === 1)
-                                        <span class="alert alert-success p-1">
-                                            Dominio publicado
+                                        <span class="badge alert-success p-1">
+                                            <i class="fa-solid fa-check"></i>
                                         </span>
                                     @endif
 
                                     @if($site->status_domain === 2)
-                                        <span class="alert alert-danger p-1">
-                                            Desabilitado
+                                        <span class="badge alert-danger p-1">
+                                            <i class="fa-solid fa-ban"></i>
                                         </span>
                                     @endif
                                 @else
@@ -88,11 +88,11 @@
 
                             <td>
                                 @if ($site->maintence == 1)
-                                    <span class="alert alert-warning p-1">
+                                    <span class="badge alert-warning p-1">
                                         Sim
                                     </span>
                                 @else
-                                    <span class="alert alert-info p-1">
+                                    <span class="badge alert-info p-1">
                                         Não
                                     </span>
                                 @endif
